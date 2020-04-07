@@ -20,12 +20,12 @@ public class DoctorController {
 		this.ds = ds;
 	}
 	
-	@GetMapping
+	@GetMapping("/getDoctors")
 	public List<Doctor> getHelloWorld(){
 		return ds.getDoctors();
 	}
 	
-	@PostMapping
+	@PostMapping("/addDoctor")
 	public int addDoctor(@RequestBody Doctor doctor) {
 		ds.addDoctor(doctor);
 		return 1;
