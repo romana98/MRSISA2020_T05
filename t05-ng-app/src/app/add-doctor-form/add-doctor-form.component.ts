@@ -39,25 +39,52 @@ export class AddDoctorFormComponent implements OnInit {
     );
   }
 
-  checkTime(): boolean{
+  checkStartTime(): boolean{
     //true -- time is bad
     //false -- time is good
     let hours = 0;
     let minutes = 0;
       try{
         let all = this.model.work_start.split(":");
-        let hours = parseInt(all[0]);
-        let minutes = parseInt(all[1]);
+        console.log(all[0] + "and" + all[1]);
+        hours = parseInt(all[0]);
+        minutes = parseInt(all[1]);
       }
       catch{
         return true;
       }
-      
+      console.log(hours + "and" + minutes);
       if(hours > 0 && hours < 24 && minutes > 0 && minutes < 60){
-           return false;
+        
+
+        return false;
       }
           return true;
   }
+
+  checkEndTime(): boolean{
+    //true -- time is bad
+    //false -- time is good
+    let hours = 0;
+    let minutes = 0;
+      try{
+        let all = this.model.work_end.split(":");
+        console.log(all[0] + "and" + all[1]);
+        hours = parseInt(all[0]);
+        minutes = parseInt(all[1]);
+      }
+      catch{
+        return true;
+      }
+      console.log(hours + "and" + minutes);
+      if(hours > 0 && hours < 24 && minutes > 0 && minutes < 60){
+        
+
+        return false;
+      }
+          return true;
+  }
+  
 
 }
 
