@@ -4,8 +4,9 @@ import { NgModule, Component } from '@angular/core';
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { Router, Routes, RouterModule} from "@angular/router";
-import { AddDoctorFormComponent } from './add-doctor-form/add-doctor-form.component';
 import { FormsModule,ReactiveFormsModule } from "@angular/forms";
+import { AddDoctorFormComponent } from './add-doctor-form/add-doctor-form.component';
+import { HttpClientModule } from "@angular/common/http"
 
 const appRoutes : Routes = [
   {
@@ -28,11 +29,13 @@ const appRoutes : Routes = [
   declarations: [
     AppComponent,
     NavigationComponent,
+    AddDoctorFormComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    HttpClientModule,
     RouterModule.forRoot(appRoutes)
     
   ],

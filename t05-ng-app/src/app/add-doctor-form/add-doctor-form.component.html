@@ -5,42 +5,70 @@
     <br>
         <h2>Add doctor form</h2>
     <br>
-  <form name = "form" >
+    <form name="form" #f="ngForm" (submit)="f.form.valid && addDoctor()">
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="inputEmail4">Name</label>
-        <input type="email" class="form-control" id="inputEmail4"
-        >
+        <input type="text" class="form-control" id="inputEmail4"
+        [(ngModel)] = "model.name" name="name_input"
+        #name="ngModel"
+        [ngClass] = "{'is-invalid': f.submitted && name.invalid}"
+        required/>
       </div>
       <div class="form-group col-md-6">
         <label for="inputPassword4">Surname</label>
-        <input type="password" class="form-control" id="inputPassword4" >
+        <input type="text" class="form-control" id="inputPassword4"
+        [(ngModel)] = "model.surname" name="password_input"
+        #password="ngModel"
+        [ngClass] = "{'is-invalid' : f.submitted && password.invalid}"
+        required/>
       </div>
     </div>
     <div class="form-group">
       <label for="inputAddress">Username</label>
-      <input type="text" class="form-control" id="inputAddress">
+      <input type="text" class="form-control" id="inputAddress"
+       [(ngModel)] = "model.username" name="username_input"
+       #username="ngModel"
+       [ngClass] = "{'is-invalid' : f.submitted && username.invalid}"
+       required/>
     </div> 
     <div class="form-group">
       <label for="inputAddress2">Password</label>
-      <input type="text" class="form-control" id="inputAddress2" placeholder="Minimum 8 characters">
+      <input type="password" class="form-control" id="inputAddress2" placeholder="Minimum 8 characters"
+      [(ngModel)] = "model.password" name="password_input"
+      #password="ngModel"
+      [ngClass] = "{'is-invalid' : f.submitted && password.invalid}"
+      required minlength="8">
+      <div *ngIf="f.submitted && password.invalid">
+          <div *ngIf="password.errors?.minlength">Password field must be 8 characters long!</div>
+      </div>
     </div>
     <label>Worktime</label>
     <div class="form-row">
       <div class="form-group col-md-4">
         <label for="inputCity">Start</label>
-        <input type="text" class="form-control" id="inputCity" placeholder="hh:mm">
+        <input type="text" class="form-control" id="inputCity" placeholder="hh:mm"
+        [(ngModel)] = "model.work_start" name="startwork_input"
+        #start="ngModel"
+       [ngClass] = "{'is-invalid' : f.submitted && start.invalid}"
+       required/>
       </div>
       <div class="form-group col-md-4">
         <label for="inputCity">End</label>
-        <input type="text" class="form-control" id="inputCity" placeholder="hh:mm">
+        <input type="text" class="form-control" id="inputCity" placeholder="hh:mm"
+        [(ngModel)] = "model.work_end" name="endwork_input"
+        #end="ngModel"
+       [ngClass] = "{'is-invalid' : f.submitted && end.invalid}"
+       required/>
       </div>
       <div class="form-group col-md-4">
         <label for="inputState">Appointment type</label>
-        <select id="inputState" class="form-control">
-          <option selected>Choose...</option>
-          <option>Dentist</option>
-          <option>Ophtamologyst</option>
+        <select id="inputState" class="form-control" [(ngModel)] = "model.type" name="appointment_input"
+        #appointment ="ngModel"
+        [ngClass] = "{'is-invalid' : f.submitted && appointment.invalid}"
+        required>
+          <option selected>Dentist</option>
+          <option>Ophtalmologyst</option>
           <option>Gynecologist</option>
         </select>
       </div>
