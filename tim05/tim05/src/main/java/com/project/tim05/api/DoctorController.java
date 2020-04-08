@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.service.DoctorService;
 
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/doctors")
 @RestController
 public class DoctorController {

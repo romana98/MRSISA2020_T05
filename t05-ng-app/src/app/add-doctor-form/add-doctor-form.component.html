@@ -8,7 +8,7 @@
     <form name="form" #f="ngForm" (submit)="f.form.valid && !(checkStartTime()) && !(checkEndTime()) && addDoctor()">
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="inputEmail4">Name</label>
+        <label>Name</label>
         <input type="text" class="form-control" 
         [(ngModel)] = "model.name" name="name_input"
         #name="ngModel"
@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="form-group">
-      <label for="inputAddress">Username</label>
+      <label>Username</label>
       <input type="text" class="form-control"
        [(ngModel)] = "model.username" name="username_input"
        #username="ngModel"
@@ -33,7 +33,7 @@
        required/>
     </div> 
     <div class="form-group">
-      <label for="inputAddress2">Password</label>
+      <label>Password</label>
       <input type="password" class="form-control"  placeholder="Minimum 8 characters"
       [(ngModel)] = "model.password" name="password_input"
       #password="ngModel"

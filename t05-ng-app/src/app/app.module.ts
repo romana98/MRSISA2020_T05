@@ -6,6 +6,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { Router, Routes, RouterModule} from "@angular/router";
 import { FormsModule,ReactiveFormsModule } from "@angular/forms";
 import { AddDoctorFormComponent } from './add-doctor-form/add-doctor-form.component';
+import { AddAdminClinicFromComponent } from './add-admin-clinic-form/add-admin-clinic-form.component';
 import { HttpClientModule } from "@angular/common/http"
 
 const appRoutes : Routes = [
@@ -20,6 +21,10 @@ const appRoutes : Routes = [
     
   },
   {
+    path: 'addAdminClinic',
+    component : AddAdminClinicFromComponent
+  },
+  {
     path : '**',
     component : NavigationComponent
   }
@@ -30,6 +35,7 @@ const appRoutes : Routes = [
     AppComponent,
     NavigationComponent,
     AddDoctorFormComponent,
+    AddAdminClinicFromComponent,
   ],
   imports: [
     BrowserModule,
