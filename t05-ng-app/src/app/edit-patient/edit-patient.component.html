@@ -10,9 +10,9 @@
                     <div class="form-group col-md-6">
                         <label for="inputEmail">Email</label>
                         <input type="text" class="form-control"
-                        [(ngModel)] = "model.email" name="name_input"
+                        [(ngModel)] = "model.email" name="email_input"
                         #email="ngModel"
-                        [ngClass] = "{'is-invalid':f.submitted && name.invalid}"
+                        [ngClass] = "{'is-invalid':f.submitted && email.invalid}"
                         readonly required/>
                     </div>
                     <div class="form-group col-md-6">

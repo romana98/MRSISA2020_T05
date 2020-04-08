@@ -7,6 +7,7 @@ import { Router, Routes, RouterModule} from "@angular/router";
 import { FormsModule,ReactiveFormsModule } from "@angular/forms";
 import { AddDoctorFormComponent } from './add-doctor-form/add-doctor-form.component';
 import { AddAdminClinicFromComponent } from './add-admin-clinic-form/add-admin-clinic-form.component';
+import { EditPatientProfile } from './edit-patient/edit-patient.component';
 import { HttpClientModule } from "@angular/common/http"
 
 const appRoutes : Routes = [
@@ -25,6 +26,10 @@ const appRoutes : Routes = [
     component : AddAdminClinicFromComponent
   },
   {
+    path: 'editPatient',
+    component : EditPatientProfile
+  },
+  {
     path : '**',
     component : NavigationComponent
   }
@@ -36,6 +41,7 @@ const appRoutes : Routes = [
     NavigationComponent,
     AddDoctorFormComponent,
     AddAdminClinicFromComponent,
+    EditPatientProfile,
   ],
   imports: [
     BrowserModule,

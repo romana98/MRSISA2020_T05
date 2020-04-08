@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
     templateUrl: './edit-patient.component.html',
     styleUrls: ['./edit-patient.component.css']
 })
-export class EditProfile implements OnInit{
+export class EditPatientProfile implements OnInit{
 
     model: patientModel = {
         email : 'email1@email.com',
@@ -29,7 +29,7 @@ export class EditProfile implements OnInit{
     }
 
     editPatient(): void{
-        let url = "http://localhost:8080/patients/editPatient"
+        let url = "http://localhost:8081/patients/editPatient"
         this.http.post(url,this.model).subscribe(
             res => {
                 alert("Your profile has been updated successfully!");
