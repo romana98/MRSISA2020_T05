@@ -4,13 +4,16 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.project.tim05.model.AdminClinic;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Patient;
 
 @Repository("DB")
-public class DB implements DoctorAccess, PatientAccess {
+
+public class DB implements DoctorAccess, AdminClinicAccess, PatientAccess {
 
 	ArrayList<Doctor> doctors = new ArrayList<Doctor>();
+	ArrayList<AdminClinic> adminclinics = new ArrayList<AdminClinic>();
 	ArrayList<Patient> patients = new ArrayList<Patient>();
 	
 	@Override
@@ -34,6 +37,10 @@ public class DB implements DoctorAccess, PatientAccess {
 				this.patients.add(patient);
 			}
 		}
+	}
+
+	public void addAdminClinic(AdminClinic ac) {
+		this.adminclinics.add(ac);
 		
 	}
 
@@ -45,7 +52,10 @@ public class DB implements DoctorAccess, PatientAccess {
 	@Override
 	public void addPatient(Patient patient) {
 		this.patients.add(patient);
+	}
 		
+	public List<AdminClinic> getAdminClinics() {
+		return this.adminclinics;
 	}
 
 }
