@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Patient;
 import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.PatientService;
 
+@RestController
 public class PatientController {
 	
 	private final PatientService ps;
@@ -29,7 +31,7 @@ public class PatientController {
 	@PostMapping("/editPatient")
 	public int editPatient(@RequestBody Patient patient) {
 		ps.editPatient(patient);
-		return 1;
+		return 0;
 	}
 	
 	@PostMapping("/addPatient")
