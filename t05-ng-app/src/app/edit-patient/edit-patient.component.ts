@@ -11,13 +11,13 @@ export class EditPatientProfile implements OnInit{
     model: patientModel = {
         email : 'email1@email.com',
         password : 'password1',
-        first_name : 'Ime1',
-        last_name : 'Prezime1',
+        name : 'Ime1',
+        surname : 'Prezime1',
         address : 'Adresa1',
         city : 'Grad1',
         country : 'Drzava1',
         phone_number : 'Telefon1',
-        unique_num : 'Jedinstveni1'
+        insurance_number : 'Jedinstveni1'
     }
 
     constructor(private http: HttpClient){
@@ -45,12 +45,12 @@ export class EditPatientProfile implements OnInit{
     export interface patientModel{
         email : string;
         password : string;
-        first_name : string;
-        last_name : string;
+        name : string;
+        surname : string;
         address : string;
         city : string;
         country : string;
         phone_number : string;
-        unique_num : string;
+        insurance_number : string;
     }
 

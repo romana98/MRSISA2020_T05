@@ -6,33 +6,33 @@ public class Patient {
 	
 	private String email;
 	private String password;
-	private String first_name;
-	private String last_name;
+	private String name;
+	private String surname;
 	private String address;
 	private String city;
 	private String country;
 	private String phone_number;
-	private String unique_num;
+	private String insurance_number;
 	
 	public Patient(@JsonProperty("email") String email,
 			  @JsonProperty("password") String password,
-			  @JsonProperty("first_name") String first_name,
-			  @JsonProperty("last_name") String last_name,
+			  @JsonProperty("name") String name,
+			  @JsonProperty("surname") String surname,
 			  @JsonProperty("address") String address,
 			  @JsonProperty("city") String city,
 			  @JsonProperty("country") String country,
 			  @JsonProperty("phone_number") String phone_number,
-			  @JsonProperty("unique_num") String unique_num) {
+			  @JsonProperty("insurance_number") String insurance_number) {
 		super();
 		this.email = email;
 		this.password = password;
-		this.first_name = first_name;
-		this.last_name = last_name;
+		this.name = name;
+		this.surname = surname;
 		this.address = address;
 		this.city = city;
 		this.country = country;
 		this.phone_number = phone_number;
-		this.unique_num = unique_num;
+		this.insurance_number = insurance_number;
 	}
 
 	public String getEmail() {
@@ -51,20 +51,20 @@ public class Patient {
 		this.password = password;
 	}
 
-	public String getFirst_name() {
-		return first_name;
+	public String getName() {
+		return name;
 	}
 
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getLast_name() {
-		return last_name;
+	public String getSurname() {
+		return surname;
 	}
 
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 	public String getAddress() {
@@ -99,12 +99,12 @@ public class Patient {
 		this.phone_number = phone_number;
 	}
 
-	public String getUnique_num() {
-		return unique_num;
+	public String getInsurance_number() {
+		return insurance_number;
 	}
 
-	public void setUnique_num(String unique_num) {
-		this.unique_num = unique_num;
+	public void setUnique_num(String insurance_number) {
+		this.insurance_number = insurance_number;
 	}
 	
 	

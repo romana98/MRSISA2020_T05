@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
 @Component({
-    selector: 'app-add-admin-clinic-from',
+    selector: 'app-add-admin-clinic-form',
     templateUrl: './add-admin-clinic-form.component.html',
     styleUrls: ['./add-admin-clinic-form.component.css']
 })
