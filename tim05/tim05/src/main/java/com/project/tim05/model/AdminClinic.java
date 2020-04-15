@@ -1,11 +1,30 @@
 package com.project.tim05.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Entity
 public class AdminClinic {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	
+	@Column(name = "name", nullable = false)
 	public String name;
+	
+	@Column(name = "surname", nullable = false)
 	public String surname;
+	
+	@Column(name = "username", nullable = false)
 	public String username;
+	
+	@Column(name = "password", nullable = false)
 	public String password;
 	
 	

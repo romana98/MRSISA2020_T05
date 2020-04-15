@@ -7,22 +7,19 @@ import org.springframework.stereotype.Service;
 
 import com.project.tim05.dao.DoctorAccess;
 import com.project.tim05.model.Doctor;
+import com.project.tim05.repository.DoctorRepository;
 
 @Service
 public class DoctorService {
 
-	private final DoctorAccess da;
-
 	@Autowired
-	public DoctorService(@Qualifier("DB") DoctorAccess da) {
-		this.da = da;
-	}
+	private DoctorRepository dr;
 	
 	public void addDoctor(Doctor doctor) {
-		da.addDoctor(doctor);
+		dr.save(doctor);
 	}
 	
 	public List<Doctor> getDoctors(){
-		return da.getDoctors();
+		return dr.findAll();
 	}
 }
