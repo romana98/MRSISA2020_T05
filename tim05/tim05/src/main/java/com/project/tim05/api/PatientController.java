@@ -36,7 +36,7 @@ public class PatientController {
 		return 0;
 	}
 	
-	@PostMapping("/addPatient")
+	@PostMapping("/registerPatient")
 	public int addPatient(@RequestBody Patient patient) {
 		ps.addPatient(patient);
 		return 1;
