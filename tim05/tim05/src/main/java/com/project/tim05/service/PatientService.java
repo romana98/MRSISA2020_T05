@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.project.tim05.dao.PatientAccess;
-import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Patient;
 
 @Service
