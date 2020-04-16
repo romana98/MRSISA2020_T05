@@ -29,7 +29,7 @@ export class EditPatientProfile implements OnInit{
     }
 
     editPatient(): void{
-        let url = "http://localhost:8080/patients/editPatient"
+        let url = "http://localhost:8081/patients/editPatient"
         this.http.post(url,this.model).subscribe(
             res => {
                 alert("Your profile has been updated successfully!");

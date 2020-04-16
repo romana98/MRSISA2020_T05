@@ -26,7 +26,7 @@ export class AddDoctorFormComponent implements OnInit {
   }
 
   addDoctor(): void{
-    let url =  "http://localhost:8080/doctors/addDoctor"
+    let url =  "http://localhost:8081/doctors/addDoctor"
     this.http.post(url,this.model).subscribe(
         res => {
           alert("Doctor added successfully");

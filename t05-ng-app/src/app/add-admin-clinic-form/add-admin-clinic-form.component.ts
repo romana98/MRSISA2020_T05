@@ -24,7 +24,7 @@ export class AddAdminClinicFromComponent implements OnInit{
     }
 
     AddAdminClinic(): void{
-        let url = "http://localhost:8080/adminClinic/addAdminClinic"
+        let url = "http://localhost:8081/adminClinic/addAdminClinic"
         this.http.post(url, this.model).subscribe(
             res => {
                 alert("Clinic admin added successfully");

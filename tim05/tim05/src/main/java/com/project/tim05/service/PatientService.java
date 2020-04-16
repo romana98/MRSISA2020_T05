@@ -1,5 +1,9 @@
 package com.project.tim05.service;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,30 +14,29 @@ import com.project.tim05.repository.PatientRepository;
 @Service
 public class PatientService {
 	
-	//Connection conn;
 	@Autowired
 	private PatientRepository pa;
 	
 	public void editPatient(Patient patient) {
-		//try {
-			//PreparedStatement ps = conn.prepareStatement("UPDATE pa set email = ?, set password = ?, set name = ?, set surname = ?, set address = ?, set city = ?, set country = ?, set phone_number = ?, set insurance_number = ? WHERE email = ?");
-			//ps.setString(1, patient.getEmail());
-			//ps.setString(2, patient.getPassword());
-			//ps.setString(3, patient.getName());
-			//ps.setString(4, patient.getSurname());
-			//ps.setString(5, patient.getAddress());
-			//ps.setString(6, patient.getCity());
-			//ps.setString(7, patient.getCountry());
-			//ps.setString(8, patient.getPhone_number());
-			//ps.setString(9, patient.getInsurance_number());
-			//ps.setString(10, patient.getEmail());
-			//ps.executeUpdate();
-		//} catch (SQLException e) {
+		
+		try {
+	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "miloradpostgre123");
+	        String query = "UPDATE patient set password = ?, name = ?, surname = ?, address = ?, city = ?, country = ?, phone_number = ?, insurance_number = ? WHERE email = ?;";
+	        PreparedStatement ps = connection.prepareStatement(query);
+			ps.setString(1, patient.getPassword());
+			ps.setString(2, patient.getName());
+			ps.setString(3, patient.getSurname());
+			ps.setString(4, patient.getAddress());
+			ps.setString(5, patient.getCity());
+			ps.setString(6, patient.getCountry());
+			ps.setString(7, patient.getPhone_number());
+			ps.setString(8, patient.getInsurance_number());
+			ps.setString(9, patient.getEmail());
+			int num = ps.executeUpdate();
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		//}
-		
-		
+			e.printStackTrace();
+		}	
 	}
 	
 	public List<Patient> getPatients(){
