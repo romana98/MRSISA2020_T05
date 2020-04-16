@@ -129,7 +129,7 @@ public class Patient {
 		return insurance_number;
 	}
 
-	public void setUnique_num(String insurance_number) {
+	public void setInsurance_number(String insurance_number) {
 		this.insurance_number = insurance_number;
 	}
 	
