@@ -1,12 +1,14 @@
 package com.project.tim05.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Entity
 public class Patient {
 	
 	@Id
@@ -39,6 +41,11 @@ public class Patient {
 	
 	@Column(name = "insurance_number", nullable = false)
 	private String insurance_number;
+	
+	public Patient()
+	{
+		super();
+	}
 	
 	public Patient(@JsonProperty("email") String email,
 			  @JsonProperty("password") String password,
