@@ -12,11 +12,12 @@ export class AddClinicFromComponent implements OnInit{
         name: ''
     }
 
-    constructor(private http: HttpClient){
+    ngOnInit(): void{
 
     }
 
-    ngOnInit(): void{
+   
+    constructor(private http: HttpClient){
 
     }
 

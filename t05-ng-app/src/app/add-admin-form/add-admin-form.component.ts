@@ -15,11 +15,12 @@ export class AddAdminFromComponent implements OnInit{
         password: '',
         clinic: ''
     }
-    clinics: {};
+    clinics: any;
 
     constructor(private http: HttpClient){
 
     }
+
 
     ngOnInit(): void{
         this.clinics = this.http.get("http://localhost:8081/clinic/getClinics");
