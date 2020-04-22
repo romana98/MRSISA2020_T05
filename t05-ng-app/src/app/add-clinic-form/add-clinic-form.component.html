@@ -1,0 +1,27 @@
+<div class="container">
+    <div class="row">
+        <div class="offset-3"></div>
+        <div class="col-md-8">
+            <br>
+                <h2>Add Clinic</h2>
+            <br>
+            <form name="form" #f="ngForm" (submit)="f.form.valid && AddClinic()">
+                <div class="from-group col-md-8">
+                    <label>Name</label>
+                    <input type="text" class="form-control" [(ngModel)] = "model.name" name="input_name"
+                    #name="ngModel" pattern="[a-zA-Z ]*"
+                    [ngClass] = "{'is-invalid': f.submitted && name.invalid}"
+                    required/>
+                    <div *ngIf="f.submitted && name.invalid">
+                        <div *ngIf="name.errors?.pattern">Name can only have letters!</div>
+                    </div>
+                </div>
+                
+                
+                <br>
+                <button type="submit" class="btn btn-primary">Add...</button>       
+            </form>
+        </div>
+        <div class="offset-3"></div>
+    </div>
+</div>
