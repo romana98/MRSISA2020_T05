@@ -28,11 +28,11 @@
                     </div>
                 </div>
                 <div class="from-group col-md-8">
-                    <label>Username</label>
-                    <input type="text" class="form-control"
-                    [(ngModel)] = "model.username" name="input_username"
+                    <label>Email</label>
+                    <input type="email" class="form-control"
+                    [(ngModel)] = "model.email" name="input_email"
                     #username="ngModel"
-                    [ngClass] = "{'is-invalid' : f.submitted && username.invalid}"
+                    [ngClass] = "{'is-invalid' : f.submitted && email.invalid}"
                         required/>
                 </div>
                 <div class="from-group col-md-8">

@@ -11,7 +11,7 @@ export class AddAdminClinicFromComponent implements OnInit{
     model: adminClinicModel = {
         name: '',
         surname: '',
-        username: '',
+        email: '',
         password: ''
     }
 
@@ -43,6 +43,6 @@ export interface adminClinicModel
 {
     name: string | RegExp;
     surname: string | RegExp;
-    username: string;
+    email: string;
     password: string;
 }

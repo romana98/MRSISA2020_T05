@@ -11,7 +11,7 @@ export class AddAdminFromComponent implements OnInit{
     model: adminModel = {
         name: '',
         surname: '',
-        username: '',
+        email: '',
         password: '',
         clinic: ''
     }
@@ -47,7 +47,7 @@ export interface adminModel
 {
     name: string | RegExp;
     surname: string | RegExp;
-    username: string;
+    email: string;
     password: string;
     clinic: string | RegExp;
 }
