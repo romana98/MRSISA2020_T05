@@ -1,19 +1,47 @@
 package com.project.tim05.model;
-/***********************************************************************
- * Module:  Pricelist.java
- * Author:  Vukasin
- * Purpose: Defines the Class Pricelist
- ***********************************************************************/
+
 
 import java.util.*;
 
-/** @pdOid 7a9488f8-930a-4ae7-b178-1b0155451138 */
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import com.project.tim05.dto.AppointmentTypeDTO;
+
 public class Pricelist {
-   /** @pdOid 5efc300d-b067-43bc-8b93-0119a1731b12 */
-   private AppointmentType appointmentType;
-   /** @pdOid e3e27b1e-f86e-4d75-9390-20f50e492eac */
-   private double price;
    
-   public AppointmentType appointmentTypeB;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	
+	private AppointmentType appointmentType;
+	@Column(name = "price", nullable = false)
+	private double price;
+	public Pricelist(AppointmentType appointmentType, double price) {
+		super();
+		this.appointmentType = appointmentType;
+		this.price = price;
+	}
+	public Pricelist() {
+		super();
+	}
+	public AppointmentType getAppointmentType() {
+		return appointmentType;
+	}
+	public void setAppointmentType(AppointmentType appointmentType) {
+		this.appointmentType = appointmentType;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	
+	
+	
+	
 
 }

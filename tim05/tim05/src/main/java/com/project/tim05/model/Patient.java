@@ -1,5 +1,8 @@
 package com.project.tim05.model;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.project.tim05.dto.AppointmentDTO;
+import com.project.tim05.dto.ClinicDTO;
+import com.project.tim05.dto.MedicalRecordDTO;
 
 @Entity
 public class Patient {
@@ -42,20 +48,47 @@ public class Patient {
 	@Column(name = "insurance_number", nullable = false)
 	private String insurance_number;
 	
+	
+	private MedicalRecord medicalRecord;
+	private Set<Appointment> appointments;
+	private Set<Clinic> clinics;
+	
 	public Patient()
 	{
 		super();
+		this.medicalRecord = new MedicalRecord();
+		
 	}
 	
-	public Patient(@JsonProperty("email") String email,
-			  @JsonProperty("password") String password,
-			  @JsonProperty("name") String name,
-			  @JsonProperty("surname") String surname,
-			  @JsonProperty("address") String address,
-			  @JsonProperty("city") String city,
-			  @JsonProperty("country") String country,
-			  @JsonProperty("phone_number") String phone_number,
-			  @JsonProperty("insurance_number") String insurance_number) {
+	public Patient(String email, String password, String name, String surname, String address, String city,
+			String country, String phone_number, String insurance_number, MedicalRecord medicalRecord,
+			Set<Appointment> appointments, Set<Clinic> clinics) {
+		super();
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.surname = surname;
+		this.address = address;
+		this.city = city;
+		this.country = country;
+		this.phone_number = phone_number;
+		this.insurance_number = insurance_number;
+		this.medicalRecord = medicalRecord;
+		this.appointments = appointments;
+		this.clinics = clinics;
+	}
+
+
+
+	public Patient(String email,
+			  String password,
+			  String name,
+			  String surname,
+			  String address,
+			  String city,
+			  String country,
+			  String phone_number,
+			  String insurance_number) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -138,6 +171,30 @@ public class Patient {
 
 	public void setInsurance_number(String insurance_number) {
 		this.insurance_number = insurance_number;
+	}
+
+	public MedicalRecord getMedicalRecord() {
+		return medicalRecord;
+	}
+
+	public void setMedicalRecord(MedicalRecord medicalRecord) {
+		this.medicalRecord = medicalRecord;
+	}
+
+	public Set<Appointment> getAppointments() {
+		return appointments;
+	}
+
+	public void setAppointments(Set<Appointment> appointments) {
+		this.appointments = appointments;
+	}
+
+	public Set<Clinic> getClinics() {
+		return clinics;
+	}
+
+	public void setClinics(Set<Clinic> clinics) {
+		this.clinics = clinics;
 	}
 	
 	

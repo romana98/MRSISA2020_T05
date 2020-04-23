@@ -1,17 +1,54 @@
 package com.project.tim05.model;
-/***********************************************************************
- * Module:  Hall.java
- * Author:  Vukasin
- * Purpose: Defines the Class Hall
- ***********************************************************************/
 
 import java.util.*;
 
-/** @pdOid ad8189cc-f83a-4597-aee2-f6d423b3a660 */
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Hall {
-   /** @pdOid b7622250-7a6a-4b8d-a212-015bc7be5750 */
+	
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Integer id;
+   
+   @Column(name = "name", nullable = false)
    private int name;
-   /** @pdOid c4091751-a7f4-4d4e-a222-7ff118abc79d */
+   @Column(name = "number", nullable = false)
    private int number;
+   
+   public Hall() {
+	   super();
+   }
+   
+   public Hall(int name, int number) {
+	   super();
+	   this.name = name;
+	   this.number = number;
+   }
+	
+	public int getName() {
+		return name;
+	}
+	
+	public void setName(int name) {
+		this.name = name;
+	}
+	
+	public int getNumber() {
+		return number;
+	}
+	
+	public void setNumber(int number) {
+		this.number = number;
+	}
+   
+   
+   
+   
+   
 
 }
