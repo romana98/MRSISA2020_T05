@@ -23,7 +23,7 @@ public class MedicalRecord {
    }
    
    /** @pdGenerated default iterator getter */
-   public java.util.Iterator getIteratorDisease() {
+   public Iterator<Disease> getIteratorDisease() {
       if (disease == null)
          disease = new java.util.HashSet<Disease>();
       return disease.iterator();
@@ -33,7 +33,7 @@ public class MedicalRecord {
      * @param newDisease */
    public void setDisease(java.util.Collection<Disease> newDisease) {
       removeAllDisease();
-      for (java.util.Iterator iter = newDisease.iterator(); iter.hasNext();)
+      for (Iterator<Disease> iter = newDisease.iterator(); iter.hasNext();)
          addDisease((Disease)iter.next());
    }
    
