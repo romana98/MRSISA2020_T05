@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class RegisterPatientForm implements OnInit{
 
+    password2 : '';
+
     model: patientModel = {
         email : '',
         password : '',
@@ -40,6 +42,17 @@ export class RegisterPatientForm implements OnInit{
                 console.log(err)
             }
         );
+    }
+
+    checkPassword(): boolean{
+        var pass1 = this.model.password;
+        var pass2 = this.password2;
+
+        if(pass1 === pass2){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
     export interface patientModel{

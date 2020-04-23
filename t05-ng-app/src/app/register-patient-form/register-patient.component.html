@@ -5,7 +5,7 @@
             <br>
                 <h2>Registration form</h2>
             <br>
-            <form name="form" #f="ngForm" (submit)="f.form.valid && registerPatient()">
+            <form name="form" #f="ngForm" (submit)="f.form.valid && checkPassword() && registerPatient()">
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label>Email</label>
@@ -13,22 +13,22 @@
                         [(ngModel)] = "model.email" name="email_input"
                         #email="ngModel"
                         [ngClass] = "{'is-invalid':f.submitted && email.invalid}"
-                        readonly required/>
+                        required/>
                     </div>
                     <div class="form-group col-md-6">
                         <label>Password</label>
                         <input type="password" class="form-control"
-                        [(ngModel)] = "model.password" name="inputPassword"
+                        [(ngModel)] = "model.password" name="inputPassword1"
                         #password="ngModel"
                         [ngClass] = "{'is-invalid' : f.submitted && password.invalid}"
                         required minlength="8">
                     </div>
                     <div class="form-group col-md-6">
-                        <label>Password</label>
+                        <label>Confirm password</label>
                         <input type="password" class="form-control"
-                        [(ngModel)] = "model.password" name="inputPassword"
+                        [(ngModel)] = "password2" name="inputPassword2"
                         #password="ngModel"
-                        [ngClass] = "{'is-invalid' : f.submitted && password.invalid}"
+                        [ngClass] = "{'is-invalid' : f.submitted && !checkPassword()}"
                         required minlength="8">
                     </div>
                     <div class="form-group col-md-6">
@@ -85,7 +85,7 @@
                         [(ngModel)] = "model.insurance_number" name="insuranceNum_input"
                         #insurance_number="ngModel"
                         [ngClass] = "{'is-invalid':f.submitted && insurance_number.invalid}"
-                        required readonly/>
+                        required/>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Register</button>
