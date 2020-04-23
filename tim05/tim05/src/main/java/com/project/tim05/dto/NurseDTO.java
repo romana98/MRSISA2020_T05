@@ -5,7 +5,7 @@ import java.util.*;
 
 public class NurseDTO extends MedicalStaffDTO {
 	
-   private ArrayList<MedicineDTO> medicine;
+   private ArrayList<MedicineDTO> medicines;
    
    
    
@@ -13,21 +13,21 @@ public class NurseDTO extends MedicalStaffDTO {
 	super();
 }
 
-public NurseDTO(ArrayList<MedicineDTO> medicine) {
+public NurseDTO(ArrayList<MedicineDTO> medicines) {
 	super();
-	this.medicine = medicine;
+	this.medicines = medicines;
 }
 
 public java.util.Collection<MedicineDTO> getMedicine() {
-      if (medicine == null)
-         medicine = new ArrayList<MedicineDTO>();
-      return medicine;
+      if (medicines == null)
+         medicines = new ArrayList<MedicineDTO>();
+      return medicines;
    }
    
    public Iterator<MedicineDTO> getIteratorMedicine() {
-      if (medicine == null)
-         medicine = new ArrayList<MedicineDTO>();
-      return medicine.iterator();
+      if (medicines == null)
+         medicines = new ArrayList<MedicineDTO>();
+      return medicines.iterator();
    }
    
    public void setMedicine(ArrayList<MedicineDTO> newMedicine) {
@@ -39,23 +39,23 @@ public java.util.Collection<MedicineDTO> getMedicine() {
    public void addMedicine(MedicineDTO newMedicine) {
       if (newMedicine == null)
          return;
-      if (this.medicine == null)
-         this.medicine = new ArrayList<MedicineDTO>();
-      if (!this.medicine.contains(newMedicine))
-         this.medicine.add(newMedicine);
+      if (this.medicines == null)
+         this.medicines = new ArrayList<MedicineDTO>();
+      if (!this.medicines.contains(newMedicine))
+         this.medicines.add(newMedicine);
    }
    
    public void removeMedicine(MedicineDTO oldMedicine) {
       if (oldMedicine == null)
          return;
-      if (this.medicine != null)
-         if (this.medicine.contains(oldMedicine))
-            this.medicine.remove(oldMedicine);
+      if (this.medicines != null)
+         if (this.medicines.contains(oldMedicine))
+            this.medicines.remove(oldMedicine);
    }
    
    public void removeAllMedicine() {
-      if (medicine != null)
-         medicine.clear();
+      if (medicines != null)
+         medicines.clear();
    }
 
 }

@@ -1,6 +1,5 @@
 package com.project.tim05.dto;
 
-import java.util.*;
 
 public class MedicineDTO {
 	
@@ -18,6 +17,32 @@ public class MedicineDTO {
 	public MedicineDTO() {
 		super();
 	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public boolean isAuthenticated() {
+		return authenticated;
+	}
+
+	public void setAuthenticated(boolean authenticated) {
+		this.authenticated = authenticated;
+	}
+	
+	
 	
 	
    

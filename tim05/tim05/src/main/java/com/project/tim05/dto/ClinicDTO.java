@@ -9,20 +9,20 @@ public class ClinicDTO {
    private String description;
    
    private ArrayList<DoctorDTO> doctors;
-   private ArrayList<Hall> halls;
-   private HashMap<AppointmentTypeDTO, Double> pricelist;
+   private ArrayList<HallDTO> halls;
+   private ArrayList<PricelistDTO> pricelist;
    private ArrayList<AppointmentDTO> appointments;
    
    public ClinicDTO() {
 		super();
 		this.doctors = new ArrayList<>();
 		this.halls = new ArrayList<>();
-		this.pricelist = new HashMap<AppointmentTypeDTO, Double>();
+		this.pricelist = new ArrayList<PricelistDTO>();
 		this.appointments = new ArrayList<>();
 	}
 
 	public ClinicDTO(String name, Collections ratings, String address, String description, ArrayList<DoctorDTO> doctors,
-			ArrayList<Hall> halls, HashMap<AppointmentTypeDTO, Double> pricelist, ArrayList<AppointmentDTO> appointments) {
+			ArrayList<HallDTO> halls, ArrayList<PricelistDTO> pricelist, ArrayList<AppointmentDTO> appointments) {
 		super();
 		this.name = name;
 		this.ratings = ratings;
@@ -75,34 +75,34 @@ public class ClinicDTO {
          doctors.clear();
    }
    
-   public java.util.Collection<Hall> getHall() {
+   public java.util.Collection<HallDTO> getHall() {
       if (halls == null)
-         halls = new ArrayList<Hall>();
+         halls = new ArrayList<HallDTO>();
       return halls;
    }
    
-   public Iterator<Hall> getIteratorHall() {
+   public Iterator<HallDTO> getIteratorHall() {
       if (halls == null)
-         halls = new ArrayList<Hall>();
+         halls = new ArrayList<HallDTO>();
       return halls.iterator();
    }
    
-   public void setHall(ArrayList<Hall> newHall) {
+   public void setHall(ArrayList<HallDTO> newHall) {
       removeAllHall();
-      for (Iterator<Hall> iter = newHall.iterator(); iter.hasNext();)
-         addHall((Hall)iter.next());
+      for (Iterator<HallDTO> iter = newHall.iterator(); iter.hasNext();)
+         addHall((HallDTO)iter.next());
    }
    
-   public void addHall(Hall newHall) {
+   public void addHall(HallDTO newHall) {
       if (newHall == null)
          return;
       if (this.halls == null)
-         this.halls = new ArrayList<Hall>();
+         this.halls = new ArrayList<HallDTO>();
       if (!this.halls.contains(newHall))
          this.halls.add(newHall);
    }
    
-   public void removeHall(Hall oldHall) {
+   public void removeHall(HallDTO oldHall) {
       if (oldHall == null)
          return;
       if (this.halls != null)
@@ -181,11 +181,11 @@ public void setDescription(String description) {
 	this.description = description;
 }
 
-public HashMap<AppointmentTypeDTO, Double> getPricelist() {
+public ArrayList<PricelistDTO> getPricelist() {
 	return pricelist;
 }
 
-public void setPricelist(HashMap<AppointmentTypeDTO, Double> pricelist) {
+public void setPricelist(ArrayList<PricelistDTO> pricelist) {
 	this.pricelist = pricelist;
 }
 

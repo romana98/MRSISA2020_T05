@@ -1,16 +1,14 @@
 package com.project.tim05.dto;
-/***********************************************************************
- * Module:  Hall.java
- * Author:  Vukasin
- * Purpose: Defines the Class Hall
- ***********************************************************************/
-
-import java.util.*;
 
 public class HallDTO {
    
     private int name;
     private int number;
+    
+    public HallDTO()
+    {
+    	
+    }
 	
     public HallDTO(int name, int number) {
 		super();

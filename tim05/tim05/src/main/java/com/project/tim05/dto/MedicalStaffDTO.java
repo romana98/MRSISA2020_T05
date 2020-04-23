@@ -11,7 +11,7 @@ public class MedicalStaffDTO {
    private String workStart;
    private String workEnd;
    
-   public ArrayList<PatientDTO> patient;
+   private ArrayList<PatientDTO> patients;
    
    
    public MedicalStaffDTO() {
@@ -19,7 +19,7 @@ public class MedicalStaffDTO {
 }
 
 public MedicalStaffDTO(String name, String surname, String email, String password, String workStart, String workEnd,
-		ArrayList<PatientDTO> patient) {
+		ArrayList<PatientDTO> patients) {
 	super();
 	this.name = name;
 	this.surname = surname;
@@ -27,19 +27,19 @@ public MedicalStaffDTO(String name, String surname, String email, String passwor
 	this.password = password;
 	this.workStart = workStart;
 	this.workEnd = workEnd;
-	this.patient = patient;
+	this.patients = patients;
 }
 
 public ArrayList<PatientDTO> getPatient() {
-      if (patient == null)
-         patient = new ArrayList<PatientDTO>();
-      return patient;
+      if (patients == null)
+         patients = new ArrayList<PatientDTO>();
+      return patients;
    }
    
    public Iterator<PatientDTO> getIteratorPatient() {
-      if (patient == null)
-         patient = new ArrayList<PatientDTO>();
-      return patient.iterator();
+      if (patients == null)
+         patients = new ArrayList<PatientDTO>();
+      return patients.iterator();
    }
    
    public void setPatient(ArrayList<PatientDTO> newPatient) {
@@ -51,23 +51,80 @@ public ArrayList<PatientDTO> getPatient() {
    public void addPatient(PatientDTO newPatient) {
       if (newPatient == null)
          return;
-      if (this.patient == null)
-         this.patient = new ArrayList<PatientDTO>();
-      if (!this.patient.contains(newPatient))
-         this.patient.add(newPatient);
+      if (this.patients == null)
+         this.patients = new ArrayList<PatientDTO>();
+      if (!this.patients.contains(newPatient))
+         this.patients.add(newPatient);
    }
    
    public void removePatient(PatientDTO oldPatient) {
       if (oldPatient == null)
          return;
-      if (this.patient != null)
-         if (this.patient.contains(oldPatient))
-            this.patient.remove(oldPatient);
+      if (this.patients != null)
+         if (this.patients.contains(oldPatient))
+            this.patients.remove(oldPatient);
    }
    
    public void removeAllPatient() {
-      if (patient != null)
-         patient.clear();
+      if (patients != null)
+         patients.clear();
    }
 
+public String getName() {
+	return name;
+}
+
+public void setName(String name) {
+	this.name = name;
+}
+
+public String getSurname() {
+	return surname;
+}
+
+public void setSurname(String surname) {
+	this.surname = surname;
+}
+
+public String getEmail() {
+	return email;
+}
+
+public void setEmail(String email) {
+	this.email = email;
+}
+
+public String getPassword() {
+	return password;
+}
+
+public void setPassword(String password) {
+	this.password = password;
+}
+
+public String getWorkStart() {
+	return workStart;
+}
+
+public void setWorkStart(String workStart) {
+	this.workStart = workStart;
+}
+
+public String getWorkEnd() {
+	return workEnd;
+}
+
+public void setWorkEnd(String workEnd) {
+	this.workEnd = workEnd;
+}
+
+public ArrayList<PatientDTO> getPatients() {
+	return patients;
+}
+
+public void setPatients(ArrayList<PatientDTO> patients) {
+	this.patients = patients;
+}
+   
+   
 }

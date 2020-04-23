@@ -1,7 +1,5 @@
 package com.project.tim05.dto;
 
-import java.util.*;
-
 public class RegistrationRequestDTO {
    
    private String email;

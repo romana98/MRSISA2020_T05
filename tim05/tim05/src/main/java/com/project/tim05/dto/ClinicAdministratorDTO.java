@@ -10,7 +10,7 @@ public class ClinicAdministratorDTO {
    
    private ArrayList<AppointmentDTO> appointments;
    private ClinicDTO clinics;
-   private ArrayList<Hall> halls;
+   private ArrayList<HallDTO> halls;
    private ArrayList<DoctorDTO> doctors;
    private ArrayList<AppointmentTypeDTO> appointmentTypes;
    
@@ -24,7 +24,7 @@ public class ClinicAdministratorDTO {
 }
 
 public ClinicAdministratorDTO(String name, String surname, String password, String email,
-		ArrayList<AppointmentDTO> appointment, ClinicDTO clinic, ArrayList<Hall> hall, ArrayList<DoctorDTO> doctor,
+		ArrayList<AppointmentDTO> appointment, ClinicDTO clinic, ArrayList<HallDTO> hall, ArrayList<DoctorDTO> doctor,
 		ArrayList<AppointmentTypeDTO> appointmentType) {
 	super();
 	this.name = name;
@@ -77,34 +77,34 @@ public ArrayList<AppointmentDTO> getAppointment() {
       if (appointments != null)
          appointments.clear();
    }
-   public ArrayList<Hall> getHall() {
+   public ArrayList<HallDTO> getHall() {
       if (halls == null)
-         halls = new ArrayList<Hall>();
+         halls = new ArrayList<HallDTO>();
       return halls;
    }
    
-   public Iterator<Hall> getIteratorHall() {
+   public Iterator<HallDTO> getIteratorHall() {
       if (halls == null)
-         halls = new ArrayList<Hall>();
+         halls = new ArrayList<HallDTO>();
       return halls.iterator();
    }
    
-   public void setHall(ArrayList<Hall> newHall) {
+   public void setHall(ArrayList<HallDTO> newHall) {
       removeAllHall();
-      for (Iterator<Hall> iter = newHall.iterator(); iter.hasNext();)
-         addHall((Hall)iter.next());
+      for (Iterator<HallDTO> iter = newHall.iterator(); iter.hasNext();)
+         addHall((HallDTO)iter.next());
    }
    
-   public void addHall(Hall newHall) {
+   public void addHall(HallDTO newHall) {
       if (newHall == null)
          return;
       if (this.halls == null)
-         this.halls = new ArrayList<Hall>();
+         this.halls = new ArrayList<HallDTO>();
       if (!this.halls.contains(newHall))
          this.halls.add(newHall);
    }
    
-   public void removeHall(Hall oldHall) {
+   public void removeHall(HallDTO oldHall) {
       if (oldHall == null)
          return;
       if (this.halls != null)

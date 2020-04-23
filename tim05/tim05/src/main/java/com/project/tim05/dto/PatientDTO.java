@@ -15,9 +15,32 @@ public class PatientDTO {
    private int number;
    private int insuranceId;
    
-   public MedicalRecordDTO medicalRecord;
-   public ArrayList<AppointmentDTO> appointment;
-   public ArrayList<ClinicDTO> clinic;
+   private MedicalRecordDTO medicalRecord;
+   private ArrayList<AppointmentDTO> appointments;
+   private ArrayList<ClinicDTO> clinics;
+   
+   public PatientDTO() {
+		super();
+	}
+
+	public PatientDTO(String email, String password, String name, String surname, String address, String city, String town,
+			int number, int insuranceId, MedicalRecordDTO medicalRecord, ArrayList<AppointmentDTO> appointments,
+			ArrayList<ClinicDTO> clinics) {
+		super();
+		this.email = email;
+		this.password = password;
+		this.name = name;
+		this.surname = surname;
+		this.address = address;
+		this.city = city;
+		this.town = town;
+		this.number = number;
+		this.insuranceId = insuranceId;
+		this.medicalRecord = medicalRecord;
+		this.appointments = appointments;
+		this.clinics = clinics;
+	}
+
    
    public String getEmail() {
 	return email;
@@ -99,38 +122,16 @@ public void setMedicalRecord(MedicalRecordDTO medicalRecord) {
 	this.medicalRecord = medicalRecord;
 }
 
-public PatientDTO() {
-	super();
-}
-
-public PatientDTO(String email, String password, String name, String surname, String address, String city, String town,
-		int number, int insuranceId, MedicalRecordDTO medicalRecord, ArrayList<AppointmentDTO> appointment,
-		ArrayList<ClinicDTO> clinic) {
-	super();
-	this.email = email;
-	this.password = password;
-	this.name = name;
-	this.surname = surname;
-	this.address = address;
-	this.city = city;
-	this.town = town;
-	this.number = number;
-	this.insuranceId = insuranceId;
-	this.medicalRecord = medicalRecord;
-	this.appointment = appointment;
-	this.clinic = clinic;
-}
-
 public ArrayList<AppointmentDTO> getAppointment() {
-      if (appointment == null)
-         appointment = new ArrayList<AppointmentDTO>();
-      return appointment;
+      if (appointments == null)
+         appointments = new ArrayList<AppointmentDTO>();
+      return appointments;
    }
    
    public Iterator<AppointmentDTO> getIteratorAppointment() {
-      if (appointment == null)
-         appointment = new ArrayList<AppointmentDTO>();
-      return appointment.iterator();
+      if (appointments == null)
+         appointments = new ArrayList<AppointmentDTO>();
+      return appointments.iterator();
    }
    
 
@@ -143,35 +144,35 @@ public ArrayList<AppointmentDTO> getAppointment() {
    public void addAppointment(AppointmentDTO newAppointment) {
       if (newAppointment == null)
          return;
-      if (this.appointment == null)
-         this.appointment = new ArrayList<AppointmentDTO>();
-      if (!this.appointment.contains(newAppointment))
-         this.appointment.add(newAppointment);
+      if (this.appointments == null)
+         this.appointments = new ArrayList<AppointmentDTO>();
+      if (!this.appointments.contains(newAppointment))
+         this.appointments.add(newAppointment);
    }
    
    public void removeAppointment(AppointmentDTO oldAppointment) {
       if (oldAppointment == null)
          return;
-      if (this.appointment != null)
-         if (this.appointment.contains(oldAppointment))
-            this.appointment.remove(oldAppointment);
+      if (this.appointments != null)
+         if (this.appointments.contains(oldAppointment))
+            this.appointments.remove(oldAppointment);
    }
    
    public void removeAllAppointment() {
-      if (appointment != null)
-         appointment.clear();
+      if (appointments != null)
+         appointments.clear();
    }
    
    public ArrayList<ClinicDTO> getClinic() {
-      if (clinic == null)
-         clinic = new ArrayList<ClinicDTO>();
-      return clinic;
+      if (clinics == null)
+         clinics = new ArrayList<ClinicDTO>();
+      return clinics;
    }
    
    public Iterator<ClinicDTO> getIteratorClinic() {
-      if (clinic == null)
-         clinic = new ArrayList<ClinicDTO>();
-      return clinic.iterator();
+      if (clinics == null)
+         clinics = new ArrayList<ClinicDTO>();
+      return clinics.iterator();
    }
    
    public void setClinic(ArrayList<ClinicDTO> newClinic) {
@@ -183,23 +184,23 @@ public ArrayList<AppointmentDTO> getAppointment() {
    public void addClinic(ClinicDTO newClinic) {
       if (newClinic == null)
          return;
-      if (this.clinic == null)
-         this.clinic = new ArrayList<ClinicDTO>();
-      if (!this.clinic.contains(newClinic))
-         this.clinic.add(newClinic);
+      if (this.clinics == null)
+         this.clinics = new ArrayList<ClinicDTO>();
+      if (!this.clinics.contains(newClinic))
+         this.clinics.add(newClinic);
    }
    
    public void removeClinic(ClinicDTO oldClinic) {
       if (oldClinic == null)
          return;
-      if (this.clinic != null)
-         if (this.clinic.contains(oldClinic))
-            this.clinic.remove(oldClinic);
+      if (this.clinics != null)
+         if (this.clinics.contains(oldClinic))
+            this.clinics.remove(oldClinic);
    }
    
    public void removeAllClinic() {
-      if (clinic != null)
-         clinic.clear();
+      if (clinics != null)
+         clinics.clear();
    }
 
 }

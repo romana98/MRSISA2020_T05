@@ -10,8 +10,8 @@ public class ClinicCenterAdministratorDTO {
    
    private ArrayList<ClinicDTO> clinics;
    private ArrayList<DiagnosisDTO> diagnosises;
-   private ArrayList<Medicine> medicines;
-   private ArrayList<RegistrationRequest> registrationRequests;
+   private ArrayList<MedicineDTO> medicines;
+   private ArrayList<RegistrationRequestDTO> registrationRequests;
    
    
    public ClinicCenterAdministratorDTO() {
@@ -23,8 +23,8 @@ public class ClinicCenterAdministratorDTO {
 }
 
 public ClinicCenterAdministratorDTO(String name, String email, String password, String surname,
-		ArrayList<ClinicDTO> clinics, ArrayList<DiagnosisDTO> diagnosises, ArrayList<Medicine> medicines,
-		ArrayList<RegistrationRequest> registrationRequests) {
+		ArrayList<ClinicDTO> clinics, ArrayList<DiagnosisDTO> diagnosises, ArrayList<MedicineDTO> medicines,
+		ArrayList<RegistrationRequestDTO> registrationRequests) {
 	super();
 	this.name = name;
 	this.email = email;
@@ -116,34 +116,34 @@ public ArrayList<ClinicDTO> getClinic() {
          diagnosises.clear();
    }
   
-   public ArrayList<Medicine> getMedicine() {
+   public ArrayList<MedicineDTO> getMedicine() {
       if (medicines == null)
-         medicines = new ArrayList<Medicine>();
+         medicines = new ArrayList<MedicineDTO>();
       return medicines;
    }
    
-   public Iterator<Medicine> getIteratorMedicine() {
+   public Iterator<MedicineDTO> getIteratorMedicine() {
       if (medicines == null)
-         medicines = new ArrayList<Medicine>();
+         medicines = new ArrayList<MedicineDTO>();
       return medicines.iterator();
    }
    
-   public void setMedicine(ArrayList<Medicine> newMedicine) {
+   public void setMedicine(ArrayList<MedicineDTO> newMedicine) {
       removeAllMedicine();
-      for (Iterator<Medicine> iter = newMedicine.iterator(); iter.hasNext();)
-         addMedicine((Medicine)iter.next());
+      for (Iterator<MedicineDTO> iter = newMedicine.iterator(); iter.hasNext();)
+         addMedicine((MedicineDTO)iter.next());
    }
    
-   public void addMedicine(Medicine newMedicine) {
+   public void addMedicine(MedicineDTO newMedicine) {
       if (newMedicine == null)
          return;
       if (this.medicines == null)
-         this.medicines = new ArrayList<Medicine>();
+         this.medicines = new ArrayList<MedicineDTO>();
       if (!this.medicines.contains(newMedicine))
          this.medicines.add(newMedicine);
    }
    
-   public void removeMedicine(Medicine oldMedicine) {
+   public void removeMedicine(MedicineDTO oldMedicine) {
       if (oldMedicine == null)
          return;
       if (this.medicines != null)
@@ -156,34 +156,34 @@ public ArrayList<ClinicDTO> getClinic() {
          medicines.clear();
    }
    
-   public ArrayList<RegistrationRequest> getRegistrationRequest() {
+   public ArrayList<RegistrationRequestDTO> getRegistrationRequest() {
       if (registrationRequests == null)
-         registrationRequests = new ArrayList<RegistrationRequest>();
+         registrationRequests = new ArrayList<RegistrationRequestDTO>();
       return registrationRequests;
    }
    
-   public Iterator<RegistrationRequest> getIteratorRegistrationRequest() {
+   public Iterator<RegistrationRequestDTO> getIteratorRegistrationRequest() {
       if (registrationRequests == null)
-         registrationRequests = new ArrayList<RegistrationRequest>();
+         registrationRequests = new ArrayList<RegistrationRequestDTO>();
       return registrationRequests.iterator();
    }
    
-   public void setRegistrationRequest(ArrayList<RegistrationRequest> newRegistrationRequest) {
+   public void setRegistrationRequest(ArrayList<RegistrationRequestDTO> newRegistrationRequest) {
       removeAllRegistrationRequest();
-      for (Iterator<RegistrationRequest> iter = newRegistrationRequest.iterator(); iter.hasNext();)
-         addRegistrationRequest((RegistrationRequest)iter.next());
+      for (Iterator<RegistrationRequestDTO> iter = newRegistrationRequest.iterator(); iter.hasNext();)
+         addRegistrationRequest((RegistrationRequestDTO)iter.next());
    }
    
-   public void addRegistrationRequest(RegistrationRequest newRegistrationRequest) {
+   public void addRegistrationRequest(RegistrationRequestDTO newRegistrationRequest) {
       if (newRegistrationRequest == null)
          return;
       if (this.registrationRequests == null)
-         this.registrationRequests = new ArrayList<RegistrationRequest>();
+         this.registrationRequests = new ArrayList<RegistrationRequestDTO>();
       if (!this.registrationRequests.contains(newRegistrationRequest))
          this.registrationRequests.add(newRegistrationRequest);
    }
    
-   public void removeRegistrationRequest(RegistrationRequest oldRegistrationRequest) {
+   public void removeRegistrationRequest(RegistrationRequestDTO oldRegistrationRequest) {
       if (oldRegistrationRequest == null)
          return;
       if (this.registrationRequests != null)

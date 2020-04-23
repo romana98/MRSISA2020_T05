@@ -11,10 +11,10 @@ public class AppointmentDTO {
    private boolean finished;
    
    private ClinicDTO clinic;
-   private Hall hall;
+   private HallDTO hall;
    private DoctorDTO doctor;
    private AppointmentTypeDTO appointmentType;
-   private ArrayList<Medicine> medicines;
+   private ArrayList<MedicineDTO> medicines;
    private ArrayList<DiagnosisDTO> diagnosises;
    private ArrayList<DiseaseDTO> diseases;
    
@@ -28,7 +28,7 @@ public class AppointmentDTO {
 }
 
 public AppointmentDTO(Date dateTime, int duration, double price, boolean request, boolean finished, ClinicDTO clinic,
-		Hall hall, DoctorDTO doctor, AppointmentTypeDTO appointmentType, ArrayList<Medicine> medicine,
+		HallDTO hall, DoctorDTO doctor, AppointmentTypeDTO appointmentType, ArrayList<MedicineDTO> medicine,
 		ArrayList<DiagnosisDTO> diagnosis, ArrayList<DiseaseDTO> disease) {
 	super();
 	this.dateTime = dateTime;
@@ -45,34 +45,34 @@ public AppointmentDTO(Date dateTime, int duration, double price, boolean request
 	this.diseases = disease;
 }
 
-public ArrayList<Medicine> getMedicine() {
+public ArrayList<MedicineDTO> getMedicine() {
       if (medicines == null)
-         medicines = new ArrayList<Medicine>();
+         medicines = new ArrayList<MedicineDTO>();
       return medicines;
    }
    
-   public Iterator<Medicine> getIteratorMedicine() {
+   public Iterator<MedicineDTO> getIteratorMedicine() {
       if (medicines == null)
-         medicines = new ArrayList<Medicine>();
+         medicines = new ArrayList<MedicineDTO>();
       return medicines.iterator();
    }
    
-   public void setMedicine(ArrayList<Medicine> newMedicine) {
+   public void setMedicine(ArrayList<MedicineDTO> newMedicine) {
       removeAllMedicine();
-      for (Iterator<Medicine> iter = newMedicine.iterator(); iter.hasNext();)
-         addMedicine((Medicine)iter.next());
+      for (Iterator<MedicineDTO> iter = newMedicine.iterator(); iter.hasNext();)
+         addMedicine((MedicineDTO)iter.next());
    }
    
-   public void addMedicine(Medicine newMedicine) {
+   public void addMedicine(MedicineDTO newMedicine) {
       if (newMedicine == null)
          return;
       if (this.medicines == null)
-         this.medicines = new ArrayList<Medicine>();
+         this.medicines = new ArrayList<MedicineDTO>();
       if (!this.medicines.contains(newMedicine))
          this.medicines.add(newMedicine);
    }
    
-   public void removeMedicine(Medicine oldMedicine) {
+   public void removeMedicine(MedicineDTO oldMedicine) {
       if (oldMedicine == null)
          return;
       if (this.medicines != null)
@@ -150,11 +150,11 @@ public void setClinic(ClinicDTO clinic) {
 	this.clinic = clinic;
 }
 
-public Hall getHall() {
+public HallDTO getHall() {
 	return hall;
 }
 
-public void setHall(Hall hall) {
+public void setHall(HallDTO hall) {
 	this.hall = hall;
 }
 

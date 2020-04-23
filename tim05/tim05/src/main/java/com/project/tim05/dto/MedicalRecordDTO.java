@@ -4,38 +4,32 @@ import java.util.*;
 
 public class MedicalRecordDTO {
 	
-   public java.util.Collection<DiseaseDTO> disease;
-   public java.util.Collection<AppointmentDTO> appointment;
+   private ArrayList<DiseaseDTO> diseases;
+   private ArrayList<AppointmentDTO> appointments;
    
    
-   public java.util.Collection<DiseaseDTO> getDisease() {
-      if (disease == null)
-         disease = new ArrayList<DiseaseDTO>();
-      return disease;
+   public ArrayList<DiseaseDTO> getDisease() {
+      if (diseases == null)
+         diseases = new ArrayList<DiseaseDTO>();
+      return diseases;
    }
    
-   public MedicalRecordDTO(Collection<DiseaseDTO> disease, Collection<AppointmentDTO> appointment) {
+   public MedicalRecordDTO(ArrayList<DiseaseDTO> diseases, ArrayList<AppointmentDTO> appointments) {
 	super();
-	this.disease = disease;
-	this.appointment = appointment;
+	this.diseases = diseases;
+	this.appointments = appointments;
    }
    
    public MedicalRecordDTO() {
 	super();
-   }
-
-public void setDisease(java.util.Collection<DiseaseDTO> disease) {
-	   this.disease = disease;
-   }
-
-   public void setAppointment(java.util.Collection<AppointmentDTO> appointment) {
-	   this.appointment = appointment;
+	this.diseases = new ArrayList<>();
+	this.appointments = new ArrayList<>();
    }
 
    public Iterator<DiseaseDTO> getIteratorDisease() {
-         if (disease == null)
-            disease = new ArrayList<DiseaseDTO>();
-         return disease.iterator();
+         if (diseases == null)
+            diseases = new ArrayList<DiseaseDTO>();
+         return diseases.iterator();
    }
    
    
@@ -49,35 +43,35 @@ public void setDisease(java.util.Collection<DiseaseDTO> disease) {
    public void addDisease(DiseaseDTO newDisease) {
       if (newDisease == null)
          return;
-      if (this.disease == null)
-         this.disease = new ArrayList<DiseaseDTO>();
-      if (!this.disease.contains(newDisease))
-         this.disease.add(newDisease);
+      if (this.diseases == null)
+         this.diseases = new ArrayList<DiseaseDTO>();
+      if (!this.diseases.contains(newDisease))
+         this.diseases.add(newDisease);
    }
    
   
    public void removeDisease(DiseaseDTO oldDisease) {
       if (oldDisease == null)
          return;
-      if (this.disease != null)
-         if (this.disease.contains(oldDisease))
-            this.disease.remove(oldDisease);
+      if (this.diseases != null)
+         if (this.diseases.contains(oldDisease))
+            this.diseases.remove(oldDisease);
    }
    
    public void removeAllDisease() {
-      if (disease != null)
-         disease.clear();
+      if (diseases != null)
+         diseases.clear();
    }
    public java.util.Collection<AppointmentDTO> getAppointment() {
-      if (appointment == null)
-         appointment = new ArrayList<AppointmentDTO>();
-      return appointment;
+      if (appointments == null)
+         appointments = new ArrayList<AppointmentDTO>();
+      return appointments;
    }
    
    public Iterator<AppointmentDTO> getIteratorAppointment() {
-      if (appointment == null)
-         appointment = new ArrayList<AppointmentDTO>();
-      return appointment.iterator();
+      if (appointments == null)
+         appointments = new ArrayList<AppointmentDTO>();
+      return appointments.iterator();
    }
    
    
@@ -91,24 +85,24 @@ public void setDisease(java.util.Collection<DiseaseDTO> disease) {
    public void addAppointment(AppointmentDTO newAppointment) {
       if (newAppointment == null)
          return;
-      if (this.appointment == null)
-         this.appointment = new ArrayList<AppointmentDTO>();
-      if (!this.appointment.contains(newAppointment))
-         this.appointment.add(newAppointment);
+      if (this.appointments == null)
+         this.appointments = new ArrayList<AppointmentDTO>();
+      if (!this.appointments.contains(newAppointment))
+         this.appointments.add(newAppointment);
    }
    
    
    public void removeAppointment(AppointmentDTO oldAppointment) {
       if (oldAppointment == null)
          return;
-      if (this.appointment != null)
-         if (this.appointment.contains(oldAppointment))
-            this.appointment.remove(oldAppointment);
+      if (this.appointments != null)
+         if (this.appointments.contains(oldAppointment))
+            this.appointments.remove(oldAppointment);
    }
    
    public void removeAllAppointment() {
-      if (appointment != null)
-         appointment.clear();
+      if (appointments != null)
+         appointments.clear();
    }
 
 }
