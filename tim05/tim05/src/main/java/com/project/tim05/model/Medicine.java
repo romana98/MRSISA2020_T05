@@ -1,22 +1,22 @@
 package com.project.tim05.model;
 
-import java.util.*;
+import javax.persistence.*;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+@Entity
+@Table(name="medicines")
 public class Medicine {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "medicine_id", unique=true, nullable = false)
 	private Integer id;
 	
 	@Column(name = "name", nullable = false)
 	private String name;
+	
 	@Column(name = "description", nullable = false)
 	private String description;
+	
 	@Column(name = "authenticated", nullable = false)
 	private boolean authenticated;
 		

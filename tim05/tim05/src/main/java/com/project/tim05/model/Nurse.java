@@ -2,32 +2,40 @@ package com.project.tim05.model;
 
 import java.util.*;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+@Entity
+@Table(name="nurses")
 public class Nurse extends MedicalStaff {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "nurse_id", unique=true, nullable = false)
 	private Integer id;
 	
-	private Set<Medicine> medicine;
-	
+	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "medicine_id")
+	private Set<Medicine> medicines = new HashSet<Medicine>();
+   
 	public Nurse() {
 		super();
 	}
 
-	public Nurse(Set<Medicine> medicine) {
-		super();
-		this.medicine = medicine;
+	public Integer getId() {
+		return id;
 	}
 
-	public Set<Medicine> getMedicine() {
-		return medicine;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public void setMedicine(Set<Medicine> medicine) {
-		this.medicine = medicine;
+	public Set<Medicine> getMedicines() {
+		return medicines;
 	}
+
+	public void setMedicines(Set<Medicine> medicines) {
+		this.medicines = medicines;
+	}
+
+	
 }

@@ -1,19 +1,63 @@
 package com.project.tim05.model;
-/***********************************************************************
- * Module:  Disease.java
- * Author:  Vukasin
- * Purpose: Defines the Class Disease
- ***********************************************************************/
 
-import java.util.*;
+import javax.persistence.*;
 
-/** @pdOid 6d15a4e2-19b5-4e7e-9709-7468bf893d09 */
+@Entity
+@Table(name="diseases")
 public class Disease {
-   /** @pdOid d844f2b9-4da6-4494-b418-e8b79ce2fefe */
-   private String name;
-   /** @pdOid 5ff255bb-3fe1-4ebc-94c3-4cd34a5798e6 */
-   private String value;
-   /** @pdOid 6a811052-a3c4-466d-9055-c5bb271e38a3 */
-   private String description;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "disease_id", unique=true, nullable = false)
+	private Integer id;
+	
+	@Column(name = "name", nullable = false)
+	private String name;
+  
+	@Column(name = "value", nullable = false)
+	private String value;
+   
+	@Column(name = "description", nullable = false)
+	private String description;
+
+
+	public Disease() {
+		super();
+		
+	}
+
+	public Disease(Integer id, String name, String value, String description) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.value = value;
+		this.description = description;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	
 
 }

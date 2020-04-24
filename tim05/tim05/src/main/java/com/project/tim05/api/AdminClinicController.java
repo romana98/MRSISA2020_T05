@@ -10,28 +10,28 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.tim05.model.AdminClinic;
-import com.project.tim05.service.AdminClinicService;
+import com.project.tim05.model.ClinicCenterAdministrator;
+import com.project.tim05.service.ClinicCenterAdministratorService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/adminClinic")
 @RestController
 public class AdminClinicController {
 
-	private final AdminClinicService acs;
+	private final ClinicCenterAdministratorService acs;
 	
 	@Autowired
-	public AdminClinicController(AdminClinicService acs) {
+	public AdminClinicController(ClinicCenterAdministratorService acs) {
 		this.acs = acs;
 	}
 	
 	@GetMapping("/getAdminClinics")
-	public List<AdminClinic> getAdminClinics(){
+	public List<ClinicCenterAdministrator> getAdminClinics(){
 		return acs.getAdminClinics();
 	}
 	
 	@PostMapping("/addAdminClinic")
-	public int addDoctor(@RequestBody AdminClinic ac) {
+	public int addDoctor(@RequestBody ClinicCenterAdministrator ac) {
 		acs.addAdminClinic(ac);
 		return 200;
 	}

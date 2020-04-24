@@ -14,22 +14,22 @@ public class AppointmentDTO {
    private HallDTO hall;
    private DoctorDTO doctor;
    private AppointmentTypeDTO appointmentType;
-   private ArrayList<MedicineDTO> medicines;
-   private ArrayList<DiagnosisDTO> diagnosises;
-   private ArrayList<DiseaseDTO> diseases;
+   private Set<MedicineDTO> medicines;
+   private Set<DiagnosisDTO> diagnosises;
+   private Set<DiseaseDTO> diseases;
    
    
    
    public AppointmentDTO() {
 	super();
-	this.medicines = new ArrayList<>();
-	this.diagnosises = new ArrayList<>();
-	this.diseases = new ArrayList<>();
+	this.medicines = new HashSet<>();
+	this.diagnosises = new HashSet<>();
+	this.diseases = new HashSet<>();
 }
 
 public AppointmentDTO(Date dateTime, int duration, double price, boolean request, boolean finished, ClinicDTO clinic,
-		HallDTO hall, DoctorDTO doctor, AppointmentTypeDTO appointmentType, ArrayList<MedicineDTO> medicine,
-		ArrayList<DiagnosisDTO> diagnosis, ArrayList<DiseaseDTO> disease) {
+		HallDTO hall, DoctorDTO doctor, AppointmentTypeDTO appointmentType, HashSet<MedicineDTO> medicine,
+		HashSet<DiagnosisDTO> diagnosis, HashSet<DiseaseDTO> disease) {
 	super();
 	this.dateTime = dateTime;
 	this.duration = duration;
@@ -45,19 +45,19 @@ public AppointmentDTO(Date dateTime, int duration, double price, boolean request
 	this.diseases = disease;
 }
 
-public ArrayList<MedicineDTO> getMedicine() {
+public Set<MedicineDTO> getMedicine() {
       if (medicines == null)
-         medicines = new ArrayList<MedicineDTO>();
+         medicines = new HashSet<MedicineDTO>();
       return medicines;
    }
    
    public Iterator<MedicineDTO> getIteratorMedicine() {
       if (medicines == null)
-         medicines = new ArrayList<MedicineDTO>();
+         medicines = new HashSet<MedicineDTO>();
       return medicines.iterator();
    }
    
-   public void setMedicine(ArrayList<MedicineDTO> newMedicine) {
+   public void setMedicine(HashSet<MedicineDTO> newMedicine) {
       removeAllMedicine();
       for (Iterator<MedicineDTO> iter = newMedicine.iterator(); iter.hasNext();)
          addMedicine((MedicineDTO)iter.next());
@@ -67,7 +67,7 @@ public ArrayList<MedicineDTO> getMedicine() {
       if (newMedicine == null)
          return;
       if (this.medicines == null)
-         this.medicines = new ArrayList<MedicineDTO>();
+         this.medicines = new HashSet<MedicineDTO>();
       if (!this.medicines.contains(newMedicine))
          this.medicines.add(newMedicine);
    }
@@ -84,19 +84,19 @@ public ArrayList<MedicineDTO> getMedicine() {
       if (medicines != null)
          medicines.clear();
    }
-   public ArrayList<DiagnosisDTO> getDiagnosis() {
+   public Set<DiagnosisDTO> getDiagnosis() {
       if (diagnosises == null)
-         diagnosises = new ArrayList<DiagnosisDTO>();
+         diagnosises = new HashSet<DiagnosisDTO>();
       return diagnosises;
    }
    
    public Iterator<DiagnosisDTO> getIteratorDiagnosis() {
       if (diagnosises == null)
-         diagnosises = new ArrayList<DiagnosisDTO>();
+         diagnosises = new HashSet<DiagnosisDTO>();
       return diagnosises.iterator();
    }
    
-   public void setDiagnosis(ArrayList<DiagnosisDTO> newDiagnosis) {
+   public void setDiagnosis(HashSet<DiagnosisDTO> newDiagnosis) {
       removeAllDiagnosis();
       for (Iterator<DiagnosisDTO> iter = newDiagnosis.iterator(); iter.hasNext();)
          addDiagnosis((DiagnosisDTO)iter.next());
@@ -174,11 +174,11 @@ public void setAppointmentType(AppointmentTypeDTO appointmentType) {
 	this.appointmentType = appointmentType;
 }
 
-public ArrayList<DiseaseDTO> getDisease() {
+public Set<DiseaseDTO> getDisease() {
 	return diseases;
 }
 
-public void setDisease(ArrayList<DiseaseDTO> disease) {
+public void setDisease(HashSet<DiseaseDTO> disease) {
 	this.diseases = disease;
 }
 
@@ -186,7 +186,7 @@ public void setDisease(ArrayList<DiseaseDTO> disease) {
       if (newDiagnosis == null)
          return;
       if (this.diagnosises == null)
-         this.diagnosises = new ArrayList<DiagnosisDTO>();
+         this.diagnosises = new HashSet<DiagnosisDTO>();
       if (!this.diagnosises.contains(newDiagnosis))
          this.diagnosises.add(newDiagnosis);
    }

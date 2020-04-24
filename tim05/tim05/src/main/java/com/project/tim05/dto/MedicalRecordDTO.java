@@ -4,17 +4,10 @@ import java.util.*;
 
 public class MedicalRecordDTO {
 	
-   private ArrayList<DiseaseDTO> diseases;
-   private ArrayList<AppointmentDTO> appointments;
+   private Set<DiseaseDTO> diseases;
+   private Set<AppointmentDTO> appointments;
    
-   
-   public ArrayList<DiseaseDTO> getDisease() {
-      if (diseases == null)
-         diseases = new ArrayList<DiseaseDTO>();
-      return diseases;
-   }
-   
-   public MedicalRecordDTO(ArrayList<DiseaseDTO> diseases, ArrayList<AppointmentDTO> appointments) {
+   public MedicalRecordDTO(HashSet<DiseaseDTO> diseases, HashSet<AppointmentDTO> appointments) {
 	super();
 	this.diseases = diseases;
 	this.appointments = appointments;
@@ -22,18 +15,25 @@ public class MedicalRecordDTO {
    
    public MedicalRecordDTO() {
 	super();
-	this.diseases = new ArrayList<>();
-	this.appointments = new ArrayList<>();
+	this.diseases = new HashSet<>();
+	this.appointments = new HashSet<>();
    }
+
+   public Set<DiseaseDTO> getDisease() {
+      if (diseases == null)
+         diseases = new HashSet<DiseaseDTO>();
+      return diseases;
+   }
+   
 
    public Iterator<DiseaseDTO> getIteratorDisease() {
          if (diseases == null)
-            diseases = new ArrayList<DiseaseDTO>();
+            diseases = new HashSet<DiseaseDTO>();
          return diseases.iterator();
    }
    
    
-   public void setDisease(ArrayList<DiseaseDTO> newDisease) {
+   public void setDisease(HashSet<DiseaseDTO> newDisease) {
       removeAllDisease();
       for (Iterator<DiseaseDTO> iter = newDisease.iterator(); iter.hasNext();)
          addDisease((DiseaseDTO)iter.next());
@@ -44,7 +44,7 @@ public class MedicalRecordDTO {
       if (newDisease == null)
          return;
       if (this.diseases == null)
-         this.diseases = new ArrayList<DiseaseDTO>();
+         this.diseases = new HashSet<DiseaseDTO>();
       if (!this.diseases.contains(newDisease))
          this.diseases.add(newDisease);
    }
@@ -62,20 +62,20 @@ public class MedicalRecordDTO {
       if (diseases != null)
          diseases.clear();
    }
-   public java.util.Collection<AppointmentDTO> getAppointment() {
+   public Set<AppointmentDTO> getAppointment() {
       if (appointments == null)
-         appointments = new ArrayList<AppointmentDTO>();
+         appointments = new HashSet<AppointmentDTO>();
       return appointments;
    }
    
    public Iterator<AppointmentDTO> getIteratorAppointment() {
       if (appointments == null)
-         appointments = new ArrayList<AppointmentDTO>();
+         appointments = new HashSet<AppointmentDTO>();
       return appointments.iterator();
    }
    
    
-   public void setAppointment(ArrayList<AppointmentDTO> newAppointment) {
+   public void setAppointment(HashSet<AppointmentDTO> newAppointment) {
       removeAllAppointment();
       for (Iterator<AppointmentDTO> iter = newAppointment.iterator(); iter.hasNext();)
          addAppointment((AppointmentDTO)iter.next());
@@ -86,7 +86,7 @@ public class MedicalRecordDTO {
       if (newAppointment == null)
          return;
       if (this.appointments == null)
-         this.appointments = new ArrayList<AppointmentDTO>();
+         this.appointments = new HashSet<AppointmentDTO>();
       if (!this.appointments.contains(newAppointment))
          this.appointments.add(newAppointment);
    }

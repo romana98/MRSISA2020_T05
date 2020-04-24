@@ -1,24 +1,26 @@
 package com.project.tim05.model;
 
 
-import java.util.*;
+import javax.persistence.*;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
-import com.project.tim05.dto.AppointmentTypeDTO;
-
+@Entity
+@Table(name="pricelists")
 public class Pricelist {
    
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "pricelist_id", unique=true, nullable = false)
 	private Integer id;
 	
-	private AppointmentType appointmentType;
 	@Column(name = "price", nullable = false)
 	private double price;
+	
+	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinColumn(name="appointment_type", referencedColumnName="appointment_type_id", nullable=false)
+	private AppointmentType appointmentType;
+   
+		
 	public Pricelist(AppointmentType appointmentType, double price) {
 		super();
 		this.appointmentType = appointmentType;

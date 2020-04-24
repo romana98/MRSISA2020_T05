@@ -1,36 +1,41 @@
 package com.project.tim05.model;
 
-import java.util.*;
+import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-public class MedicalStaff {
+@MappedSuperclass
+public abstract class MedicalStaff {
   
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	
 	@Column(name = "name", nullable = false)
 	private String name;
+	
 	@Column(name = "surname", nullable = false)
 	private String surname;
+	
 	@Column(name = "email", nullable = false)
 	private String email;
+	
 	@Column(name = "password", nullable = false)
 	private String password;
+	
 	@Column(name = "workStart", nullable = false)
 	private String workStart;
+	
 	@Column(name = "workEnd", nullable = false)
 	private String workEnd;
+	
+	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "patient_id")
+	private Set<Patient> patients;
 	
 	public MedicalStaff() {
 		super();
 	}
+	
 
-	public MedicalStaff(String name, String surname, String email, String password, String workStart, String workEnd) {
+	public MedicalStaff(String name, String surname, String email, String password, String workStart, String workEnd,
+			Set<Patient> patients) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -38,7 +43,22 @@ public class MedicalStaff {
 		this.password = password;
 		this.workStart = workStart;
 		this.workEnd = workEnd;
+		this.patients = patients;
 	}
+
+
+
+	public Set<Patient> getPatients() {
+		return patients;
+	}
+
+
+
+	public void setPatients(Set<Patient> patients) {
+		this.patients = patients;
+	}
+
+
 
 	public String getName() {
 		return name;
@@ -87,4 +107,5 @@ public class MedicalStaff {
 	public void setWorkEnd(String workEnd) {
 		this.workEnd = workEnd;
 	}
+	
 }

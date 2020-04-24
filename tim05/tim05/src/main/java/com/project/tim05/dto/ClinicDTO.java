@@ -4,25 +4,25 @@ import java.util.*;
 
 public class ClinicDTO {
    private String name;
-   private Collections ratings;
+   private List<Double> ratings;
    private String address;
    private String description;
    
-   private ArrayList<DoctorDTO> doctors;
-   private ArrayList<HallDTO> halls;
-   private ArrayList<PricelistDTO> pricelist;
-   private ArrayList<AppointmentDTO> appointments;
+   private Set<DoctorDTO> doctors;
+   private Set<HallDTO> halls;
+   private Set<PricelistDTO> pricelist;
+   private Set<AppointmentDTO> appointments;
    
    public ClinicDTO() {
 		super();
-		this.doctors = new ArrayList<>();
-		this.halls = new ArrayList<>();
-		this.pricelist = new ArrayList<PricelistDTO>();
-		this.appointments = new ArrayList<>();
+		this.doctors = new HashSet<>();
+		this.halls = new HashSet<>();
+		this.pricelist = new HashSet<PricelistDTO>();
+		this.appointments = new HashSet<>();
 	}
 
-	public ClinicDTO(String name, Collections ratings, String address, String description, ArrayList<DoctorDTO> doctors,
-			ArrayList<HallDTO> halls, ArrayList<PricelistDTO> pricelist, ArrayList<AppointmentDTO> appointments) {
+	public ClinicDTO(String name, List<Double> ratings, String address, String description, HashSet<DoctorDTO> doctors,
+			HashSet<HallDTO> halls, HashSet<PricelistDTO> pricelist, HashSet<AppointmentDTO> appointments) {
 		super();
 		this.name = name;
 		this.ratings = ratings;
@@ -35,19 +35,19 @@ public class ClinicDTO {
 	}
 
    
-   public ArrayList<DoctorDTO> getDoctor() {
+   public Set<DoctorDTO> getDoctor() {
       if (doctors == null)
-         doctors = new ArrayList<DoctorDTO>();
+         doctors = new HashSet<DoctorDTO>();
       return doctors;
    }
    
    public Iterator<DoctorDTO> getIteratorDoctor() {
       if (doctors == null)
-         doctors = new ArrayList<DoctorDTO>();
+         doctors = new HashSet<DoctorDTO>();
       return doctors.iterator();
    }
    
-   public void setDoctor(ArrayList<DoctorDTO> newDoctor) {
+   public void setDoctor(HashSet<DoctorDTO> newDoctor) {
       removeAllDoctor();
       for (Iterator<DoctorDTO> iter = newDoctor.iterator(); iter.hasNext();)
          addDoctor((DoctorDTO)iter.next());
@@ -57,7 +57,7 @@ public class ClinicDTO {
       if (newDoctor == null)
          return;
       if (this.doctors == null)
-         this.doctors = new ArrayList<DoctorDTO>();
+         this.doctors = new HashSet<DoctorDTO>();
       if (!this.doctors.contains(newDoctor))
          this.doctors.add(newDoctor);
    }
@@ -77,17 +77,17 @@ public class ClinicDTO {
    
    public java.util.Collection<HallDTO> getHall() {
       if (halls == null)
-         halls = new ArrayList<HallDTO>();
+         halls = new HashSet<HallDTO>();
       return halls;
    }
    
    public Iterator<HallDTO> getIteratorHall() {
       if (halls == null)
-         halls = new ArrayList<HallDTO>();
+         halls = new HashSet<HallDTO>();
       return halls.iterator();
    }
    
-   public void setHall(ArrayList<HallDTO> newHall) {
+   public void setHall(HashSet<HallDTO> newHall) {
       removeAllHall();
       for (Iterator<HallDTO> iter = newHall.iterator(); iter.hasNext();)
          addHall((HallDTO)iter.next());
@@ -97,7 +97,7 @@ public class ClinicDTO {
       if (newHall == null)
          return;
       if (this.halls == null)
-         this.halls = new ArrayList<HallDTO>();
+         this.halls = new HashSet<HallDTO>();
       if (!this.halls.contains(newHall))
          this.halls.add(newHall);
    }
@@ -114,19 +114,19 @@ public class ClinicDTO {
       if (halls != null)
          halls.clear();
    }
-   public ArrayList<AppointmentDTO> getAppointment() {
+   public Set<AppointmentDTO> getAppointment() {
       if (appointments == null)
-         appointments = new ArrayList<AppointmentDTO>();
+         appointments = new HashSet<AppointmentDTO>();
       return appointments;
    }
    
    public Iterator<AppointmentDTO> getIteratorAppointment() {
       if (appointments == null)
-         appointments = new ArrayList<AppointmentDTO>();
+         appointments = new HashSet<AppointmentDTO>();
       return appointments.iterator();
    }
    
-   public void setAppointment(ArrayList<AppointmentDTO> newAppointment) {
+   public void setAppointment(HashSet<AppointmentDTO> newAppointment) {
       removeAllAppointment();
       for (Iterator<AppointmentDTO> iter = newAppointment.iterator(); iter.hasNext();)
          addAppointment((AppointmentDTO)iter.next());
@@ -136,7 +136,7 @@ public class ClinicDTO {
       if (newAppointment == null)
          return;
       if (this.appointments == null)
-         this.appointments = new ArrayList<AppointmentDTO>();
+         this.appointments = new HashSet<AppointmentDTO>();
       if (!this.appointments.contains(newAppointment))
          this.appointments.add(newAppointment);
    }
@@ -157,11 +157,11 @@ public void setName(String name) {
 	this.name = name;
 }
 
-public Collections getRatings() {
+public List<Double> getRatings() {
 	return ratings;
 }
 
-public void setRatings(Collections ratings) {
+public void setRatings(List<Double> ratings) {
 	this.ratings = ratings;
 }
 
@@ -181,11 +181,11 @@ public void setDescription(String description) {
 	this.description = description;
 }
 
-public ArrayList<PricelistDTO> getPricelist() {
+public Set<PricelistDTO> getPricelist() {
 	return pricelist;
 }
 
-public void setPricelist(ArrayList<PricelistDTO> pricelist) {
+public void setPricelist(HashSet<PricelistDTO> pricelist) {
 	this.pricelist = pricelist;
 }
 

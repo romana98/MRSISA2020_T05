@@ -8,23 +8,23 @@ public class ClinicCenterAdministratorDTO {
    private String password;
    private String surname;
    
-   private ArrayList<ClinicDTO> clinics;
-   private ArrayList<DiagnosisDTO> diagnosises;
-   private ArrayList<MedicineDTO> medicines;
-   private ArrayList<RegistrationRequestDTO> registrationRequests;
+   private Set<ClinicDTO> clinics;
+   private Set<DiagnosisDTO> diagnosises;
+   private Set<MedicineDTO> medicines;
+   private Set<RegistrationRequestDTO> registrationRequests;
    
    
    public ClinicCenterAdministratorDTO() {
 	super();
-	this.clinics = new ArrayList<>();
-	this.diagnosises = new ArrayList<>();
-	this.medicines = new ArrayList<>();
-	this.registrationRequests = new ArrayList<>();
+	this.clinics = new HashSet<>();
+	this.diagnosises = new HashSet<>();
+	this.medicines = new HashSet<>();
+	this.registrationRequests = new HashSet<>();
 }
 
 public ClinicCenterAdministratorDTO(String name, String email, String password, String surname,
-		ArrayList<ClinicDTO> clinics, ArrayList<DiagnosisDTO> diagnosises, ArrayList<MedicineDTO> medicines,
-		ArrayList<RegistrationRequestDTO> registrationRequests) {
+		HashSet<ClinicDTO> clinics, HashSet<DiagnosisDTO> diagnosises, HashSet<MedicineDTO> medicines,
+		HashSet<RegistrationRequestDTO> registrationRequests) {
 	super();
 	this.name = name;
 	this.email = email;
@@ -36,19 +36,19 @@ public ClinicCenterAdministratorDTO(String name, String email, String password, 
 	this.registrationRequests = registrationRequests;
 }
 
-public ArrayList<ClinicDTO> getClinic() {
+public Set<ClinicDTO> getClinic() {
       if (clinics == null)
-         clinics = new ArrayList<ClinicDTO>();
+         clinics = new HashSet<ClinicDTO>();
       return clinics;
    }
    
    public Iterator<ClinicDTO> getIteratorClinic() {
       if (clinics == null)
-         clinics = new ArrayList<ClinicDTO>();
+         clinics = new HashSet<ClinicDTO>();
       return clinics.iterator();
    }
    
-   public void setClinic(ArrayList<ClinicDTO> newClinic) {
+   public void setClinic(HashSet<ClinicDTO> newClinic) {
       removeAllClinic();
       for (Iterator<ClinicDTO> iter = newClinic.iterator(); iter.hasNext();)
          addClinic((ClinicDTO)iter.next());
@@ -58,7 +58,7 @@ public ArrayList<ClinicDTO> getClinic() {
       if (newClinic == null)
          return;
       if (this.clinics == null)
-         this.clinics = new ArrayList<ClinicDTO>();
+         this.clinics = new HashSet<ClinicDTO>();
       if (!this.clinics.contains(newClinic))
          this.clinics.add(newClinic);
    }
@@ -76,19 +76,19 @@ public ArrayList<ClinicDTO> getClinic() {
          clinics.clear();
    }
   
-   public ArrayList<DiagnosisDTO> getDiagnosis() {
+   public Set<DiagnosisDTO> getDiagnosis() {
       if (diagnosises == null)
-         diagnosises = new ArrayList<DiagnosisDTO>();
+         diagnosises = new HashSet<DiagnosisDTO>();
       return diagnosises;
    }
    
    public Iterator<DiagnosisDTO> getIteratorDiagnosis() {
       if (diagnosises == null)
-         diagnosises = new ArrayList<DiagnosisDTO>();
+         diagnosises = new HashSet<DiagnosisDTO>();
       return diagnosises.iterator();
    }
    
-   public void setDiagnosis(ArrayList<DiagnosisDTO> newDiagnosis) {
+   public void setDiagnosis(HashSet<DiagnosisDTO> newDiagnosis) {
       removeAllDiagnosis();
       for (Iterator<DiagnosisDTO> iter = newDiagnosis.iterator(); iter.hasNext();)
          addDiagnosis((DiagnosisDTO)iter.next());
@@ -98,7 +98,7 @@ public ArrayList<ClinicDTO> getClinic() {
       if (newDiagnosis == null)
          return;
       if (this.diagnosises == null)
-         this.diagnosises = new ArrayList<DiagnosisDTO>();
+         this.diagnosises = new HashSet<DiagnosisDTO>();
       if (!this.diagnosises.contains(newDiagnosis))
          this.diagnosises.add(newDiagnosis);
    }
@@ -116,19 +116,19 @@ public ArrayList<ClinicDTO> getClinic() {
          diagnosises.clear();
    }
   
-   public ArrayList<MedicineDTO> getMedicine() {
+   public Set<MedicineDTO> getMedicine() {
       if (medicines == null)
-         medicines = new ArrayList<MedicineDTO>();
+         medicines = new HashSet<MedicineDTO>();
       return medicines;
    }
    
    public Iterator<MedicineDTO> getIteratorMedicine() {
       if (medicines == null)
-         medicines = new ArrayList<MedicineDTO>();
+         medicines = new HashSet<MedicineDTO>();
       return medicines.iterator();
    }
    
-   public void setMedicine(ArrayList<MedicineDTO> newMedicine) {
+   public void setMedicine(HashSet<MedicineDTO> newMedicine) {
       removeAllMedicine();
       for (Iterator<MedicineDTO> iter = newMedicine.iterator(); iter.hasNext();)
          addMedicine((MedicineDTO)iter.next());
@@ -138,7 +138,7 @@ public ArrayList<ClinicDTO> getClinic() {
       if (newMedicine == null)
          return;
       if (this.medicines == null)
-         this.medicines = new ArrayList<MedicineDTO>();
+         this.medicines = new HashSet<MedicineDTO>();
       if (!this.medicines.contains(newMedicine))
          this.medicines.add(newMedicine);
    }
@@ -156,19 +156,19 @@ public ArrayList<ClinicDTO> getClinic() {
          medicines.clear();
    }
    
-   public ArrayList<RegistrationRequestDTO> getRegistrationRequest() {
+   public Set<RegistrationRequestDTO> getRegistrationRequest() {
       if (registrationRequests == null)
-         registrationRequests = new ArrayList<RegistrationRequestDTO>();
+         registrationRequests = new HashSet<RegistrationRequestDTO>();
       return registrationRequests;
    }
    
    public Iterator<RegistrationRequestDTO> getIteratorRegistrationRequest() {
       if (registrationRequests == null)
-         registrationRequests = new ArrayList<RegistrationRequestDTO>();
+         registrationRequests = new HashSet<RegistrationRequestDTO>();
       return registrationRequests.iterator();
    }
    
-   public void setRegistrationRequest(ArrayList<RegistrationRequestDTO> newRegistrationRequest) {
+   public void setRegistrationRequest(HashSet<RegistrationRequestDTO> newRegistrationRequest) {
       removeAllRegistrationRequest();
       for (Iterator<RegistrationRequestDTO> iter = newRegistrationRequest.iterator(); iter.hasNext();)
          addRegistrationRequest((RegistrationRequestDTO)iter.next());
@@ -178,7 +178,7 @@ public ArrayList<ClinicDTO> getClinic() {
       if (newRegistrationRequest == null)
          return;
       if (this.registrationRequests == null)
-         this.registrationRequests = new ArrayList<RegistrationRequestDTO>();
+         this.registrationRequests = new HashSet<RegistrationRequestDTO>();
       if (!this.registrationRequests.contains(newRegistrationRequest))
          this.registrationRequests.add(newRegistrationRequest);
    }

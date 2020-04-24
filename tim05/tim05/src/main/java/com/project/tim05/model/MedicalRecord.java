@@ -2,13 +2,24 @@ package com.project.tim05.model;
 
 import java.util.*;
 
-import com.project.tim05.dto.AppointmentDTO;
-import com.project.tim05.dto.DiseaseDTO;
+import javax.persistence.*;
 
+@Entity
+@Table(name="medical_records")
 public class MedicalRecord {
    
-	private Set<Disease> diseases;
-	private Set<Appointment> appointments;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "medical_record_id", unique=true, nullable = false)
+	private Integer id; 
+	
+	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "disease_id")
+	private Set<Disease> diseases = new HashSet<Disease>();
+	
+	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "appointment_id")
+	private Set<Appointment> appointments = new HashSet<Appointment>();
 	
 	public MedicalRecord(Set<Disease> diseases, Set<Appointment> appointments) {
 		super();
@@ -18,7 +29,7 @@ public class MedicalRecord {
 	
 	public MedicalRecord() {
 		super();
-		;
+
 	}
 
 	public Set<Disease> getDiseases() {
@@ -37,6 +48,4 @@ public class MedicalRecord {
 		this.appointments = appointments;
 	}
 	
-	
-
 }

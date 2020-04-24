@@ -1,24 +1,17 @@
 package com.project.tim05.model;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.project.tim05.dto.AppointmentDTO;
-import com.project.tim05.dto.ClinicDTO;
-import com.project.tim05.dto.MedicalRecordDTO;
+import javax.persistence.*;
 
 @Entity
+@Table(name="patients")
 public class Patient {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "patient_id", unique=true, nullable = false)
 	private Integer id;
 	
 	@Column(name = "email", nullable = false)
@@ -48,16 +41,21 @@ public class Patient {
 	@Column(name = "insurance_number", nullable = false)
 	private String insurance_number;
 	
-	
+	@OneToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name="medical_record", referencedColumnName="medical_record_id", nullable=false)
 	private MedicalRecord medicalRecord;
-	private Set<Appointment> appointments;
-	private Set<Clinic> clinics;
 	
-	public Patient()
-	{
+	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "appointment_id")
+	private Set<Appointment> appointments = new HashSet<Appointment>();
+	
+	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
+	@JoinColumn(name = "clinic_id")
+	private Set<Clinic> clinics = new HashSet<Clinic>();
+	
+	public Patient(){
 		super();
 		this.medicalRecord = new MedicalRecord();
-		
 	}
 	
 	public Patient(String email, String password, String name, String surname, String address, String city,

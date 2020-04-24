@@ -1,37 +1,43 @@
 package com.project.tim05.model;
 
+import javax.persistence.*;
 
-import java.util.*;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+@Entity
+@Table(name="registration_requests")
 public class RegistrationRequest {
    
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "registration_request_id", unique=true, nullable = false)
 	private Integer id;
 	
 	@Column(name = "email", nullable = false)
 	private String email;
+	
 	@Column(name = "password", nullable = false)
 	private String password;
+	
 	@Column(name = "name", nullable = false)
 	private String name;
+	
 	@Column(name = "surname", nullable = false)
 	private String surname;
+	
 	@Column(name = "address", nullable = false)
 	private String address;
+	
 	@Column(name = "city", nullable = false)
 	private String city;
+	
 	@Column(name = "town", nullable = false)
 	private String town;
+	
 	@Column(name = "number", nullable = false)
 	private int number;
+	
 	@Column(name = "insuranceId", nullable = false)
 	private int insuranceId;
+	
 	public RegistrationRequest(String email, String password, String name, String surname, String address, String city,
 			String town, int number, int insuranceId) {
 		super();

@@ -11,7 +11,7 @@ public class MedicalStaffDTO {
    private String workStart;
    private String workEnd;
    
-   private ArrayList<PatientDTO> patients;
+   private Set<PatientDTO> patients;
    
    
    public MedicalStaffDTO() {
@@ -19,7 +19,7 @@ public class MedicalStaffDTO {
 }
 
 public MedicalStaffDTO(String name, String surname, String email, String password, String workStart, String workEnd,
-		ArrayList<PatientDTO> patients) {
+		HashSet<PatientDTO> patients) {
 	super();
 	this.name = name;
 	this.surname = surname;
@@ -30,19 +30,19 @@ public MedicalStaffDTO(String name, String surname, String email, String passwor
 	this.patients = patients;
 }
 
-public ArrayList<PatientDTO> getPatient() {
+public Set<PatientDTO> getPatient() {
       if (patients == null)
-         patients = new ArrayList<PatientDTO>();
+         patients = new HashSet<PatientDTO>();
       return patients;
    }
    
    public Iterator<PatientDTO> getIteratorPatient() {
       if (patients == null)
-         patients = new ArrayList<PatientDTO>();
+         patients = new HashSet<PatientDTO>();
       return patients.iterator();
    }
    
-   public void setPatient(ArrayList<PatientDTO> newPatient) {
+   public void setPatient(HashSet<PatientDTO> newPatient) {
       removeAllPatient();
       for (Iterator<PatientDTO> iter = newPatient.iterator(); iter.hasNext();)
          addPatient((PatientDTO)iter.next());
@@ -52,7 +52,7 @@ public ArrayList<PatientDTO> getPatient() {
       if (newPatient == null)
          return;
       if (this.patients == null)
-         this.patients = new ArrayList<PatientDTO>();
+         this.patients = new HashSet<PatientDTO>();
       if (!this.patients.contains(newPatient))
          this.patients.add(newPatient);
    }
@@ -118,11 +118,11 @@ public void setWorkEnd(String workEnd) {
 	this.workEnd = workEnd;
 }
 
-public ArrayList<PatientDTO> getPatients() {
+public Set<PatientDTO> getPatients() {
 	return patients;
 }
 
-public void setPatients(ArrayList<PatientDTO> patients) {
+public void setPatients(HashSet<PatientDTO> patients) {
 	this.patients = patients;
 }
    

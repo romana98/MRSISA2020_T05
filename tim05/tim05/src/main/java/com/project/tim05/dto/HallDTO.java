@@ -5,8 +5,7 @@ public class HallDTO {
     private int name;
     private int number;
     
-    public HallDTO()
-    {
+    public HallDTO(){
     	
     }
 	
