@@ -12,14 +12,14 @@ import com.project.tim05.repository.ClinicCenterAdministratorRespository;;
 public class ClinicCenterAdministratorService {
 	
 	@Autowired
-	private ClinicCenterAdministratorRespository aca;
+	private ClinicCenterAdministratorRespository ccar;
 
 	public void addAdminClinic(ClinicCenterAdministrator admincl) {
-		aca.save(admincl);
+		ccar.save(admincl);
 	}
 	
 	public List<ClinicCenterAdministrator> getAdminClinics(){
-		return aca.findAll();
+		return ccar.findAll();
 	}
 
 }
