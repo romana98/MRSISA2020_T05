@@ -7,10 +7,6 @@ import javax.persistence.*;
 @Table(name="doctors")
 public class Doctor extends MedicalStaff{
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "doctor_id", unique=true, nullable = false)
-	private Integer id;
 	
 	@ManyToOne
 	@JoinColumn(name="appointment_type", referencedColumnName="appointment_type_id", nullable=false)
@@ -22,9 +18,8 @@ public class Doctor extends MedicalStaff{
 	}
 
 
-	public Doctor(Integer id, AppointmentType appointmentType) {
+	public Doctor( AppointmentType appointmentType) {
 		super();
-		this.id = id;
 		this.appointmentType = appointmentType;
 	}
 

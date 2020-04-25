@@ -41,9 +41,19 @@ public class Patient {
 	@Column(name = "insurance_number", nullable = false)
 	private String insurance_number;
 	
+	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinColumn(name="doctor", referencedColumnName="staff_id", nullable=true)
+	private Doctor doctor;
+	
+	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinColumn(name="nurse", referencedColumnName="staff_id", nullable=true)
+	private Nurse nurse;
+		
+	
 	@OneToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
 	@JoinColumn(name="medical_record", referencedColumnName="medical_record_id", nullable=false)
 	private MedicalRecord medicalRecord;
+	
 	
 	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
 	@JoinColumn(name = "appointment_id")

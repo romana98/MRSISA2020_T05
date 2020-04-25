@@ -29,7 +29,7 @@ public class Clinic {
 	private List<Double> ratings = new ArrayList<Double>();
   
 	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "doctor_id")
+	@JoinColumn(name = "staff_id")
 	private Set<Doctor> doctors = new HashSet<Doctor>();
 	
 	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
