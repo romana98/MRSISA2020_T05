@@ -1,5 +1,8 @@
 package com.project.tim05.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,15 +15,37 @@ public class AppointmentType {
 	
 	@Column(name = "name", nullable = false)
 	private String name;
+	
+	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinColumn(name="clinic_admin", referencedColumnName="clinic_admin_id", nullable=true)
+	private ClinicAdministrator clinicAdministrator;
+   
+	
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="appointmentType")
+	private Set<Appointment> appointments = new HashSet<Appointment>();
 
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="appointmentType")
+	private Set<Pricelist> priceList = new HashSet<Pricelist>();
+
+	
 	public AppointmentType() {
 		super();
 	}
+
 
 	public AppointmentType(Integer id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
+	}
+
+
+	public Set<Appointment> getAppointments() {
+		return appointments;
+	}
+
+	public void setAppointments(Set<Appointment> appointments) {
+		this.appointments = appointments;
 	}
 
 	public Integer getId() {
@@ -38,7 +63,26 @@ public class AppointmentType {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
+
+	public ClinicAdministrator getClinicAdmin() {
+		return clinicAdministrator;
+	}
+
+
+	public void setClinicAdmin(ClinicAdministrator clinicAdmin) {
+		this.clinicAdministrator = clinicAdmin;
+	}
+
+
+	public Set<Pricelist> getPriceList() {
+		return priceList;
+	}
+
+
+	public void setPriceList(Set<Pricelist> priceList) {
+		this.priceList = priceList;
+	}
 	
 	
 }

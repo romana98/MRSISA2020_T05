@@ -19,6 +19,10 @@ public class Pricelist {
 	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
 	@JoinColumn(name="appointment_type", referencedColumnName="appointment_type_id", nullable=false)
 	private AppointmentType appointmentType;
+	
+	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinColumn(name="clinic", referencedColumnName="clinic_id", nullable=true)
+	private Clinic clinic;
    
 		
 	public Pricelist(AppointmentType appointmentType, double price) {
@@ -40,6 +44,18 @@ public class Pricelist {
 	}
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public Clinic getClinic() {
+		return clinic;
+	}
+	public void setClinic(Clinic clinic) {
+		this.clinic = clinic;
 	}
 	
 	
