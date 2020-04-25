@@ -7,10 +7,6 @@ import javax.persistence.*;
 @Table(name="doctors")
 public class Doctor extends MedicalStaff{
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "doctor_id", unique=true, nullable = false)
-	private Integer id;
 	
 	//mockupujem ovde string dok ne budemo imali tipove jer ovako puca
 	/*@ManyToOne
@@ -33,10 +29,8 @@ public class Doctor extends MedicalStaff{
 		super();	
 	}
 
-
 	public Doctor(Integer id, String appointmentType) {
 		super();
-		this.id = id;
 		this.appointmentType = appointmentType;
 	}
 

@@ -4,8 +4,14 @@ import java.util.Set;
 
 import javax.persistence.*;
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class MedicalStaff {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
+	@Column(name = "staff_id", unique=true, nullable = false)
+	private Integer id;
   
 	@Column(name = "name", nullable = false)
 	private String name;
@@ -25,8 +31,7 @@ public abstract class MedicalStaff {
 	@Column(name = "workEnd", nullable = false)
 	private String workEnd;
 	
-	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "patient_id")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="id")
 	private Set<Patient> patients;
 	
 	public MedicalStaff() {

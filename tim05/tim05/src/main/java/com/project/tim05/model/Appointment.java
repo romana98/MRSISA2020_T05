@@ -42,7 +42,7 @@ public class Appointment {
 	private Hall hall;
 	
 	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
-	@JoinColumn(name="doctor", referencedColumnName="doctor_id", nullable=false)
+	@JoinColumn(name="doctor", referencedColumnName="staff_id", nullable=false)
 	private Doctor doctor;
 	
 	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
