@@ -28,8 +28,7 @@ public class Clinic {
 	@Column(name="ratings")
 	private List<Double> ratings = new ArrayList<Double>();
   
-	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "doctor_id")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="id")
 	private Set<Doctor> doctors = new HashSet<Doctor>();
 	
 	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)

@@ -38,8 +38,7 @@ public class ClinicAdministrator {
 	@JoinColumn(name = "hall_id")
 	private Set<Hall> halls = new HashSet<Hall>();
    
-	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "doctor_id")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="id")
 	private Set<Doctor> doctors = new HashSet<Doctor>();
    
 	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)

@@ -12,9 +12,21 @@ public class Doctor extends MedicalStaff{
 	@Column(name = "doctor_id", unique=true, nullable = false)
 	private Integer id;
 	
-	@ManyToOne
+	//mockupujem ovde string dok ne budemo imali tipove jer ovako puca
+	/*@ManyToOne
 	@JoinColumn(name="appointment_type", referencedColumnName="appointment_type_id", nullable=false)
-	private AppointmentType appointmentType;
+	private AppointmentType appointmentType;*/
+	
+	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinColumn(name="clinicAdminstrator", referencedColumnName="clinic_admin_id", nullable=true)
+	private ClinicAdministrator clinicAdministrator;
+	
+	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinColumn(name="clinicForeign", referencedColumnName="clinic_id", nullable=true)
+	private Clinic clinic;
+	
+	@Column(name = "appointmentType" , nullable = false)
+	private String appointmentType;
 	
 	
 	public Doctor() {
@@ -22,18 +34,18 @@ public class Doctor extends MedicalStaff{
 	}
 
 
-	public Doctor(Integer id, AppointmentType appointmentType) {
+	public Doctor(Integer id, String appointmentType) {
 		super();
 		this.id = id;
 		this.appointmentType = appointmentType;
 	}
 
 
-	public AppointmentType getAppointmentType() {
+	public String getAppointmentType() {
 		return appointmentType;
 	}
 
-	public void setAppointmentType(AppointmentType appointmentType) {
+	public void setAppointmentType(String appointmentType) {
 		this.appointmentType = appointmentType;
 	}
 }

@@ -27,7 +27,7 @@
     <div class="form-group">
       <label>Username</label>
       <input type="text" class="form-control"
-       [(ngModel)] = "model.username" name="username_input"
+       [(ngModel)] = "model.email" name="username_input"
        #username="ngModel"
        [ngClass] = "{'is-invalid' : f.submitted && username.invalid}"
        required/>
@@ -48,7 +48,7 @@
       <div class="form-group col-md-4">
         <label for="inputCity">Start</label>
         <input type="text" class="form-control" placeholder="hh:mm"
-        [(ngModel)] = "model.work_start" name="startwork_input"
+        [(ngModel)] = "model.workStart" name="startwork_input"
         #start="ngModel"
        [ngClass] = "{'is-invalid' : f.submitted && (start.invalid || checkStartTime())}"
        required/>
@@ -59,7 +59,7 @@
       <div class="form-group col-md-4">
         <label for="inputCity">End</label>
         <input type="text" class="form-control" placeholder="hh:mm"
-        [(ngModel)] = "model.work_end" name="endwork_input"
+        [(ngModel)] = "model.workEnd" name="endwork_input"
         #end="ngModel"
        [ngClass] = "{'is-invalid' : f.submitted && (end.invalid || checkEndTime())}"
        required/>
@@ -70,7 +70,7 @@
 
       <div class="form-group col-md-4">
         <label for="inputState">Appointment type</label>
-        <select id="inputState" class="form-control" [(ngModel)] = "model.type" name="appointment_input"
+        <select id="inputState" class="form-control" [(ngModel)] = "model.appointmentType" name="appointment_input"
         #appointment ="ngModel"
         [ngClass] = "{'is-invalid' : f.submitted && appointment.invalid}"
         required>

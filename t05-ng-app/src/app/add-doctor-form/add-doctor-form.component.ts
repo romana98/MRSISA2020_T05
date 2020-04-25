@@ -11,11 +11,11 @@ export class AddDoctorFormComponent implements OnInit {
   model: doctorModel = {
     name : '',
     surname : '',
-    username : '',
+    email : '',
     password : '',
-    work_end : '',
-    work_start : '',
-    type : ''
+    workEnd : '',
+    workStart : '',
+    appointmentType : ''
   }
 
   constructor(private http: HttpClient) { 
@@ -45,7 +45,7 @@ export class AddDoctorFormComponent implements OnInit {
     let hours = 0;
     let minutes = 0;
       try{
-        let all = this.model.work_start.split(":");
+        let all = this.model.workStart.split(":");
         console.log(all[0] + "and" + all[1]);
         hours = parseInt(all[0]);
         minutes = parseInt(all[1]);
@@ -68,7 +68,7 @@ export class AddDoctorFormComponent implements OnInit {
     let hours = 0;
     let minutes = 0;
       try{
-        let all = this.model.work_end.split(":");
+        let all = this.model.workEnd.split(":");
         console.log(all[0] + "and" + all[1]);
         hours = parseInt(all[0]);
         minutes = parseInt(all[1]);
@@ -92,10 +92,10 @@ export interface doctorModel
 {
     name: string;
     surname: string;
-    username : string;
+    email : string;
     password : string; 
-    work_start : string;
-    work_end : string;
-    type : string;
+    workStart : string;
+    workEnd : string;
+    appointmentType : string;
 
 }

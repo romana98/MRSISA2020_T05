@@ -15,7 +15,7 @@ public class AppointmentType {
 
 	public AppointmentType() {
 		super();
-}
+	}
 
 	public AppointmentType(Integer id, String name) {
 		super();
