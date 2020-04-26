@@ -14,11 +14,11 @@ public class Doctor extends MedicalStaff{
 	private AppointmentType appointmentType;*/
 	
 	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
-	@JoinColumn(name="clinicAdminstrator", referencedColumnName="clinic_admin_id", nullable=true)
+	@JoinColumn(name="clinic_admin_id", referencedColumnName="clinic_admin_id", nullable=true)
 	private ClinicAdministrator clinicAdministrator;
 	
 	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
-	@JoinColumn(name="clinicForeign", referencedColumnName="clinic_id", nullable=true)
+	@JoinColumn(name="clinic_id", referencedColumnName="clinic_id", nullable=true)
 	private Clinic clinic;
 	
 	@Column(name = "appointmentType" , nullable = false)
