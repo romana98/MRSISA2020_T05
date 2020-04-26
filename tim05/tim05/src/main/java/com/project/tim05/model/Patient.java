@@ -40,29 +40,26 @@ public class Patient {
 	
 	@Column(name = "insurance_number", nullable = false)
 	private String insurance_number;
-	
+
 	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
 	@JoinColumn(name="doctor", referencedColumnName="staff_id", nullable=true)
 	private Doctor doctor;
 	
 	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
 	@JoinColumn(name="nurse", referencedColumnName="staff_id", nullable=true)
-	private Nurse nurse;
-		
+	private Nurse nurse;		
 	
-	@OneToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name="medical_record", referencedColumnName="medical_record_id", nullable=false)
+	@OneToOne(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinColumn(name="medical_record", nullable=false)
 	private MedicalRecord medicalRecord;
-	
-	
-	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "appointment_id")
+		
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="patient")
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 	
-	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "clinic_id")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="patient")
 	private Set<Clinic> clinics = new HashSet<Clinic>();
-	
+
+
 	public Patient(){
 		super();
 		this.medicalRecord = new MedicalRecord();
@@ -203,6 +200,30 @@ public class Patient {
 
 	public void setClinics(Set<Clinic> clinics) {
 		this.clinics = clinics;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Doctor getDoctor() {
+		return doctor;
+	}
+
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
+	}
+
+	public Nurse getNurse() {
+		return nurse;
+	}
+
+	public void setNurse(Nurse nurse) {
+		this.nurse = nurse;
 	}
 	
 	

@@ -19,7 +19,16 @@ public class Disease {
    
 	@Column(name = "description", nullable = false)
 	private String description;
+	
+	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinColumn(name="appointment", referencedColumnName="appointment_id", nullable=true)
+	private Appointment appointment;
 
+	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinColumn(name="medical_record", referencedColumnName="medical_record_id", nullable=true)
+	private MedicalRecord medicalRecord;
+   
+	
 
 	public Disease() {
 		super();
@@ -56,6 +65,30 @@ public class Disease {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Appointment getAppointment() {
+		return appointment;
+	}
+
+	public void setAppointment(Appointment appointment) {
+		this.appointment = appointment;
+	}
+
+	public MedicalRecord getMedicalRecord() {
+		return medicalRecord;
+	}
+
+	public void setMedicalRecord(MedicalRecord medicalRecord) {
+		this.medicalRecord = medicalRecord;
 	}
 	
 	

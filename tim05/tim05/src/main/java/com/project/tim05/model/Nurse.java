@@ -8,8 +8,7 @@ import javax.persistence.*;
 @Table(name="nurses")
 public class Nurse extends MedicalStaff {
 	
-	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "medicine_id")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="nurse")
 	private Set<Medicine> medicines = new HashSet<Medicine>();
    
 	public Nurse() {
@@ -24,5 +23,6 @@ public class Nurse extends MedicalStaff {
 		this.medicines = medicines;
 	}
 
+	
 	
 }

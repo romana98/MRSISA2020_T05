@@ -19,6 +19,20 @@ public class Medicine {
 	
 	@Column(name = "authenticated", nullable = false)
 	private boolean authenticated;
+	
+	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinColumn(name="appointment", referencedColumnName="appointment_id", nullable=true)
+	private Appointment appointment;
+	
+	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinColumn(name="clinic_center_admin", referencedColumnName="clinic_center_admin_id", nullable=true)
+	private ClinicCenterAdministrator clinicCenterAdministrator;
+   
+	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinColumn(name="nurse", referencedColumnName="staff_id", nullable=true)
+	private Nurse nurse;
+   
+	
 		
 	public Medicine() {
 		super();
@@ -54,4 +68,38 @@ public class Medicine {
 	public void setAuthenticated(boolean authenticated) {
 		this.authenticated = authenticated;
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Appointment getAppointment() {
+		return appointment;
+	}
+
+	public void setAppointment(Appointment appointment) {
+		this.appointment = appointment;
+	}
+
+	public ClinicCenterAdministrator getClinicCenterAdmin() {
+		return clinicCenterAdministrator;
+	}
+
+	public void setClinicCenterAdmin(ClinicCenterAdministrator clinicCenterAdmin) {
+		this.clinicCenterAdministrator = clinicCenterAdmin;
+	}
+
+	public Nurse getNurse() {
+		return nurse;
+	}
+
+	public void setNurse(Nurse nurse) {
+		this.nurse = nurse;
+	}
+	
+	
 }

@@ -13,13 +13,14 @@ public class MedicalRecord {
 	@Column(name = "medical_record_id", unique=true, nullable = false)
 	private Integer id; 
 	
-	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "disease_id")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="medicalRecord")
 	private Set<Disease> diseases = new HashSet<Disease>();
 	
-	@OneToMany(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY, orphanRemoval = true)
-	@JoinColumn(name = "appointment_id")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="medicalRecord")
 	private Set<Appointment> appointments = new HashSet<Appointment>();
+	
+	@OneToOne(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
+	private Patient patient;
 	
 	public MedicalRecord(Set<Disease> diseases, Set<Appointment> appointments) {
 		super();
@@ -47,5 +48,22 @@ public class MedicalRecord {
 	public void setAppointments(Set<Appointment> appointments) {
 		this.appointments = appointments;
 	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Patient getPatient() {
+		return patient;
+	}
+
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
+	
 	
 }

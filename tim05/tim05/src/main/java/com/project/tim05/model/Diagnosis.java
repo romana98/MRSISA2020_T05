@@ -18,6 +18,16 @@ public class Diagnosis {
 	@Column(name = "description", nullable = false)
 	private String description;
 	
+	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinColumn(name="appointment", referencedColumnName="appointment_id", nullable=true)
+	private Appointment appointment;
+	
+	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinColumn(name="clinic_center_admin", referencedColumnName="clinic_center_admin_id", nullable=true)
+	private ClinicCenterAdministrator clinicCenterAdministrator;
+   
+	
+	
 
 	public Diagnosis() {
 		super();
@@ -45,6 +55,30 @@ public class Diagnosis {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Appointment getAppointment() {
+		return appointment;
+	}
+
+	public void setAppointment(Appointment appointment) {
+		this.appointment = appointment;
+	}
+
+	public ClinicCenterAdministrator getClinicCenterAdmin() {
+		return clinicCenterAdministrator;
+	}
+
+	public void setClinicCenterAdmin(ClinicCenterAdministrator clinicCenterAdmin) {
+		this.clinicCenterAdministrator = clinicCenterAdmin;
 	}
 	
 	

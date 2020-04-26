@@ -1,6 +1,9 @@
 package com.project.tim05.model;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,16 +17,21 @@ public class Doctor extends MedicalStaff{
 	private AppointmentType appointmentType;*/
 	
 	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
-	@JoinColumn(name="clinic_admin_id", referencedColumnName="clinic_admin_id", nullable=true)
+
+	@JoinColumn(name="clinic_admin", referencedColumnName="clinic_admin_id", nullable=true)
 	private ClinicAdministrator clinicAdministrator;
 	
 	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
-	@JoinColumn(name="clinic_id", referencedColumnName="clinic_id", nullable=true)
+	@JoinColumn(name="clinic", referencedColumnName="clinic_id", nullable=true)
+
 	private Clinic clinic;
 	
 	@Column(name = "appointmentType" , nullable = false)
 	private String appointmentType;
 	
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="doctor")
+	private Set<Appointment> appointments = new HashSet<Appointment>();
+
 	
 	public Doctor() {
 		super();	
@@ -42,4 +50,30 @@ public class Doctor extends MedicalStaff{
 	public void setAppointmentType(String appointmentType) {
 		this.appointmentType = appointmentType;
 	}
+
+	public Clinic getClinic() {
+		return clinic;
+	}
+
+	public void setClinic(Clinic clinic) {
+		this.clinic = clinic;
+	}
+
+	public Set<Appointment> getAppointments() {
+		return appointments;
+	}
+
+	public void setAppointments(Set<Appointment> appointments) {
+		this.appointments = appointments;
+	}
+
+	public ClinicAdministrator getClinicAdmin() {
+		return clinicAdministrator;
+	}
+
+	public void setClinicAdmin(ClinicAdministrator clinicAdmin) {
+		this.clinicAdministrator = clinicAdmin;
+	}
+	
+	
 }

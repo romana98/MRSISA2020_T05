@@ -38,6 +38,11 @@ public class RegistrationRequest {
 	@Column(name = "insuranceId", nullable = false)
 	private int insuranceId;
 	
+	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinColumn(name="clinic_center_admin", referencedColumnName="clinic_center_admin_id", nullable=true)
+	private ClinicCenterAdministrator clinicCenterAdministrator;
+   
+	
 	public RegistrationRequest(String email, String password, String name, String surname, String address, String city,
 			String town, int number, int insuranceId) {
 		super();
@@ -107,6 +112,18 @@ public class RegistrationRequest {
 	}
 	public void setInsuranceId(int insuranceId) {
 		this.insuranceId = insuranceId;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public ClinicCenterAdministrator getClinicCenterAdmin() {
+		return clinicCenterAdministrator;
+	}
+	public void setClinicCenterAdmin(ClinicCenterAdministrator clinicCenterAdmin) {
+		this.clinicCenterAdministrator = clinicCenterAdmin;
 	}
 
 	

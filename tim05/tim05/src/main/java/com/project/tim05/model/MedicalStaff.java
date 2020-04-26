@@ -9,7 +9,7 @@ import javax.persistence.*;
 public abstract class MedicalStaff {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "staff_id", unique=true, nullable = false)
 	private Integer id;
   
@@ -31,7 +31,7 @@ public abstract class MedicalStaff {
 	@Column(name = "workEnd", nullable = false)
 	private String workEnd;
 	
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="id")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
 	private Set<Patient> patients;
 	
 	public MedicalStaff() {
@@ -112,5 +112,6 @@ public abstract class MedicalStaff {
 	public void setWorkEnd(String workEnd) {
 		this.workEnd = workEnd;
 	}
+	
 	
 }
