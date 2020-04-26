@@ -29,14 +29,14 @@ public class RegistrationRequest {
 	@Column(name = "city", nullable = false)
 	private String city;
 	
-	@Column(name = "town", nullable = false)
-	private String town;
+	@Column(name = "country", nullable = false)
+	private String country;
 	
-	@Column(name = "number", nullable = false)
-	private int number;
+	@Column(name = "phone_number", nullable = false)
+	private String phone_number;
 	
-	@Column(name = "insuranceId", nullable = false)
-	private int insuranceId;
+	@Column(name = "insurance_number", nullable = false)
+	private String insurance_number;
 	
 	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic_center_admin", referencedColumnName="clinic_center_admin_id", nullable=true)
@@ -44,7 +44,7 @@ public class RegistrationRequest {
    
 	
 	public RegistrationRequest(String email, String password, String name, String surname, String address, String city,
-			String town, int number, int insuranceId) {
+			String country, String number, String insuranceId) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -52,9 +52,9 @@ public class RegistrationRequest {
 		this.surname = surname;
 		this.address = address;
 		this.city = city;
-		this.town = town;
-		this.number = number;
-		this.insuranceId = insuranceId;
+		this.country = country;
+		this.phone_number = number;
+		this.insurance_number = insuranceId;
 	}
 	public RegistrationRequest() {
 		super();
@@ -95,23 +95,23 @@ public class RegistrationRequest {
 	public void setCity(String city) {
 		this.city = city;
 	}
-	public String getTown() {
-		return town;
+	public String getCountry() {
+		return country;
 	}
-	public void setTown(String town) {
-		this.town = town;
+	public void setCountry(String country) {
+		this.country = country;
 	}
-	public int getNumber() {
-		return number;
+	public String getNumber() {
+		return phone_number;
 	}
-	public void setNumber(int number) {
-		this.number = number;
+	public void setNumber(String number) {
+		this.phone_number = number;
 	}
-	public int getInsuranceId() {
-		return insuranceId;
+	public String getInsuranceId() {
+		return insurance_number;
 	}
-	public void setInsuranceId(int insuranceId) {
-		this.insuranceId = insuranceId;
+	public void setInsuranceId(String insuranceId) {
+		this.insurance_number = insuranceId;
 	}
 	public Integer getId() {
 		return id;

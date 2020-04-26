@@ -8,10 +8,7 @@ public class MedicalStaffDTO {
    private String surname;
    private String email;
    private String password;
-   private String workStart;
-   private String workEnd;
-   
-   private Set<PatientDTO> patients;
+   private String type;
    
    
    public MedicalStaffDTO() {
@@ -19,56 +16,14 @@ public class MedicalStaffDTO {
 }
 
 public MedicalStaffDTO(String name, String surname, String email, String password, String workStart, String workEnd,
-		HashSet<PatientDTO> patients) {
+		String type) {
 	super();
 	this.name = name;
 	this.surname = surname;
 	this.email = email;
 	this.password = password;
-	this.workStart = workStart;
-	this.workEnd = workEnd;
-	this.patients = patients;
+	this.type = type;
 }
-
-public Set<PatientDTO> getPatient() {
-      if (patients == null)
-         patients = new HashSet<PatientDTO>();
-      return patients;
-   }
-   
-   public Iterator<PatientDTO> getIteratorPatient() {
-      if (patients == null)
-         patients = new HashSet<PatientDTO>();
-      return patients.iterator();
-   }
-   
-   public void setPatient(HashSet<PatientDTO> newPatient) {
-      removeAllPatient();
-      for (Iterator<PatientDTO> iter = newPatient.iterator(); iter.hasNext();)
-         addPatient((PatientDTO)iter.next());
-   }
-   
-   public void addPatient(PatientDTO newPatient) {
-      if (newPatient == null)
-         return;
-      if (this.patients == null)
-         this.patients = new HashSet<PatientDTO>();
-      if (!this.patients.contains(newPatient))
-         this.patients.add(newPatient);
-   }
-   
-   public void removePatient(PatientDTO oldPatient) {
-      if (oldPatient == null)
-         return;
-      if (this.patients != null)
-         if (this.patients.contains(oldPatient))
-            this.patients.remove(oldPatient);
-   }
-   
-   public void removeAllPatient() {
-      if (patients != null)
-         patients.clear();
-   }
 
 public String getName() {
 	return name;
@@ -102,28 +57,13 @@ public void setPassword(String password) {
 	this.password = password;
 }
 
-public String getWorkStart() {
-	return workStart;
+
+public String getType() {
+	return type;
 }
 
-public void setWorkStart(String workStart) {
-	this.workStart = workStart;
-}
-
-public String getWorkEnd() {
-	return workEnd;
-}
-
-public void setWorkEnd(String workEnd) {
-	this.workEnd = workEnd;
-}
-
-public Set<PatientDTO> getPatients() {
-	return patients;
-}
-
-public void setPatients(HashSet<PatientDTO> patients) {
-	this.patients = patients;
+public void setType(String type) {
+	this.type = type;
 }
    
    

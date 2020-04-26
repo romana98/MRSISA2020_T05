@@ -2,15 +2,16 @@ package com.project.tim05.dto;
 
 public class RegistrationRequestDTO {
    
+	
    private String email;
    private String password;
    private String name;
    private String surname;
    private String address;
    private String city;
-   private String town;
-   private int number;
-   private int insuranceId;
+   private String country;
+   private String phone_number;
+   private String insurance_number;
 
    
    public RegistrationRequestDTO() {
@@ -18,7 +19,7 @@ public class RegistrationRequestDTO {
 }
 
    public RegistrationRequestDTO(String email, String password, String name, String surname, String address, String city,
-		String town, int number, int insuranceId) {
+		String country, String number, String insuranceId) {
 	super();
 	this.email = email;
 	this.password = password;
@@ -26,9 +27,9 @@ public class RegistrationRequestDTO {
 	this.surname = surname;
 	this.address = address;
 	this.city = city;
-	this.town = town;
-	this.number = number;
-	this.insuranceId = insuranceId;
+	this.country = country;
+	this.phone_number = number;
+	this.insurance_number = insuranceId;
 }
 
 	public String getEmail() {
@@ -79,27 +80,27 @@ public class RegistrationRequestDTO {
 		this.city = city;
 	}
 	
-	public String getTown() {
-		return town;
+	public String getCountry() {
+		return country;
 	}
 	
-	public void setTown(String town) {
-		this.town = town;
+	public void setCountry(String country) {
+		this.country = country;
 	}
 	
-	public int getNumber() {
-		return number;
+	public String getNumber() {
+		return phone_number;
 	}
 	
-	public void setNumber(int number) {
-		this.number = number;
+	public void setNumber(String number) {
+		this.phone_number = number;
 	}
 	
-	public int getInsuranceId() {
-		return insuranceId;
+	public String getInsuranceId() {
+		return insurance_number;
 	}
 	
-	public void setInsuranceId(int insuranceId) {
-		this.insuranceId = insuranceId;
+	public void setInsuranceId(String insuranceId) {
+		this.insurance_number = insuranceId;
 	}
 }
