@@ -18,11 +18,11 @@ public class Diagnosis {
 	@Column(name = "description", nullable = false)
 	private String description;
 	
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
 	@JoinColumn(name="appointment", referencedColumnName="appointment_id", nullable=true)
 	private Appointment appointment;
 	
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic_center_admin", referencedColumnName="clinic_center_admin_id", nullable=true)
 	private ClinicCenterAdministrator clinicCenterAdministrator;
    

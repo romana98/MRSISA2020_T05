@@ -53,8 +53,8 @@
                     <label>Clinic</label>
                     <select class="form-control"
                     [(ngModel)] = "model.clinic" name="input_clinic"
-                    #username="ngModel">
-                        <option *ngFor="let c of clinics" [ngValue]="c">{{c.name}}</option>
+                    #clinic="ngModel">
+                        <option *ngFor="let c of clinics" [ngValue]="c">{{c.name}}, {{c.address}}</option>
                      </select>
 
                 </div>

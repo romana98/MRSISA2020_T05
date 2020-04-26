@@ -13,13 +13,13 @@ public class MedicalRecord {
 	@Column(name = "medical_record_id", unique=true, nullable = false)
 	private Integer id; 
 	
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="medicalRecord")
+	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="medicalRecord")
 	private Set<Disease> diseases = new HashSet<Disease>();
 	
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="medicalRecord")
+	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="medicalRecord")
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 	
-	@OneToOne(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
+	@OneToOne(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY)
 	private Patient patient;
 	
 	public MedicalRecord(Set<Disease> diseases, Set<Appointment> appointments) {

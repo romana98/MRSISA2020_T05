@@ -1,6 +1,5 @@
 package com.project.tim05.dto;
 
-import java.util.*;
 
 public class ClinicDTO {
    private String name;
@@ -12,7 +11,7 @@ public class ClinicDTO {
 		
 	}
 
-	public ClinicDTO(String name, List<Double> ratings, String address, String description) {
+	public ClinicDTO(String name, String address, String description) {
 		super();
 		this.name = name;
 		this.address = address;
@@ -20,8 +19,6 @@ public class ClinicDTO {
 		
 	}
 
-	 
-	 
 	public String getName() {
 		return name;
 	}

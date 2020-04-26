@@ -1,5 +1,6 @@
 package com.project.tim05.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +28,13 @@ public class ClinicController {
 	}
 	
 	@GetMapping("/getClinics")
-	public List<Clinic> getClinics(){
-		return cs.getClinics();
+	public List<ClinicDTO> getClinics(){
+		List<ClinicDTO> clsDTO = new ArrayList<ClinicDTO>();
+		List<Clinic> cls = cs.getClinics();
+		for (Clinic clinic : cls) {
+			clsDTO.add(new ClinicDTO(clinic.getName(), clinic.getAddress(), clinic.getDescription()));
+		}
+		return clsDTO;
 	}
 	
 	@PostMapping("/addClinic")

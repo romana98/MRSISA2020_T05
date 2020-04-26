@@ -31,7 +31,7 @@ public abstract class MedicalStaff {
 	@Column(name = "workEnd", nullable = false)
 	private String workEnd;
 	
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
+	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY)
 	private Set<Patient> patients;
 	
 	public MedicalStaff() {

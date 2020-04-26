@@ -28,28 +28,28 @@ public class Clinic {
 	@Column(name="ratings")
 	private List<Double> ratings = new ArrayList<Double>();
   
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic_center_admin", referencedColumnName="clinic_center_admin_id", nullable=true)
 	private ClinicCenterAdministrator clinicCenterAdministrator;
    
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
 	@JoinColumn(name="patient", referencedColumnName="patient_id", nullable=true)
 	private Patient patient;
 	
 
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinic")
+	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="clinic")
 	private Set<ClinicAdministrator> clinicAdmin = new HashSet<ClinicAdministrator>();
 	
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinic")
+	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="clinic")
 	private Set<Doctor> doctors = new HashSet<Doctor>();
 	
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinic")
+	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="clinic")
 	private Set<Hall> halls = new HashSet<Hall>();
 	
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinic")
+	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="clinic")
 	private Set<Pricelist> pricelist = new HashSet<Pricelist>();
 	
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinic")
+	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="clinic")
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
 	public Clinic() {

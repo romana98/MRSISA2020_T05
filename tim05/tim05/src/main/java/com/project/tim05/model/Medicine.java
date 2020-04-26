@@ -20,15 +20,15 @@ public class Medicine {
 	@Column(name = "authenticated", nullable = false)
 	private boolean authenticated;
 	
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
 	@JoinColumn(name="appointment", referencedColumnName="appointment_id", nullable=true)
 	private Appointment appointment;
 	
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic_center_admin", referencedColumnName="clinic_center_admin_id", nullable=true)
 	private ClinicCenterAdministrator clinicCenterAdministrator;
    
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
 	@JoinColumn(name="nurse", referencedColumnName="staff_id", nullable=true)
 	private Nurse nurse;
    

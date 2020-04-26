@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {clinicModel} from "../add-clinic-form/add-clinic-form.component";
+
 
 @Component({
     selector: 'app-add-admin-form',
@@ -13,9 +15,13 @@ export class AddClinicAdminFromComponent implements OnInit{
         surname: '',
         email: '',
         password: '',
-        clinic: ''
+        clinic: new class implements clinicModel {
+          address: string;
+          description: string;
+          name: string | RegExp;
+        }
     }
-    clinics: any;
+    clinics: any=[];
 
     constructor(private http: HttpClient){
 
@@ -23,7 +29,11 @@ export class AddClinicAdminFromComponent implements OnInit{
 
 
     ngOnInit(): void{
-        this.clinics = this.http.get("http://localhost:8081/clinic/getClinics");
+         this.http.get("http://localhost:8081/clinic/getClinics")
+          .subscribe((res)=>{
+            this.clinics = res;
+            this.model.clinic = res[0];
+        });
 
     }
 
@@ -37,9 +47,9 @@ export class AddClinicAdminFromComponent implements OnInit{
             err => {
                 alert("Error has occured while adding admin");
                 console.log(err);
-            } 
+            }
         );
-    
+
     }
 }
 
@@ -49,5 +59,5 @@ export interface clinicAdminModel
     surname: string | RegExp;
     email: string;
     password: string;
-    clinic: string | RegExp;
+    clinic: clinicModel;
 }

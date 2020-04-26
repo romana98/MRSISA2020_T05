@@ -26,16 +26,16 @@ public class ClinicCenterAdministrator {
 	@Column(name = "surname", nullable = false)
 	private String surname;
    
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinicCenterAdministrator")
+	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="clinicCenterAdministrator")
 	private Set<Clinic> clinics = new HashSet<Clinic>();
 	
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinicCenterAdministrator")
+	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="clinicCenterAdministrator")
 	private Set<Diagnosis> diagnosises = new HashSet<Diagnosis>();
 	
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinicCenterAdministrator")
+	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="clinicCenterAdministrator")
 	private Set<Medicine> medicines = new HashSet<Medicine>();
 	
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinicCenterAdministrator")
+	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="clinicCenterAdministrator")
 	private Set<RegistrationRequest> registrationRequests = new HashSet<RegistrationRequest>();
   
 	

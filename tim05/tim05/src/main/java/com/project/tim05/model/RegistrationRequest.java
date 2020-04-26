@@ -38,7 +38,7 @@ public class RegistrationRequest {
 	@Column(name = "insuranceId", nullable = false)
 	private int insuranceId;
 	
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic_center_admin", referencedColumnName="clinic_center_admin_id", nullable=true)
 	private ClinicCenterAdministrator clinicCenterAdministrator;
    

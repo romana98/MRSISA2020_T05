@@ -16,12 +16,12 @@ public class Doctor extends MedicalStaff{
 	@JoinColumn(name="appointment_type", referencedColumnName="appointment_type_id", nullable=false)
 	private AppointmentType appointmentType;*/
 	
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
 
 	@JoinColumn(name="clinic_admin", referencedColumnName="clinic_admin_id", nullable=true)
 	private ClinicAdministrator clinicAdministrator;
 	
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic", referencedColumnName="clinic_id", nullable=true)
 
 	private Clinic clinic;
@@ -29,7 +29,7 @@ public class Doctor extends MedicalStaff{
 	@Column(name = "appointmentType" , nullable = false)
 	private String appointmentType;
 	
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="doctor")
+	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="doctor")
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
 	
