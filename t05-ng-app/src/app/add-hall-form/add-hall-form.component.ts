@@ -11,8 +11,7 @@ export class AddHallFormComponent implements OnInit{
     model: hallModel = {
         name: '',
         number: -1,
-        admin: 'emailadmin@admin.com',
-        clinic:  'klinika1'
+        admin: 'emailadmin@admin.com'
     }
 
     constructor(private http: HttpClient){
@@ -26,7 +25,7 @@ export class AddHallFormComponent implements OnInit{
     }
 
     AddHall(): void{
-        let url = "http://localhost:8081/clinicCenterAdministrator/addHall"
+        let url = "http://localhost:8081/halls/addHall"
         this.http.post(url, this.model).subscribe(
             res => {
                 alert("Hall added successfully");
@@ -46,5 +45,4 @@ export interface hallModel
     name: string | RegExp;
     number: Number | RegExp;
     admin: string;
-    clinic: string;
 }
