@@ -29,41 +29,41 @@ public class Appointment {
 	@Column(name = "finished", nullable = false)
 	private boolean finished;
 		
-	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="appointment_type", referencedColumnName="appointment_type_id", nullable=true)
 	private AppointmentType appointmentType;
    
-	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic", referencedColumnName="clinic_id", nullable=true)
 	private Clinic clinic;
 	
-	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="hall", referencedColumnName="hall_id", nullable=true)
 	private Hall hall;
 	
-	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="doctor", referencedColumnName="staff_id", nullable=true)
 	private Doctor doctor;
 	
-	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic_admin", referencedColumnName="clinic_admin_id", nullable=true)
 	private ClinicAdministrator clinicAdministrator;
 	
-	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="medical_record", referencedColumnName="medical_record_id", nullable=true)
 	private MedicalRecord medicalRecord;
    
-	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="patient", referencedColumnName="patient_id", nullable=true)
 	private Patient patient;
 	
-	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="appointment")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="appointment")
 	private Set<Medicine> medicines = new HashSet<Medicine>();
    
-	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="appointment")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="appointment")
 	private Set<Diagnosis> diagnosises = new HashSet<Diagnosis>();
    
-	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="appointment")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="appointment")
 	private Set<Disease> diseases = new HashSet<Disease>();
 	
 	public Appointment() {

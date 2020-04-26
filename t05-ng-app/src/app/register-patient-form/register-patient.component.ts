@@ -38,7 +38,7 @@ export class RegisterPatientForm implements OnInit{
                 location.reload();
             },
             err => {
-                alert("Error has occured while registering your profile!");
+                alert("Error has occurred while registering your profile!");
                 console.log(err)
             }
         );

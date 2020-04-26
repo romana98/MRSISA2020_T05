@@ -31,11 +31,11 @@ export class AddClinicCenterAdminFromComponent implements OnInit{
                 location.reload();
             },
             err => {
-                alert("Error has occured while adding clinic center administrator!");
+                alert("Error has occurred while adding clinic center administrator!");
                 console.log(err);
-            } 
+            }
         );
-    
+
     }
 }
 

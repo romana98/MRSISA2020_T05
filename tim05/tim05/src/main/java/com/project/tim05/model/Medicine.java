@@ -16,19 +16,19 @@ public class Medicine {
 	
 	@Column(name = "description", nullable = false)
 	private String description;
-	
+
 	@Column(name = "authenticated", nullable = false)
 	private boolean authenticated;
 	
-	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="appointment", referencedColumnName="appointment_id", nullable=true)
 	private Appointment appointment;
 	
-	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic_center_admin", referencedColumnName="clinic_center_admin_id", nullable=true)
 	private ClinicCenterAdministrator clinicCenterAdministrator;
    
-	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="nurse", referencedColumnName="staff_id", nullable=true)
 	private Nurse nurse;
    
@@ -85,14 +85,6 @@ public class Medicine {
 		this.appointment = appointment;
 	}
 
-	public ClinicCenterAdministrator getClinicCenterAdmin() {
-		return clinicCenterAdministrator;
-	}
-
-	public void setClinicCenterAdmin(ClinicCenterAdministrator clinicCenterAdmin) {
-		this.clinicCenterAdministrator = clinicCenterAdmin;
-	}
-
 	public Nurse getNurse() {
 		return nurse;
 	}
@@ -100,6 +92,16 @@ public class Medicine {
 	public void setNurse(Nurse nurse) {
 		this.nurse = nurse;
 	}
+
+	public ClinicCenterAdministrator getClinicCenterAdministrator() {
+		return clinicCenterAdministrator;
+	}
+
+	public void setClinicCenterAdministrator(ClinicCenterAdministrator clinicCenterAdministrator) {
+		this.clinicCenterAdministrator = clinicCenterAdministrator;
+	}
+	
+	
 	
 	
 }

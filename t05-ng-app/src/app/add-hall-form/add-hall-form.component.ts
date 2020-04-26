@@ -20,7 +20,7 @@ export class AddHallFormComponent implements OnInit{
 
 
     ngOnInit(): void{
-        
+
 
     }
 
@@ -32,11 +32,11 @@ export class AddHallFormComponent implements OnInit{
                 location.reload();
             },
             err => {
-                alert("Error has occured while adding hall");
+                alert("Error has occurred while adding hall");
                 console.log(err);
-            } 
+            }
         );
-    
+
     }
 }
 

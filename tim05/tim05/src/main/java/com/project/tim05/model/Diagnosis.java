@@ -14,23 +14,27 @@ public class Diagnosis {
 	
 	@Column(name = "name", nullable = false)
 	private String name;
-   
+	
 	@Column(name = "description", nullable = false)
 	private String description;
 	
-	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="appointment", referencedColumnName="appointment_id", nullable=true)
 	private Appointment appointment;
 	
-	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic_center_admin", referencedColumnName="clinic_center_admin_id", nullable=true)
 	private ClinicCenterAdministrator clinicCenterAdministrator;
-   
-	
-	
+   	
 
 	public Diagnosis() {
 		super();
+		
+	}
+	
+	public Diagnosis(String name, String description) {
+		this.name = name;
+		this.description = description;
 		
 	}
 
@@ -73,13 +77,14 @@ public class Diagnosis {
 		this.appointment = appointment;
 	}
 
-	public ClinicCenterAdministrator getClinicCenterAdmin() {
+	public ClinicCenterAdministrator getClinicCenterAdministrator() {
 		return clinicCenterAdministrator;
 	}
 
-	public void setClinicCenterAdmin(ClinicCenterAdministrator clinicCenterAdmin) {
-		this.clinicCenterAdministrator = clinicCenterAdmin;
+	public void setClinicCenterAdministrator(ClinicCenterAdministrator clinicCenterAdministrator) {
+		this.clinicCenterAdministrator = clinicCenterAdministrator;
 	}
+	
 	
 	
 

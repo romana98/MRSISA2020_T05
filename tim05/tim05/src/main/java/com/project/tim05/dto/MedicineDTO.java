@@ -41,13 +41,6 @@ public class MedicineDTO {
 	public void setAuthenticated(boolean authenticated) {
 		this.authenticated = authenticated;
 	}
-	
-	
-	
-	
-   
-   
-   
-   
+
 
 }

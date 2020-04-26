@@ -18,7 +18,7 @@ export class AddClinicFromComponent implements OnInit{
 
     }
 
-   
+
     constructor(private http: HttpClient){
 
     }
@@ -31,11 +31,11 @@ export class AddClinicFromComponent implements OnInit{
                 location.reload();
             },
             err => {
-                alert("Error has occured while adding clinic");
+                alert("Error has occurred while adding clinic");
                 console.log(err);
-            } 
+            }
         );
-    
+
     }
 }
 

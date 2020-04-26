@@ -16,15 +16,15 @@ public class AppointmentType {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
-	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic_admin", referencedColumnName="clinic_admin_id", nullable=true)
 	private ClinicAdministrator clinicAdministrator;
    
 	
-	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="appointmentType")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="appointmentType")
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
-	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="appointmentType")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="appointmentType")
 	private Set<Pricelist> priceList = new HashSet<Pricelist>();
 
 	

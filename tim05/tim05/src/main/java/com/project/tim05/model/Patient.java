@@ -41,22 +41,22 @@ public class Patient {
 	@Column(name = "insurance_number", nullable = false)
 	private String insurance_number;
 
-	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="doctor", referencedColumnName="staff_id", nullable=true)
 	private Doctor doctor;
 	
-	@ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="nurse", referencedColumnName="staff_id", nullable=true)
 	private Nurse nurse;		
 	
-	@OneToOne(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="medical_record", nullable=false)
 	private MedicalRecord medicalRecord;
 		
-	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="patient")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="patient")
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 	
-	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="patient")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="patient")
 	private Set<Clinic> clinics = new HashSet<Clinic>();
 
 

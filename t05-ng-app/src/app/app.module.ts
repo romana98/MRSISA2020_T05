@@ -13,6 +13,8 @@ import { EditPatientProfile } from './edit-patient/edit-patient.component';
 import { RegisterPatientForm } from './register-patient-form/register-patient.component';
 import { AddHallFormComponent } from './add-hall-form/add-hall-form.component';
 import { HttpClientModule } from "@angular/common/http"
+import {AddMedicineFromComponent} from "./add-medicine-form/add-medicine-form.component";
+import {AddDiagnosisFormComponent} from "./add-diagnosis-form/add-diagnosis-form.component";
 
 const appRoutes : Routes = [
   {
@@ -23,7 +25,7 @@ const appRoutes : Routes = [
     path : '',
     component : AddDoctorFormComponent,
     pathMatch : 'full'
-    
+
   },
   {
     path: 'addClinicCenterAdministrator',
@@ -50,6 +52,14 @@ const appRoutes : Routes = [
     component : AddHallFormComponent
   },
   {
+    path : 'addMedicine',
+    component : AddMedicineFromComponent
+  },
+  {
+    path : 'addDiagnosis',
+    component : AddDiagnosisFormComponent
+  },
+  {
     path : '**',
     component : NavigationComponent
   }
@@ -64,6 +74,8 @@ const appRoutes : Routes = [
     AddClinicCenterAdminFromComponent,
     AddClinicFromComponent,
     AddClinicAdminFromComponent,
+    AddMedicineFromComponent,
+    AddDiagnosisFormComponent,
     EditPatientProfile,
     RegisterPatientForm,
     AddHallFormComponent
@@ -74,7 +86,7 @@ const appRoutes : Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes)
-    
+
   ],
   providers: [],
   bootstrap: [AppComponent]

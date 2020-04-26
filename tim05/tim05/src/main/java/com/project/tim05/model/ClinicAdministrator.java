@@ -26,20 +26,20 @@ public class ClinicAdministrator {
 	@Column(name = "email", nullable = false)
 	private String email;
    
-	@OneToOne(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY)
+	@OneToOne( fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic", nullable=false)
 	private Clinic clinic;
    
-	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="clinicAdministrator")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinicAdministrator")
 	private Set<Appointment> appointments = new HashSet<Appointment>();
    
-	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="clinicAdministrator")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinicAdministrator")
 	private Set<Hall> halls = new HashSet<Hall>();
 
-	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="clinicAdministrator")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinicAdministrator")
 	private Set<Doctor> doctors = new HashSet<Doctor>();
    
-	@OneToMany(cascade={CascadeType.MERGE}, fetch=FetchType.LAZY, mappedBy="clinicAdministrator")
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinicAdministrator")
 	private Set<AppointmentType> appointmentTypes = new HashSet<AppointmentType>();
    
 	
