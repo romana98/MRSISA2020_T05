@@ -16,8 +16,8 @@ public class Hall {
 	private Integer id;
    
    @Column(name = "name", nullable = false)
-   private int name;
-   
+   private String name;
+
    @Column(name = "number", nullable = false)
    private int number;
    
@@ -38,17 +38,17 @@ public class Hall {
 	   super();
    }
    
-   public Hall(int name, int number) {
+   public Hall(String name, int number) {
 	   super();
 	   this.name = name;
 	   this.number = number;
    }
 	
-	public int getName() {
+	public String getName() {
 		return name;
 	}
 	
-	public void setName(int name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 	
