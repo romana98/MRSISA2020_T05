@@ -3,12 +3,12 @@ import {HttpClient} from '@angular/common/http';
 
 @Component({
     selector: 'app-add-admin-form',
-    templateUrl: './add-admin-form.component.html',
-    styleUrls: ['./add-admin-form.component.css']
+    templateUrl: './add-clinic-administrator-form.component.html',
+    styleUrls: ['./add-clinic-administrator-form.component.css']
 })
-export class AddAdminFromComponent implements OnInit{
+export class AddClinicAdminFromComponent implements OnInit{
 
-    model: adminModel = {
+    model: clinicAdminModel = {
         name: '',
         surname: '',
         email: '',
@@ -27,8 +27,8 @@ export class AddAdminFromComponent implements OnInit{
 
     }
 
-    AddAdminClinic(): void{
-        let url = "http://localhost:8081/admin/addAdmin"
+    AddClinicAdmin(): void{
+        let url = "http://localhost:8081/clinicAdministrator/addClinicAdministrator"
         this.http.post(url, this.model).subscribe(
             res => {
                 alert("Admin added successfully");
@@ -43,7 +43,7 @@ export class AddAdminFromComponent implements OnInit{
     }
 }
 
-export interface adminModel
+export interface clinicAdminModel
 {
     name: string | RegExp;
     surname: string | RegExp;

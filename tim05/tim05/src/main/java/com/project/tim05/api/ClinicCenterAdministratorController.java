@@ -14,25 +14,25 @@ import com.project.tim05.model.ClinicCenterAdministrator;
 import com.project.tim05.service.ClinicCenterAdministratorService;
 
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/adminClinic")
+@RequestMapping("/clinicCenterAdministrator")
 @RestController
-public class AdminClinicController {
+public class ClinicCenterAdministratorController {
 
-	private final ClinicCenterAdministratorService acs;
+	private final ClinicCenterAdministratorService ccas;
 	
 	@Autowired
-	public AdminClinicController(ClinicCenterAdministratorService acs) {
-		this.acs = acs;
+	public ClinicCenterAdministratorController(ClinicCenterAdministratorService ccas) {
+		this.ccas = ccas;
 	}
 	
-	@GetMapping("/getAdminClinics")
-	public List<ClinicCenterAdministrator> getAdminClinics(){
-		return acs.getAdminClinics();
+	@GetMapping("/getClinicCenterAdministrator")
+	public List<ClinicCenterAdministrator> getClinicCenterAdministrator(){
+		return ccas.getClinicCenterAdministrators();
 	}
 	
-	@PostMapping("/addAdminClinic")
-	public int addDoctor(@RequestBody ClinicCenterAdministrator ac) {
-		acs.addAdminClinic(ac);
+	@PostMapping("/addClinicCenterAdministrator")
+	public int addClinicCenterAdministrator(@RequestBody ClinicCenterAdministrator ac) {
+		ccas.addClinicCenterAdministrator(ac);
 		return 200;
 	}
 	

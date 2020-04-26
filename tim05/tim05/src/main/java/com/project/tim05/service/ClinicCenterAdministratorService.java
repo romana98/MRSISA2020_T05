@@ -14,11 +14,11 @@ public class ClinicCenterAdministratorService {
 	@Autowired
 	private ClinicCenterAdministratorRespository ccar;
 
-	public void addAdminClinic(ClinicCenterAdministrator admincl) {
+	public void addClinicCenterAdministrator(ClinicCenterAdministrator admincl) {
 		ccar.save(admincl);
 	}
 	
-	public List<ClinicCenterAdministrator> getAdminClinics(){
+	public List<ClinicCenterAdministrator> getClinicCenterAdministrators(){
 		return ccar.findAll();
 	}
 

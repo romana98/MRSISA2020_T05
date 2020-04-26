@@ -17,6 +17,7 @@ public class Hall {
    
    @Column(name = "name", nullable = false)
    private String name;
+
    @Column(name = "number", nullable = false)
    private int number;
    

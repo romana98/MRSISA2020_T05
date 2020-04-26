@@ -3,12 +3,12 @@ import {HttpClient} from '@angular/common/http';
 
 @Component({
     selector: 'app-add-admin-clinic-form',
-    templateUrl: './add-admin-clinic-form.component.html',
-    styleUrls: ['./add-admin-clinic-form.component.css']
+    templateUrl: './add-clinic-center-administrator-form.component.html',
+    styleUrls: ['./add-clinic-center-administrator-form.component.css']
 })
-export class AddAdminClinicFromComponent implements OnInit{
+export class AddClinicCenterAdminFromComponent implements OnInit{
 
-    model: adminClinicModel = {
+    model: clinicCenterAdminModel = {
         name: '',
         surname: '',
         email: '',
@@ -23,15 +23,15 @@ export class AddAdminClinicFromComponent implements OnInit{
 
     }
 
-    AddAdminClinic(): void{
-        let url = "http://localhost:8081/adminClinic/addAdminClinic"
+    AddClinicCenterAdmin(): void{
+        let url = "http://localhost:8081/clinicCenterAdministrator/addClinicCenterAdministrator"
         this.http.post(url, this.model).subscribe(
             res => {
-                alert("Clinic admin added successfully");
+                alert("Clinic center administrator added successfully");
                 location.reload();
             },
             err => {
-                alert("Error has occured while adding clinic admin");
+                alert("Error has occured while adding clinic center administrator!");
                 console.log(err);
             } 
         );
@@ -39,7 +39,7 @@ export class AddAdminClinicFromComponent implements OnInit{
     }
 }
 
-export interface adminClinicModel
+export interface clinicCenterAdminModel
 {
     name: string | RegExp;
     surname: string | RegExp;
