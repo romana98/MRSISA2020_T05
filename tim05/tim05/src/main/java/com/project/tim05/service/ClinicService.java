@@ -18,7 +18,7 @@ public class ClinicService {
 		cr.save(clinic);
 	}
 	
-	public List<Clinic> getClinic(){
+	public List<Clinic> getClinics(){
 		return cr.findAll();
 	}
 }

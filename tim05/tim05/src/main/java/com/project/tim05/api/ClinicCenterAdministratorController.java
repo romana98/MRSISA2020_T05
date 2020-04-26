@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.tim05.dto.ClinicCenterAdministratorDTO;
 import com.project.tim05.model.ClinicCenterAdministrator;
 import com.project.tim05.service.ClinicCenterAdministratorService;
 
@@ -31,8 +32,9 @@ public class ClinicCenterAdministratorController {
 	}
 	
 	@PostMapping("/addClinicCenterAdministrator")
-	public int addClinicCenterAdministrator(@RequestBody ClinicCenterAdministrator ac) {
-		ccas.addClinicCenterAdministrator(ac);
+	public int addClinicCenterAdministrator(@RequestBody ClinicCenterAdministratorDTO cca) {
+		ClinicCenterAdministrator ccadmin = new ClinicCenterAdministrator(cca.getName(), cca.getSurname(), cca.getEmail(), cca.getPassword());
+		ccas.addClinicCenterAdministrator(ccadmin);
 		return 200;
 	}
 	

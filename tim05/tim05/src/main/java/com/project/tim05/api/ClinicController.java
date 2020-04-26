@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.tim05.dto.ClinicDTO;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.service.ClinicService;
 
@@ -27,12 +28,13 @@ public class ClinicController {
 	
 	@GetMapping("/getClinics")
 	public List<Clinic> getClinics(){
-		return cs.getClinic();
+		return cs.getClinics();
 	}
 	
 	@PostMapping("/addClinic")
-	public int addDoctor(@RequestBody Clinic c) {
-		cs.addClinic(c);
+	public int addClinic(@RequestBody ClinicDTO c) {
+		Clinic cl = new Clinic(c.getName(), c.getAddress(), c.getDescription());
+		cs.addClinic(cl);
 		return 200;
 	}
 }

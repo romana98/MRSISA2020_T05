@@ -6,7 +6,7 @@ import java.util.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name="clinics")
+@Table(name="clinics", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "address"})})
 public class Clinic {
 	
 	@Id
@@ -54,6 +54,12 @@ public class Clinic {
 
 	public Clinic() {
 		super();
+	}
+	
+	public Clinic(String name, String address, String description) {
+		this.name = name;
+		this.address = address;
+		this.description = description;
 	}
 
 	public Clinic(Integer id, String name, String address, String description, ArrayList<Double> ratings,
