@@ -9,7 +9,9 @@ import {HttpClient} from '@angular/common/http';
 export class AddClinicFromComponent implements OnInit{
 
     model: clinicModel = {
-        name: ''
+        name: '',
+        address: '',
+        description: ''
     }
 
     ngOnInit(): void{
@@ -40,4 +42,6 @@ export class AddClinicFromComponent implements OnInit{
 export interface clinicModel
 {
     name: string | RegExp;
+    address: string;
+    description: string;
 }

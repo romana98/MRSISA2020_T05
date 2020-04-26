@@ -6,9 +6,9 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { Router, Routes, RouterModule} from "@angular/router";
 import { FormsModule,ReactiveFormsModule } from "@angular/forms";
 import { AddDoctorFormComponent } from './add-doctor-form/add-doctor-form.component';
-import { AddAdminClinicFromComponent } from './add-admin-clinic-form/add-admin-clinic-form.component';
+import { AddClinicCenterAdminFromComponent } from './add-clinic-center-administrator-form/add-clinic-center-administrator-form.component';
 import { AddClinicFromComponent } from './add-clinic-form/add-clinic-form.component';
-import { AddAdminFromComponent } from './add-admin-form/add-admin-form.component';
+import { AddClinicAdminFromComponent } from './add-clinic-administrator-form/add-clinic-administrator-form.component';
 import { EditPatientProfile } from './edit-patient/edit-patient.component';
 import { RegisterPatientForm } from './register-patient-form/register-patient.component';
 import { HttpClientModule } from "@angular/common/http"
@@ -25,16 +25,16 @@ const appRoutes : Routes = [
     
   },
   {
-    path: 'addAdminClinic',
-    component : AddAdminClinicFromComponent
+    path: 'addClinicCenterAdministrator',
+    component : AddClinicCenterAdminFromComponent
   },
   {
     path: 'addClinic',
     component : AddClinicFromComponent
   },
   {
-    path: 'addAdmin',
-    component : AddAdminFromComponent
+    path: 'addClinicAdministrator',
+    component : AddClinicAdminFromComponent
   },
   {
     path: 'editPatient',
@@ -56,9 +56,9 @@ const appRoutes : Routes = [
     AppComponent,
     NavigationComponent,
     AddDoctorFormComponent,
-    AddAdminClinicFromComponent,
+    AddClinicCenterAdminFromComponent,
     AddClinicFromComponent,
-    AddAdminFromComponent,
+    AddClinicAdminFromComponent,
     EditPatientProfile,
     RegisterPatientForm,
   ],
