@@ -21,11 +21,11 @@ public class Hall {
    @Column(name = "number", nullable = false)
    private int number;
    
-    @ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic", referencedColumnName="clinic_id", nullable=true)
 	private Clinic clinic;
     
-    @ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic_admin", referencedColumnName="clinic_admin_id", nullable=true)
 	private ClinicAdministrator clinicAdministrator;
    

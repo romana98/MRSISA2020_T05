@@ -28,11 +28,11 @@ public class Clinic {
 	@Column(name="ratings")
 	private List<Double> ratings = new ArrayList<Double>();
   
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic_center_admin", referencedColumnName="clinic_center_admin_id", nullable=true)
 	private ClinicCenterAdministrator clinicCenterAdministrator;
    
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="patient", referencedColumnName="patient_id", nullable=true)
 	private Patient patient;
 	

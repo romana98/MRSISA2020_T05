@@ -16,12 +16,11 @@ public class Doctor extends MedicalStaff{
 	@JoinColumn(name="appointment_type", referencedColumnName="appointment_type_id", nullable=false)
 	private AppointmentType appointmentType;*/
 	
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
-
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic_admin", referencedColumnName="clinic_admin_id", nullable=true)
 	private ClinicAdministrator clinicAdministrator;
 	
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic", referencedColumnName="clinic_id", nullable=true)
 
 	private Clinic clinic;
