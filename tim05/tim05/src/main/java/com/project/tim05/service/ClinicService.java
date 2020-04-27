@@ -31,7 +31,7 @@ public class ClinicService {
 	public Clinic getClinic(ClinicDTO clinic){
 		Clinic c = new Clinic();
 		try {
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "baZa");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 			
 			PreparedStatement st = conn.prepareStatement("SELECT * FROM clinics WHERE name = ? and address = ?");
 			st.setString(1, clinic.getName());

@@ -27,7 +27,7 @@ public class DoctorService {
 	
 	public void editProfile(Doctor doctor) {
 		try {
-	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "miloradpostgre123");
+	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 	        String query = "UPDATE doctors set password = ?, name = ?, surname = ? WHERE email = ?;";
 	        PreparedStatement ps = connection.prepareStatement(query);
 			ps.setString(1, doctor.getPassword());

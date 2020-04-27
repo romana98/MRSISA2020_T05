@@ -30,7 +30,7 @@ public class RegistrationRequestService {
 		
 		int success = 0;
 		try {
-	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "baZa");
+	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 	        
 	        String query = "DELETE FROM registration_requests WHERE password = ? and name = ? and surname = ? and address = ? and city = ? and country = ? and phone_number = ? and insurance_number = ? and email = ?";
 	        PreparedStatement ps = connection.prepareStatement(query);

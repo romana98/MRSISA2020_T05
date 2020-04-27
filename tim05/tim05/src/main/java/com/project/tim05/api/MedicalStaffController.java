@@ -29,7 +29,7 @@ public class MedicalStaffController {
 		this.ns = ns;
 	}
 	
-	@PostMapping("/editProfile")
+	@PostMapping("/editMedicalStaff")
 	public void editProfile(@RequestBody MedicalStaffDTO ms) {
 		
 		if(ms.getType().equals("doctor")) {

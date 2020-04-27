@@ -19,7 +19,7 @@ public class NurseService {
 	
 	public void editProfile(Nurse nurse) {
 		try {
-	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "miloradpostgre123");
+	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 	        String query = "UPDATE nurses set password = ?, name = ?, surname = ? WHERE email = ?;";
 	        PreparedStatement ps = connection.prepareStatement(query);
 			ps.setString(1, nurse.getPassword());

@@ -52,5 +52,22 @@ public class RegistrationRequestController {
 		rrs.addRegistrationRequest(rr);
 		return 200;
 	}
+	
+	@PostMapping("/declineRequest")
+	public int declineRequest(@RequestBody RegistrationRequestDTO patient) {
+		RegistrationRequest rr = new RegistrationRequest();
+		rr.setAddress(patient.getAddress());
+		rr.setCity(patient.getCity());
+		rr.setCountry(patient.getCountry());
+		rr.setEmail(patient.getEmail());
+		rr.setInsurance_number(patient.getInsurance_number());
+		rr.setName(patient.getName());
+		rr.setPhone_number(patient.getPhone_number());
+		rr.setPassword(patient.getPassword());
+		rr.setSurname(patient.getSurname());
+		rrs.removeRegistrationRequest(rr);
+		return 200;
+		
+	}
 
 }
