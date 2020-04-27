@@ -23,6 +23,9 @@ export class AddDoctorFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+      
+
+
   }
 
   addDoctor(): void{

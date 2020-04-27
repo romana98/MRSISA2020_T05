@@ -11,7 +11,8 @@ import { AddClinicFromComponent } from './add-clinic-form/add-clinic-form.compon
 import { AddAdminFromComponent } from './add-admin-form/add-admin-form.component';
 import { EditPatientProfile } from './edit-patient/edit-patient.component';
 import { RegisterPatientForm } from './register-patient-form/register-patient.component';
-import { HttpClientModule } from "@angular/common/http"
+import { HttpClientModule } from "@angular/common/http";
+import { AddPredifinedAppointmentComponent } from './add-predifined-appointment/add-predifined-appointment.component'
 
 const appRoutes : Routes = [
   {
@@ -44,9 +45,10 @@ const appRoutes : Routes = [
     path : 'registerPatient',
     component : RegisterPatientForm
   },
+  
   {
-    path : '**',
-    component : NavigationComponent
+    path : 'addPredefinedAppointment',
+    component : AddPredifinedAppointmentComponent
   }
 
 ]
@@ -61,6 +63,7 @@ const appRoutes : Routes = [
     AddAdminFromComponent,
     EditPatientProfile,
     RegisterPatientForm,
+    AddPredifinedAppointmentComponent,
   ],
   imports: [
     BrowserModule,
