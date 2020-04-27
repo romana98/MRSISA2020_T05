@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row">
+    <div class="offset-3"></div>
+    <div class="col-md-auto">
+      <br>
+      <h2>Table Of Requests</h2>
+      <br>
+      <div *ngIf="requests.length > 0">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>County</th>
+            <th>Phone number</th>
+            <th>Insurance number</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let req of requests">
+            <th>{{ req.email }}</th>
+            <td>{{ req.name }}</td>
+            <td>{{ req.surname }}</td>
+            <td>{{ req.address}}</td>
+            <td>{{ req.city }}</td>
+            <td>{{ req.country }}</td>
+            <td>{{ req.phone_number }}</td>
+            <td>{{ req.insurance_number }}</td>
+            <td>
+              <button type="button" (click)="Accept(req)" >Accept</button>
+            </td>
+            <td>
+              <button type="button" (click)="Decline(req)">Decline</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="requests.length == 0">
+        <h5>No requests</h5>
+      </div>
+    </div>
+    <div class="offset-3"></div>
+  </div>
+</div>

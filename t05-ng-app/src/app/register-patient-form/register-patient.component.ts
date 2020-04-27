@@ -31,14 +31,14 @@ export class RegisterPatientForm implements OnInit{
     }
 
     registerPatient(): void{
-        let url = "http://localhost:8081/patients/registerPatient"
+        let url = "http://localhost:8081/registrationRequests/registerPatient"
         this.http.post(url,this.model).subscribe(
             res => {
                 alert("Your registration request has been sent! Your activation link will be sent to you soon.");
                 location.reload();
             },
             err => {
-                alert("Error has occured while registering your profile!");
+                alert("Error has occurred while registering your profile!");
                 console.log(err)
             }
         );

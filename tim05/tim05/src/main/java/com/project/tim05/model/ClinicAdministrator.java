@@ -26,7 +26,7 @@ public class ClinicAdministrator {
 	@Column(name = "email", nullable = false)
 	private String email;
    
-	@OneToOne(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
+	@OneToOne( fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic", nullable=false)
 	private Clinic clinic;
    
@@ -46,6 +46,16 @@ public class ClinicAdministrator {
 	public ClinicAdministrator() {
 			super();
 		}
+	
+	public ClinicAdministrator(String name, String surname, String email, String password, Clinic clinic)
+	{
+		this.name = name;
+		this.surname = surname;
+		this.password = password;
+		this.email = email;
+		this.clinic = clinic;
+		
+	}
 	
 	public ClinicAdministrator(Integer id, String name, String surname, String password, String email, Clinic clinic,
 			Set<Appointment> appointments, Set<Hall> halls, Set<Doctor> doctors, Set<AppointmentType> appointmentTypes) {

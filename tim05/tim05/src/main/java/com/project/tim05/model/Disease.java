@@ -20,11 +20,11 @@ public class Disease {
 	@Column(name = "description", nullable = false)
 	private String description;
 	
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="appointment", referencedColumnName="appointment_id", nullable=true)
 	private Appointment appointment;
 
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="medical_record", referencedColumnName="medical_record_id", nullable=true)
 	private MedicalRecord medicalRecord;
    

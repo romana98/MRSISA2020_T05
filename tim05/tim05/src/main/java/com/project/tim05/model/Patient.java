@@ -41,11 +41,11 @@ public class Patient {
 	@Column(name = "insurance_number", nullable = false)
 	private String insurance_number;
 
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="doctor", referencedColumnName="staff_id", nullable=true)
 	private Doctor doctor;
 	
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="nurse", referencedColumnName="staff_id", nullable=true)
 	private Nurse nurse;		
 	
@@ -85,15 +85,8 @@ public class Patient {
 
 
 
-	public Patient(String email,
-			  String password,
-			  String name,
-			  String surname,
-			  String address,
-			  String city,
-			  String country,
-			  String phone_number,
-			  String insurance_number) {
+	public Patient(String email, String password, String name, String surname, String address, String city,
+			 String country, String phone_number, String insurance_number) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -104,6 +97,7 @@ public class Patient {
 		this.country = country;
 		this.phone_number = phone_number;
 		this.insurance_number = insurance_number;
+		this.medicalRecord = new MedicalRecord();
 	}
 
 	public String getEmail() {

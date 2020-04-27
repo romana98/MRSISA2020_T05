@@ -16,15 +16,16 @@ public class Hall {
 	private Integer id;
    
    @Column(name = "name", nullable = false)
-   private int name;
+   private String name;
+
    @Column(name = "number", nullable = false)
    private int number;
    
-    @ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic", referencedColumnName="clinic_id", nullable=true)
 	private Clinic clinic;
     
-    @ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic_admin", referencedColumnName="clinic_admin_id", nullable=true)
 	private ClinicAdministrator clinicAdministrator;
    
@@ -37,17 +38,17 @@ public class Hall {
 	   super();
    }
    
-   public Hall(int name, int number) {
+   public Hall(String name, int number) {
 	   super();
 	   this.name = name;
 	   this.number = number;
    }
 	
-	public int getName() {
+	public String getName() {
 		return name;
 	}
 	
-	public void setName(int name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 	

@@ -42,7 +42,13 @@ public class ClinicCenterAdministrator {
 	public ClinicCenterAdministrator() {
 			super();
 		}
-	
+
+	public ClinicCenterAdministrator(String name, String surname, String email, String password) {
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.surname = surname;
+	}
 	public ClinicCenterAdministrator(Integer id, String name, String email, String password, String surname,
 				Set<Clinic> clinics, Set<Diagnosis> diagnosises, Set<Medicine> medicines,
 				Set<RegistrationRequest> registrationRequests) {

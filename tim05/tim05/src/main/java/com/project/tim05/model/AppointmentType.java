@@ -16,7 +16,7 @@ public class AppointmentType {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic_admin", referencedColumnName="clinic_admin_id", nullable=true)
 	private ClinicAdministrator clinicAdministrator;
    

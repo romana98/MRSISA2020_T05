@@ -9,14 +9,16 @@ import {HttpClient} from '@angular/common/http';
 export class AddClinicFromComponent implements OnInit{
 
     model: clinicModel = {
-        name: ''
+        name: '',
+        address: '',
+        description: ''
     }
 
     ngOnInit(): void{
 
     }
 
-   
+
     constructor(private http: HttpClient){
 
     }
@@ -29,15 +31,17 @@ export class AddClinicFromComponent implements OnInit{
                 location.reload();
             },
             err => {
-                alert("Error has occured while adding clinic");
+                alert("Error has occurred while adding clinic");
                 console.log(err);
-            } 
+            }
         );
-    
+
     }
 }
 
 export interface clinicModel
 {
     name: string | RegExp;
+    address: string;
+    description: string;
 }

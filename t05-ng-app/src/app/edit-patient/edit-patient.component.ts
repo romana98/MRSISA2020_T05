@@ -36,7 +36,7 @@ export class EditPatientProfile implements OnInit{
                 location.reload();
             },
             err => {
-                alert("Error has occured while updating your profile!");
+                alert("Error has occurred while updating your profile!");
                 console.log(err)
             }
         );

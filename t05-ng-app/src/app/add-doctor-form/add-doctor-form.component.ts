@@ -18,7 +18,7 @@ export class AddDoctorFormComponent implements OnInit {
     appointmentType : ''
   }
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
 
   }
 
@@ -36,7 +36,7 @@ export class AddDoctorFormComponent implements OnInit {
           location.reload();
         },
         err => {
-          alert("Error has occured while adding doctor");
+          alert("Error has occurred while adding doctor");
           console.log(err)
         }
     );
@@ -58,7 +58,7 @@ export class AddDoctorFormComponent implements OnInit {
       }
       console.log(hours + "and" + minutes);
       if(hours > 0 && hours < 24 && minutes > 0 && minutes < 60){
-        
+
 
         return false;
       }
@@ -81,13 +81,13 @@ export class AddDoctorFormComponent implements OnInit {
       }
       console.log(hours + "and" + minutes);
       if(hours > 0 && hours < 24 && minutes > 0 && minutes < 60){
-        
+
 
         return false;
       }
           return true;
   }
-  
+
 
 }
 
@@ -96,7 +96,7 @@ export interface doctorModel
     name: string;
     surname: string;
     email : string;
-    password : string; 
+    password : string;
     workStart : string;
     workEnd : string;
     appointmentType : string;

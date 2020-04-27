@@ -3,15 +3,15 @@
         <div class="offset-3"></div>
         <div class="col-md-8">
             <br>
-                <h2>Add Admin</h2>
+                <h2>Add Clinic Administrator</h2>
             <br>
-            <form name="form" #f="ngForm" (submit)="f.form.valid && AddAdminClinic()">
+            <form name="form" #f="ngForm" (submit)="f.form.valid && AddClinicAdmin()">
                 <div class="from-group col-md-8">
                     <label>Name</label>
                     <input type="text" class="form-control" [(ngModel)] = "model.name" name="input_name"
                     #name="ngModel" pattern="[a-zA-Z ]*"
                     [ngClass] = "{'is-invalid': f.submitted && name.invalid}"
-                    required/>
+                    required />
                     <div *ngIf="f.submitted && name.invalid">
                         <div *ngIf="name.errors?.pattern">Name can only have letters!</div>
                     </div>
@@ -31,9 +31,12 @@
                     <label>Email</label>
                     <input type="email" class="form-control"
                     [(ngModel)] = "model.email" name="input_email"
-                    #email="ngModel"
+                    #email="ngModel" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                     [ngClass] = "{'is-invalid' : f.submitted && email.invalid}"
                         required/>
+                    <div *ngIf="f.submitted && email.invalid">
+                        <div *ngIf="email.errors?.pattern">Email format not correct!</div>
+                    </div>
                 </div>
                 <div class="from-group col-md-8">
                     <label>Password</label>
@@ -48,15 +51,15 @@
                 </div>
                 <div class="from-group col-md-8">
                     <label>Clinic</label>
-                    <select class="form-control" 
+                    <select class="form-control"
                     [(ngModel)] = "model.clinic" name="input_clinic"
-                    #username="ngModel">
-                        <option *ngFor="let c of clinics" [ngValue]="c">{{c.name}}</option>
+                    #clinic="ngModel">
+                        <option *ngFor="let c of clinics" [ngValue]="c">{{c.name}}, {{c.address}}</option>
                      </select>
-                     
+
                 </div>
                 <br>
-                <button type="submit" class="btn btn-primary">Add...</button>       
+                <button type="submit" class="btn btn-primary">Add...</button>
             </form>
         </div>
         <div class="offset-3"></div>

@@ -29,31 +29,31 @@ public class Appointment {
 	@Column(name = "finished", nullable = false)
 	private boolean finished;
 		
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="appointment_type", referencedColumnName="appointment_type_id", nullable=true)
 	private AppointmentType appointmentType;
    
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic", referencedColumnName="clinic_id", nullable=true)
 	private Clinic clinic;
 	
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="hall", referencedColumnName="hall_id", nullable=true)
 	private Hall hall;
 	
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="doctor", referencedColumnName="staff_id", nullable=true)
 	private Doctor doctor;
 	
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic_admin", referencedColumnName="clinic_admin_id", nullable=true)
 	private ClinicAdministrator clinicAdministrator;
 	
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="medical_record", referencedColumnName="medical_record_id", nullable=true)
 	private MedicalRecord medicalRecord;
    
-	@ManyToOne(cascade = {CascadeType.ALL}, fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="patient", referencedColumnName="patient_id", nullable=true)
 	private Patient patient;
 	

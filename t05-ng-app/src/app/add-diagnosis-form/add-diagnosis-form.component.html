@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row">
+    <div class="offset-3"></div>
+    <div class="col-md-8">
+      <br>
+      <h2>Add Description</h2>
+      <br>
+      <form name="form" #f="ngForm" (ngSubmit)=" f.form.valid && onSubmit(buttonType)">
+        <div class="from-group col-md-8">
+          <label>Name</label>
+          <input type="text" class="form-control" [(ngModel)] = "model.name" name="input_name"
+                 #name="ngModel" pattern="[a-zA-Z ]*"
+                 [ngClass] = "{'is-invalid': f.submitted && name.invalid}"
+                 required/>
+          <div *ngIf="f.submitted && name.invalid">
+            <div *ngIf="name.errors?.pattern">Name can only have letters!</div>
+          </div>
+        </div>
+        <div class="from-group col-md-8">
+          <label>Description</label>
+          <input type="text" class="form-control" [(ngModel)] = "model.description" name="input_description"
+                 #description="ngModel"
+                 [ngClass] = "{'is-invalid': f.submitted && description.invalid}"
+                 required/>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary" (click)="onSubmit('Add')">Add...</button> &nbsp;
+        <button type="button" class="btn btn-primary" (click)="onSubmit('Leave')">Add and leave</button>
+      </form>
+    </div>
+    <div class="offset-3"></div>
+  </div>
+</div>

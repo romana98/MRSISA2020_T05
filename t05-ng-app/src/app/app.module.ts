@@ -6,14 +6,17 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { Router, Routes, RouterModule} from "@angular/router";
 import { FormsModule,ReactiveFormsModule } from "@angular/forms";
 import { AddDoctorFormComponent } from './add-doctor-form/add-doctor-form.component';
-import { AddAdminClinicFromComponent } from './add-admin-clinic-form/add-admin-clinic-form.component';
+import { AddClinicCenterAdminFromComponent } from './add-clinic-center-administrator-form/add-clinic-center-administrator-form.component';
 import { AddClinicFromComponent } from './add-clinic-form/add-clinic-form.component';
-import { AddAdminFromComponent } from './add-admin-form/add-admin-form.component';
+import { AddClinicAdminFromComponent } from './add-clinic-administrator-form/add-clinic-administrator-form.component';
 import { EditPatientProfile } from './edit-patient/edit-patient.component';
 import { RegisterPatientForm } from './register-patient-form/register-patient.component';
-import { HttpClientModule } from "@angular/common/http";
-import { AddPredifinedAppointmentComponent } from './add-predifined-appointment/add-predifined-appointment.component'
-
+import { AddHallFormComponent } from './add-hall-form/add-hall-form.component';
+import { EditMedicalStaff } from './edit-medical-staff/edit-medical-staff.component';
+import { HttpClientModule } from "@angular/common/http"
+import {AddMedicineFromComponent} from "./add-medicine-form/add-medicine-form.component";
+import {AddDiagnosisFormComponent} from "./add-diagnosis-form/add-diagnosis-form.component";
+import {RequestListPatientsComponent} from "./request-list-patients/request-list-patients.component";
 const appRoutes : Routes = [
   {
     path : 'addDoctor',
@@ -23,19 +26,19 @@ const appRoutes : Routes = [
     path : '',
     component : AddDoctorFormComponent,
     pathMatch : 'full'
-    
+
   },
   {
-    path: 'addAdminClinic',
-    component : AddAdminClinicFromComponent
+    path: 'addClinicCenterAdministrator',
+    component : AddClinicCenterAdminFromComponent
   },
   {
     path: 'addClinic',
     component : AddClinicFromComponent
   },
   {
-    path: 'addAdmin',
-    component : AddAdminFromComponent
+    path: 'addClinicAdministrator',
+    component : AddClinicAdminFromComponent
   },
   {
     path: 'editPatient',
@@ -47,8 +50,35 @@ const appRoutes : Routes = [
   },
   
   {
+
     path : 'addPredefinedAppointment',
     component : AddPredifinedAppointmentComponent
+  },
+
+  {
+    path : 'addHall',
+    component : AddHallFormComponent
+  },
+  {
+    path: 'editMedicalStaff',
+    component : EditMedicalStaff
+  },
+  {
+    path : 'addMedicine',
+    component : AddMedicineFromComponent
+  },
+  {
+    path : 'addDiagnosis',
+    component : AddDiagnosisFormComponent
+  },
+  {
+    path : 'requestTable',
+    component : RequestListPatientsComponent
+  },
+  {
+    path : '**',
+    component : NavigationComponent
+>>>>>>> refs/remotes/origin/master
   }
 
 ]
@@ -58,12 +88,17 @@ const appRoutes : Routes = [
     AppComponent,
     NavigationComponent,
     AddDoctorFormComponent,
-    AddAdminClinicFromComponent,
+    AddClinicCenterAdminFromComponent,
     AddClinicFromComponent,
-    AddAdminFromComponent,
+    AddClinicAdminFromComponent,
+    AddMedicineFromComponent,
+    AddDiagnosisFormComponent,
+    RequestListPatientsComponent,
     EditPatientProfile,
     RegisterPatientForm,
     AddPredifinedAppointmentComponent,
+    AddHallFormComponent,
+    EditMedicalStaff
   ],
   imports: [
     BrowserModule,
@@ -71,7 +106,7 @@ const appRoutes : Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes)
-    
+
   ],
   providers: [],
   bootstrap: [AppComponent]
