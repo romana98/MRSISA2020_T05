@@ -47,23 +47,6 @@
                         [ngClass] = "{'is-invalid':f.submitted}"
                         readonly/>
                     </div>
-                    <label>Worktime: </label>
-                    <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label>Start</label>
-                        <input type="date" class="form-control" placeholder="hh:mm"
-                        [(ngModel)] = "model.workStart" name="startwork_input"
-                        #start="ngModel"
-                        [ngClass] = "{'is-invalid' : f.submitted}"
-                        readonly/>
-                        <label>End</label>
-                        <input type="date" class="form-control" placeholder="hh:mm"
-                        [(ngModel)] = "model.workEnd" name="endwork_input"
-                        #end="ngModel"
-                        [ngClass] = "{'is-invalid' : f.submitted}"
-                        readonly/>
-                    </div>
-                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>

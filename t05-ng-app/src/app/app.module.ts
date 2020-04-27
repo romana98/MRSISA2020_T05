@@ -16,7 +16,7 @@ import { EditMedicalStaff } from './edit-medical-staff/edit-medical-staff.compon
 import { HttpClientModule } from "@angular/common/http"
 import {AddMedicineFromComponent} from "./add-medicine-form/add-medicine-form.component";
 import {AddDiagnosisFormComponent} from "./add-diagnosis-form/add-diagnosis-form.component";
-
+import {RequestListPatientsComponent} from "./request-list-patients/request-list-patients.component";
 const appRoutes : Routes = [
   {
     path : 'addDoctor',
@@ -65,6 +65,10 @@ const appRoutes : Routes = [
     component : AddDiagnosisFormComponent
   },
   {
+    path : 'requestTable',
+    component : RequestListPatientsComponent
+  },
+  {
     path : '**',
     component : NavigationComponent
   }
@@ -81,6 +85,7 @@ const appRoutes : Routes = [
     AddClinicAdminFromComponent,
     AddMedicineFromComponent,
     AddDiagnosisFormComponent,
+    RequestListPatientsComponent,
     EditPatientProfile,
     RegisterPatientForm,
     AddHallFormComponent,

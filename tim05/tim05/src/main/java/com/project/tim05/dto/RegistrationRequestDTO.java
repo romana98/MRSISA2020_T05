@@ -16,7 +16,9 @@ public class RegistrationRequestDTO {
    
    public RegistrationRequestDTO() {
 	super();
-}
+   }
+   
+ 
 
    public RegistrationRequestDTO(String email, String password, String name, String surname, String address, String city,
 		String country, String number, String insuranceId) {
@@ -88,19 +90,21 @@ public class RegistrationRequestDTO {
 		this.country = country;
 	}
 	
-	public String getNumber() {
+	public String getPhone_number() {
 		return phone_number;
 	}
-	
-	public void setNumber(String number) {
-		this.phone_number = number;
+
+	public void setPhone_number(String phone_number) {
+		this.phone_number = phone_number;
 	}
-	
-	public String getInsuranceId() {
+
+	public String getInsurance_number() {
 		return insurance_number;
 	}
-	
-	public void setInsuranceId(String insuranceId) {
-		this.insurance_number = insuranceId;
+
+	public void setInsurance_number(String insurance_number) {
+		this.insurance_number = insurance_number;
 	}
+	
+	
 }
