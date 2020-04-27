@@ -28,7 +28,7 @@ export class AddDiagnosisFormComponent implements OnInit{
     this.http.post(url, this.model).subscribe(
       res => {
         alert("Diagnosis added successfully");
-        location.reload();
+
       },
       err => {
         alert("Error has occurred while adding diagnosis");

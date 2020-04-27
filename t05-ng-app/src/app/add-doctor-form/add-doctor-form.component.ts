@@ -23,7 +23,7 @@ export class AddDoctorFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      
+
 
 
   }
@@ -33,7 +33,7 @@ export class AddDoctorFormComponent implements OnInit {
     this.http.post(url,this.model).subscribe(
         res => {
           alert("Doctor added successfully");
-          location.reload();
+
         },
         err => {
           alert("Error has occurred while adding doctor");

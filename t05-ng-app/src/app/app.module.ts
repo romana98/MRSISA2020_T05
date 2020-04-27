@@ -17,6 +17,7 @@ import { HttpClientModule } from "@angular/common/http"
 import {AddMedicineFromComponent} from "./add-medicine-form/add-medicine-form.component";
 import {AddDiagnosisFormComponent} from "./add-diagnosis-form/add-diagnosis-form.component";
 import {RequestListPatientsComponent} from "./request-list-patients/request-list-patients.component";
+import {AddPredifinedAppointmentComponent} from "./add-predifined-appointment/add-predifined-appointment.component";
 const appRoutes : Routes = [
   {
     path : 'addDoctor',
@@ -48,9 +49,8 @@ const appRoutes : Routes = [
     path : 'registerPatient',
     component : RegisterPatientForm
   },
-  
-  {
 
+  {
     path : 'addPredefinedAppointment',
     component : AddPredifinedAppointmentComponent
   },
@@ -78,7 +78,6 @@ const appRoutes : Routes = [
   {
     path : '**',
     component : NavigationComponent
->>>>>>> refs/remotes/origin/master
   }
 
 ]

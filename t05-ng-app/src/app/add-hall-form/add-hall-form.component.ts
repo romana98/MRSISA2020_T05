@@ -29,7 +29,7 @@ export class AddHallFormComponent implements OnInit{
         this.http.post(url, this.model).subscribe(
             res => {
                 alert("Hall added successfully");
-                location.reload();
+
             },
             err => {
                 alert("Error has occurred while adding hall");

@@ -28,7 +28,7 @@ export class AddClinicCenterAdminFromComponent implements OnInit{
         this.http.post(url, this.model).subscribe(
             res => {
                 alert("Clinic center administrator added successfully");
-                location.reload();
+
             },
             err => {
                 alert("Error has occurred while adding clinic center administrator!");

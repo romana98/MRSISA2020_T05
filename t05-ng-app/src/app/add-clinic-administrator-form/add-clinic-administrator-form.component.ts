@@ -42,7 +42,7 @@ export class AddClinicAdminFromComponent implements OnInit{
         this.http.post(url, this.model).subscribe(
             res => {
                 alert("Admin added successfully");
-                location.reload();
+
             },
             err => {
                 alert("Error has occurred while adding admin");
