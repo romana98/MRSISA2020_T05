@@ -33,7 +33,7 @@ export class EditPatientProfile implements OnInit{
         this.http.post(url,this.model).subscribe(
             res => {
                 alert("Your profile has been updated successfully!");
-                location.reload();
+
             },
             err => {
                 alert("Error has occurred while updating your profile!");

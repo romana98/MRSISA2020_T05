@@ -31,7 +31,7 @@
                     <label>Email</label>
                     <input type="email" class="form-control"
                     [(ngModel)] = "model.email" name="input_email"
-                    #email="ngModel" pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                    #email="ngModel" pattern="^(.+)@(.+)$"
                     [ngClass] = "{'is-invalid' : f.submitted && email.invalid}"
                         required/>
                     <div *ngIf="f.submitted && email.invalid">

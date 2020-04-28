@@ -20,7 +20,7 @@ public class PatientService {
 	public void editPatient(Patient patient) {
 		
 		try {
-	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "miloradpostgre123");
+	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 	        String query = "UPDATE patient set password = ?, name = ?, surname = ?, address = ?, city = ?, country = ?, phone_number = ?, insurance_number = ? WHERE email = ?;";
 	        PreparedStatement ps = connection.prepareStatement(query);
 			ps.setString(1, patient.getPassword());
@@ -43,8 +43,17 @@ public class PatientService {
 		return pa.findAll();
 	}
 	
-	public void addPatient(Patient patient) {
-		pa.save(patient);
+	public int addPatient(Patient patient) {
+		try {
+			
+			pa.save(patient);
+			
+		} catch (Exception e) {
+			
+			return 0;
+		}
+		
+		return 1;
 	}
 
 }

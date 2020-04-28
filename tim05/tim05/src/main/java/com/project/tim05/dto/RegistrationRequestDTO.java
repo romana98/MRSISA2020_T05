@@ -1,17 +1,48 @@
 package com.project.tim05.dto;
 
+import javax.validation.constraints.*;
+
+
 public class RegistrationRequestDTO {
    
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="^(.+)@(.+)$")
+	private String email;
 	
-   private String email;
-   private String password;
-   private String name;
-   private String surname;
-   private String address;
-   private String city;
-   private String country;
-   private String phone_number;
-   private String insurance_number;
+	@NotBlank 
+	@NotNull
+	@Min(value=8)
+	private String password;
+    @NotBlank 
+	@NotNull
+	@Pattern(regexp="[A-Za-z ]*")
+    private String name;
+    
+    @NotBlank 
+	@NotNull
+	@Pattern(regexp="[A-Za-z ]*")
+    private String surname;
+  
+    @NotBlank 
+	@NotNull
+    private String address;
+   
+    @NotBlank 
+	@NotNull
+    private String city;
+   
+    @NotBlank 
+	@NotNull
+    private String country;
+   
+    @NotBlank 
+	@NotNull
+    private String phone_number;
+   
+    @NotBlank 
+	@NotNull
+    private String insurance_number;
 
    
    public RegistrationRequestDTO() {

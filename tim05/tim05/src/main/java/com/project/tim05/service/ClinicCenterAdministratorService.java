@@ -14,8 +14,17 @@ public class ClinicCenterAdministratorService {
 	@Autowired
 	private ClinicCenterAdministratorRespository ccar;
 
-	public void addClinicCenterAdministrator(ClinicCenterAdministrator admincl) {
-		ccar.save(admincl);
+	public int addClinicCenterAdministrator(ClinicCenterAdministrator admincl) {
+		try {
+			
+			ccar.save(admincl);
+			
+		} catch (Exception e) {
+			
+			return 0;
+		}
+		
+		return 1;
 	}
 	
 	public List<ClinicCenterAdministrator> getClinicCenterAdministrators(){

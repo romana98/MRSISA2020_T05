@@ -61,7 +61,7 @@ const appRoutes : Routes = [
     path : 'registerPatient',
     component : RegisterPatientForm
   },
-  
+
   {
     path : 'addPredefinedAppointment',
     component : AddPredifinedAppointmentComponent
@@ -95,7 +95,8 @@ const appRoutes : Routes = [
   {
     path : '**',
     component : NavigationComponent
-  },
+  }
+
 
 ]
 

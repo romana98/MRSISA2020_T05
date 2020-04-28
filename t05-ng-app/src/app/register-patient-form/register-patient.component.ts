@@ -35,11 +35,17 @@ export class RegisterPatientForm implements OnInit{
         this.http.post(url,this.model).subscribe(
             res => {
                 alert("Your registration request has been sent! Your activation link will be sent to you soon.");
-                location.reload();
+
             },
             err => {
+              if(err.status == 409)
+              {
+                alert("Email already taken");
+              }
+            else
+              {
                 alert("Error has occurred while registering your profile!");
-                console.log(err)
+              }
             }
         );
     }

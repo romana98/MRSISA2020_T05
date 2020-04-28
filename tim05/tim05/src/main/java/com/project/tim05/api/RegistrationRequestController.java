@@ -3,7 +3,11 @@ package com.project.tim05.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +22,7 @@ import com.project.tim05.service.RegistrationRequestService;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/registrationRequests")
 @RestController
-public class RegistrationRequestController {
+public class RegistrationRequestController<T> {
 	
 	private final RegistrationRequestService rrs;
 	
@@ -38,7 +42,8 @@ public class RegistrationRequestController {
 	}
 	
 	@PostMapping("/registerPatient")
-	public int addPatient(@RequestBody RegistrationRequestDTO patient) {
+	public ResponseEntity<T> addPatient(@Valid @RequestBody RegistrationRequestDTO patient) {
+
 		RegistrationRequest rr = new RegistrationRequest();
 		rr.setAddress(patient.getAddress());
 		rr.setCity(patient.getCity());
@@ -49,8 +54,33 @@ public class RegistrationRequestController {
 		rr.setPhone_number(patient.getPhone_number());
 		rr.setPassword(patient.getPassword());
 		rr.setSurname(patient.getSurname());
-		rrs.addRegistrationRequest(rr);
-		return 200;
+		
+		int flag = rrs.addRegistrationRequest(rr);
+		if(flag == 0)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		else
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
+	
+	@PostMapping("/declineRequest")
+	public ResponseEntity<T> declineRequest(@Valid @RequestBody RegistrationRequestDTO patient) {
+		RegistrationRequest rr = new RegistrationRequest();
+		rr.setAddress(patient.getAddress());
+		rr.setCity(patient.getCity());
+		rr.setCountry(patient.getCountry());
+		rr.setEmail(patient.getEmail());
+		rr.setInsurance_number(patient.getInsurance_number());
+		rr.setName(patient.getName());
+		rr.setPhone_number(patient.getPhone_number());
+		rr.setPassword(patient.getPassword());
+		rr.setSurname(patient.getSurname());
+		int flag = rrs.removeRegistrationRequest(rr);
+		
+		if(flag == 0)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		else
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		
 	}
 
 }

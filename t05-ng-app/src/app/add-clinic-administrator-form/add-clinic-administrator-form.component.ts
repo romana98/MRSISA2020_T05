@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {clinicModel} from "../add-clinic-form/add-clinic-form.component";
 
 
@@ -10,7 +10,7 @@ import {clinicModel} from "../add-clinic-form/add-clinic-form.component";
 })
 export class AddClinicAdminFromComponent implements OnInit{
 
-    model: clinicAdminModel = {
+        model: clinicAdminModel = {
         name: '',
         surname: '',
         email: '',
@@ -42,11 +42,18 @@ export class AddClinicAdminFromComponent implements OnInit{
         this.http.post(url, this.model).subscribe(
             res => {
                 alert("Admin added successfully");
-                location.reload();
+
             },
             err => {
-                alert("Error has occurred while adding admin");
-                console.log(err);
+                if(err.status == 409)
+                {
+                  alert("Email already taken");
+                }
+                else
+                {
+                  alert("Error has occurred while adding admin");
+                  console.log(err);
+                }
             }
         );
 

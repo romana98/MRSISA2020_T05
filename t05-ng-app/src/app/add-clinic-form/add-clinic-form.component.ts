@@ -28,11 +28,18 @@ export class AddClinicFromComponent implements OnInit{
         this.http.post(url, this.model).subscribe(
             res => {
                 alert("Clinic added successfully");
-                location.reload();
+
             },
             err => {
+              if(err.status == 409)
+              {
+                alert("Clinic already exists");
+              }
+              else
+              {
                 alert("Error has occurred while adding clinic");
                 console.log(err);
+              }
             }
         );
 
@@ -42,6 +49,6 @@ export class AddClinicFromComponent implements OnInit{
 export interface clinicModel
 {
     name: string | RegExp;
-    address: string;
+    address: string | RegExp;
     description: string;
 }

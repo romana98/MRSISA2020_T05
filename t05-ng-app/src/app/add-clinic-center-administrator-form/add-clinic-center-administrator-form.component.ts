@@ -28,11 +28,18 @@ export class AddClinicCenterAdminFromComponent implements OnInit{
         this.http.post(url, this.model).subscribe(
             res => {
                 alert("Clinic center administrator added successfully");
-                location.reload();
+
             },
             err => {
-                alert("Error has occurred while adding clinic center administrator!");
+              if(err.status == 409)
+              {
+                alert("Email already taken");
+              }
+              else
+              {
+                alert("Error has occurred while adding clinic center administrator");
                 console.log(err);
+              }
             }
         );
 

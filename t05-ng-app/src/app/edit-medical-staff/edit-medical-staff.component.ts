@@ -29,7 +29,7 @@ export class EditMedicalStaff implements OnInit{
         this.http.post(url,this.model).subscribe(
             res => {
                 alert("Your profile has been updated successfully!");
-                location.reload();
+
             },
             err => {
                 alert("Error has occured while updating your profile!");
