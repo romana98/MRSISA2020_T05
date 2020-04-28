@@ -1,48 +1,54 @@
-<div class="container">
-  <div class="row">
-    <div class="offset-3"></div>
-    <div class="col-md-auto">
-      <br>
-      <h2>Table Of Requests</h2>
-      <br>
-      <div *ngIf="requests.length > 0">
-        <table class="table table-hover">
-          <thead>
-          <tr>
-            <th>Email</th>
-            <th>Name</th>
-            <th>Surname</th>
-            <th>Address</th>
-            <th>City</th>
-            <th>County</th>
-            <th>Phone number</th>
-            <th>Insurance number</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let req of requests">
-            <th>{{ req.email }}</th>
-            <td>{{ req.name }}</td>
-            <td>{{ req.surname }}</td>
-            <td>{{ req.address}}</td>
-            <td>{{ req.city }}</td>
-            <td>{{ req.country }}</td>
-            <td>{{ req.phone_number }}</td>
-            <td>{{ req.insurance_number }}</td>
-            <td>
-              <button type="button" (click)="Accept(req)" >Accept</button>
-            </td>
-            <td>
-              <button type="button" (click)="Decline(req)">Decline</button>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-      <div *ngIf="requests.length == 0">
-        <h5>No requests</h5>
-      </div>
-    </div>
-    <div class="offset-3"></div>
-  </div>
+<br>
+<h1 style="margin-left: 30px;">Table of requests </h1>
+<mat-divider></mat-divider>
+<br>
+
+<div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="surname">
+      <th mat-header-cell *matHeaderCellDef> Surname </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef> Address </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="city">
+      <th mat-header-cell *matHeaderCellDef> City </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="country">
+      <th mat-header-cell *matHeaderCellDef> Country </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="phone_number">
+      <th mat-header-cell *matHeaderCellDef> Phone number </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="insurance_number">
+      <th mat-header-cell *matHeaderCellDef> Insurance number </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>

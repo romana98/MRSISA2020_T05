@@ -22,6 +22,7 @@ export class AddClinicAdminFromComponent implements OnInit{
         }
     }
     clinics: any=[];
+    hide: boolean;
 
     constructor(private http: HttpClient){
 
@@ -34,7 +35,7 @@ export class AddClinicAdminFromComponent implements OnInit{
             this.clinics = res;
             this.model.clinic = res[0];
         });
-
+        this.hide = true;
     }
 
     AddClinicAdmin(): void{

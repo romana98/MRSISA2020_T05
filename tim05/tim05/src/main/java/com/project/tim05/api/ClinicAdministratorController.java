@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.ClinicAdministratorDTO;
+import com.project.tim05.model.Clinic;
 import com.project.tim05.model.ClinicAdministrator;
 import com.project.tim05.service.ClinicAdministratorService;
 import com.project.tim05.service.ClinicService;
@@ -40,8 +41,11 @@ public class ClinicAdministratorController<T> {
 	
 	@PostMapping("/addClinicAdministrator")
 	public ResponseEntity<T> addClinicAdministrator(@Valid @RequestBody ClinicAdministratorDTO cca) {
-		
-		ClinicAdministrator cadmin = new ClinicAdministrator(cca.getName(), cca.getSurname(), cca.getEmail(), cca.getPassword(), cs.getClinic(cca.getClinic()));
+		Clinic cl = cs.getClinic(cca.getClinic());
+		if(cl == null)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
+					;
+		ClinicAdministrator cadmin = new ClinicAdministrator(cca.getName(), cca.getSurname(), cca.getEmail(), cca.getPassword(), cl);
 		int flag = cas.addClinicAdministrator(cadmin);
 		
 		if(flag == 0)

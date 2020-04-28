@@ -14,13 +14,14 @@ export class AddClinicCenterAdminFromComponent implements OnInit{
         email: '',
         password: ''
     }
+  hide: boolean;
 
     constructor(private http: HttpClient){
 
     }
 
     ngOnInit(): void{
-
+        this.hide = true;
     }
 
     AddClinicCenterAdmin(): void{

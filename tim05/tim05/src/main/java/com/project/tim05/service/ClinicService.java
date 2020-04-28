@@ -38,7 +38,7 @@ public class ClinicService {
 	}
 	
 	public Clinic getClinic(ClinicDTO clinic){
-		Clinic c = new Clinic();
+		Clinic c = null;
 		try {
 			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 			
@@ -50,6 +50,7 @@ public class ClinicService {
 			if(!rs.next())
 				return c;
 			
+			c = new Clinic();
 			c.setId(rs.getInt("clinic_id")); c.setName(rs.getString("name"));
 			c.setAddress(rs.getString("address")); c.setDescription(rs.getString("description"));
 			

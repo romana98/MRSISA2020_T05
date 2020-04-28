@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.hibernate.validator.cfg.defs.EmailDef;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.RegistrationRequestDTO;
 import com.project.tim05.model.RegistrationRequest;
+import com.project.tim05.service.EmailService;
 import com.project.tim05.service.RegistrationRequestService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -25,10 +27,12 @@ import com.project.tim05.service.RegistrationRequestService;
 public class RegistrationRequestController<T> {
 	
 	private final RegistrationRequestService rrs;
+	private final EmailService es;
 	
 	@Autowired
-	public RegistrationRequestController(RegistrationRequestService rrs) {
+	public RegistrationRequestController(RegistrationRequestService rrs, EmailService es) {
 		this.rrs = rrs;
+		this.es = es;
 	}
 	
 	@GetMapping("/getRequests")
@@ -43,7 +47,7 @@ public class RegistrationRequestController<T> {
 	
 	@PostMapping("/registerPatient")
 	public ResponseEntity<T> addPatient(@Valid @RequestBody RegistrationRequestDTO patient) {
-
+	
 		RegistrationRequest rr = new RegistrationRequest();
 		rr.setAddress(patient.getAddress());
 		rr.setCity(patient.getCity());

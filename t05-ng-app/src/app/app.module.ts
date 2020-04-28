@@ -3,10 +3,10 @@ import { NgModule, Component } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from '@angular/material/core';
+import {MatNativeDateModule, ErrorStateMatcher} from '@angular/material/core';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatError, MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import {MatDividerModule} from '@angular/material/divider';
@@ -14,7 +14,7 @@ import {MatButtonModule, MatButton} from '@angular/material/button';
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { Router, Routes, RouterModule} from "@angular/router";
-import { FormsModule,ReactiveFormsModule } from "@angular/forms";
+import {FormControl, FormGroupDirective, NgForm, Validators, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { AddDoctorFormComponent } from './add-doctor-form/add-doctor-form.component';
 import { AddClinicCenterAdminFromComponent } from './add-clinic-center-administrator-form/add-clinic-center-administrator-form.component';
 import { AddClinicFromComponent } from './add-clinic-form/add-clinic-form.component';
@@ -29,6 +29,9 @@ import {AddDiagnosisFormComponent} from "./add-diagnosis-form/add-diagnosis-form
 import {RequestListPatientsComponent} from "./request-list-patients/request-list-patients.component";
 import { AddPredifinedAppointmentComponent } from './add-predifined-appointment/add-predifined-appointment.component';
 import { AddAppointmentTypeComponent } from './add-appointment-type/add-appointment-type.component';
+import {MatIconModule} from "@angular/material/icon";
+import {MatTableModule} from "@angular/material/table";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 const appRoutes : Routes = [
   {
@@ -133,7 +136,10 @@ const appRoutes : Routes = [
     NgxMaterialTimepickerModule,
     MatSelectModule,
     MatDividerModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule,
+    MatTableModule,
+    MatPaginatorModule
 
   ],
   providers: [MatDatepickerModule],

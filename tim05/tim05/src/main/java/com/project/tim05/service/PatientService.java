@@ -3,6 +3,7 @@ package com.project.tim05.service;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,33 @@ public class PatientService {
 	public List<Patient> getPatients(){
 		return pa.findAll();
 	}
+	
+	public int getPatientId(String email)
+	{
+		int id = -1;
+		try {
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			
+			PreparedStatement st = conn.prepareStatement("SELECT * FROM patients WHERE email = ?");
+			st.setString(1, email);
+			
+			ResultSet rs = st.executeQuery();
+			
+			if(!rs.next())
+				return id;
+			
+			id = rs.getInt("patient_id");
+			
+			rs.close();
+			st.close();		
+			
+		} catch (SQLException e) {
+			
+			return id;
+		}
+		return id;
+	}
+	
 	
 	public int addPatient(Patient patient) {
 		try {

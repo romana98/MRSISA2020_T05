@@ -1,44 +1,44 @@
-<div class="container">
-    <div class="row">
-        <div class="offset-3"></div>
-        <div class="col-md-8">
-            <br>
-                <h2>Add Clinic</h2>
-            <br>
-            <form name="form" #f="ngForm" (submit)="f.form.valid && AddClinic()">
-                <div class="from-group col-md-8">
-                    <label>Name</label>
-                    <input type="text" class="form-control" [(ngModel)] = "model.name" name="input_name"
-                    #name="ngModel" pattern="[A-Za-z0-9 ]*"
-                    [ngClass] = "{'is-invalid': f.submitted && name.invalid}"
-                    required/>
-                    <div *ngIf="f.submitted && name.invalid">
-                        <div *ngIf="name.errors?.pattern">Name can only have letters, numbers and space!</div>
-                    </div>
-                </div>
-                <div class="from-group col-md-8">
-                    <label>Address</label>
-                    <input type="text" class="form-control" [(ngModel)] = "model.address" name="input_address"
-                    #address="ngModel"  pattern="[A-Za-z0-9 ]*"
-                    [ngClass] = "{'is-invalid': f.submitted && address.invalid}"
-                    required/>
-                    <div *ngIf="f.submitted && address.invalid">
-                      <div *ngIf="address.errors?.pattern">Addres can only have letters, numbers and space!</div>
-                    </div>
-                </div>
-                <div class="from-group col-md-8">
-                    <label>Description</label>
-                    <input type="text" class="form-control" [(ngModel)] = "model.description" name="input_description"
-                    #description="ngModel"
-                    [ngClass] = "{'is-invalid': f.submitted && description.invalid}"
-                    required/>
+<br>
+<h1 style="margin-left: 30px;">Add new clinic: </h1>
+<mat-divider></mat-divider>
+<br>
 
-                </div>
+<div >
+  <form  #f="ngForm" (submit)="f.form.valid && AddClinic()" class="example-form" style="padding-left: 25px;">
 
-                <br>
-                <button type="submit" class="btn btn-primary">Add...</button>
-            </form>
-        </div>
-        <div class="offset-3"></div>
-    </div>
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Name</mat-label>
+      <input matInput  [(ngModel)] = "model.name" #name="ngModel"  name="input_name"
+             pattern="[A-Za-z0-9 ]*" required>
+      <mat-error *ngIf="name.invalid && name.errors?.pattern">
+        Name can only have letters, numbers and space!
+      </mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Address</mat-label>
+      <input matInput  [(ngModel)] = "model.address" #address="ngModel"  name="input_address"
+             pattern="[A-Za-z0-9 ]*" required>
+      <mat-error *ngIf="address.invalid && address.errors?.pattern">
+        Address can only have letters, numbers and space!
+      </mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Description</mat-label>
+      <input matInput  [(ngModel)] = "model.description" #description="ngModel"  name="input_description"
+             required>
+    </mat-form-field>
+
+    <br>
+    <br>
+
+    <button mat-raised-button >Add clinic</button>
+
+
+  </form>
 </div>
