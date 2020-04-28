@@ -20,8 +20,17 @@ public class ClinicService {
 	@Autowired
 	private ClinicRespository cr;
 	
-	public void addClinic(Clinic clinic) {
-		cr.save(clinic);
+	public int addClinic(Clinic clinic) {
+		try {
+			
+			cr.save(clinic);
+			
+		} catch (Exception e) {
+			
+			return 0;
+		}
+		
+		return 1;	
 	}
 	
 	public List<Clinic> getClinics(){
@@ -37,7 +46,9 @@ public class ClinicService {
 			st.setString(1, clinic.getName());
 			st.setString(2, clinic.getAddress());
 			ResultSet rs = st.executeQuery();
-			rs.next();
+			
+			if(!rs.next())
+				return c;
 			
 			c.setId(rs.getInt("clinic_id")); c.setName(rs.getString("name"));
 			c.setAddress(rs.getString("address")); c.setDescription(rs.getString("description"));
@@ -47,7 +58,7 @@ public class ClinicService {
 			
 		} catch (SQLException e) {
 			
-			e.printStackTrace();
+			return c;
 		}
 	
 		return c;

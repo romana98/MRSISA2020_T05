@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +20,7 @@ import com.project.tim05.service.ClinicService;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/clinic")
 @RestController
-public class ClinicController {
+public class ClinicController<T> {
 
 	private final ClinicService cs;
 	
@@ -38,9 +40,33 @@ public class ClinicController {
 	}
 	
 	@PostMapping("/addClinic")
-	public int addClinic(@RequestBody ClinicDTO c) {
+	public ResponseEntity<T> addClinic(@RequestBody ClinicDTO c) {
+		if(check(c) == 0)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		
 		Clinic cl = new Clinic(c.getName(), c.getAddress(), c.getDescription());
-		cs.addClinic(cl);
-		return 200;
+		int flag = cs.addClinic(cl);
+		System.out.println(flag);
+		if(flag == 0)
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		else
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+	
+	}
+	
+	public int check(ClinicDTO cDTO) {   
+		
+		if(cDTO.getName() == null || cDTO.getName().length() == 0 || cDTO.getName().matches("[^A-Za-z0-9 ]*")) {
+			return 0;
+		}
+		else if(cDTO.getAddress() == null || cDTO.getAddress().length() == 0) {
+			return 0;
+		}
+		else if(cDTO.getDescription() == null || cDTO.getDescription().length() == 0) {
+			return 0;
+		}
+		
+		return 1;
+		
 	}
 }

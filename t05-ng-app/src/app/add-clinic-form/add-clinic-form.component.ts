@@ -31,8 +31,14 @@ export class AddClinicFromComponent implements OnInit{
 
             },
             err => {
+              if(err.status == 409)
+              {
+                alert("Clinic already exists");
+              }
+              else
+              {
                 alert("Error has occurred while adding clinic");
-                console.log(err);
+              }
             }
         );
 
@@ -42,6 +48,6 @@ export class AddClinicFromComponent implements OnInit{
 export interface clinicModel
 {
     name: string | RegExp;
-    address: string;
+    address: string | RegExp;
     description: string;
 }

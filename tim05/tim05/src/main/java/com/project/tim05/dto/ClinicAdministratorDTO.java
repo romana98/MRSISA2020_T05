@@ -1,17 +1,35 @@
 package com.project.tim05.dto;
 
+import javax.validation.constraints.*;
 
 public class ClinicAdministratorDTO {
-   private String name;
-   private String surname;
-   private String password;
-   private String email;
+	
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="[A-Za-z ]*")
+    private String name;
+	
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="[A-Za-z ]*", message = "{model.surname.invalid}")
+    private String surname;
+	
+	@NotBlank 
+	@NotNull
+	@Min(value=8)
+    private String password;
+	
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="^(.+)@(.+)$")
+    private String email;
    
-   private ClinicDTO clinic;
+	@NotNull
+    private ClinicDTO clinic;
    
  
-   public ClinicAdministratorDTO() {
-	super();
+    public ClinicAdministratorDTO() {
+    	super();
 	
    }
 

@@ -23,7 +23,7 @@ public class ClinicAdministrator {
 	@Column(name = "password", nullable = false)
 	private String password;
    
-	@Column(name = "email", nullable = false)
+	@Column(name = "email", unique = true, nullable = false)
 	private String email;
    
 	@OneToOne( fetch=FetchType.LAZY)

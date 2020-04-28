@@ -31,11 +31,16 @@ export class RequestListPatientsComponent implements OnInit{
       res => {
         let index = this.requests.indexOf(req);
         this.requests.splice(index, 1);
-        alert("Patient registered!");
+        alert("Patient registered");
       },
       err => {
-        alert("Error has occurred while registering patient!");
-        console.log(err)
+        if(err.status == 409)
+        {
+          alert("Patient already exists with" + req.email + "email");
+        }
+        else {
+          alert("Error has occurred while registering patient");
+        }
       }
     );
   }

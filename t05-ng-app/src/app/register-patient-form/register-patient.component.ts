@@ -38,8 +38,14 @@ export class RegisterPatientForm implements OnInit{
 
             },
             err => {
+              if(err.status == 409)
+              {
+                alert("Email already taken");
+              }
+            else
+              {
                 alert("Error has occurred while registering your profile!");
-                console.log(err)
+              }
             }
         );
     }

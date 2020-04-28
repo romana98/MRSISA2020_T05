@@ -31,8 +31,14 @@ export class AddClinicCenterAdminFromComponent implements OnInit{
 
             },
             err => {
-                alert("Error has occurred while adding clinic center administrator!");
-                console.log(err);
+              if(err.status == 409)
+              {
+                alert("Email already taken");
+              }
+              else
+              {
+                alert("Error has occurred while adding clinic center administrator");
+              }
             }
         );
 

@@ -43,8 +43,17 @@ public class PatientService {
 		return pa.findAll();
 	}
 	
-	public void addPatient(Patient patient) {
-		pa.save(patient);
+	public int addPatient(Patient patient) {
+		try {
+			
+			pa.save(patient);
+			
+		} catch (Exception e) {
+			
+			return 0;
+		}
+		
+		return 1;
 	}
 
 }
