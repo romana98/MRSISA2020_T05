@@ -12,16 +12,14 @@ public class PatientDTO {
    private String country;
    private String phone_number;
    private String insurance_number;
-   
-   private MedicalRecordDTO medicalRecord;
-   
+      
  
    public PatientDTO() {
 		super();
 	}
 
 	public PatientDTO(String email, String password, String name, String surname, String address, String city, String town,
-			String phone_number, String insurance_number, MedicalRecordDTO medicalRecord) {
+			String phone_number, String insurance_number) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -32,7 +30,6 @@ public class PatientDTO {
 		this.country = town;
 		this.phone_number = phone_number;
 		this.insurance_number = insurance_number;
-		this.medicalRecord = medicalRecord;
 	}
 
    
@@ -106,14 +103,6 @@ public class PatientDTO {
 
 	public void setInsurance_number(String insurance_number) {
 		this.insurance_number = insurance_number;
-	}
-
-	public MedicalRecordDTO getMedicalRecord() {
-		return medicalRecord;
-	}
-	
-	public void setMedicalRecord(MedicalRecordDTO medicalRecord) {
-		this.medicalRecord = medicalRecord;
 	}
 
 }

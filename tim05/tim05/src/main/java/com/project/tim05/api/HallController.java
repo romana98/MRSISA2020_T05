@@ -22,7 +22,7 @@ import com.project.tim05.service.HallService;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/halls")
 @RestController
-public class HallController {
+public class HallController<T> {
 	
 	private final HallService hs;
 	private final ClinicAdministratorService cas;
@@ -34,7 +34,7 @@ public class HallController {
 	}
 	
 	@PostMapping("/addHall")
-	public void addHall(@Valid @RequestBody HallDTO hall) {
+	public ResponseEntity<T> addHall(@Valid @RequestBody HallDTO hall) {
 		Hall h = new Hall();
 		h.setName(hall.getName());
 		h.setNumber(hall.getNumber());
@@ -46,12 +46,12 @@ public class HallController {
 				break;
 			}
 		}
-		//int flag = hs.addHall(h);
+		int flag = hs.addHall(h);
 		
-		//if(flag == 0)
-			//return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-		//else
-			//return ResponseEntity.status(HttpStatus.OK).body(null);
+		if(flag == 0)
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		else
+			return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 	
 

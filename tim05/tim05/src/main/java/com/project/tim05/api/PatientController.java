@@ -2,6 +2,8 @@ package com.project.tim05.api;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +23,7 @@ import com.project.tim05.service.RegistrationRequestService;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/patients")
 @RestController
-public class PatientController {
+public class PatientController<T> {
 	
 	private final PatientService ps;
 	private final RegistrationRequestService rrs;
@@ -38,13 +40,21 @@ public class PatientController {
 	}
 	
 	@PostMapping("/editPatient")
-	public int editPatient(@RequestBody Patient patient) {
-		ps.editPatient(patient);
-		return 0;
+	public ResponseEntity<T> editPatient(@Valid @RequestBody PatientDTO patient) {
+		Patient p = new Patient();
+		p.setAddress(patient.getAddress());
+		p.setCity(patient.getCity());
+		p.setCountry(patient.getCountry());
+		p.setName(patient.getName());
+		p.setPassword(patient.getPassword());
+		p.setPhone_number(patient.getPhone_number());
+		p.setSurname(patient.getSurname());
+		ps.editPatient(p);
+		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 	
 	@PostMapping("/addPatient")
-	public <T> ResponseEntity<T> addPatient(@RequestBody PatientDTO p) {
+	public ResponseEntity<T> addPatient(@Valid @RequestBody PatientDTO p) {
 		//TODO check
 		
 		int flag = ps.addPatient(new Patient(p.getEmail(), p.getPassword(), p.getName(), p.getSurname(), p.getAddress(), p.getCity(), p.getCountry(), p.getPhone_number(), p.getInsurance_number()));
