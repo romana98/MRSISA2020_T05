@@ -3,205 +3,113 @@ package com.project.tim05.dto;
 import java.util.*;
 
 public class AppointmentDTO {
- 
-   private Date dateTime;
-   private int duration;
-   private double price;
-   private boolean request;
-   private boolean finished;
-   
-   private ClinicDTO clinic;
-   private HallDTO hall;
-   private DoctorDTO doctor;
-   private AppointmentTypeDTO appointmentType;
-   private Set<MedicineDTO> medicines;
-   private Set<DiagnosisDTO> diagnosises;
-   private Set<DiseaseDTO> diseases;
-   
-   
-   
-   public AppointmentDTO() {
-	super();
-	this.medicines = new HashSet<>();
-	this.diagnosises = new HashSet<>();
-	this.diseases = new HashSet<>();
-}
 
-public AppointmentDTO(Date dateTime, int duration, double price, boolean request, boolean finished, ClinicDTO clinic,
-		HallDTO hall, DoctorDTO doctor, AppointmentTypeDTO appointmentType, HashSet<MedicineDTO> medicine,
-		HashSet<DiagnosisDTO> diagnosis, HashSet<DiseaseDTO> disease) {
-	super();
-	this.dateTime = dateTime;
-	this.duration = duration;
-	this.price = price;
-	this.request = request;
-	this.finished = finished;
-	this.clinic = clinic;
-	this.hall = hall;
-	this.doctor = doctor;
-	this.appointmentType = appointmentType;
-	this.medicines = medicine;
-	this.diagnosises = diagnosis;
-	this.diseases = disease;
-}
+	private Date dateTime;
+	private int duration;
+	private double price;
+	private boolean request;
+	private boolean finished;
+	private boolean predefined;
 
-public Set<MedicineDTO> getMedicine() {
-      if (medicines == null)
-         medicines = new HashSet<MedicineDTO>();
-      return medicines;
-   }
-   
-   public Iterator<MedicineDTO> getIteratorMedicine() {
-      if (medicines == null)
-         medicines = new HashSet<MedicineDTO>();
-      return medicines.iterator();
-   }
-   
-   public void setMedicine(HashSet<MedicineDTO> newMedicine) {
-      removeAllMedicine();
-      for (Iterator<MedicineDTO> iter = newMedicine.iterator(); iter.hasNext();)
-         addMedicine((MedicineDTO)iter.next());
-   }
-   
-   public void addMedicine(MedicineDTO newMedicine) {
-      if (newMedicine == null)
-         return;
-      if (this.medicines == null)
-         this.medicines = new HashSet<MedicineDTO>();
-      if (!this.medicines.contains(newMedicine))
-         this.medicines.add(newMedicine);
-   }
-   
-   public void removeMedicine(MedicineDTO oldMedicine) {
-      if (oldMedicine == null)
-         return;
-      if (this.medicines != null)
-         if (this.medicines.contains(oldMedicine))
-            this.medicines.remove(oldMedicine);
-   }
-   
-   public void removeAllMedicine() {
-      if (medicines != null)
-         medicines.clear();
-   }
-   public Set<DiagnosisDTO> getDiagnosis() {
-      if (diagnosises == null)
-         diagnosises = new HashSet<DiagnosisDTO>();
-      return diagnosises;
-   }
-   
-   public Iterator<DiagnosisDTO> getIteratorDiagnosis() {
-      if (diagnosises == null)
-         diagnosises = new HashSet<DiagnosisDTO>();
-      return diagnosises.iterator();
-   }
-   
-   public void setDiagnosis(HashSet<DiagnosisDTO> newDiagnosis) {
-      removeAllDiagnosis();
-      for (Iterator<DiagnosisDTO> iter = newDiagnosis.iterator(); iter.hasNext();)
-         addDiagnosis((DiagnosisDTO)iter.next());
-   }
-   
-   public Date getDateTime() {
-	return dateTime;
-}
+	private ClinicDTO clinic;
+	private HallDTO hall;
+	private DoctorDTO doctor;
+	private AppointmentTypeDTO appointmentType;
 
-public void setDateTime(Date dateTime) {
-	this.dateTime = dateTime;
-}
+	public AppointmentDTO(Date dateTime, int duration, double price, boolean request, boolean finished,
+			ClinicDTO clinic, boolean predefined, HallDTO hall, DoctorDTO doctor, AppointmentTypeDTO appointmentType) {
+		super();
+		this.dateTime = dateTime;
+		this.duration = duration;
+		this.price = price;
+		this.request = request;
+		this.finished = finished;
+		this.predefined = predefined;
+		this.clinic = clinic;
+		this.hall = hall;
+		this.doctor = doctor;
+		this.appointmentType = appointmentType;
+	}
 
-public int getDuration() {
-	return duration;
-}
+	public boolean isPredefined() {
+		return predefined;
+	}
 
-public void setDuration(int duration) {
-	this.duration = duration;
-}
+	public void setPredefined(boolean predefined) {
+		this.predefined = predefined;
+	}
 
-public double getPrice() {
-	return price;
-}
+	public Date getDateTime() {
+		return dateTime;
+	}
 
-public void setPrice(double price) {
-	this.price = price;
-}
+	public void setDateTime(Date dateTime) {
+		this.dateTime = dateTime;
+	}
 
-public boolean isRequest() {
-	return request;
-}
+	public int getDuration() {
+		return duration;
+	}
 
-public void setRequest(boolean request) {
-	this.request = request;
-}
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
 
-public boolean isFinished() {
-	return finished;
-}
+	public double getPrice() {
+		return price;
+	}
 
-public void setFinished(boolean finished) {
-	this.finished = finished;
-}
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
-public ClinicDTO getClinic() {
-	return clinic;
-}
+	public boolean isRequest() {
+		return request;
+	}
 
-public void setClinic(ClinicDTO clinic) {
-	this.clinic = clinic;
-}
+	public void setRequest(boolean request) {
+		this.request = request;
+	}
 
-public HallDTO getHall() {
-	return hall;
-}
+	public boolean isFinished() {
+		return finished;
+	}
 
-public void setHall(HallDTO hall) {
-	this.hall = hall;
-}
+	public void setFinished(boolean finished) {
+		this.finished = finished;
+	}
 
-public DoctorDTO getDoctor() {
-	return doctor;
-}
+	public ClinicDTO getClinic() {
+		return clinic;
+	}
 
-public void setDoctor(DoctorDTO doctor) {
-	this.doctor = doctor;
-}
+	public void setClinic(ClinicDTO clinic) {
+		this.clinic = clinic;
+	}
 
-public AppointmentTypeDTO getAppointmentType() {
-	return appointmentType;
-}
+	public HallDTO getHall() {
+		return hall;
+	}
 
-public void setAppointmentType(AppointmentTypeDTO appointmentType) {
-	this.appointmentType = appointmentType;
-}
+	public void setHall(HallDTO hall) {
+		this.hall = hall;
+	}
 
-public Set<DiseaseDTO> getDisease() {
-	return diseases;
-}
+	public DoctorDTO getDoctor() {
+		return doctor;
+	}
 
-public void setDisease(HashSet<DiseaseDTO> disease) {
-	this.diseases = disease;
-}
+	public void setDoctor(DoctorDTO doctor) {
+		this.doctor = doctor;
+	}
 
-   public void addDiagnosis(DiagnosisDTO newDiagnosis) {
-      if (newDiagnosis == null)
-         return;
-      if (this.diagnosises == null)
-         this.diagnosises = new HashSet<DiagnosisDTO>();
-      if (!this.diagnosises.contains(newDiagnosis))
-         this.diagnosises.add(newDiagnosis);
-   }
-   
-   public void removeDiagnosis(DiagnosisDTO oldDiagnosis) {
-      if (oldDiagnosis == null)
-         return;
-      if (this.diagnosises != null)
-         if (this.diagnosises.contains(oldDiagnosis))
-            this.diagnosises.remove(oldDiagnosis);
-   }
-   
-   public void removeAllDiagnosis() {
-      if (diagnosises != null)
-         diagnosises.clear();
-   }
+	public AppointmentTypeDTO getAppointmentType() {
+		return appointmentType;
+	}
+
+	public void setAppointmentType(AppointmentTypeDTO appointmentType) {
+		this.appointmentType = appointmentType;
+	}
+
 
 }

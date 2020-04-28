@@ -32,8 +32,15 @@ export class AddMedicineFromComponent implements OnInit{
 
       },
       err => {
-        alert("Error has occurred while adding medicine");
-        console.log(err);
+        if(err.status == 409)
+        {
+          alert("Medicine already exists");
+        }
+        else
+        {
+          alert("Error has occurred while adding medicine");
+          console.log(err);
+        }
       }
     );
 

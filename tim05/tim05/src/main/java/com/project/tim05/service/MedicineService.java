@@ -14,8 +14,17 @@ public class MedicineService {
 	@Autowired
 	private MedicineRepository mr;
 	
-	public void addMedicine(Medicine medicine) {
-		mr.save(medicine);
+	public int addMedicine(Medicine medicine) {
+		try {
+			
+			mr.save(medicine);
+			
+		} catch (Exception e) {
+			
+			return 0;
+		}
+		
+		return 1;	
 	}
 	
 	public List<Medicine> getMedicines(){

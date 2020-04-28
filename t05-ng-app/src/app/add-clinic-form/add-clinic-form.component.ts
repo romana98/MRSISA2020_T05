@@ -38,6 +38,7 @@ export class AddClinicFromComponent implements OnInit{
               else
               {
                 alert("Error has occurred while adding clinic");
+                console.log(err);
               }
             }
         );

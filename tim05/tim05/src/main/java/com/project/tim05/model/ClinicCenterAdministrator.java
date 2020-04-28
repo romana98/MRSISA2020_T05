@@ -17,7 +17,7 @@ public class ClinicCenterAdministrator {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
-	@Column(name = "email", nullable = false)
+	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 	
 	@Column(name = "password", nullable = false)

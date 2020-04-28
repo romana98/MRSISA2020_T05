@@ -31,8 +31,15 @@ export class AddDiagnosisFormComponent implements OnInit{
 
       },
       err => {
-        alert("Error has occurred while adding diagnosis");
-        console.log(err);
+        if(err.status == 409)
+        {
+          alert("Diagnosis already exists");
+        }
+        else
+        {
+          alert("Error has occurred while adding diagnosis");
+          console.log(err);
+        }
       }
     );
 

@@ -1,11 +1,22 @@
 package com.project.tim05.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 public class MedicineDTO {
 	
-   private String name;
-   private String description;
-   private boolean authenticated;
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="[A-Za-z0-9 ]*")
+    private String name;
+	
+	@NotBlank 
+	@NotNull
+	private String description;
+	
+	@NotNull
+	private boolean authenticated;
 
    public MedicineDTO(String name, String description, boolean authenticated) {
 	super();

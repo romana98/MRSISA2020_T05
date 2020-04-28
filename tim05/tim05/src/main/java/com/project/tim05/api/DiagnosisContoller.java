@@ -3,7 +3,11 @@ package com.project.tim05.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +22,7 @@ import com.project.tim05.service.DiagnosisService;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/diagnosis")
 @RestController
-public class DiagnosisContoller {
+public class DiagnosisContoller<T> {
 
 	private final DiagnosisService ds;
 	
@@ -38,8 +42,12 @@ public class DiagnosisContoller {
 	}
 	
 	@PostMapping("/addDiagnosis")
-	public int addMedicine(@RequestBody DiagnosisDTO d) {
-		ds.addDiagnosis(new Diagnosis(d.getName(), d.getDescription()));
-		return 200;
+	public ResponseEntity<T> addMedicine(@Valid @RequestBody DiagnosisDTO d) {
+		int flag = ds.addDiagnosis(new Diagnosis(d.getName(), d.getDescription()));
+	
+		if(flag == 0)
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		else
+			return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 }

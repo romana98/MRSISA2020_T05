@@ -3,7 +3,7 @@ package com.project.tim05.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name="medicines")
+@Table(name="medicines", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "description"})})
 public class Medicine {
 
 	@Id

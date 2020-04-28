@@ -14,8 +14,17 @@ public class DiagnosisService {
 	@Autowired
 	private DiagnosisRespository dr;
 	
-	public void addDiagnosis(Diagnosis diagnosis) {
-		dr.save(diagnosis);
+	public int addDiagnosis(Diagnosis diagnosis) {
+		try {
+			
+			dr.save(diagnosis);
+			
+		} catch (Exception e) {
+			
+			return 0;
+		}
+		
+		return 1;	
 	}
 	
 	public List<Diagnosis> getDiagnosises(){

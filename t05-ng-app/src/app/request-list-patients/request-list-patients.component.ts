@@ -40,6 +40,7 @@ export class RequestListPatientsComponent implements OnInit{
         }
         else {
           alert("Error has occurred while registering patient");
+          console.log(err);
         }
       }
     );

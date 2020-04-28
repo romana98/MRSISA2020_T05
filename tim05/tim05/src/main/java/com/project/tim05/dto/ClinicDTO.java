@@ -1,12 +1,24 @@
 package com.project.tim05.dto;
 
+import javax.validation.constraints.*;
 
 public class ClinicDTO {
-   private String name;
-   private String address;
-   private String description;
+	
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="[A-Za-z0-9 ]*")
+	private String name;
+	
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="[A-Za-z0-9 ]*")
+	private String address;
+	
+	@NotBlank 
+	@NotNull
+	private String description;
  
-   public ClinicDTO() {
+	public ClinicDTO() {
 		super();
 		
 	}

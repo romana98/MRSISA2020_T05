@@ -13,7 +13,7 @@ public class ClinicAdministratorDTO {
 	
 	@NotBlank 
 	@NotNull
-	@Pattern(regexp="[A-Za-z ]*", message = "{model.surname.invalid}")
+	@Pattern(regexp="[A-Za-z ]*")
     private String surname;
 	
 	@NotBlank 
