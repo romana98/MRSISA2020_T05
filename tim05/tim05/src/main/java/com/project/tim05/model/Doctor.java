@@ -22,7 +22,6 @@ public class Doctor extends MedicalStaff{
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic", referencedColumnName="clinic_id", nullable=true)
-
 	private Clinic clinic;
 	
 	@Column(name = "appointmentType" , nullable = false)

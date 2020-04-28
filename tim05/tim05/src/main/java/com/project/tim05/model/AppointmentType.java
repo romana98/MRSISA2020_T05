@@ -39,6 +39,10 @@ public class AppointmentType {
 		this.name = name;
 	}
 
+	public AppointmentType(String name) {
+		super();
+		this.name = name;
+	}
 
 	public Set<Appointment> getAppointments() {
 		return appointments;

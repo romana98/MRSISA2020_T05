@@ -1,13 +1,31 @@
 package com.project.tim05.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
 
 public class MedicalStaffDTO {
    
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="[A-Z][a-z]*")
    private String name;
+	
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="[A-Z][a-z]*")
    private String surname;
+	
    private String email;
+	
+	@NotBlank 
+	@NotNull
+	@Length(min=8)
    private String password;
-   private String type;
+	
+	private String type;
    
    
    public MedicalStaffDTO() {

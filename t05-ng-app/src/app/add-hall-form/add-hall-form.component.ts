@@ -31,10 +31,16 @@ export class AddHallFormComponent implements OnInit{
                 alert("Hall added successfully");
 
             },
-            err => {
-                alert("Error has occurred while adding hall");
-                console.log(err);
+          err => {
+            if(err.status == 409)
+            {
+              alert("Hall name/number already taken");
             }
+            else
+            {
+              alert("Error has occurred while adding hall");
+            }
+          }
         );
 
     }

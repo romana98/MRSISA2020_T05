@@ -1,9 +1,21 @@
 package com.project.tim05.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 public class HallDTO {
    
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="[A-Z][a-z]*")
     private String name;
+	
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="[0-9]*")
     private int number;
+	
     private String admin;
     
     public HallDTO(){

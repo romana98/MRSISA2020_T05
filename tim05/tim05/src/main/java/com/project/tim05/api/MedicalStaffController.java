@@ -3,6 +3,8 @@ package com.project.tim05.api;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +20,7 @@ import com.project.tim05.service.NurseService;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/medicalStaff")
 @RestController
-public class MedicalStaffController {
+public class MedicalStaffController<T> {
 	
 	private final DoctorService ds;
 	private final NurseService ns;
@@ -30,7 +32,7 @@ public class MedicalStaffController {
 	}
 	
 	@PostMapping("/editMedicalStaff")
-	public void editProfile(@RequestBody MedicalStaffDTO ms) {
+	public ResponseEntity<T> editProfile(@RequestBody MedicalStaffDTO ms) {
 		
 		if(ms.getType().equals("doctor")) {
 			Doctor d = new Doctor();
@@ -45,6 +47,7 @@ public class MedicalStaffController {
 				}
 			}
 			ds.editProfile(d);
+			return ResponseEntity.status(HttpStatus.OK).body(null);
 		}else {
 			Nurse d = new Nurse();
 			List<Nurse> list = ns.getNurses();
@@ -58,6 +61,7 @@ public class MedicalStaffController {
 				}
 			}
 			ns.editProfile(d);
+			return ResponseEntity.status(HttpStatus.OK).body(null);
 		}
 		
 	}

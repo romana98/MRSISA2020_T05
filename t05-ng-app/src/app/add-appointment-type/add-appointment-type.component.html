@@ -4,10 +4,10 @@
 <br>
 
 <div >
-  <form class="example-form" style="padding-left: 25px;">
+  <form class="example-form" name="form" #f="ngForm" (submit)="addAppointmentType()" style="padding-left: 25px;">
     <mat-form-field appearance="outline" style="width: 250px;">
       <mat-label>Pick a name</mat-label>
-      <input matInput>
+      <input [(ngModel)]="model.name" name="appointment_name" matInput>
     </mat-form-field>
 
     <br>

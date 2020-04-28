@@ -9,17 +9,17 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label>Hall name</label>
-        <input type="text" class="form-control" 
+        <input type="text" class="form-control"
         [(ngModel)] = "model.name" name="name_input"
-        #name="ngModel"
+        #name="ngModel" pattern = "[A-Z][a-z]*"
         [ngClass] = "{'is-invalid': f.submitted && name.invalid}"
         required/>
       </div>
       <div class="form-group col-md-6">
         <label>Number</label>
-        <input type="text" class="form-control" 
+        <input type="text" class="form-control"
         [(ngModel)] = "model.number" name="number_input"
-        #number="ngModel"
+        #number="ngModel" pattern = "[0-9]*"
         [ngClass] = "{'is-invalid' : f.submitted && number.invalid}"
         required/>
       </div>
@@ -29,9 +29,9 @@
       <input type="text" class="form-control"
        [(ngModel)] = "model.admin" name="clinic_admin"
        #username="ngModel"
-       [ngClass] = "{'is-invalid' : f.submitted}"
+       [ngClass] = "{'is-invalid' : !f.submitted}"
        readonly/>
-    </div> 
+    </div>
     <button type="submit" class="btn btn-primary">Add hall</button>
     </form>
 </div>
