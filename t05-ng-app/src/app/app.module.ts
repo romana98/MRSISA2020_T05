@@ -1,6 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Component } from '@angular/core';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule, MatButton} from '@angular/material/button';
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { Router, Routes, RouterModule} from "@angular/router";
@@ -17,6 +27,9 @@ import { HttpClientModule } from "@angular/common/http"
 import {AddMedicineFromComponent} from "./add-medicine-form/add-medicine-form.component";
 import {AddDiagnosisFormComponent} from "./add-diagnosis-form/add-diagnosis-form.component";
 import {RequestListPatientsComponent} from "./request-list-patients/request-list-patients.component";
+import { AddPredifinedAppointmentComponent } from './add-predifined-appointment/add-predifined-appointment.component';
+import { AddAppointmentTypeComponent } from './add-appointment-type/add-appointment-type.component';
+
 const appRoutes : Routes = [
   {
     path : 'addDoctor',
@@ -50,9 +63,13 @@ const appRoutes : Routes = [
   },
   
   {
-
     path : 'addPredefinedAppointment',
     component : AddPredifinedAppointmentComponent
+  },
+
+  {
+    path : 'addAppointmentType',
+    component: AddAppointmentTypeComponent
   },
 
   {
@@ -78,8 +95,7 @@ const appRoutes : Routes = [
   {
     path : '**',
     component : NavigationComponent
->>>>>>> refs/remotes/origin/master
-  }
+  },
 
 ]
 
@@ -98,17 +114,28 @@ const appRoutes : Routes = [
     RegisterPatientForm,
     AddPredifinedAppointmentComponent,
     AddHallFormComponent,
-    EditMedicalStaff
+    EditMedicalStaff,
+    AddAppointmentTypeComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    BrowserAnimationsModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgxMaterialTimepickerModule,
+    MatSelectModule,
+    MatDividerModule,
+    MatButtonModule
 
   ],
-  providers: [],
+  providers: [MatDatepickerModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

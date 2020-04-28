@@ -13,3 +13,14 @@ export class AddPredifinedAppointmentComponent implements OnInit {
   }
 
 }
+
+export interface appointmentModel
+{
+    Date : Date;
+    duration : number;
+    price : number;
+    request : boolean;
+    predefined : boolean;
+
+    
+}

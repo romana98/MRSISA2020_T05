@@ -28,6 +28,9 @@ public class Appointment {
    
 	@Column(name = "finished", nullable = false)
 	private boolean finished;
+	
+	@Column(name = "predefined", nullable = false)
+	private boolean predefined;
 		
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="appointment_type", referencedColumnName="appointment_type_id", nullable=true)
@@ -69,7 +72,7 @@ public class Appointment {
 	public Appointment() {
 		super();
 	}
-	public Appointment(Integer id, Date dateTime, int duration, double price, boolean request, boolean finished,
+	public Appointment(Integer id, Date dateTime, int duration, double price, boolean request, boolean predefined,
 			Clinic clinic, Hall hall, Doctor doctor, AppointmentType appointmentType, Set<Medicine> medicines,
 			Set<Diagnosis> diagnosises, Set<Disease> diseases) {
 		super();
@@ -78,7 +81,8 @@ public class Appointment {
 		this.duration = duration;
 		this.price = price;
 		this.request = request;
-		this.finished = finished;
+		this.finished = false;
+		this.predefined = predefined;
 		this.clinic = clinic;
 		this.hall = hall;
 		this.doctor = doctor;
