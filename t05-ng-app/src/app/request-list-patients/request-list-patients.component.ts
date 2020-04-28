@@ -30,6 +30,7 @@ export class RequestListPatientsComponent implements OnInit{
       .subscribe((res)=>{
         // @ts-ignore
         this.requests = res;
+        console.log(this.requests)
       });
 
     this.dataSource = new MatTableDataSource<request>(this.requests);

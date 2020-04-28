@@ -24,5 +24,9 @@ public class AppointmentTypeService {
 		return atr.findAll();
 	}
 	
+	public AppointmentType getAppointmentTypebyId(int id) {
+		return atr.findById(id).orElse(null);
+	}
+	
 	
 }
