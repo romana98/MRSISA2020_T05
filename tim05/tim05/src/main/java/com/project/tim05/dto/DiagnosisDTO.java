@@ -1,9 +1,16 @@
 package com.project.tim05.dto;
 
+import javax.validation.constraints.*;
 
 public class DiagnosisDTO {
 
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="[A-Za-z0-9 ]*")
 	private String name;
+	
+	@NotNull
+	@NotBlank
 	private String description;
 	
    

@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name="diagnosises")
+@Table(name="diagnosises", uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "description"})})
 public class Diagnosis {
    
 	@Id

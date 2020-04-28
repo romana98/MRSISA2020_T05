@@ -3,6 +3,8 @@ package com.project.tim05.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,7 @@ import com.project.tim05.service.RegistrationRequestService;
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/registrationRequests")
 @RestController
-public class RegistrationRequestController {
+public class RegistrationRequestController<T> {
 	
 	private final RegistrationRequestService rrs;
 	
@@ -40,8 +42,8 @@ public class RegistrationRequestController {
 	}
 	
 	@PostMapping("/registerPatient")
-	public <T> ResponseEntity<T> addPatient(@RequestBody RegistrationRequestDTO patient) {
-		//TODO check
+	public ResponseEntity<T> addPatient(@Valid @RequestBody RegistrationRequestDTO patient) {
+
 		RegistrationRequest rr = new RegistrationRequest();
 		rr.setAddress(patient.getAddress());
 		rr.setCity(patient.getCity());
@@ -61,7 +63,7 @@ public class RegistrationRequestController {
 	}
 	
 	@PostMapping("/declineRequest")
-	public <T> ResponseEntity<T> declineRequest(@RequestBody RegistrationRequestDTO patient) {
+	public ResponseEntity<T> declineRequest(@Valid @RequestBody RegistrationRequestDTO patient) {
 		RegistrationRequest rr = new RegistrationRequest();
 		rr.setAddress(patient.getAddress());
 		rr.setCity(patient.getCity());

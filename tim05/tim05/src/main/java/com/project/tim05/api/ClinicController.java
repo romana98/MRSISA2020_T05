@@ -3,6 +3,8 @@ package com.project.tim05.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,13 +42,10 @@ public class ClinicController<T> {
 	}
 	
 	@PostMapping("/addClinic")
-	public ResponseEntity<T> addClinic(@RequestBody ClinicDTO c) {
-		if(check(c) == 0)
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+	public ResponseEntity<T> addClinic(@Valid @RequestBody ClinicDTO c) {
 		
-		Clinic cl = new Clinic(c.getName(), c.getAddress(), c.getDescription());
-		int flag = cs.addClinic(cl);
-		System.out.println(flag);
+		int flag = cs.addClinic(new Clinic(c.getName(), c.getAddress(), c.getDescription()));
+		
 		if(flag == 0)
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		else
@@ -54,19 +53,4 @@ public class ClinicController<T> {
 	
 	}
 	
-	public int check(ClinicDTO cDTO) {   
-		
-		if(cDTO.getName() == null || cDTO.getName().length() == 0 || cDTO.getName().matches("[^A-Za-z0-9 ]*")) {
-			return 0;
-		}
-		else if(cDTO.getAddress() == null || cDTO.getAddress().length() == 0) {
-			return 0;
-		}
-		else if(cDTO.getDescription() == null || cDTO.getDescription().length() == 0) {
-			return 0;
-		}
-		
-		return 1;
-		
-	}
 }

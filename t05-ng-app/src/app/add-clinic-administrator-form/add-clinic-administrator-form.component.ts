@@ -52,6 +52,7 @@ export class AddClinicAdminFromComponent implements OnInit{
                 else
                 {
                   alert("Error has occurred while adding admin");
+                  console.log(err);
                 }
             }
         );

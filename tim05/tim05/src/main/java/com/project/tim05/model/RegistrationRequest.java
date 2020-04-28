@@ -11,7 +11,7 @@ public class RegistrationRequest {
 	@Column(name = "registration_request_id", unique=true, nullable = false)
 	private Integer id;
 	
-	@Column(name = "email", nullable = false)
+	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 	
 	@Column(name = "password", nullable = false)

@@ -38,6 +38,7 @@ export class AddClinicCenterAdminFromComponent implements OnInit{
               else
               {
                 alert("Error has occurred while adding clinic center administrator");
+                console.log(err);
               }
             }
         );
