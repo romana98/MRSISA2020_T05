@@ -10,10 +10,10 @@ public class HallDTO {
 	@NotNull
 	@Pattern(regexp="[A-Z][a-z]*")
     private String name;
+	 
 	
-	@NotBlank 
 	@NotNull
-	@Pattern(regexp="[0-9]*")
+	//@Pattern(regexp="[0-9]*")
     private int number;
 	
     private String admin;

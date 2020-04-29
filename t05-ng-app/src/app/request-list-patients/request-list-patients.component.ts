@@ -32,6 +32,7 @@ export class RequestListPatientsComponent implements OnInit {
       .subscribe((res) => {
         // @ts-ignore
         this.dataSource.data = res;
+
       });
 
     this.dataSource.paginator = this.paginator;

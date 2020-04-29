@@ -92,6 +92,13 @@ public class Appointment {
 		this.diseases = diseases;
 	}
 	
+	
+	public boolean isPredefined() {
+		return predefined;
+	}
+	public void setPredefined(boolean predefined) {
+		this.predefined = predefined;
+	}
 	public Date getDateTime() {
 		return dateTime;
 	}

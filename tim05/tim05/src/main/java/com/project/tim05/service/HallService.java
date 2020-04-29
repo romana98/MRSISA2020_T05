@@ -46,5 +46,9 @@ public class HallService {
 		
 	}
 	
+	public Hall getHallbyId(int id) {
+		return hr.findById(id).orElse(null);
+	}
+	
 
 }
