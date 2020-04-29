@@ -26,12 +26,14 @@ import { EditMedicalStaff } from './edit-medical-staff/edit-medical-staff.compon
 import { HttpClientModule } from "@angular/common/http"
 import {AddMedicineFromComponent} from "./add-medicine-form/add-medicine-form.component";
 import {AddDiagnosisFormComponent} from "./add-diagnosis-form/add-diagnosis-form.component";
-import {RequestListPatientsComponent} from "./request-list-patients/request-list-patients.component";
+import {DialogOverview, RequestListPatientsComponent} from "./request-list-patients/request-list-patients.component";
 import { AddPredifinedAppointmentComponent } from './add-predifined-appointment/add-predifined-appointment.component';
 import { AddAppointmentTypeComponent } from './add-appointment-type/add-appointment-type.component';
 import {MatIconModule} from "@angular/material/icon";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatDialogModule} from "@angular/material/dialog";
 
 const appRoutes : Routes = [
   {
@@ -119,7 +121,8 @@ const appRoutes : Routes = [
     AddPredifinedAppointmentComponent,
     AddHallFormComponent,
     EditMedicalStaff,
-    AddAppointmentTypeComponent
+    AddAppointmentTypeComponent,
+    DialogOverview
   ],
   imports: [
     BrowserModule,
@@ -139,7 +142,9 @@ const appRoutes : Routes = [
     MatButtonModule,
     MatIconModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSnackBarModule,
+    MatDialogModule
 
   ],
   providers: [MatDatepickerModule],

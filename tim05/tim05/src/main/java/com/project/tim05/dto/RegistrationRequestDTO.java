@@ -16,34 +16,40 @@ public class RegistrationRequestDTO {
 	@NotNull
 	@Length(min=8)
 	private String password;
-    @NotBlank 
+    
+	@NotBlank 
 	@NotNull
-	@Pattern(regexp="[A-Za-z ]*")
+	@Pattern(regexp="[A-Z][a-z]*")
     private String name;
     
     @NotBlank 
 	@NotNull
-	@Pattern(regexp="[A-Za-z ]*")
+	@Pattern(regexp="[A-Z][a-z]*")
     private String surname;
   
     @NotBlank 
 	@NotNull
+	@Pattern(regexp="[A-Za-z0-9 ]*")
     private String address;
    
     @NotBlank 
 	@NotNull
+	@Pattern(regexp="^[a-zA-Z]+(?:[\\s-][a-zA-Z]+)*$")
     private String city;
    
     @NotBlank 
 	@NotNull
+	@Pattern(regexp="^[a-zA-Z]+(?:[\\s-][a-zA-Z]+)*$")
     private String country;
    
     @NotBlank 
 	@NotNull
+	@Pattern(regexp="[0-9]{3,3}-[0-9]{3,3}-[0-9]{3,3}")
     private String phone_number;
    
     @NotBlank 
 	@NotNull
+	@Pattern(regexp="[A-Z0-9]*")
     private String insurance_number;
 
    

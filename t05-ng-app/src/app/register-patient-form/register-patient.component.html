@@ -83,7 +83,7 @@
                         <label>Insurance number</label>
                         <input type="text" class="form-control"
                         [(ngModel)] = "model.insurance_number" name="insuranceNum_input"
-                               #insurance_number="ngModel" pattern = "/^(?!BG|GB|NK|KN|TN|NT|ZZ)[A-CEGHJ-PR-TW-Z][A-CEGHJ-NPR-TW-Z](?:\s*\d{2}){3}\s*[A-D]$/"
+                               #insurance_number="ngModel" pattern = "[A-Z0-9]*"
                                [ngClass] = "{'is-invalid':f.submitted && insurance_number.invalid}"
                         required/>
                     </div>

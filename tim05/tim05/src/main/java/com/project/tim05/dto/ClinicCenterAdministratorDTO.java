@@ -6,12 +6,12 @@ public class ClinicCenterAdministratorDTO {
   
 	@NotBlank 
 	@NotNull
-	@Pattern(regexp="[A-Za-z ]*")
+	@Pattern(regexp="[A-Z][a-z]*")
 	private String name;
    
 	@NotBlank 
 	@NotNull
-	@Pattern(regexp="[A-Za-z ]*")
+	@Pattern(regexp="[A-Z][a-z]*")
 	private String email;
   
 	@NotBlank 

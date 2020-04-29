@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
     selector: 'app-add-admin-clinic-form',
@@ -16,7 +17,7 @@ export class AddClinicCenterAdminFromComponent implements OnInit{
     }
   hide: boolean;
 
-    constructor(private http: HttpClient){
+    constructor(private _snackBar: MatSnackBar, private http: HttpClient){
 
     }
 
@@ -28,17 +29,24 @@ export class AddClinicCenterAdminFromComponent implements OnInit{
         let url = "http://localhost:8081/clinicCenterAdministrator/addClinicCenterAdministrator"
         this.http.post(url, this.model).subscribe(
             res => {
-                alert("Clinic center administrator added successfully");
+              this._snackBar.open("Clinic center administrator added successfully", "Close", {
+                duration: 2000,
+              });
 
             },
             err => {
               if(err.status == 409)
               {
-                alert("Email already taken");
+                this._snackBar.open("Email already taken", "Close", {
+                  duration: 2000,
+                });
+
               }
               else
               {
-                alert("Error has occurred while adding clinic center administrator");
+                this._snackBar.open("Error has occurred while adding clinic center administrator", "Close", {
+                  duration: 2000,
+                });
                 console.log(err);
               }
             }

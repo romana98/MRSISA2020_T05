@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-add-doctor-form',
@@ -18,7 +19,7 @@ export class AddDoctorFormComponent implements OnInit {
     appointmentType : ''
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private _snackBar: MatSnackBar, private http: HttpClient) {
 
   }
 
@@ -32,11 +33,16 @@ export class AddDoctorFormComponent implements OnInit {
     let url =  "http://localhost:8081/doctors/addDoctor"
     this.http.post(url,this.model).subscribe(
         res => {
-          alert("Doctor added successfully");
+          this._snackBar.open("Doctor added successfully", "Close", {
+            duration: 2000,
+          });
 
         },
         err => {
-          alert("Error has occurred while adding doctor");
+          this._snackBar.open("Error has occurred while adding doctor", "Close", {
+            duration: 2000,
+          });
+
           console.log(err)
         }
     );

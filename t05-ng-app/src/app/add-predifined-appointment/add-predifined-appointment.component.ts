@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-add-predifined-appointment',
@@ -22,7 +23,7 @@ export class AddPredifinedAppointmentComponent implements OnInit {
     appointmentType_id: 0
   };
 
-  constructor() { }
+  constructor(private _snackBar: MatSnackBar) { }
   /**  Treba dodati deo u kom se inicijalizuje za koju kliniku se trazi admin
    * u ovom slucaju je to hardcodovana vrednost jer jos nemamo logovanje **/
   ngOnInit(): void {
@@ -41,5 +42,5 @@ export interface appointmentModel
     doctor_id : number;
     hall_id : number;
     appointmentType_id: number;
-    
+
 }

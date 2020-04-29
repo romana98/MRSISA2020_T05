@@ -67,7 +67,7 @@ public class RegistrationRequestController<T> {
 	}
 	
 	@PostMapping("/declineRequest")
-	public ResponseEntity<T> declineRequest(@Valid @RequestBody RegistrationRequestDTO patient) {
+	public ResponseEntity<T> declineRequest(@Valid @RequestBody RegistrationRequestDTO patient, String text) {
 		RegistrationRequest rr = new RegistrationRequest();
 		rr.setAddress(patient.getAddress());
 		rr.setCity(patient.getCity());

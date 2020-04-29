@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -13,7 +14,7 @@ export class AddAppointmentTypeComponent implements OnInit {
     name : ''
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private _snackBar: MatSnackBar, private http: HttpClient) { }
 
   ngOnInit(): void {
   }
@@ -23,10 +24,15 @@ export class AddAppointmentTypeComponent implements OnInit {
     let url = "http://localhost:8081//appointmentType/addAppointmentType"
     this.http.post(url,this.model).subscribe(
       res => {
-        alert("Appointment type successfully added.");
+        this._snackBar.open("Appointment type successfully added", "Close", {
+          duration: 2000,
+        });
+
       },
       err => {
-        alert("Error has occured while adding appointment type");
+        this._snackBar.open("Error has occurred while adding appointment type", "Close", {
+          duration: 2000,
+        });
         console.log(err);
       });
     }

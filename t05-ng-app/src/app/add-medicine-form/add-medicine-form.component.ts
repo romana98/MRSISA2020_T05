@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Router} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-add-medicine-form',
@@ -20,7 +21,7 @@ export class AddMedicineFromComponent implements OnInit{
 
   }
 
-  constructor(private http: HttpClient, private router: Router){
+  constructor(private _snackBar: MatSnackBar, private http: HttpClient, private router: Router){
 
   }
 
@@ -28,17 +29,24 @@ export class AddMedicineFromComponent implements OnInit{
     let url = "http://localhost:8081/medicine/addMedicine"
     this.http.post(url, this.model).subscribe(
       res => {
-        alert("Medicine added successfully");
+        this._snackBar.open("Medicine added successfully", "Close", {
+          duration: 2000,
+        });
 
       },
       err => {
         if(err.status == 409)
         {
-          alert("Medicine already exists");
+          this._snackBar.open("Medicine already exists", "Close", {
+            duration: 2000,
+          });
+
         }
         else
         {
-          alert("Error has occurred while adding medicine");
+          this._snackBar.open("Error has occurred while adding medicine", "Close", {
+            duration: 2000,
+          });
           console.log(err);
         }
       }
