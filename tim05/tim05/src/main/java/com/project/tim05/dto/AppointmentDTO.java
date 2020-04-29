@@ -4,7 +4,8 @@ import java.util.*;
 
 public class AppointmentDTO {
 
-	private Date dateTime;
+	private String date;
+	private String time;
 	private int duration;
 	private double price;
 	private boolean request;
@@ -29,10 +30,11 @@ public class AppointmentDTO {
 
 
 
-	public AppointmentDTO(Date dateTime, int duration, double price, boolean request, boolean finished,
+	public AppointmentDTO(String date, String time, int duration, double price, boolean request, boolean finished,
 			ClinicDTO clinic, boolean predefined, HallDTO hall, DoctorDTO doctor, AppointmentTypeDTO appointmentType) {
 		super();
-		this.dateTime = dateTime;
+		this.date = date;
+		this.time = time;
 		this.duration = duration;
 		this.price = price;
 		this.request = request;
@@ -47,10 +49,11 @@ public class AppointmentDTO {
 	
 	
 
-	public AppointmentDTO(Date dateTime, int duration, double price, boolean request,
+	public AppointmentDTO(String date, String time, int duration, double price, boolean request,
 			boolean predefined, int doctor_id, int hall_id, int appointmentType_id) {
 		super();
-		this.dateTime = dateTime;
+		this.date = date;
+		this.time = time;
 		this.duration = duration;
 		this.price = price;
 		this.request = request;
@@ -106,14 +109,6 @@ public class AppointmentDTO {
 
 	public void setPredefined(boolean predefined) {
 		this.predefined = predefined;
-	}
-
-	public Date getDateTime() {
-		return dateTime;
-	}
-
-	public void setDateTime(Date dateTime) {
-		this.dateTime = dateTime;
 	}
 
 	public int getDuration() {
@@ -180,5 +175,34 @@ public class AppointmentDTO {
 		this.appointmentType = appointmentType;
 	}
 
+
+
+
+	public String getDate() {
+		return date;
+	}
+
+
+
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+
+
+
+	public String getTime() {
+		return time;
+	}
+
+
+
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	
 
 }

@@ -1,5 +1,11 @@
 package com.project.tim05.api;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,16 +47,26 @@ public class AppointmentController {
 	@PostMapping("/addAppointment")
 	public ResponseEntity<String> addAppointment(@RequestBody AppointmentDTO adto) {
 		Appointment ap = new Appointment();
-		
+
 		Doctor dr = ds.getDoctorbyID(adto.getDoctor_id());
 		Hall hall = hs.getHallbyId(adto.getHall_id());
 		AppointmentType at = ats.getAppointmentTypebyId(adto.getAppointmentType_id());
-		
+
 		if (dr == null || hall == null || at == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
+
+		SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		
-		ap.setDateTime(adto.getDateTime());
+		Date date = null;
+		try {
+			date = formatter1.parse(adto.getDate() + " " + adto.getTime());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+
+		ap.setDateTime(date);
 		ap.setDuration(adto.getDuration());
 		ap.setPrice(adto.getPrice());
 		ap.setRequest(adto.isRequest());
@@ -58,15 +74,14 @@ public class AppointmentController {
 		ap.setDoctor(dr);
 		ap.setAppointmentType(at);
 		ap.setHall(hall);
-		
+
 		int flag = as.addAppointment(ap);
-		
-		if(flag == 0)
+
+		if (flag == 0)
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		else
 			return ResponseEntity.status(HttpStatus.OK).body(null);
-		
-		
+
 	}
 
 }

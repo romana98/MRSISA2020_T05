@@ -2,6 +2,8 @@ package com.project.tim05.api;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +30,7 @@ public class AppointmentTypeController {
 	}
 	
 	@PostMapping("/addAppointmentType")
-	public void addAppointmentType(@RequestBody AppointmentTypeDTO atDTO) {
+	public void addAppointmentType(@Valid @RequestBody AppointmentTypeDTO atDTO) {
 		AppointmentType at = new AppointmentType(atDTO.getName());
 		
 		ats.addAppointmentType(at);
