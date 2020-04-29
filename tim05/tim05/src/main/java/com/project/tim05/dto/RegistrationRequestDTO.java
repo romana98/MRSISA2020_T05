@@ -51,6 +51,8 @@ public class RegistrationRequestDTO {
 	@NotNull
 	@Pattern(regexp="[A-Z0-9]*")
     private String insurance_number;
+    
+    private String text;
 
    
    public RegistrationRequestDTO() {
@@ -144,6 +146,19 @@ public class RegistrationRequestDTO {
 	public void setInsurance_number(String insurance_number) {
 		this.insurance_number = insurance_number;
 	}
+
+
+
+	public String getText() {
+		return text;
+	}
+
+
+
+	public void setText(String text) {
+		this.text = text;
+	}
+	
 	
 	
 }

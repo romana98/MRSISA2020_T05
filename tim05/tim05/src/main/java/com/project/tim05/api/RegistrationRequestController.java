@@ -67,7 +67,7 @@ public class RegistrationRequestController<T> {
 	}
 	
 	@PostMapping("/declineRequest")
-	public ResponseEntity<T> declineRequest(@Valid @RequestBody RegistrationRequestDTO patient, String text) {
+	public ResponseEntity<T> declineRequest( @RequestBody RegistrationRequestDTO patient) {
 		RegistrationRequest rr = new RegistrationRequest();
 		rr.setAddress(patient.getAddress());
 		rr.setCity(patient.getCity());
@@ -83,7 +83,17 @@ public class RegistrationRequestController<T> {
 		if(flag == 0)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		else
+		{
+			try {
+				es.sendDeclinanceMail(patient.getEmail(), patient.getText());
+			} catch (Exception e) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			
+			}
 			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
+		
+			
 		
 	}
 

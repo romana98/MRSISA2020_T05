@@ -74,10 +74,10 @@ export class RequestListPatientsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.text = result;
+      req.text = result;
 
       let url = "http://localhost:8081/registrationRequests/declineRequest"
-      this.http.post(url, req, this.text).subscribe(
+      this.http.post(url, req).subscribe(
         res => {
           let index = this.dataSource.data.indexOf(req);
           this.dataSource.data.splice(index, 1);
