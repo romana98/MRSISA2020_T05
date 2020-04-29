@@ -29,7 +29,7 @@ export class AddClinicCenterAdminFromComponent implements OnInit{
         let url = "http://localhost:8081/clinicCenterAdministrator/addClinicCenterAdministrator"
         this.http.post(url, this.model).subscribe(
             res => {
-              this._snackBar.open("Clinic center administrator added successfully", "Close", {
+              this._snackBar.open("Clinic center administrator added successfully!", "Close", {
                 duration: 2000,
               });
 
@@ -37,14 +37,14 @@ export class AddClinicCenterAdminFromComponent implements OnInit{
             err => {
               if(err.status == 409)
               {
-                this._snackBar.open("Email already taken", "Close", {
+                this._snackBar.open("Email already taken!", "Close", {
                   duration: 2000,
                 });
 
               }
               else
               {
-                this._snackBar.open("Error has occurred while adding clinic center administrator", "Close", {
+                this._snackBar.open("Error has occurred while adding clinic center administrator!", "Close", {
                   duration: 2000,
                 });
                 console.log(err);
@@ -59,6 +59,6 @@ export interface clinicCenterAdminModel
 {
     name: string | RegExp;
     surname: string | RegExp;
-    email: string;
+    email: string | RegExp;
     password: string;
 }

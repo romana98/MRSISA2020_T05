@@ -9,9 +9,9 @@
     <mat-form-field appearance="outline" style="width: 250px;">
       <mat-label>Name</mat-label>
       <input matInput  [(ngModel)] = "model.name" #name="ngModel"  name="input_name"
-             pattern="[A-Za-z ]*" required>
+             pattern="([A-Z][a-z]+[ ]*){1,}" required>
       <mat-error *ngIf="name.invalid && name.errors?.pattern">
-        Name can only have letters, numbers and space!
+        Invalid medicine name format!
       </mat-error>
     </mat-form-field>
 
@@ -20,7 +20,10 @@
     <mat-form-field appearance="outline" style="width: 250px;">
       <mat-label>Description</mat-label>
       <input matInput  [(ngModel)] = "model.description" #description="ngModel"  name="input_description"
-             required>
+            pattern="([A-Z][a-z]+[ a-z.,0-9]*){1,}" required>
+      <mat-error *ngIf="description.invalid && description.errors?.pattern">
+        Invalid medicine description format!
+      </mat-error>
     </mat-form-field>
 
     <br>
