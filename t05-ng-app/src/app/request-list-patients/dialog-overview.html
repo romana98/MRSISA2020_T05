@@ -7,8 +7,8 @@
 <div mat-dialog-actions>
 
   <mat-dialog-actions>
-    <button mat-button (click)="onClick()">Cancel</button>
-    <button mat-button [mat-dialog-close]="data.text" cdkFocusInitial>Send</button>
+    <button mat-button [mat-dialog-close]="data" (click)="data.sent = onClick()">Cancel</button>
+    <button mat-button [mat-dialog-close]="data" (click)="data.sent = Send()">Send</button>
   </mat-dialog-actions>
 
 </div>

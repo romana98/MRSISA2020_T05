@@ -23,7 +23,7 @@ public class ClinicAdministratorDTO {
 	
 	@NotBlank 
 	@NotNull
-	@Pattern(regexp="^(.+)@(.+)$")
+	@Pattern(regexp="[a-z]+[a-z0-9._]*[a-z0-9]+@[a-z]*.com")
     private String email;
    
 	@NotNull

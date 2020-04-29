@@ -29,7 +29,7 @@ export class AddDiagnosisFormComponent implements OnInit{
     this.http.post(url, this.model).subscribe(
       res => {
 
-        this._snackBar.open("Diagnosis added successfully", "Close", {
+        this._snackBar.open("Diagnosis added successfully!", "Close", {
           duration: 2000,
         });
 
@@ -37,14 +37,14 @@ export class AddDiagnosisFormComponent implements OnInit{
       err => {
         if(err.status == 409)
         {
-          this._snackBar.open("Diagnosis already exists", "Close", {
+          this._snackBar.open("Diagnosis already exists!", "Close", {
             duration: 2000,
           });
 
         }
         else
         {
-          this._snackBar.open("Error has occurred while adding diagnosis", "Close", {
+          this._snackBar.open("Error has occurred while adding diagnosis!", "Close", {
             duration: 2000,
           });
           console.log(err);
@@ -69,6 +69,6 @@ export class AddDiagnosisFormComponent implements OnInit{
 export interface diagnosisModel
 {
   name: string | RegExp;
-  description: string;
+  description: string | RegExp;
 
 }

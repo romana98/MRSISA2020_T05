@@ -29,7 +29,7 @@ export class AddMedicineFromComponent implements OnInit{
     let url = "http://localhost:8081/medicine/addMedicine"
     this.http.post(url, this.model).subscribe(
       res => {
-        this._snackBar.open("Medicine added successfully", "Close", {
+        this._snackBar.open("Medicine added successfully!", "Close", {
           duration: 2000,
         });
 
@@ -37,14 +37,14 @@ export class AddMedicineFromComponent implements OnInit{
       err => {
         if(err.status == 409)
         {
-          this._snackBar.open("Medicine already exists", "Close", {
+          this._snackBar.open("Medicine already exists!", "Close", {
             duration: 2000,
           });
 
         }
         else
         {
-          this._snackBar.open("Error has occurred while adding medicine", "Close", {
+          this._snackBar.open("Error has occurred while adding medicine!", "Close", {
             duration: 2000,
           });
           console.log(err);

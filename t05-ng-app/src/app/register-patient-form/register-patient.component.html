@@ -105,7 +105,7 @@
     <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
       <mat-label>Insurance number</mat-label>
       <input matInput  [(ngModel)] = "model.insurance_number" #insurance_number="ngModel" name="input_insurance_number"
-             pattern= "[0-9]{3,3}-[0-9]{3,3}-[0-9]{3,3}" required>
+             pattern= "[A-Z0-9]+" required>
       <mat-error *ngIf="insurance_number.invalid && insurance_number.errors?.pattern">
         Invalid insurance number!
       </mat-error>
