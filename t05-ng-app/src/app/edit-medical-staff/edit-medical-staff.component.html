@@ -1,56 +1,71 @@
-<div class="container">
-    <div class="row">
-        <div class="offset-3"></div>
-        <div class="col-md-6">
-            <br>
-                <h2>Edit profile</h2>
-            <br>
-            <form name="form" #f="ngForm" (submit)="f.form.valid && editMedicalStaff()">
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>Email</label>
-                        <input type="text" class="form-control"
-                        [(ngModel)] = "model.email" name="email_input"
-                        #email="ngModel"
-                        [ngClass] = "{'is-invalid':f.submitted}"
-                        readonly/>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Password</label>
-                        <input type="password" class="form-control"
-                        [(ngModel)] = "model.password" name="inputPassword"
-                        #password="ngModel"
-                        [ngClass] = "{'is-invalid' : f.submitted && password.invalid}"
-                        required minlength="8">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Name</label>
-                        <input type="text" class="form-control"
-                        [(ngModel)] = "model.name" name="name_input"
-                        #name="ngModel" pattern = "[A-Z][a-z]*"
-                        [ngClass] = "{'is-invalid':f.submitted && name.invalid}"
-                        required/>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Surname</label>
-                        <input type="text" class="form-control"
-                        [(ngModel)] = "model.surname" name="surname_input"
-                        #surname="ngModel" pattern = "[A-Z][a-z]*"
-                        [ngClass] = "{'is-invalid':f.submitted && surname.invalid}"
-                        required/>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>Type</label>
-                        <input type="text" class="form-control"
-                        [(ngModel)] = "model.type" name="type_input"
-                        #type="ngModel"
-                        [ngClass] = "{'is-invalid':f.submitted}"
-                        readonly/>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary">Update</button>
-            </form>
-        </div>
-        <div class="offset-3"></div>
-    </div>
+<br>
+<h1 style="margin-left: 30px;">Edit profile: </h1>
+<mat-divider></mat-divider>
+<br>
+
+<div >
+  <form  #f="ngForm" (submit)="f.form.valid && editMedicalStaff()" style="padding-left: 25px;">
+
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Name</mat-label>
+      <input matInput  [(ngModel)] = "model.name" #name="ngModel"  name="input_name"
+             pattern="[A-Z][a-z]*" required>
+      <mat-error *ngIf="name.invalid && name.errors?.pattern">
+        Name can only have letters!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
+      <mat-label>Surname</mat-label>
+      <input matInput  [(ngModel)] = "model.surname" #surname="ngModel" name="input_surname"
+             pattern="[A-Z][a-z]*" required>
+      <mat-error *ngIf="surname.invalid && surname.errors?.pattern">
+        Surname can only have letters!
+      </mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Email</mat-label>
+      <input matInput
+             [(ngModel)] = "model.email" name="input_email"
+             #email="ngModel" pattern="^(.+)@(.+)$"
+             required/>
+      <mat-error *ngIf=" email.invalid">
+        Please enter a valid email address
+      </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
+      <mat-label>Password</mat-label>
+      <input matInput  [(ngModel)] = "model.password" #password="ngModel" name="input_password"
+             required minlength="8"
+             [type]="hide ? 'password' : 'text'">
+
+      <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      <mat-error *ngIf="password.invalid">
+        Password field must be at least 8 characters long!
+      </mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Type</mat-label>
+      <input matInput
+             [(ngModel)] = "model.type" name="input_type"
+             #email="ngModel"
+             required/>
+
+    </mat-form-field>
+
+    <br>
+    <br>
+
+    <button mat-raised-button >Update profile</button>
+
+
+  </form>
 </div>

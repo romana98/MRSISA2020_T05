@@ -1,5 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
     selector: 'app-register-patient-form',
@@ -21,9 +22,10 @@ export class RegisterPatientForm implements OnInit{
         phone_number : '',
         insurance_number : ''
     }
+  hide: boolean;
 
-    constructor(private http: HttpClient){
-
+    constructor(private _snackBar: MatSnackBar, private http: HttpClient){
+    this.hide = true;
     }
 
     ngOnInit(): void{
@@ -34,17 +36,25 @@ export class RegisterPatientForm implements OnInit{
         let url = "http://localhost:8081/registrationRequests/registerPatient"
         this.http.post(url,this.model).subscribe(
             res => {
-                alert("Your registration request has been sent! Your activation link will be sent to you soon.");
+              this._snackBar.open("Your registration request has been sent! Your activation link will be sent to you soon", "Close", {
+                duration: 2000,
+              });
 
             },
             err => {
               if(err.status == 409)
               {
-                alert("Email already taken");
+                this._snackBar.open("Email already taken", "Close", {
+                  duration: 2000,
+                });
+
               }
             else
               {
-                alert("Error has occurred while registering your profile!");
+                this._snackBar.open("Error has occurred while registering your profile", "Close", {
+                  duration: 2000,
+                });
+
               }
             }
         );

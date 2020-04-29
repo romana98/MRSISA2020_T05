@@ -1,5 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
     selector: 'app-edit-medical-staff',
@@ -15,24 +16,29 @@ export class EditMedicalStaff implements OnInit{
         surname : 'Prezime1',
         type : 'doctor'
     }
+  hide: boolean;
 
-    constructor(private http: HttpClient){
+    constructor(private _snackBar: MatSnackBar, private http: HttpClient){
 
     }
 
     ngOnInit(): void{
-
+        this.hide = true;
     }
 
     editMedicalStaff(): void{
         let url = "http://localhost:8081/medicalStaff/editMedicalStaff"
         this.http.post(url,this.model).subscribe(
             res => {
-                alert("Your profile has been updated successfully!");
+              this._snackBar.open("Your profile has been updated successfully", "Close", {
+                duration: 2000,
+              });
 
             },
             err => {
-                alert("Error has occured while updating your profile!");
+              this._snackBar.open("Error has occurred while updating your profile", "Close", {
+                duration: 2000,
+              });
                 console.log(err)
             }
         );

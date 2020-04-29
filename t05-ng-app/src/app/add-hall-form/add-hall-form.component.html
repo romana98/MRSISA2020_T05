@@ -1,40 +1,46 @@
-<div class="container">
-    <div class="row">
-      <div class="offset-3"></div>
-      <div class="col-md-6">
+<br>
+<h1 style="margin-left: 30px;">Add new hall: </h1>
+<mat-divider></mat-divider>
+<br>
+
+<div >
+  <form  #f="ngForm" (submit)="f.form.valid && AddHall()" style="padding-left: 25px;">
+
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Name</mat-label>
+      <input matInput  [(ngModel)] = "model.name" #name="ngModel"  name="input_name"
+             pattern="[A-Z][a-z]*" required>
+      <mat-error *ngIf="name.invalid && name.errors?.pattern">
+        Name can only have letters!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
+      <mat-label>Number</mat-label>
+      <input matInput  [(ngModel)] = "model.number" #number="ngModel"  name="input_number"
+             pattern="[0-9]*" required>
+      <mat-error *ngIf="number.invalid && number.errors?.pattern">
+        Number can only have numbers!
+      </mat-error>
+    </mat-form-field>
+
     <br>
-        <h2>Add hall form</h2>
+
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Clinic administrator email</mat-label>
+      <input matInput  [(ngModel)] = "model.admin" #admin="ngModel"  name="clinic_admin"
+             pattern="^(.+)@(.+)$" required>
+
+      <mat-error *ngIf=" admin.invalid && admin.errors?.pattern">
+        Please enter a valid email address
+      </mat-error>
+    </mat-form-field>
+
     <br>
-    <form name="form" #f="ngForm" (submit)="f.form.valid && AddHall()">
-    <div class="form-row">
-      <div class="form-group col-md-6">
-        <label>Hall name</label>
-        <input type="text" class="form-control"
-        [(ngModel)] = "model.name" name="name_input"
-        #name="ngModel" pattern = "[A-Z][a-z]*"
-        [ngClass] = "{'is-invalid': f.submitted && name.invalid}"
-        required/>
-      </div>
-      <div class="form-group col-md-6">
-        <label>Number</label>
-        <input type="text" class="form-control"
-        [(ngModel)] = "model.number" name="number_input"
-        #number="ngModel" pattern = "[0-9]*"
-        [ngClass] = "{'is-invalid' : f.submitted && number.invalid}"
-        required/>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Clinic administrator</label>
-      <input type="text" class="form-control"
-       [(ngModel)] = "model.admin" name="clinic_admin"
-       #username="ngModel"
-       [ngClass] = "{'is-invalid' : !f.submitted}"
-       readonly/>
-    </div>
-    <button type="submit" class="btn btn-primary">Add hall</button>
-    </form>
-</div>
-<div class="offset-3"></div>
-</div>
+    <br>
+
+    <button mat-raised-button >Add hall</button>
+
+
+  </form>
 </div>

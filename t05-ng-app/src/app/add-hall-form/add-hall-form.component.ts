@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
     selector: 'app-add-hall-form',
@@ -14,7 +15,7 @@ export class AddHallFormComponent implements OnInit{
         admin: 'emailadmin@admin.com'
     }
 
-    constructor(private http: HttpClient){
+    constructor(private _snackBar: MatSnackBar, private http: HttpClient){
 
     }
 
@@ -28,17 +29,25 @@ export class AddHallFormComponent implements OnInit{
         let url = "http://localhost:8081/halls/addHall"
         this.http.post(url, this.model).subscribe(
             res => {
-                alert("Hall added successfully");
+              this._snackBar.open("Hall added successfully", "Close", {
+                duration: 2000,
+              });
 
             },
           err => {
             if(err.status == 409)
             {
-              alert("Hall name/number already taken");
+              this._snackBar.open("Hall name/number already taken", "Close", {
+                duration: 2000,
+              });
+
             }
             else
             {
-              alert("Error has occurred while adding hall");
+              this._snackBar.open("Error has occurred while adding hall", "Close", {
+                duration: 2000,
+              });
+
             }
           }
         );
@@ -50,5 +59,5 @@ export interface hallModel
 {
     name: string | RegExp;
     number: Number | RegExp;
-    admin: string;
+    admin: string | RegExp;
 }

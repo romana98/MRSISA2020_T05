@@ -4,12 +4,12 @@
 <br>
 
 <div >
-  <form  #f="ngForm" (submit)="f.form.valid && AddClinicCenterAdmin()" class="example-form" style="padding-left: 25px;">
+  <form  #f="ngForm" (submit)="f.form.valid && AddClinicCenterAdmin()" style="padding-left: 25px;">
 
     <mat-form-field appearance="outline" style="width: 250px;">
       <mat-label>Name</mat-label>
       <input matInput  [(ngModel)] = "model.name" #name="ngModel"  name="input_name"
-             pattern="[a-zA-Z ]*" required>
+             pattern="[A-Z][a-z]*" required>
       <mat-error *ngIf="name.invalid && name.errors?.pattern">
         Name can only have letters!
       </mat-error>
@@ -18,7 +18,7 @@
     <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
       <mat-label>Surname</mat-label>
       <input matInput  [(ngModel)] = "model.surname" #surname="ngModel" name="input_surname"
-             pattern="[a-zA-Z ]*" required>
+             pattern="[A-Z][a-z]*" required>
       <mat-error *ngIf="surname.invalid && surname.errors?.pattern">
         Surname can only have letters!
       </mat-error>
@@ -41,12 +41,10 @@
     <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
       <mat-label>Password</mat-label>
       <input matInput  [(ngModel)] = "model.password" #password="ngModel" name="input_password"
-             pattern="[a-zA-Z ]*" required minlength="8"
-             [type]="hide ? 'password' : 'text'"
-      >
+            required minlength="8"  [type]="hide ? 'password' : 'text'">
 
       <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-      <mat-error *ngIf="password.invalid || password.errors?.pattern">
+      <mat-error *ngIf="password.invalid">
         Password field must be at least 8 characters long!
       </mat-error>
     </mat-form-field>
