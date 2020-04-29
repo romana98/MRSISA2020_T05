@@ -20,6 +20,7 @@ export class RequestListPatientsComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   text: string;
+  sent: boolean;
 
   constructor(private _snackBar: MatSnackBar, private http: HttpClient,
               public dialog: MatDialog) {
@@ -70,36 +71,40 @@ export class RequestListPatientsComponent implements OnInit {
   Decline(req): void {
     const dialogRef = this.dialog.open(DialogOverview, {
       width: '25%',height: '40%',
-      data: {text: this.text}
+      data: {text: this.text, sent:this.sent}
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      req.text = result;
+      req.text = result.text;
 
-      let url = "http://localhost:8081/registrationRequests/declineRequest"
-      this.http.post(url, req).subscribe(
-        res => {
-          let index = this.dataSource.data.indexOf(req);
-          this.dataSource.data.splice(index, 1);
-          this.dataSource._updateChangeSubscription()
-          this._snackBar.open("Request declined", "Close", {
-            duration: 2000,
-          });
-
-        },
-        err => {
-          if (err.status == 409) {
-            this._snackBar.open("Patient already exists with" + req.email + "email", "Close", {
+      if(result.sent === true)
+      {
+        let url = "http://localhost:8081/registrationRequests/declineRequest"
+        this.http.post(url, req).subscribe(
+          res => {
+            let index = this.dataSource.data.indexOf(req);
+            this.dataSource.data.splice(index, 1);
+            this.dataSource._updateChangeSubscription()
+            this._snackBar.open("Request declined!", "Close", {
               duration: 2000,
             });
-          } else {
-            this._snackBar.open("Error has occurred while declining registering patient", "Close", {
-              duration: 2000,
-            });
-            console.log(err);
+
+          },
+          err => {
+            if (err.status == 409) {
+              this._snackBar.open("Patient already exists with" + req.email + "email!", "Close", {
+                duration: 2000,
+              });
+            } else {
+              this._snackBar.open("Error has occurred while declining registering patient!", "Close", {
+                duration: 2000,
+              });
+              console.log(err);
+            }
           }
-        }
-      );
+        );
+      }
+
 
     });
   }
@@ -108,6 +113,7 @@ export class RequestListPatientsComponent implements OnInit {
 
 export interface DialogData {
   text: string;
+  sent: boolean;
 }
 
 @Component({
@@ -121,8 +127,13 @@ export class DialogOverview {
     public dialogRef: MatDialogRef<DialogOverview>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
 
-  onClick(): void {
-    this.dialogRef.close();
+  onClick(): boolean {
+
+    return false;
+  }
+
+  Send(): boolean{
+    return true;
   }
 
 }

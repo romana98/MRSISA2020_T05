@@ -8,11 +8,12 @@ public class MedicineDTO {
 	
 	@NotBlank 
 	@NotNull
-	@Pattern(regexp="[A-Za-z0-9 ]*")
+	@Pattern(regexp="([A-Z][a-z]+[ ]*){1,}")
     private String name;
 	
 	@NotBlank 
 	@NotNull
+	@Pattern(regexp="([A-Z][a-z]+[ a-z.,0-9]*){1,}")
 	private String description;
 	
 	@NotNull

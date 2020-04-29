@@ -28,7 +28,7 @@ export class AddClinicFromComponent implements OnInit{
         let url = "http://localhost:8081/clinic/addClinic"
         this.http.post(url, this.model).subscribe(
             res => {
-              this._snackBar.open("Clinic added successfully", "Close", {
+              this._snackBar.open("Clinic added successfully!", "Close", {
                 duration: 2000,
               });
 
@@ -36,14 +36,14 @@ export class AddClinicFromComponent implements OnInit{
             err => {
               if(err.status == 409)
               {
-                this._snackBar.open("Clinic already exists", "Close", {
+                this._snackBar.open("Clinic already exists!", "Close", {
                   duration: 2000,
                 });
 
               }
               else
               {
-                this._snackBar.open("Error has occurred while adding clinic", "Close", {
+                this._snackBar.open("Error has occurred while adding clinic!", "Close", {
                   duration: 2000,
                 });
 
@@ -59,5 +59,5 @@ export interface clinicModel
 {
     name: string | RegExp;
     address: string | RegExp;
-    description: string;
+    description: string | RegExp;
 }
