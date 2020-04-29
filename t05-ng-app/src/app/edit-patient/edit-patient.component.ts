@@ -34,13 +34,13 @@ export class EditPatientProfile implements OnInit{
         let url = "http://localhost:8081/patients/editPatient"
         this.http.post(url,this.model).subscribe(
             res => {
-              this._snackBar.open("Your profile has been updated successfully", "Close", {
+              this._snackBar.open("Your profile has been updated successfully!", "Close", {
                 duration: 2000,
               });
 
             },
             err => {
-              this._snackBar.open("Error has occurred while updating your profile", "Close", {
+              this._snackBar.open("Error has occurred while updating your profile!", "Close", {
                 duration: 2000,
               });
               console.log(err)
@@ -49,14 +49,14 @@ export class EditPatientProfile implements OnInit{
     }
 }
     export interface patientModel{
-        email : string;
+        email : string |RegExp;
         password : string;
-        name : string;
-        surname : string;
-        address : string;
-        city : string;
-        country : string;
-        phone_number : string;
-        insurance_number : string;
+        name : string |RegExp;
+        surname : string |RegExp;
+        address : string |RegExp;
+        city : string |RegExp;
+        country : string |RegExp;
+        phone_number : string |RegExp;
+        insurance_number : string |RegExp;
     }
 

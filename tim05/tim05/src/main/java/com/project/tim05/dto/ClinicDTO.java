@@ -11,7 +11,7 @@ public class ClinicDTO {
 	
 	@NotBlank 
 	@NotNull
-	@Pattern(regexp="([A-Z][a-z]+[ ]*){1,} [0-9]+")
+	@Pattern(regexp="([A-Z][a-z]+[ ]*){1,}[0-9]+")
 	private String address;
 	
 	@NotBlank 

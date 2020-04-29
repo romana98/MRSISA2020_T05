@@ -2,6 +2,8 @@ package com.project.tim05.api;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +34,7 @@ public class MedicalStaffController<T> {
 	}
 	
 	@PostMapping("/editMedicalStaff")
-	public ResponseEntity<T> editProfile(@RequestBody MedicalStaffDTO ms) {
+	public ResponseEntity<T> editProfile(@Valid @RequestBody MedicalStaffDTO ms) {
 		
 		if(ms.getType().equals("doctor")) {
 			Doctor d = new Doctor();

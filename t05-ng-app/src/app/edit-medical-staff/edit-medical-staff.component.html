@@ -11,7 +11,7 @@
       <input matInput  [(ngModel)] = "model.name" #name="ngModel"  name="input_name"
              pattern="[A-Z][a-z]*" required>
       <mat-error *ngIf="name.invalid && name.errors?.pattern">
-        Name can only have letters!
+        Invalid name format! Example: Mike
       </mat-error>
     </mat-form-field>
 
@@ -20,7 +20,7 @@
       <input matInput  [(ngModel)] = "model.surname" #surname="ngModel" name="input_surname"
              pattern="[A-Z][a-z]*" required>
       <mat-error *ngIf="surname.invalid && surname.errors?.pattern">
-        Surname can only have letters!
+        Invalid surname format! Example: Portman
       </mat-error>
     </mat-form-field>
 
@@ -30,10 +30,10 @@
       <mat-label>Email</mat-label>
       <input matInput
              [(ngModel)] = "model.email" name="input_email"
-             #email="ngModel" pattern="^(.+)@(.+)$"
+             #email="ngModel" pattern="[a-z]+[a-z0-9._]*[a-z0-9]+@[a-z]*.com"
              required/>
       <mat-error *ngIf=" email.invalid">
-        Please enter a valid email address
+        Invalid email format! Example: example_1@mail.com
       </mat-error>
     </mat-form-field>
 
@@ -56,9 +56,7 @@
       <mat-label>Type</mat-label>
       <input matInput
              [(ngModel)] = "model.type" name="input_type"
-             #email="ngModel"
-             required/>
-
+             #email="ngModel" [disabled]="true"/>
     </mat-form-field>
 
     <br>
