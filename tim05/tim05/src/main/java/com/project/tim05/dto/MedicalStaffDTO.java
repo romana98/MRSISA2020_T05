@@ -18,6 +18,9 @@ public class MedicalStaffDTO {
 	@Pattern(regexp="[A-Z][a-z]*")
    private String surname;
 	
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="[a-z]+[a-z0-9._]*[a-z0-9]+@[a-z]*.com")
    private String email;
 	
 	@NotBlank 

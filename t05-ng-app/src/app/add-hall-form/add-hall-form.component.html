@@ -9,9 +9,9 @@
     <mat-form-field appearance="outline" style="width: 250px;">
       <mat-label>Name</mat-label>
       <input matInput  [(ngModel)] = "model.name" #name="ngModel"  name="input_name"
-             pattern="[A-Z][a-z]*" required>
+             pattern="([A-Z][a-z]+[ ]*){1,}" required>
       <mat-error *ngIf="name.invalid && name.errors?.pattern">
-        Name can only have letters!
+        Invalid name format! Example: Operation Hall
       </mat-error>
     </mat-form-field>
 
@@ -20,7 +20,7 @@
       <input matInput  [(ngModel)] = "model.number" #number="ngModel"  name="input_number"
              pattern="[0-9]*" required>
       <mat-error *ngIf="number.invalid && number.errors?.pattern">
-        Number can only have numbers!
+        Invalid number format! Example: 5
       </mat-error>
     </mat-form-field>
 
@@ -29,10 +29,10 @@
     <mat-form-field appearance="outline" style="width: 250px;">
       <mat-label>Clinic administrator email</mat-label>
       <input matInput  [(ngModel)] = "model.admin" #admin="ngModel"  name="clinic_admin"
-             pattern="^(.+)@(.+)$" required>
+             pattern="[a-z]+[a-z0-9._]*[a-z0-9]+@[a-z]*.com" required>
 
       <mat-error *ngIf=" admin.invalid && admin.errors?.pattern">
-        Please enter a valid email address
+        Invalid email format! Example: example_1@mail.com
       </mat-error>
     </mat-form-field>
 

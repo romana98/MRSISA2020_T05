@@ -1,17 +1,57 @@
 package com.project.tim05.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
 
 public class PatientDTO {
    
-   private String email;
-   private String password;
-   private String name;
-   private String surname;
-   private String address;
-   private String city;
-   private String country;
-   private String phone_number;
-   private String insurance_number;
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="[a-z]+[a-z0-9._]*[a-z0-9]+@[a-z]*.com")
+	private String email;
+	
+	@NotBlank 
+	@NotNull
+	@Length(min=8)
+	private String password;
+   
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="[A-Z][a-z]*")
+	private String name;
+	
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="[A-Z][a-z]*")
+    private String surname;
+ 
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="([A-Z][a-z]+[ ]*){1,}[0-9]+")
+	private String address;
+   
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="([A-Z][a-z]+[ ]*){1,}")
+    private String city;
+  
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="([A-Z][a-z]+[ ]*){1,}")
+    private String country;
+ 
+	@NotBlank 
+	@NotNull
+	@Pattern(regexp="[0-9]{3,3}-[0-9]{3,3}-[0-9]{3,3}")
+    private String phone_number;
+   
+    @NotBlank 
+	@NotNull
+	@Pattern(regexp="[A-Z0-9]+")
+    private String insurance_number;
       
  
    public PatientDTO() {

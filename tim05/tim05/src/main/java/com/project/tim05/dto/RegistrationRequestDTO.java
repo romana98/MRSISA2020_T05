@@ -9,7 +9,7 @@ public class RegistrationRequestDTO {
    
 	@NotBlank 
 	@NotNull
-	@Pattern(regexp="^(.+)@(.+)$")
+	@Pattern(regexp="[a-z]+[a-z0-9._]*[a-z0-9]+@[a-z]*.com")
 	private String email;
 	
 	@NotBlank 
@@ -29,17 +29,17 @@ public class RegistrationRequestDTO {
   
     @NotBlank 
 	@NotNull
-	@Pattern(regexp="[A-Za-z0-9 ]*")
+	@Pattern(regexp="([A-Z][a-z]+[ ]*){1,}[0-9]+")
     private String address;
    
     @NotBlank 
 	@NotNull
-	@Pattern(regexp="^[a-zA-Z]+(?:[\\s-][a-zA-Z]+)*$")
+	@Pattern(regexp="([A-Z][a-z]+[ ]*){1,}")
     private String city;
    
     @NotBlank 
 	@NotNull
-	@Pattern(regexp="^[a-zA-Z]+(?:[\\s-][a-zA-Z]+)*$")
+	@Pattern(regexp="([A-Z][a-z]+[ ]*){1,}")
     private String country;
    
     @NotBlank 
@@ -49,7 +49,7 @@ public class RegistrationRequestDTO {
    
     @NotBlank 
 	@NotNull
-	@Pattern(regexp="[A-Z0-9]*")
+	@Pattern(regexp="[A-Z0-9]+")
     private String insurance_number;
     
     private String text;

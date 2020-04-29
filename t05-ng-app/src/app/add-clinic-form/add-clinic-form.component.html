@@ -20,7 +20,7 @@
     <mat-form-field appearance="outline" style="width: 250px;">
       <mat-label>Address</mat-label>
       <input matInput  [(ngModel)] = "model.address" #address="ngModel"  name="input_address"
-             pattern="([A-Z][a-z]+[ ]*){1,} [0-9]+" required>
+             pattern="([A-Z][a-z]+[ ]*){1,}[0-9]+" required>
       <mat-error *ngIf="address.invalid && address.errors?.pattern">
         Invalid name format! Example: Saint Patric 5
       </mat-error>

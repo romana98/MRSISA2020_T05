@@ -11,7 +11,7 @@ export class AddHallFormComponent implements OnInit{
 
     model: hallModel = {
         name: '',
-        number: -1,
+        number: 0,
         admin: 'emailadmin@admin.com'
     }
 
@@ -29,7 +29,7 @@ export class AddHallFormComponent implements OnInit{
         let url = "http://localhost:8081/halls/addHall"
         this.http.post(url, this.model).subscribe(
             res => {
-              this._snackBar.open("Hall added successfully", "Close", {
+              this._snackBar.open("Hall added successfully!", "Close", {
                 duration: 2000,
               });
 
@@ -37,14 +37,14 @@ export class AddHallFormComponent implements OnInit{
           err => {
             if(err.status == 409)
             {
-              this._snackBar.open("Hall name/number already taken", "Close", {
+              this._snackBar.open("Hall name/number already taken!", "Close", {
                 duration: 2000,
               });
 
             }
             else
             {
-              this._snackBar.open("Error has occurred while adding hall", "Close", {
+              this._snackBar.open("Error has occurred while adding hall!", "Close", {
                 duration: 2000,
               });
 
