@@ -16,8 +16,14 @@ public class AppointmentTypeService {
 
 	
 	public int addAppointmentType(AppointmentType at) {
-		atr.save(at);
-		return 1;
+		try {
+			atr.save(at);
+			return 1;
+		}
+		catch(Exception e){
+			return 0;
+		}
+		
 	}
 	
 	public List<AppointmentType> getAppointmentTypes(){

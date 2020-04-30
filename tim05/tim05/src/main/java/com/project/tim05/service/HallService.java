@@ -5,6 +5,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,5 +53,31 @@ public class HallService {
 		return hr.findById(id).orElse(null);
 	}
 	
+	public ArrayList<Hall> getClinicHalls(int id){
+		Connection conn;
+		try {
+			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+		
+			PreparedStatement st;
+			
+			st = conn.prepareStatement("SELECT * FROM halls WHERE clinic = ?");
+			
+			st.setInt(1, id);
+			ResultSet rs = st.executeQuery();
+			ArrayList<Hall> lh = new ArrayList<Hall>();
+			while(rs.next()) {
+				Hall new_hall = new Hall();
+				new_hall.setId(rs.getInt("hall_id"));
+				new_hall.setName(rs.getString("name"));
+				new_hall.setNumber(rs.getInt("number"));
+				lh.add(new_hall);
+			}
+			return lh;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return null;	
+	}
 
 }

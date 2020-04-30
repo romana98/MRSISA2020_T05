@@ -1,51 +1,43 @@
 package com.project.tim05.model;
 
-
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="doctors")
-public class Doctor extends MedicalStaff{
-	
-	
-	//mockupujem ovde string dok ne budemo imali tipove jer ovako puca
-	/*@ManyToOne
-	@JoinColumn(name="appointment_type", referencedColumnName="appointment_type_id", nullable=false)
-	private AppointmentType appointmentType;*/
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="clinic_admin", referencedColumnName="clinic_admin_id", nullable=true)
+@Table(name = "doctors")
+public class Doctor extends MedicalStaff {
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "clinic_admin", referencedColumnName = "clinic_admin_id", nullable = true)
 	private ClinicAdministrator clinicAdministrator;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="clinic", referencedColumnName="clinic_id", nullable=true)
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "clinic", referencedColumnName = "clinic_id", nullable = true)
 	private Clinic clinic;
-	
-	@Column(name = "appointmentType" , nullable = false)
-	private String appointmentType;
-	
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="doctor")
+
+	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "doctor")
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
-	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "appointment_type", referencedColumnName = "appointment_type_id", nullable = true)
+	private AppointmentType appointmentType;
+
 	public Doctor() {
-		super();	
+		super();
 	}
 
-	public Doctor(Integer id, String appointmentType) {
+	public Doctor(Integer id, AppointmentType appointmentType) {
 		super();
 		this.appointmentType = appointmentType;
 	}
 
-
-	public String getAppointmentType() {
+	public AppointmentType getAppointmentType() {
 		return appointmentType;
 	}
 
-	public void setAppointmentType(String appointmentType) {
+	public void setAppointmentType(AppointmentType appointmentType) {
 		this.appointmentType = appointmentType;
 	}
 
@@ -72,6 +64,5 @@ public class Doctor extends MedicalStaff{
 	public void setClinicAdmin(ClinicAdministrator clinicAdmin) {
 		this.clinicAdministrator = clinicAdmin;
 	}
-	
-	
+
 }

@@ -23,8 +23,7 @@
 
     <mat-form-field appearance="outline" style="padding-left: 25px;width: 200px;">
       <mat-label>Duration</mat-label>
-      <input [(ngModel)] = "model.duration" name="input_duration"
-      #duration="ngModel" matInput type="number" placeholder="Ex. 12" min="10" max="60" required>
+      <input name="input_duration" matInput type="number" placeholder="Ex. 12" min="10" max="60" [formControl]="durControl" required>
       <span matSuffix>min</span>
     </mat-form-field>
 
@@ -34,20 +33,16 @@
     <mat-form-field appearance="outline" style="width: 250px;">
       <mat-label>Appointment type</mat-label>
       <mat-select [(ngModel)] = "model.appointmentType_id" name="input_appointmentType_id"
-      #appointmentType_id="ngModel">
-        <mat-option value="1">Option1</mat-option>
-        <mat-option value="2">Option2</mat-option>
-        <mat-option value="3">Option3</mat-option>
+      #appointmentType_id="ngModel" (ngModelChange)="onChange()" required>
+      <mat-option *ngFor="let a of appointmentTypes" [value]="a.id" >{{a.name}}</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="outline" style="padding-left: 25px;width: 260px;">
       <mat-label>Doctor</mat-label>
       <mat-select [(ngModel)] = "model.doctor_id" name="input_doctor_id"
-      #doctor_id="ngModel" >
-        <mat-option value="1">Option1</mat-option>
-        <mat-option value="2">Option2</mat-option>
-        <mat-option value="3">Option3</mat-option>
+      #doctor_id="ngModel" required >
+      <mat-option *ngFor="let d of doctors" [value]="d.id" >{{d.name}} {{d.surname}}</mat-option>
       </mat-select>
     </mat-form-field>
 
@@ -57,10 +52,8 @@
     <mat-form-field appearance="outline" style="width: 250px;">
       <mat-label>Hall</mat-label>
       <mat-select [(ngModel)] = "model.hall_id" name="input_hall_id"
-      #hall_id="ngModel" >
-        <mat-option value="1">Option1</mat-option>
-        <mat-option value="2">Option2</mat-option>
-        <mat-option value="3">Option3</mat-option>
+      #hall_id="ngModel" required>
+        <mat-option *ngFor="let h of halls" [value]="h.id" >{{h.name}} {{h.number}}</mat-option>
       </mat-select>
     </mat-form-field>
 

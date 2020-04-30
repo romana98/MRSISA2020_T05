@@ -16,15 +16,25 @@ export class AddDoctorFormComponent implements OnInit {
     password : '',
     workEnd : '',
     workStart : '',
-    appointmentType : ''
+    appointment_type_id : 0,
+    //ovde treba preuzeti od administratora koji dodaje kliniku zapravo
+    clinic_id : 1
   }
+
+  appointmentTypes : any=[];
+
+  hide: boolean;
 
   constructor(private _snackBar: MatSnackBar, private http: HttpClient) {
 
   }
 
   ngOnInit(): void {
-
+    let url = "http://localhost:8081/appointmentType/getAppointmentTypes";
+    this.http.get(url).subscribe(
+      res => {
+            this.appointmentTypes = res;
+      });
 
 
   }
@@ -46,55 +56,8 @@ export class AddDoctorFormComponent implements OnInit {
           console.log(err)
         }
     );
+
   }
-
-  checkStartTime(): boolean{
-    //true -- time is bad
-    //false -- time is good
-    let hours = 0;
-    let minutes = 0;
-      try{
-        let all = this.model.workStart.split(":");
-        console.log(all[0] + "and" + all[1]);
-        hours = parseInt(all[0]);
-        minutes = parseInt(all[1]);
-      }
-      catch{
-        return true;
-      }
-      console.log(hours + "and" + minutes);
-      if(hours > 0 && hours < 24 && minutes > 0 && minutes < 60){
-
-
-        return false;
-      }
-          return true;
-  }
-
-  checkEndTime(): boolean{
-    //true -- time is bad
-    //false -- time is good
-    let hours = 0;
-    let minutes = 0;
-      try{
-        let all = this.model.workEnd.split(":");
-        console.log(all[0] + "and" + all[1]);
-        hours = parseInt(all[0]);
-        minutes = parseInt(all[1]);
-      }
-      catch{
-        return true;
-      }
-      console.log(hours + "and" + minutes);
-      if(hours > 0 && hours < 24 && minutes > 0 && minutes < 60){
-
-
-        return false;
-      }
-          return true;
-  }
-
-
 }
 
 export interface doctorModel
@@ -105,6 +68,7 @@ export interface doctorModel
     password : string;
     workStart : string;
     workEnd : string;
-    appointmentType : string;
+    appointment_type_id : number;
+    clinic_id : number;
 
 }

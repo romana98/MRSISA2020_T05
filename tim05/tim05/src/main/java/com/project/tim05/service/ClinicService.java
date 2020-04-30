@@ -64,4 +64,8 @@ public class ClinicService {
 	
 		return c;
 	}
+	
+	public Clinic getClinicbyId(int id) {
+		return cr.findById(id).orElse(null);
+	}
 }

@@ -2,9 +2,10 @@ package com.project.tim05.service;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +19,15 @@ public class DoctorService {
 	@Autowired
 	private DoctorRepository dr;
 	
-	public void addDoctor(Doctor doctor) {
-		dr.save(doctor);
+	public int addDoctor(Doctor doctor) {
+		try {
+			dr.save(doctor);
+			return 1;
+		}
+		catch(Exception e) {
+			return 0;
+		}
+		
 	}
 	
 	public List<Doctor> getDoctors(){
@@ -44,5 +52,34 @@ public class DoctorService {
 	
 	public Doctor getDoctorbyID(int id) {
 		return dr.findById(id).orElse(new Doctor());
+	}
+	
+	public ArrayList<Doctor> getDoctors(int clinic_id, int appointment_id){
+		try {
+	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+	        String query = "SELECT * FROM doctors WHERE appointment_type = ? and clinic= ?;";
+	        PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, appointment_id);
+			ps.setInt(2, clinic_id);
+			ResultSet rs = ps.executeQuery();
+			ArrayList<Doctor> doctors = new ArrayList<Doctor>();
+			while(rs.next()) {
+				Doctor dr = new Doctor();
+				dr.setId(rs.getInt("staff_id"));
+				dr.setName(rs.getString("name"));
+				dr.setSurname(rs.getString("surname"));
+				dr.setPassword(rs.getString("password"));
+				dr.setEmail(rs.getString("email"));
+				dr.setWorkStart(rs.getString("work_start"));
+				dr.setWorkEnd(rs.getString("work_end"));
+				doctors.add(dr);
+			}
+			return doctors;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}	
+		
 	}
 }

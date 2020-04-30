@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {ReactiveFormsModule}  from "@angular/forms";
 
 @Component({
     selector: 'app-add-admin-clinic-form',

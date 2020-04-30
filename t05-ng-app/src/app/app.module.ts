@@ -13,8 +13,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule, MatButton} from '@angular/material/button';
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './navigation/navigation.component';
-import { Router, Routes, RouterModule} from "@angular/router";
-import {FormControl, FormGroupDirective, NgForm, Validators, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { Routes, RouterModule} from "@angular/router";
+import {FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import { AddDoctorFormComponent } from './add-doctor-form/add-doctor-form.component';
 import { AddClinicCenterAdminFromComponent } from './add-clinic-center-administrator-form/add-clinic-center-administrator-form.component';
 import { AddClinicFromComponent } from './add-clinic-form/add-clinic-form.component';
@@ -144,7 +144,9 @@ const appRoutes : Routes = [
     MatTableModule,
     MatPaginatorModule,
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    FormsModule
+
 
   ],
   providers: [MatDatepickerModule],

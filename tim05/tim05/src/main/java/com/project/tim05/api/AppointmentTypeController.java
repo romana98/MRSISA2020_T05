@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,10 +32,15 @@ public class AppointmentTypeController {
 	}
 	
 	@PostMapping("/addAppointmentType")
-	public void addAppointmentType(@Valid @RequestBody AppointmentTypeDTO atDTO) {
+	public ResponseEntity<Object> addAppointmentType(@Valid @RequestBody AppointmentTypeDTO atDTO) {
 		AppointmentType at = new AppointmentType(atDTO.getName());
 		
-		ats.addAppointmentType(at);
+		int flag = ats.addAppointmentType(at);
+		
+		if(flag == 0)
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		else
+			return ResponseEntity.status(HttpStatus.OK).body(null);
 		
 	}
 	

@@ -19,7 +19,7 @@ public abstract class MedicalStaff {
 	@Column(name = "surname", nullable = false)
 	private String surname;
 	
-	@Column(name = "email", nullable = false)
+	@Column(name = "email", nullable = false, unique= true)
 	private String email;
 	
 	@Column(name = "password", nullable = false)
@@ -51,6 +51,17 @@ public abstract class MedicalStaff {
 		this.patients = patients;
 	}
 
+		
+
+
+	public Integer getId() {
+		return id;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 
 	public Set<Patient> getPatients() {

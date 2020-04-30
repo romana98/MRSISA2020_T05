@@ -13,13 +13,15 @@ public class AppointmentType {
 	@Column(name = "appointment_type_id", unique=true, nullable = false)
 	private Integer id;
 	
-	@Column(name = "name", nullable = false)
+	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic_admin", referencedColumnName="clinic_admin_id", nullable=true)
 	private ClinicAdministrator clinicAdministrator;
    
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="appointmentType")
+	private Set<Appointment> doctors = new HashSet<Appointment>();
 	
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="appointmentType")
 	private Set<Appointment> appointments = new HashSet<Appointment>();
