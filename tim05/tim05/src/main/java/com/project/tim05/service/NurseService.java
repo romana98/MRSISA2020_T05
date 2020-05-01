@@ -6,15 +6,16 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Nurse;
 import com.project.tim05.repository.NurseRepository;
 
 @Service
 public class NurseService {
 	
+	@Autowired
 	private NurseRepository nr;
 	
 	public void editProfile(Nurse nurse) {
