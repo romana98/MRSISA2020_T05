@@ -32,9 +32,9 @@ public class Clinic {
 	@JoinColumn(name="clinic_center_admin", referencedColumnName="clinic_center_admin_id", nullable=true)
 	private ClinicCenterAdministrator clinicCenterAdministrator;
    
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name="patient", referencedColumnName="patient_id", nullable=true)
-	private Patient patient;
+	private List<Patient> patients = new ArrayList<Patient>();
 	
 
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinic")
@@ -42,6 +42,9 @@ public class Clinic {
 	
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinic")
 	private Set<Doctor> doctors = new HashSet<Doctor>();
+	
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinic")
+	private Set<Nurse> nurses = new HashSet<Nurse>();
 	
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinic")
 	private Set<Hall> halls = new HashSet<Hall>();
@@ -62,14 +65,19 @@ public class Clinic {
 		this.description = description;
 	}
 
-	public Clinic(Integer id, String name, String address, String description, ArrayList<Double> ratings,
-			Set<Doctor> doctors, Set<Hall> halls, Set<Pricelist> pricelist, Set<Appointment> appointments) {
+	public Clinic(Integer id, String name, String address, String description, List<Double> ratings,
+			ClinicCenterAdministrator clinicCenterAdministrator, List<Patient> patients,
+			Set<ClinicAdministrator> clinicAdmin, Set<Doctor> doctors, Set<Hall> halls, Set<Pricelist> pricelist,
+			Set<Appointment> appointments) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.address = address;
 		this.description = description;
 		this.ratings = ratings;
+		this.clinicCenterAdministrator = clinicCenterAdministrator;
+		this.patients = patients;
+		this.clinicAdmin = clinicAdmin;
 		this.doctors = doctors;
 		this.halls = halls;
 		this.pricelist = pricelist;
@@ -124,12 +132,21 @@ public class Clinic {
 		this.clinicCenterAdministrator = clinicCenterAdmin;
 	}
 
-	public Patient getPatient() {
-		return patient;
+
+	public ClinicCenterAdministrator getClinicCenterAdministrator() {
+		return clinicCenterAdministrator;
 	}
 
-	public void setPatient(Patient patient) {
-		this.patient = patient;
+	public void setClinicCenterAdministrator(ClinicCenterAdministrator clinicCenterAdministrator) {
+		this.clinicCenterAdministrator = clinicCenterAdministrator;
+	}
+
+	public List<Patient> getPatients() {
+		return patients;
+	}
+
+	public void setPatients(List<Patient> patients) {
+		this.patients = patients;
 	}
 
 	public Set<ClinicAdministrator> getClinicAdmin() {
@@ -171,6 +188,16 @@ public class Clinic {
 	public void setAppointments(Set<Appointment> appointments) {
 		this.appointments = appointments;
 	}
+
+	public Set<Nurse> getNurses() {
+		return nurses;
+	}
+
+	public void setNurses(Set<Nurse> nurses) {
+		this.nurses = nurses;
+	}
+	
+	
 
 	
 

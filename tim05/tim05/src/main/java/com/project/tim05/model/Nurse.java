@@ -8,6 +8,10 @@ import javax.persistence.*;
 @Table(name="nurses")
 public class Nurse extends MedicalStaff {
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "clinic", referencedColumnName = "clinic_id", nullable = true)
+	private Clinic clinic;
+	
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="nurse")
 	private Set<Medicine> medicines = new HashSet<Medicine>();
    
@@ -22,6 +26,16 @@ public class Nurse extends MedicalStaff {
 	public void setMedicines(Set<Medicine> medicines) {
 		this.medicines = medicines;
 	}
+
+	public Clinic getClinic() {
+		return clinic;
+	}
+
+	public void setClinic(Clinic clinic) {
+		this.clinic = clinic;
+	}
+	
+	
 
 	
 	
