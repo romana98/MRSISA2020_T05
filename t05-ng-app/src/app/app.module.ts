@@ -37,6 +37,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatDialogModule} from "@angular/material/dialog";
 import {ViewPatientsNurseComponent} from "./view-patients-nurse/view-patients-nurse.component";
 import {MatSortModule} from "@angular/material/sort";
+import {EditClinicAdministratorComponent} from "./edit-clinic-administrator/edit-clinic-administrator.component";
 
 const appRoutes : Routes = [
   {
@@ -87,6 +88,10 @@ const appRoutes : Routes = [
   {
     path: 'editMedicalStaff',
     component : EditMedicalStaff
+  },
+  {
+    path: 'editProfileCA',
+    component : EditClinicAdministratorComponent
   },
   {
     path : 'addMedicine',
@@ -140,7 +145,8 @@ const appRoutes : Routes = [
     AddNurseFormComponent,
     ViewClinicsComponent,
     ViewPatientsNurseComponent,
-    DialogOverview
+    DialogOverview,
+    EditClinicAdministratorComponent
   ],
   imports: [
     BrowserModule,

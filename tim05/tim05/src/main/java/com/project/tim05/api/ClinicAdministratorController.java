@@ -54,6 +54,22 @@ public class ClinicAdministratorController<T> {
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 	
+	@PostMapping("/editClinicAdministrator")
+	public ResponseEntity<T> editClinicAdministrator(@Valid @RequestBody ClinicAdministratorDTO cca) {
+		//TODO dodati proveru da li je ulogovani email i poslat isti
+		Clinic cl = cs.getClinic(cca.getClinic());
+		if(cl == null)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		
+		ClinicAdministrator cadmin = new ClinicAdministrator(cca.getName(), cca.getSurname(), cca.getEmail(), cca.getPassword(), cl);
+		int flag = cas.editClinicAdministrator(cadmin);
+		
+		if(flag == 0)
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		else
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+	}
+	
 	
 
 }
