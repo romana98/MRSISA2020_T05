@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Component } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule, ErrorStateMatcher} from '@angular/material/core';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -34,6 +33,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatDialogModule} from "@angular/material/dialog";
+import {ViewPatientsNurseComponent} from "./view-patients-nurse/view-patients-nurse.component";
 
 const appRoutes : Routes = [
   {
@@ -98,6 +98,10 @@ const appRoutes : Routes = [
     component : RequestListPatientsComponent
   },
   {
+    path : 'viewPatients',
+    component : ViewPatientsNurseComponent
+  },
+  {
     path : '**',
     component : NavigationComponent
   }
@@ -122,7 +126,8 @@ const appRoutes : Routes = [
     AddHallFormComponent,
     EditMedicalStaff,
     AddAppointmentTypeComponent,
-    DialogOverview
+    DialogOverview,
+    ViewPatientsNurseComponent
   ],
   imports: [
     BrowserModule,

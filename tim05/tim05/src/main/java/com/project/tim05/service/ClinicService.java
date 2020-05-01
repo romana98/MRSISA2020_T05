@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.tim05.dto.ClinicDTO;
+import com.project.tim05.dto.NurseDTO;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.repository.ClinicRespository;
 
@@ -36,6 +37,7 @@ public class ClinicService {
 	public List<Clinic> getClinics(){
 		return cr.findAll();
 	}
+	
 	
 	public Clinic getClinic(ClinicDTO clinic){
 		Clinic c = null;
