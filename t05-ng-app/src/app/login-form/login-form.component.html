@@ -1,0 +1,48 @@
+<br>
+<h1 style="margin-left: 30px;">Log in: </h1>
+<mat-divider></mat-divider>
+<br>
+
+<div>
+
+  <form #f="ngForm" (submit)="f.form.valid && login()" style="padding-left: 25px;">
+
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Email</mat-label>
+      <input matInput  [(ngModel)] = "model.email" #name="ngModel"  name="input_email"
+             pattern="[a-z]+[a-z0-9._]*[a-z0-9]+@[a-z]*.com" required>
+      <mat-error *ngIf="email.invalid && email.errors?.pattern">
+        Invalid email!
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
+      <mat-label>Password</mat-label>
+      <input matInput  [(ngModel)] = "model.password" #password="ngModel" name="input_password"
+             required minlength="8"  [type]="hide ? 'password' : 'text'">
+
+      <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      <mat-error *ngIf="password.invalid">
+        Password field must be at least 8 characters long!
+      </mat-error>
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Choose your role</mat-label>
+      <mat-select [(ngModel)] = "model.type" name="input_appointmentType_id"
+                  #appointmentType_id="ngModel">
+        <mat-option value="1">Patient</mat-option>
+        <mat-option value="2">Doctor</mat-option>
+        <mat-option value="3">Nurse</mat-option>
+        <mat-option value="4">Clinic Administrator</mat-option>
+        <mat-option value="5">Clinic Center Administrator</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+
+  </form>
+
+
+</div>

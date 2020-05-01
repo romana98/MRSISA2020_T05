@@ -50,7 +50,7 @@ public class LoggingController<T> {
 	@PostMapping("/loginUser")
 	public ResponseEntity<T> login(@Valid @RequestBody LoggedUserDTO lu, HttpServletRequest hsr){
 		
-		if(lu.getType().equals("patient")) {
+		if(lu.getType().equals("Patient")) {
 			List<Patient> patients = ps.getPatients();
 			for(Patient p : patients) {
 				if(p.getEmail().equals(lu.getEmail()) && p.getPassword().equals(lu.getPassword())) {
@@ -60,7 +60,7 @@ public class LoggingController<T> {
 					return ResponseEntity.status(HttpStatus.OK).body(null);
 				}
 			}
-		}else if(lu.getType().equals("doctor")) {
+		}else if(lu.getType().equals("Doctor")) {
 			List<Doctor> doctors = ds.getDoctors();
 			for(Doctor d : doctors) {
 				if(d.getEmail().equals(lu.getEmail()) && d.getPassword().equals(lu.getPassword())) {
@@ -70,7 +70,7 @@ public class LoggingController<T> {
 					return ResponseEntity.status(HttpStatus.OK).body(null);
 				}
 			}
-		}else if(lu.getType().equals("nurse")) {
+		}else if(lu.getType().equals("Nurse")) {
 			List<Nurse> nurses = ns.getNurses();
 			for(Nurse n : nurses) {
 				if(n.getEmail().equals(lu.getEmail()) && n.getPassword().equals(lu.getPassword())) {
@@ -80,7 +80,7 @@ public class LoggingController<T> {
 					return ResponseEntity.status(HttpStatus.OK).body(null);
 				}
 			}
-		}else if(lu.getType().equals("clinic administrator")) {
+		}else if(lu.getType().equals("Clinic Administrator")) {
 			List<ClinicAdministrator> clinicadmins = cas.getClinicAdministrators();
 			for(ClinicAdministrator ca : clinicadmins) {
 				if(ca.getEmail().equals(lu.getEmail()) && ca.getPassword().equals(lu.getPassword())) {
@@ -90,7 +90,7 @@ public class LoggingController<T> {
 					return ResponseEntity.status(HttpStatus.OK).body(null);
 				}
 			}
-		}else if(lu.getType().equals("clinic center administrator")) {
+		}else if(lu.getType().equals("Clinic Center Administrator")) {
 			List<ClinicCenterAdministrator> cliniccenteradmins = ccas.getClinicCenterAdministrators();
 			for(ClinicCenterAdministrator cca : cliniccenteradmins) {
 				if(cca.getEmail().equals(lu.getEmail()) && cca.getPassword().equals(lu.getPassword())) {
