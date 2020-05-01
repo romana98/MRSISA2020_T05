@@ -31,7 +31,7 @@
       <input matInput
              [(ngModel)] = "model.email" name="input_email"
              #email="ngModel" pattern="[a-z]+[a-z0-9._]*[a-z0-9]+@[a-z]*.com"
-             required/>
+             required [disabled]="true">
       <mat-error *ngIf=" email.invalid">
         Invalid email format! Example: example_1@mail.com
       </mat-error>
@@ -93,7 +93,7 @@
     <mat-form-field appearance="outline" style="width: 250px;">
       <mat-label>Insurance number</mat-label>
       <input matInput  [(ngModel)] = "model.insurance_number" #insurance_number="ngModel" name="input_insurance_number"
-             pattern= "[A-Z0-9]+" required>
+             pattern= "[A-Z0-9]+" required [disabled]="true">
       <mat-error *ngIf="insurance_number.invalid && insurance_number.errors?.pattern">
         Invalid insurance number! Example: ABC123
       </mat-error>
