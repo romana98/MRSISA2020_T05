@@ -1,10 +1,10 @@
 <br>
-<h1 style="margin-left: 30px;">Table of requests </h1>
+<h1 style="margin-left: 30px;">Table of patients </h1>
 <mat-divider></mat-divider>
 <br>
 
 <div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource">
+  <table mat-table [dataSource]="dataSource" matSort >
 
     <ng-container matColumnDef="email">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>

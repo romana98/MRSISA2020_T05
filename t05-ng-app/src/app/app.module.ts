@@ -31,9 +31,10 @@ import { AddAppointmentTypeComponent } from './add-appointment-type/add-appointm
 import {MatIconModule} from "@angular/material/icon";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
-import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatDialogModule} from "@angular/material/dialog";
 import {ViewPatientsNurseComponent} from "./view-patients-nurse/view-patients-nurse.component";
+import {MatSortModule} from "@angular/material/sort";
 
 const appRoutes : Routes = [
   {
@@ -150,7 +151,8 @@ const appRoutes : Routes = [
     MatPaginatorModule,
     MatSnackBarModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    MatSortModule
 
 
   ],

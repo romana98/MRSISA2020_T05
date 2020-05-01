@@ -10,5 +10,7 @@ public class MedicalRecordService {
 	
 	@Autowired
 	private MedicalRecordRepository mrr;
+	
+	
 
 }

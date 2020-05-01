@@ -31,6 +31,8 @@ public class NurseController {
 	public List<PatientDTO> getPatients(){
 		List<PatientDTO> psDTO = new ArrayList<PatientDTO>();
 		psDTO.add(new PatientDTO("email", "pass", "name", "surname", "address", "city", "town", "phone_number", "insurance_number"));
+		psDTO.add(new PatientDTO("email1", "pass1", "name1", "surname1", "address1", "city1", "town1", "phone_number1", "insurance_number1"));
+		
 		return psDTO;
 	}
 
