@@ -28,6 +28,8 @@ import {AddDiagnosisFormComponent} from "./add-diagnosis-form/add-diagnosis-form
 import {DialogOverview, RequestListPatientsComponent} from "./request-list-patients/request-list-patients.component";
 import { AddPredifinedAppointmentComponent } from './add-predifined-appointment/add-predifined-appointment.component';
 import { AddAppointmentTypeComponent } from './add-appointment-type/add-appointment-type.component';
+import {AddNurseFormComponent} from "./add-nurse-form/add-nurse-form.component";
+import {ViewClinicsComponent} from "./view-clinics/view-clinics.component";
 import {MatIconModule} from "@angular/material/icon";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
@@ -99,6 +101,14 @@ const appRoutes : Routes = [
     component : RequestListPatientsComponent
   },
   {
+    path : 'addNurse',
+    component : AddNurseFormComponent
+  },
+  {
+    path: 'viewClinics',
+    component: ViewClinicsComponent
+  },
+  {
     path : 'viewPatients',
     component : ViewPatientsNurseComponent
   },
@@ -127,8 +137,10 @@ const appRoutes : Routes = [
     AddHallFormComponent,
     EditMedicalStaff,
     AddAppointmentTypeComponent,
-    DialogOverview,
-    ViewPatientsNurseComponent
+    AddNurseFormComponent,
+    ViewClinicsComponent,
+    ViewPatientsNurseComponent,
+    DialogOverview
   ],
   imports: [
     BrowserModule,

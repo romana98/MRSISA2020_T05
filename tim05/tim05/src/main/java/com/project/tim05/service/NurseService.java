@@ -36,5 +36,16 @@ public class NurseService {
 	public List<Nurse> getNurses(){
 		return nr.findAll();
 	}
+	
+	public int addNurse(Nurse nurse) {
+		try {
+			nr.save(nurse);
+			return 1;
+		}
+		catch(Exception e) {
+			return 0;
+		}
+		
+	}
 
 }

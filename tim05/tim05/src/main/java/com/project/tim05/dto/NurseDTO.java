@@ -1,21 +1,27 @@
 package com.project.tim05.dto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class NurseDTO extends MedicalStaffDTO {
    
-   private ClinicDTO clinic;
+	@NotBlank 
+	@NotNull
+   private int clinic_id;
    
    public NurseDTO() {
 	super();
    }
 
-	public ClinicDTO getClinic() {
-		return clinic;
+	public int getClinic_id() {
+		return clinic_id;
 	}
 	
-	public void setClinic(ClinicDTO clinic) {
-		this.clinic = clinic;
+	public void setClinic_id(int clinic_id) {
+		this.clinic_id = clinic_id;
 	}
+
+	
 	   
 
 }
