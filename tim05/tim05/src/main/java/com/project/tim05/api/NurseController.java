@@ -54,6 +54,10 @@ public class NurseController {
 				
 		Clinic c = cs.getClinicbyId(nurse.getClinic_id());
 		
+		if (c == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+		
 		
 		n.setClinic(c);
 		n.setName(nurse.getName());

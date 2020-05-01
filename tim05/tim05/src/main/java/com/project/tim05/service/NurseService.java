@@ -43,6 +43,7 @@ public class NurseService {
 			return 1;
 		}
 		catch(Exception e) {
+			System.out.println(e.getMessage());
 			return 0;
 		}
 		

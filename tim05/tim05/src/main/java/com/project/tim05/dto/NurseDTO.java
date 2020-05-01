@@ -1,11 +1,9 @@
 package com.project.tim05.dto;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 public class NurseDTO extends MedicalStaffDTO {
    
-	@NotBlank 
 	@NotNull
    private int clinic_id;
    
