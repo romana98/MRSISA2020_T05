@@ -1,0 +1,14 @@
+table {
+    width: 100%;
+  }
+mat-form-field {
+    width: 100%;
+  }
+  
+table tr:hover{
+    background: rgb(228, 228, 228); 
+  }
+
+mat-expansion-panel {
+    width: 100%;
+}

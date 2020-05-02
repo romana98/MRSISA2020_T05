@@ -38,6 +38,9 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {ViewPatientsNurseComponent} from "./view-patients-nurse/view-patients-nurse.component";
 import {MatSortModule} from "@angular/material/sort";
 import {EditClinicAdministratorComponent} from "./edit-clinic-administrator/edit-clinic-administrator.component";
+import { ClinicsComponent } from './patient/clinics/clinics.component';
+import {MatExpansionModule, matExpansionAnimations} from '@angular/material/expansion';
+
 
 const appRoutes : Routes = [
   {
@@ -118,6 +121,10 @@ const appRoutes : Routes = [
     component : ViewPatientsNurseComponent
   },
   {
+    path: 'patient/clinics',
+    component: ClinicsComponent
+  },
+  {
     path : '**',
     component : NavigationComponent
   }
@@ -146,7 +153,8 @@ const appRoutes : Routes = [
     ViewClinicsComponent,
     ViewPatientsNurseComponent,
     DialogOverview,
-    EditClinicAdministratorComponent
+    EditClinicAdministratorComponent,
+    ClinicsComponent
   ],
   imports: [
     BrowserModule,
@@ -170,7 +178,8 @@ const appRoutes : Routes = [
     MatSnackBarModule,
     MatDialogModule,
     FormsModule,
-    MatSortModule
+    MatSortModule,
+    MatExpansionModule
 
 
   ],

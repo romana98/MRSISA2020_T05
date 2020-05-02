@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.tim05.dto.PatientClinicsDTO;
 import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.Patient;
 import com.project.tim05.model.RegistrationRequest;
+import com.project.tim05.service.ClinicService;
 import com.project.tim05.service.EmailService;
 import com.project.tim05.service.PatientService;
 import com.project.tim05.service.RegistrationRequestService;
@@ -29,12 +32,14 @@ public class PatientController<T> {
 	private final PatientService ps;
 	private final RegistrationRequestService rrs;
 	private final EmailService es;
+	private final ClinicService cs;
 	
 	@Autowired
-	public PatientController(PatientService ps, RegistrationRequestService rrs, EmailService es) {
+	public PatientController(PatientService ps, RegistrationRequestService rrs, EmailService es, ClinicService cs) {
 		this.ps = ps;
 		this.rrs = rrs;
 		this.es = es;
+		this.cs = cs;
 	}
 	
 	@GetMapping("/getPatients")
@@ -79,6 +84,11 @@ public class PatientController<T> {
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		}
 			
+	}
+	
+	@GetMapping("/getClinics")
+	public ResponseEntity<List<PatientClinicsDTO>> getClinics(@RequestParam String date, String appointmentType_id, String address, String avg_rate_lowest, String avg_rate_highest){
+		return ResponseEntity.ok(cs.getPatientClinics(date, Integer.parseInt(appointmentType_id), address, Integer.parseInt(avg_rate_lowest),Integer.parseInt(avg_rate_highest)));
 	}
 	
 }

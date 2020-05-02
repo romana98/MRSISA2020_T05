@@ -2,6 +2,8 @@ package com.project.tim05.api;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +45,7 @@ public class DoctorController {
 	}
 	
 	@PostMapping("/addDoctor")
-	public ResponseEntity<Object> addDoctor(@RequestBody DoctorDTO doctor) {
+	public ResponseEntity<Object> addDoctor(@Valid @RequestBody DoctorDTO doctor) {
 		Doctor dr = new Doctor();
 		
 		AppointmentType at = ats.getAppointmentTypebyId(doctor.getAppointment_type_id());
