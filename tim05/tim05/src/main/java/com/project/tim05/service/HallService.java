@@ -72,12 +72,33 @@ public class HallService {
 				new_hall.setNumber(rs.getInt("number"));
 				lh.add(new_hall);
 			}
+			conn.close();
 			return lh;
+			
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
-		}
+		}	
+		
 		return null;	
+	}
+	
+	public int deleteHall(int id) {
+		int success = 0;
+		try {
+	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+	        
+	        String query = "DELETE FROM halls WHERE hall_id = ?";
+	        PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, id);
+			
+			success = ps.executeUpdate();
+		} catch (SQLException e) {
+			
+			success = 0;
+		}
+		
+		return success;
 	}
 
 }

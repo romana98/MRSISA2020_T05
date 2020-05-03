@@ -42,6 +42,7 @@ import { ClinicsComponent } from './patient/clinics/clinics.component';
 import {MatExpansionModule, matExpansionAnimations} from '@angular/material/expansion';
 
 
+
 const appRoutes : Routes = [
   {
     path : 'addDoctor',
@@ -180,7 +181,6 @@ const appRoutes : Routes = [
     FormsModule,
     MatSortModule,
     MatExpansionModule
-
 
   ],
   providers: [MatDatepickerModule],

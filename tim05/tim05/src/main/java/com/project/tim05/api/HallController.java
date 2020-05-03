@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -60,5 +61,19 @@ public class HallController<T> {
 	private ResponseEntity<List<Hall>> getHalls(@RequestParam String clinic_id){
 		return ResponseEntity.ok(hs.getClinicHalls(Integer.parseInt(clinic_id)));
 	}
+	
+	@DeleteMapping("/deleteHall")
+	private ResponseEntity<T> deleteHall(@RequestParam String hall_id){
+		int flag = hs.deleteHall(Integer.parseInt(hall_id));
+		if(flag != 0) {
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}
+
+		
+	}
+
 
 }

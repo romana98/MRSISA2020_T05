@@ -39,8 +39,7 @@ export class ClinicsComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private _snackBar: MatSnackBar, private http: HttpClient,
-    public dialog: MatDialog) { }
+  constructor(private _snackBar: MatSnackBar, private http: HttpClient) { }
 
   ngOnInit(): void {
     let params = new HttpParams();

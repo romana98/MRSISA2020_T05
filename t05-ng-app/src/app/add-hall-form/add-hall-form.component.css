@@ -1,0 +1,12 @@
+table {
+    width: 100%;
+  }
+mat-form-field {
+    width: 100%;
+  }
+  
+.fake-link {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
