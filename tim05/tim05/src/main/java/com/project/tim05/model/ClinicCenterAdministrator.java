@@ -7,25 +7,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="clinic_center_admins")
-public class ClinicCenterAdministrator {
+public class ClinicCenterAdministrator extends User {
   
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "clinic_center_admin_id", unique=true, nullable = false)
-	private Integer id;
-	
-	@Column(name = "name", nullable = false)
-	private String name;
-	
-	@Column(name = "email", unique = true, nullable = false)
-	private String email;
-	
-	@Column(name = "password", nullable = false)
-	private String password;
-	
-	@Column(name = "surname", nullable = false)
-	private String surname;
-   
+	private static final long serialVersionUID = 1L;
+
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinicCenterAdministrator")
 	private Set<Clinic> clinics = new HashSet<Clinic>();
 	
@@ -43,50 +28,12 @@ public class ClinicCenterAdministrator {
 			super();
 		}
 
-	public ClinicCenterAdministrator(String name, String surname, String email, String password) {
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.surname = surname;
+	
+	public ClinicCenterAdministrator(String email, String password, String name, String surname) {
+		super(email, password, name, surname);
 	}
-	public ClinicCenterAdministrator(Integer id, String name, String email, String password, String surname,
-				Set<Clinic> clinics, Set<Diagnosis> diagnosises, Set<Medicine> medicines,
-				Set<RegistrationRequest> registrationRequests) {
-			super();
-			this.id = id;
-			this.name = name;
-			this.email = email;
-			this.password = password;
-			this.surname = surname;
-			this.clinics = clinics;
-			this.diagnosises = diagnosises;
-			this.medicines = medicines;
-			this.registrationRequests = registrationRequests;
-		}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public String getSurname() {
-		return surname;
-	}
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
+
+
 	public Set<Clinic> getClinics() {
 		return clinics;
 	}
@@ -110,6 +57,13 @@ public class ClinicCenterAdministrator {
 	}
 	public void setRegistrationRequests(Set<RegistrationRequest> registrationRequests) {
 		this.registrationRequests = registrationRequests;
+	}
+
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	   
    

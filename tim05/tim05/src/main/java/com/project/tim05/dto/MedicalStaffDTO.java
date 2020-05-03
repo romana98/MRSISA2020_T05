@@ -6,7 +6,7 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 
-public class MedicalStaffDTO {
+public abstract class MedicalStaffDTO {
 
 	@NotBlank
 	@NotNull

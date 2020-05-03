@@ -17,7 +17,7 @@ public class AppointmentType {
 	private String name;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="clinic_admin", referencedColumnName="clinic_admin_id", nullable=true)
+	@JoinColumn(name="clinic_admin", referencedColumnName="user_id", nullable=true)
 	private ClinicAdministrator clinicAdministrator;
    
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="appointmentType")

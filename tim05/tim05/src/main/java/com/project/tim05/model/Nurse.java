@@ -8,6 +8,8 @@ import javax.persistence.*;
 @Table(name="nurses")
 public class Nurse extends MedicalStaff {
 	
+	private static final long serialVersionUID = 1L;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "clinic", referencedColumnName = "clinic_id", nullable = true)
 	private Clinic clinic;
@@ -33,6 +35,12 @@ public class Nurse extends MedicalStaff {
 
 	public void setClinic(Clinic clinic) {
 		this.clinic = clinic;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

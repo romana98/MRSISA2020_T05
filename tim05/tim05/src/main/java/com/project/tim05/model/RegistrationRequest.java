@@ -39,7 +39,7 @@ public class RegistrationRequest {
 	private String insurance_number;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="clinic_center_admin", referencedColumnName="clinic_center_admin_id", nullable=true)
+	@JoinColumn(name="clinic_center_admin", referencedColumnName="user_id", nullable=true)
 	private ClinicCenterAdministrator clinicCenterAdministrator;
    
 	

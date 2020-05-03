@@ -6,11 +6,13 @@ import java.util.Set;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "doctors")
+@Table(name="doctors")
 public class Doctor extends MedicalStaff {
 
+	private static final long serialVersionUID = 1L;
+
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "clinic_admin", referencedColumnName = "clinic_admin_id", nullable = true)
+	@JoinColumn(name = "clinic_admin", referencedColumnName = "user_id", nullable = true)
 	private ClinicAdministrator clinicAdministrator;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -63,6 +65,12 @@ public class Doctor extends MedicalStaff {
 
 	public void setClinicAdmin(ClinicAdministrator clinicAdmin) {
 		this.clinicAdministrator = clinicAdmin;
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -7,24 +7,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="patients")
-public class Patient {
+public class Patient extends User {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "patient_id", unique=true, nullable = false)
-	private Integer id;
-	
-	@Column(name = "email", unique = true, nullable = false)
-	private String email;
-	
-	@Column(name = "password", nullable = false)
-	private String password;
-	
-	@Column(name = "name", nullable = false)
-	private String name;
-
-	@Column(name = "surname", nullable = false)
-	private String surname;
+	private static final long serialVersionUID = 1L;
 	
 	@Column(name = "address", nullable = false)
 	private String address;
@@ -42,11 +27,11 @@ public class Patient {
 	private String insurance_number;
 
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="doctor", referencedColumnName="staff_id", nullable=true)
+	@JoinColumn(name="doctor", referencedColumnName="user_id", nullable=true)
 	private Doctor doctor;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="nurse", referencedColumnName="staff_id", nullable=true)
+	@JoinColumn(name="nurse", referencedColumnName="user_id", nullable=true)
 	private Nurse nurse;		
 	
 	@OneToOne(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
@@ -65,72 +50,22 @@ public class Patient {
 		this.medicalRecord = new MedicalRecord();
 	}
 	
-	public Patient(String email, String password, String name, String surname, String address, String city,
-			String country, String phone_number, String insurance_number, MedicalRecord medicalRecord,
-			Set<Appointment> appointments, Set<Clinic> clinics) {
-		super();
-		this.email = email;
-		this.password = password;
-		this.name = name;
-		this.surname = surname;
-		this.address = address;
-		this.city = city;
-		this.country = country;
-		this.phone_number = phone_number;
-		this.insurance_number = insurance_number;
-		this.medicalRecord = medicalRecord;
-		this.appointments = appointments;
-		this.clinics = clinics;
+	
+	public Patient(String email, String password, String name, String surname) {
+		super(email, password, name, surname);
 	}
 
 
-
-	public Patient(String email, String password, String name, String surname, String address, String city,
-			 String country, String phone_number, String insurance_number) {
-		super();
-		this.email = email;
-		this.password = password;
-		this.name = name;
-		this.surname = surname;
-		this.address = address;
-		this.city = city;
-		this.country = country;
-		this.phone_number = phone_number;
-		this.insurance_number = insurance_number;
-		this.medicalRecord = new MedicalRecord();
+	public Patient(String email, String password, String name, String surname, String address2, String city2,
+			String country2, String phone_number2, String insurance_number2) {
+		super(email, password, name, surname);
+		this.address = address2;
+		this.city = city2;
+		this.country = country2;
+		this.phone_number = phone_number2;
+		this.insurance_number = insurance_number2;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
 
 	public String getAddress() {
 		return address;
@@ -196,14 +131,6 @@ public class Patient {
 		this.clinics = clinics;
 	}
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
 	public Doctor getDoctor() {
 		return doctor;
 	}
@@ -218,6 +145,13 @@ public class Patient {
 
 	public void setNurse(Nurse nurse) {
 		this.nurse = nurse;
+	}
+
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

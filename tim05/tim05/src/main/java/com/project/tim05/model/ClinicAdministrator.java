@@ -7,25 +7,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="clinic_admins")
-public class ClinicAdministrator {
+public class ClinicAdministrator extends User {
+
+	private static final long serialVersionUID = 1L;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "clinic_admin_id", unique=true, nullable = false)
-	private Integer id;
-	
-	@Column(name = "name", nullable = false)
-	private String name;
-   
-	@Column(name = "surname", nullable = false)
-	private String surname;
-  
-	@Column(name = "password", nullable = false)
-	private String password;
-   
-	@Column(name = "email", unique = true, nullable = false)
-	private String email;
-   
 	@OneToOne( fetch=FetchType.LAZY)
 	@JoinColumn(name="clinic", nullable=false)
 	private Clinic clinic;
@@ -46,70 +31,12 @@ public class ClinicAdministrator {
 	public ClinicAdministrator() {
 			super();
 		}
-	
-	public ClinicAdministrator(String name, String surname, String email, String password, Clinic clinic)
-	{
-		this.name = name;
-		this.surname = surname;
-		this.password = password;
-		this.email = email;
-		this.clinic = clinic;
-		
-	}
-	
-	public ClinicAdministrator(Integer id, String name, String surname, String password, String email, Clinic clinic,
-			Set<Appointment> appointments, Set<Hall> halls, Set<Doctor> doctors, Set<AppointmentType> appointmentTypes) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.surname = surname;
-		this.password = password;
-		this.email = email;
-		this.clinic = clinic;
-		this.appointments = appointments;
-		this.halls = halls;
-		this.doctors = doctors;
-		this.appointmentTypes = appointmentTypes;
-	}
 
-	public Integer getId() {
-		return id;
-	}
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	public ClinicAdministrator(String name, String surname, String email, String password, Clinic cl) {
+		super(name, surname, email, password);
+		this.clinic = cl;
 	}
 
 	public Clinic getClinic() {
@@ -150,6 +77,13 @@ public class ClinicAdministrator {
 
 	public void setAppointmentTypes(Set<AppointmentType> appointmentTypes) {
 		this.appointmentTypes = appointmentTypes;
+	}
+
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

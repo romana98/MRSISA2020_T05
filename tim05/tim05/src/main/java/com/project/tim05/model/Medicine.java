@@ -25,11 +25,11 @@ public class Medicine {
 	private Appointment appointment;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="clinic_center_admin", referencedColumnName="clinic_center_admin_id", nullable=true)
+	@JoinColumn(name="clinic_center_admin", referencedColumnName="user_id", nullable=true)
 	private ClinicCenterAdministrator clinicCenterAdministrator;
    
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="nurse", referencedColumnName="staff_id", nullable=true)
+	@JoinColumn(name="nurse", referencedColumnName="user_id", nullable=true)
 	private Nurse nurse;
    
 	

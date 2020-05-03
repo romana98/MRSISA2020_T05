@@ -45,11 +45,11 @@ public class Appointment {
 	private Hall hall;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="doctor", referencedColumnName="staff_id", nullable=true)
+	@JoinColumn(name="doctor", referencedColumnName="user_id", nullable=true)
 	private Doctor doctor;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="clinic_admin", referencedColumnName="clinic_admin_id", nullable=true)
+	@JoinColumn(name="clinic_admin", referencedColumnName="user_id", nullable=true)
 	private ClinicAdministrator clinicAdministrator;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -57,7 +57,7 @@ public class Appointment {
 	private MedicalRecord medicalRecord;
    
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="patient", referencedColumnName="patient_id", nullable=true)
+	@JoinColumn(name="patient", referencedColumnName="user_id", nullable=true)
 	private Patient patient;
 	
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="appointment")
