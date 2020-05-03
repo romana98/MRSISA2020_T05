@@ -10,12 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.project.tim05.security.TokenUtils;
 
 //Filter koji ce presretati svaki zahtev klijenta ka serveru
 //Sem nad putanjama navedenim u WebSecurityConfig.configure(WebSecurity web)
+@Component
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
 	private TokenUtils tokenUtils;

@@ -27,9 +27,11 @@ import com.project.tim05.dto.JwtAuthenticationRequestDTO;
 import com.project.tim05.dto.RegistrationRequestDTO;
 import com.project.tim05.dto.UserTokenStateDTO;
 import com.project.tim05.model.Patient;
+import com.project.tim05.model.RegistrationRequest;
 import com.project.tim05.model.User;
 import com.project.tim05.security.TokenUtils;
 import com.project.tim05.service.CustomUserDetailsService;
+import com.project.tim05.service.RegistrationRequestService;
 import com.project.tim05.service.UserService;
 
 //Kontroler zaduzen za autentifikaciju korisnika
@@ -48,6 +50,9 @@ public class AuthenticationController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired 
+	private RegistrationRequestService rrs;
 
 	// Prvi endpoint koji pogadja korisnik kada se loguje.
 	// Tada zna samo svoje korisnicko ime i lozinku i to prosledjuje na backend.
@@ -82,10 +87,26 @@ public class AuthenticationController {
 		}
 
 		//User user = this.userService.save(userRequest);
-		User user = new Patient(); //uradi ponovo registraciju!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+		RegistrationRequest rr = new RegistrationRequest();
+		rr.setAddress(userRequest.getAddress());
+		rr.setCity(userRequest.getCity());
+		rr.setCountry(userRequest.getCountry());
+		rr.setEmail(userRequest.getEmail());
+		rr.setInsurance_number(userRequest.getInsurance_number());
+		rr.setName(userRequest.getName());
+		rr.setPhone_number(userRequest.getPhone_number());
+		rr.setPassword(userRequest.getPassword());
+		rr.setSurname(userRequest.getSurname());
+		
+		int flag = rrs.addRegistrationRequest(rr);
+		if(flag == 0)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		else
+			return new ResponseEntity<>(new User(), HttpStatus.CREATED);
+		/*//User user = new Patient(); //uradi ponovo registraciju!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/api/user/{userId}").buildAndExpand(user.getId()).toUri());
-		return new ResponseEntity<>(user, HttpStatus.CREATED);
+		return new ResponseEntity<>(user, HttpStatus.CREATED);*/
 	}
 
 	// U slucaju isteka vazenja JWT tokena, endpoint koji se poziva da se token osvezi
