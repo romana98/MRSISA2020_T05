@@ -10,7 +10,7 @@ export class DoctorGuardService {
   constructor(private router: Router,private authservice: AuthenticationService) { }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     //ovde ide check da li je trenutni korisnik pacijent
-    if(sessionStorage.getItem('role').localeCompare("ROLE_DOCTOR") === 0){
+    if(sessionStorage.getItem('role')===("ROLE_DOCTOR")){
       return true;
     }
     else{
