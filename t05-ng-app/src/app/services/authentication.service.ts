@@ -27,8 +27,8 @@ export class AuthenticationService {
         let tokenStr= 'Bearer ' + res['accessToken'];
         sessionStorage.setItem('token', tokenStr);
         let decoded = jwt_decode(res['accessToken']);
-        sessionStorage.setItem('user_id',JSON.stringify(decoded['id']));
-        sessionStorage.setItem('role', JSON.stringify(decoded['role']));
+        sessionStorage.setItem('user_id', decoded['id']);
+        sessionStorage.setItem('role', decoded['role']);
         /*if (sessionStorage.getItem('role').localeCompare("Role")){
           this.router.navigate(['/patient/clinics']);
         }*/

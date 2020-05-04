@@ -154,7 +154,7 @@ const appRoutes : Routes = [
   {
     path: 'patient/clinics',
     component: ClinicsComponent,
-    canActivate : [PatientGuardService]
+    canActivate : [ClinicCenterAdminGuardService]
   },
   {
     path : '**',
