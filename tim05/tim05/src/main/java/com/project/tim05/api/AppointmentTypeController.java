@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +33,7 @@ public class AppointmentTypeController {
 	}
 	
 	@PostMapping("/addAppointmentType")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	public ResponseEntity<Object> addAppointmentType(@Valid @RequestBody AppointmentTypeDTO atDTO) {
 		AppointmentType at = new AppointmentType(atDTO.getName());
 		
@@ -45,6 +47,7 @@ public class AppointmentTypeController {
 	}
 	
 	@GetMapping("/getAppointmentTypes")
+	@PreAuthorize("hasRole('CLINIC_ADMIN') || hasRole('PATIENT')")
 	public List<AppointmentType> getAppointmetTypes(){
 		return ats.getAppointmentTypes();
 	}

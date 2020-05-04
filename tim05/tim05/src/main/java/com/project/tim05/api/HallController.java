@@ -20,11 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.HallDTO;
-import com.project.tim05.model.Clinic;
 import com.project.tim05.model.ClinicAdministrator;
 import com.project.tim05.model.Hall;
-import com.project.tim05.model.User;
-import com.project.tim05.service.ClinicAdministratorService;
 import com.project.tim05.service.HallService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -33,12 +30,10 @@ import com.project.tim05.service.HallService;
 public class HallController<T> {
 	
 	private final HallService hs;
-	private final ClinicAdministratorService cas;
 	
 	@Autowired
-	public HallController(HallService hs, ClinicAdministratorService cas) {
+	public HallController(HallService hs) {
 		this.hs = hs;
-		this.cas = cas;
 	}
 	
 	@PostMapping("/addHall")
@@ -61,11 +56,13 @@ public class HallController<T> {
 	}
 	
 	@GetMapping("/getClinicHall")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	private ResponseEntity<List<Hall>> getHalls(@RequestParam String clinic_id){
 		return ResponseEntity.ok(hs.getClinicHalls(Integer.parseInt(clinic_id)));
 	}
 	
 	@DeleteMapping("/deleteHall")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	private ResponseEntity<T> deleteHall(@RequestParam String hall_id){
 		int flag = hs.deleteHall(Integer.parseInt(hall_id));
 		if(flag != 0) {

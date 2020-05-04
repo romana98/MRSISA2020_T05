@@ -57,6 +57,7 @@ public class ClinicService {
 			c.setId(rs.getInt("clinic_id")); c.setName(rs.getString("name"));
 			c.setAddress(rs.getString("address")); c.setDescription(rs.getString("description"));
 			
+			conn.close();
 			rs.close();
 			st.close();		
 			
@@ -94,10 +95,6 @@ public class ClinicService {
 				clinics.add(pc);
 				
 			}
-			
-			/*c = new Clinic();
-			c.setId(rs.getInt("clinic_id")); c.setName(rs.getString("name"));
-			c.setAddress(rs.getString("address")); c.setDescription(rs.getString("description"));*/
 			
 			rs.close();
 			st.close();		

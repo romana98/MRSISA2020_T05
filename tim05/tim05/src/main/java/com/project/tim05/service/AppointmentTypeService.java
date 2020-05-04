@@ -16,13 +16,15 @@ public class AppointmentTypeService {
 
 	
 	public int addAppointmentType(AppointmentType at) {
+		int flag = 0;
 		try {
 			atr.save(at);
-			return 1;
+			flag = 1;
 		}
 		catch(Exception e){
-			return 0;
+			return flag;
 		}
+		return flag;
 		
 	}
 	

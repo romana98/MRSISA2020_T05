@@ -24,13 +24,15 @@ public class DoctorService {
 	private DoctorRepository dr;
 	
 	public int addDoctor(Doctor doctor) {
+		int flag = 0;
 		try {
 			dr.save(doctor);
-			return 1;
+			flag = 1;
 		}
 		catch(Exception e) {
-			return 0;
+			return flag;
 		}
+		return flag;
 		
 	}
 	
@@ -50,11 +52,12 @@ public class DoctorService {
 			ps.setString(3, doctor.getSurname());
 			ps.setString(4, doctor.getEmail());
 			flag = ps.executeUpdate();
+			
 			ps.close();
 			connection.close();
 			return flag;
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			return flag;
 		}	
 	}
@@ -83,10 +86,11 @@ public class DoctorService {
 				dr.setWorkEnd(rs.getString("work_end"));
 				doctors.add(dr);
 			}
+			connection.close();
+			ps.close();
+			rs.close();
 			return doctors;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 			return null;
 		}	
 		

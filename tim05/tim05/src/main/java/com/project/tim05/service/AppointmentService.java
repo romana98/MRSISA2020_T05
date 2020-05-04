@@ -16,8 +16,16 @@ public class AppointmentService {
 	private AppointmentRespository ar;
 
 	public int addAppointment(Appointment appointment) {
-		ar.save(appointment);
-		return 1;
+		int flag = 0;
+		try {
+			ar.save(appointment);
+			flag = 1;
+			
+		} catch (Exception e) {
+			return flag;
+		}
+		
+		return flag;
 	}
 	
 	public List<Appointment> getAppointments(){

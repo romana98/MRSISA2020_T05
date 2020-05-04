@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,6 +46,7 @@ public class DoctorController {
 	}
 	
 	@PostMapping("/addDoctor")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	public ResponseEntity<Object> addDoctor(@Valid @RequestBody DoctorDTO doctor) {
 		Doctor dr = new Doctor();
 		
@@ -76,6 +78,7 @@ public class DoctorController {
 	}
 	
 	@GetMapping("/getDoctorsAppointment")
+	@PreAuthorize("hasRole('DOCTOR')")
 	public ResponseEntity<ArrayList<Doctor>> getDoctors(@RequestParam String clinic_id,String appointment_type_id){
 		return ResponseEntity.ok(ds.getDoctors(Integer.parseInt(clinic_id),Integer.parseInt(appointment_type_id)));
 	}

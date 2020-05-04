@@ -59,7 +59,10 @@ public class HallService {
 				new_hall.setNumber(rs.getInt("number"));
 				lh.add(new_hall);
 			}
+			st.close();
 			conn.close();
+			rs.close();
+			
 			return lh;
 			
 		}
@@ -80,6 +83,10 @@ public class HallService {
 			ps.setInt(1, id);
 			
 			success = ps.executeUpdate();
+			
+			connection.close();
+			ps.close();
+			
 		} catch (SQLException e) {
 			
 			success = 0;

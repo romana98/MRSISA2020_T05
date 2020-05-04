@@ -60,6 +60,9 @@ public int editClinicAdministrator(ClinicAdministrator admincl) {
 		
 			flag = ps.executeUpdate();
 			
+			connection.close();
+			ps.close();
+			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			return flag;

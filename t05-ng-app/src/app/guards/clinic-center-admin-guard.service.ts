@@ -10,12 +10,12 @@ export class ClinicCenterAdminGuardService {
   constructor(private router: Router,private authservice: AuthenticationService) { }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
 
-    let bar : String = new String(sessionStorage.getItem('role'));
-    let str : String = new String("ROLE_CLINIC_CENTER_ADMIN");
+    let bar : String = String(sessionStorage.getItem('role'));
+    let str : String = String("ROLE_CLINIC_CENTER_ADMIN");
 
-    console.log(sessionStorage.getItem('role').toString());
+    console.log(sessionStorage.getItem('role').localeCompare(str.toString()));
     console.log(bar === str);
-    
+
     console.log(this.authservice.isUserLoggedIn());
     if(sessionStorage.getItem('role').localeCompare("ROLE_CLINIC_CENTER_ADMIN") === 0){
       return true;

@@ -42,11 +42,11 @@ public class PatientService {
 			ps.setString(8, patient.getInsurance_number());
 			ps.setString(9, patient.getEmail());
 			flag = ps.executeUpdate();
+			
 			ps.close();
 			connection.close();
 			return flag;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			return flag;
 		}	
 	}
@@ -104,6 +104,7 @@ public class PatientService {
 			
 			rs.close();
 			st.close();		
+			conn.close();
 			
 		} catch (SQLException e) {
 			
