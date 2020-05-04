@@ -8,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,9 +43,9 @@ public class ClinicAdministratorController<T> {
 	
 	@Autowired
 	private CustomUserDetailsService userDetailsService;
-	
+
 	@Autowired
-	private AuthenticationController ac;
+	private AuthenticationManager authenticationManager;
 	
 	private final ClinicAdministratorService cas;
 	private final ClinicService cs;
@@ -68,9 +72,10 @@ public class ClinicAdministratorController<T> {
 		
 		Clinic cl = cs.getClinic(cca.getClinic());
 		if(cl == null)
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
-					;
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		
 		ClinicAdministrator cadmin = new ClinicAdministrator(cca.getName(), cca.getSurname(), cca.getEmail(), cca.getPassword(), cl);
+		cadmin.setEnabled(true);;
 		int flag = cas.addClinicAdministrator(cadmin);
 		
 		if(flag == 0)
@@ -84,13 +89,12 @@ public class ClinicAdministratorController<T> {
 	public ResponseEntity<UserTokenStateDTO> editClinicAdministrator(@Valid @RequestBody ClinicAdministratorDTO cca) {
 		
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-		String email = ((ClinicAdministrator) currentUser).getEmail();
+		ClinicAdministrator ca = ((ClinicAdministrator) currentUser.getPrincipal());
+		String email = ca.getEmail();
 
 		if(!email.equals(cca.getEmail()))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
-		userDetailsService.changePassword(((ClinicAdministratorDTO) currentUser).getPassword(), cca.getPassword());
-		
 		Clinic cl = cs.getClinic(cca.getClinic());
 		if(cl == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -102,8 +106,12 @@ public class ClinicAdministratorController<T> {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		else
 		{
-			//Da li je ovako potrebno ili samo vratiti 200 ok?????????
-			return ac.createAuthenticationToken(new JwtAuthenticationRequestDTO(email, cca.getPassword()));
+			Authentication authentication = authenticationManager
+					.authenticate(new UsernamePasswordAuthenticationToken(ca.getEmail(),cca.getPassword()));
+
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			
+			return ResponseEntity.status(HttpStatus.OK).body(null);
 		}
 	}
 	

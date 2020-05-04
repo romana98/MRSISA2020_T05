@@ -11,6 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,7 +52,7 @@ public class AuthenticationController {
 
 		// Ubaci korisnika u trenutni security kontekst
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-
+	
 		// Kreiraj token za tog korisnika
 		User user = (User) authentication.getPrincipal();
 		String jwt = tokenUtils.generateToken(user.getEmail());
