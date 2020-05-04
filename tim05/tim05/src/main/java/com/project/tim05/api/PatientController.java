@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,12 +20,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.tim05.dto.MedicalStaffDTO;
 import com.project.tim05.dto.PatientClinicsDTO;
 import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.Patient;
 import com.project.tim05.model.RegistrationRequest;
 import com.project.tim05.model.User;
 import com.project.tim05.service.ClinicService;
+import com.project.tim05.service.CustomUserDetailsService;
 import com.project.tim05.service.EmailService;
 import com.project.tim05.service.PatientService;
 import com.project.tim05.service.RegistrationRequestService;
@@ -34,6 +40,12 @@ public class PatientController<T> {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private CustomUserDetailsService userDetailsService;
 	
 	private final PatientService ps;
 	private final RegistrationRequestService rrs;
@@ -54,17 +66,37 @@ public class PatientController<T> {
 	}
 	
 	@PostMapping("/editPatient")
+	@PreAuthorize("hasRole('PATIENT')") 
 	public ResponseEntity<T> editPatient(@Valid @RequestBody PatientDTO patient) {
+		
+		Authentication current = SecurityContextHolder.getContext().getAuthentication();
+		Patient currentUser = (Patient)current.getPrincipal();
+		
+		if(!currentUser.getEmail().equals(patient.getEmail()))
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+	
 		Patient p = new Patient();
 		p.setAddress(patient.getAddress());
 		p.setCity(patient.getCity());
 		p.setCountry(patient.getCountry());
+		p.setEmail(patient.getEmail());
+		p.setInsurance_number(patient.getInsurance_number());
 		p.setName(patient.getName());
 		p.setPassword(patient.getPassword());
 		p.setPhone_number(patient.getPhone_number());
 		p.setSurname(patient.getSurname());
-		ps.editPatient(p);
-		return ResponseEntity.status(HttpStatus.OK).body(null);
+		int flag = ps.editPatient(p);
+		if(flag == 0) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}else {
+			Authentication authentication = authenticationManager
+					.authenticate(new UsernamePasswordAuthenticationToken(currentUser.getEmail(), patient.getPassword()));
+
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
+		
+		
 	}
 	
 	@PostMapping("/addPatient")

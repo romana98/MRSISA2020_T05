@@ -16,18 +16,16 @@ public class HallDTO {
 	@NotNull
 	@Min(value=0)
     private int number;
-	
-    private String admin;
-    
+	    
     public HallDTO(){
     	
     }
 	
-    public HallDTO(String name, int number, String admin) {
+    public HallDTO(String name, int number) {
 		super();
 		this.name = name;
 		this.number = number;
-		this.setAdmin(admin);
+		
 	}
 
 	public String getName() {
@@ -46,11 +44,4 @@ public class HallDTO {
 		this.number = number;
 	}
 
-	public String getAdmin() {
-		return admin;
-	}
-
-	public void setAdmin(String admin) {
-		this.admin = admin;
-	}
 }
