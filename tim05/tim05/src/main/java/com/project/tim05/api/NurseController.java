@@ -8,6 +8,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +22,8 @@ import com.project.tim05.dto.NurseDTO;
 import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Nurse;
+import com.project.tim05.model.Patient;
+import com.project.tim05.model.User;
 import com.project.tim05.service.ClinicService;
 import com.project.tim05.service.NurseService;
 import com.project.tim05.service.PatientService;
@@ -40,11 +45,18 @@ public class NurseController {
 	}
 	
 	@GetMapping("/getPatients")
+	@PreAuthorize("hasRole('NURSE')")
 	public List<PatientDTO> getPatients(){
-		List<PatientDTO> psDTO = new ArrayList<PatientDTO>();
-		psDTO.add(new PatientDTO("email", "pass", "name", "surname", "address", "city", "town", "phone_number", "insurance_number"));
-		psDTO.add(new PatientDTO("email1", "pass1", "name1", "surname1", "address1", "city1", "town1", "phone_number1", "insurance_number1"));
 		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = (Nurse) authentication.getPrincipal();
+		
+		List<Patient> pss = ps.getPatients(((Nurse) user).getClinic());
+		
+		List<PatientDTO> psDTO = new ArrayList<PatientDTO>();
+		for (Patient p : pss) {
+			psDTO.add(new PatientDTO(p.getEmail(), p.getName(), p.getSurname(), p.getAddress(), p.getCity(), p.getCountry(), p.getPhone_number(), p.getInsurance_number()));
+		}
 		return psDTO;
 	}
 	

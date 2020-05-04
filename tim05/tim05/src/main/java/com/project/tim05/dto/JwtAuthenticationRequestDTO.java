@@ -3,7 +3,7 @@ package com.project.tim05.dto;
 // DTO za login
 public class JwtAuthenticationRequestDTO {
 	
-    private String username;
+    private String email;
     private String password;
 
     public JwtAuthenticationRequestDTO() {
@@ -11,16 +11,16 @@ public class JwtAuthenticationRequestDTO {
     }
 
     public JwtAuthenticationRequestDTO(String username, String password) {
-        this.setUsername(username);
+        this.setEmail(username);
         this.setPassword(password);
     }
 
-    public String getUsername() {
-        return this.username;
+    public String getEmail() {
+        return this.email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String username) {
+        this.email = username;
     }
 
     public String getPassword() {

@@ -5,8 +5,12 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 @Table(name="doctors")
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class Doctor extends MedicalStaff {
 
 	private static final long serialVersionUID = 1L;
@@ -65,12 +69,6 @@ public class Doctor extends MedicalStaff {
 
 	public void setClinicAdmin(ClinicAdministrator clinicAdmin) {
 		this.clinicAdministrator = clinicAdmin;
-	}
-
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

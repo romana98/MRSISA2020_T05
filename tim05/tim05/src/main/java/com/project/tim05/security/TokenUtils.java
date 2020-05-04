@@ -104,17 +104,6 @@ public class TokenUtils {
 		return issueAt;
 	}
 
-	public String getAudienceFromToken(String token) {
-		String audience;
-		try {
-			final Claims claims = this.getAllClaimsFromToken(token);
-			audience = claims.getAudience();
-		} catch (Exception e) {
-			audience = null;
-		}
-		return audience;
-	}
-
 	public Date getExpirationDateFromToken(String token) {
 		Date expiration;
 		try {

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.tim05.model.ClinicAdministrator;
@@ -14,6 +15,9 @@ import com.project.tim05.repository.ClinicAdministratorRespository;
 
 @Service
 public class ClinicAdministratorService {
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private ClinicAdministratorRespository car;
@@ -21,7 +25,7 @@ public class ClinicAdministratorService {
 	public int addClinicAdministrator(ClinicAdministrator admincl) {
 		
 		try {
-			
+			admincl.setPassword(passwordEncoder.encode(admincl.getPassword()));
 			car.save(admincl);
 			
 		} catch (Exception e) {
@@ -33,18 +37,17 @@ public class ClinicAdministratorService {
 	}
 	
 public int editClinicAdministrator(ClinicAdministrator admincl) {
-		
+	
 		int flag = 0;
 		try {
 			
 	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
-	        String query = "UPDATE clinic_admins set password = ?, name = ?, surname = ? WHERE email = ?;";
+	        String query = "UPDATE clinic_admins set name = ?, surname = ? WHERE email = ?;";
 	        PreparedStatement ps = connection.prepareStatement(query);
 	        
-			ps.setString(1, admincl.getPassword());
-			ps.setString(2, admincl.getName());
-			ps.setString(3, admincl.getSurname());
-			ps.setString(4, admincl.getEmail());
+			ps.setString(1, admincl.getName());
+			ps.setString(2, admincl.getSurname());
+			ps.setString(3, admincl.getEmail());
 			
 			flag = ps.executeUpdate();
 			

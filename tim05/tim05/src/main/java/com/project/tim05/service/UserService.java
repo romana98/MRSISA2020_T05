@@ -5,11 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.project.tim05.model.Authority;
-import com.project.tim05.model.RegistrationRequest;
 import com.project.tim05.model.User;
 import com.project.tim05.repository.UserRepository;
 
@@ -18,12 +15,6 @@ public class UserService {
 	
 	@Autowired
 	private UserRepository userRepository;
-
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-
-	@Autowired
-	private AuthorityService authService;
 
 	public User findByEmail(String email) throws UsernameNotFoundException {
 		User u = userRepository.findByEmail(email);
@@ -40,7 +31,7 @@ public class UserService {
 		return result;
 	}
 
-	public User save(RegistrationRequest userRequest) {
+	/*public User save(RegistrationRequest userRequest) {
 		User u = new User();
 		u.setEmail(userRequest.getEmail());
 		// pre nego sto postavimo lozinku u atribut hesiramo je
@@ -55,5 +46,5 @@ public class UserService {
 		
 		u = this.userRepository.save(u);
 		return u;
-	}
+	}*/
 }

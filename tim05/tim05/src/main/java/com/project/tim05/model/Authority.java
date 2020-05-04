@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name="authoities")
+@Table(name="authorities")
 public class Authority implements GrantedAuthority {
 
 	private static final long serialVersionUID = 1L;

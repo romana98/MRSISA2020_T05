@@ -5,8 +5,12 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 @Table(name="patients")
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class Patient extends User {
 	
 	private static final long serialVersionUID = 1L;
@@ -53,6 +57,16 @@ public class Patient extends User {
 	
 	public Patient(String email, String password, String name, String surname) {
 		super(email, password, name, surname);
+	}
+	
+	public Patient(String email, String name, String surname, String address2, String city2,
+			String country2, String phone_number2, String insurance_number2) {
+		super(email, name, surname);
+		this.address = address2;
+		this.city = city2;
+		this.country = country2;
+		this.phone_number = phone_number2;
+		this.insurance_number = insurance_number2;
 	}
 
 
@@ -147,13 +161,5 @@ public class Patient extends User {
 		this.nurse = nurse;
 	}
 
-
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
 
 }

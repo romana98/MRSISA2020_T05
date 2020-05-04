@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +43,7 @@ public class DiagnosisContoller<T> {
 	}
 	
 	@PostMapping("/addDiagnosis")
+	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
 	public ResponseEntity<T> addMedicine(@Valid @RequestBody DiagnosisDTO d) {
 		int flag = ds.addDiagnosis(new Diagnosis(d.getName(), d.getDescription()));
 	

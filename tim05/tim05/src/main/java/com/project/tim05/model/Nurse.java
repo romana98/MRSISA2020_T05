@@ -4,8 +4,12 @@ import java.util.*;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 @Table(name="nurses")
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class Nurse extends MedicalStaff {
 	
 	private static final long serialVersionUID = 1L;
@@ -37,14 +41,5 @@ public class Nurse extends MedicalStaff {
 		this.clinic = clinic;
 	}
 
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-
-	
 	
 }

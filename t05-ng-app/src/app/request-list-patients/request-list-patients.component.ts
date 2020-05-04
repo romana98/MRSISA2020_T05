@@ -76,8 +76,14 @@ export class RequestListPatientsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       req.text = result.text;
+      if(req.text == null)
+      {
+        this._snackBar.open("Message not sent! Sent body can't be empty!", "Close", {
+          duration: 2000,
+        });
+      }
 
-      if(result.sent === true)
+      if(result.sent === true && req.text != null)
       {
         let url = "http://localhost:8081/registrationRequests/declineRequest"
         this.http.post(url, req).subscribe(

@@ -8,24 +8,30 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.project.tim05.dto.RegistrationRequestDTO;
 import com.project.tim05.model.RegistrationRequest;
+import com.project.tim05.model.User;
 import com.project.tim05.service.EmailService;
 import com.project.tim05.service.RegistrationRequestService;
+import com.project.tim05.service.UserService;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/registrationRequests")
 @RestController
 public class RegistrationRequestController<T> {
+
+	@Autowired
+	private UserService userService;
 	
 	private final RegistrationRequestService rrs;
+	
 	private final EmailService es;
 	
 	@Autowired
@@ -35,6 +41,7 @@ public class RegistrationRequestController<T> {
 	}
 	
 	@GetMapping("/getRequests")
+	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
 	public List<RegistrationRequestDTO> getRequests(){
 		List<RegistrationRequestDTO> rrDTO = new ArrayList<RegistrationRequestDTO>();
 		List<RegistrationRequest> regs = rrs.getRequests();
@@ -45,8 +52,13 @@ public class RegistrationRequestController<T> {
 	}
 	
 	@PostMapping("/registerPatient")
-	public ResponseEntity<T> addPatient(@Valid @RequestBody RegistrationRequestDTO patient) {
+	public ResponseEntity<T> addPatient(@Valid @RequestBody RegistrationRequestDTO patient, UriComponentsBuilder ucBuilder) throws Exception {
 	
+		User existUser = this.userService.findByEmail(patient.getEmail());
+		if (existUser != null) {
+			 ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}
+		
 		RegistrationRequest rr = new RegistrationRequest();
 		rr.setAddress(patient.getAddress());
 		rr.setCity(patient.getCity());
@@ -60,13 +72,22 @@ public class RegistrationRequestController<T> {
 		
 		int flag = rrs.addRegistrationRequest(rr);
 		if(flag == 0)
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		else
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 	
+	
+	
 	@PostMapping("/declineRequest")
+	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
 	public ResponseEntity<T> declineRequest(@Valid @RequestBody RegistrationRequestDTO patient) {
+		User existUser = this.userService.findByEmail(patient.getEmail());
+		if (existUser != null) {
+			 ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}
+		
+		
 		RegistrationRequest rr = new RegistrationRequest();
 		rr.setAddress(patient.getAddress());
 		rr.setCity(patient.getCity());

@@ -1,12 +1,21 @@
 package com.project.tim05.model;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 
 @Entity
 @Table(name="clinic_center_admins")
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class ClinicCenterAdministrator extends User {
   
 	private static final long serialVersionUID = 1L;
@@ -58,13 +67,4 @@ public class ClinicCenterAdministrator extends User {
 	public void setRegistrationRequests(Set<RegistrationRequest> registrationRequests) {
 		this.registrationRequests = registrationRequests;
 	}
-
-
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	   
-   
 }

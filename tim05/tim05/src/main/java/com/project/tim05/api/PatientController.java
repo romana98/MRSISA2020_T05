@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,15 +20,20 @@ import com.project.tim05.dto.PatientClinicsDTO;
 import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.Patient;
 import com.project.tim05.model.RegistrationRequest;
+import com.project.tim05.model.User;
 import com.project.tim05.service.ClinicService;
 import com.project.tim05.service.EmailService;
 import com.project.tim05.service.PatientService;
 import com.project.tim05.service.RegistrationRequestService;
+import com.project.tim05.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/patients")
 @RestController
 public class PatientController<T> {
+	
+	@Autowired
+	private UserService userService;
 	
 	private final PatientService ps;
 	private final RegistrationRequestService rrs;
@@ -62,8 +68,14 @@ public class PatientController<T> {
 	}
 	
 	@PostMapping("/addPatient")
-
+	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
 	public ResponseEntity<T> addPatient(@Valid @RequestBody PatientDTO p) {
+		
+		User existUser = this.userService.findByEmail(p.getEmail());
+		if (existUser != null) {
+			 ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}
+		
 		
 		int flag = ps.addPatient(new Patient(p.getEmail(), p.getPassword(), p.getName(), p.getSurname(), p.getAddress(), p.getCity(), p.getCountry(), p.getPhone_number(), p.getInsurance_number()));
 		int flag1 = rrs.removeRegistrationRequest(new RegistrationRequest(p.getEmail(), p.getPassword(), p.getName(), p.getSurname(), p.getAddress(), p.getCity(), p.getCountry(), p.getPhone_number(), p.getInsurance_number()));

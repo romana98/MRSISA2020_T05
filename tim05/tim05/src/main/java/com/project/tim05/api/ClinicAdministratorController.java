@@ -7,6 +7,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,15 +19,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.ClinicAdministratorDTO;
+import com.project.tim05.dto.JwtAuthenticationRequestDTO;
+import com.project.tim05.dto.UserTokenStateDTO;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.ClinicAdministrator;
+import com.project.tim05.model.User;
 import com.project.tim05.service.ClinicAdministratorService;
 import com.project.tim05.service.ClinicService;
+import com.project.tim05.service.CustomUserDetailsService;
+import com.project.tim05.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/clinicAdministrator")
 @RestController
 public class ClinicAdministratorController<T> {
+	
+	@Autowired
+	private UserService userService;
+	
+	@Autowired
+	private CustomUserDetailsService userDetailsService;
+	
+	@Autowired
+	private AuthenticationController ac;
 	
 	private final ClinicAdministratorService cas;
 	private final ClinicService cs;
@@ -40,7 +58,14 @@ public class ClinicAdministratorController<T> {
 	}
 	
 	@PostMapping("/addClinicAdministrator")
+	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
 	public ResponseEntity<T> addClinicAdministrator(@Valid @RequestBody ClinicAdministratorDTO cca) {
+		
+		User existUser = this.userService.findByEmail(cca.getEmail());
+		if (existUser != null) {
+			 ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}
+		
 		Clinic cl = cs.getClinic(cca.getClinic());
 		if(cl == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null)
@@ -55,8 +80,17 @@ public class ClinicAdministratorController<T> {
 	}
 	
 	@PostMapping("/editClinicAdministrator")
-	public ResponseEntity<T> editClinicAdministrator(@Valid @RequestBody ClinicAdministratorDTO cca) {
-		//TODO dodati proveru da li je ulogovani email i poslat isti
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
+	public ResponseEntity<UserTokenStateDTO> editClinicAdministrator(@Valid @RequestBody ClinicAdministratorDTO cca) {
+		
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		String email = ((ClinicAdministrator) currentUser).getEmail();
+
+		if(!email.equals(cca.getEmail()))
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+
+		userDetailsService.changePassword(((ClinicAdministratorDTO) currentUser).getPassword(), cca.getPassword());
+		
 		Clinic cl = cs.getClinic(cca.getClinic());
 		if(cl == null)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -67,7 +101,10 @@ public class ClinicAdministratorController<T> {
 		if(flag == 0)
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		else
-			return ResponseEntity.status(HttpStatus.OK).body(null);
+		{
+			//Da li je ovako potrebno ili samo vratiti 200 ok?????????
+			return ac.createAuthenticationToken(new JwtAuthenticationRequestDTO(email, cca.getPassword()));
+		}
 	}
 	
 	

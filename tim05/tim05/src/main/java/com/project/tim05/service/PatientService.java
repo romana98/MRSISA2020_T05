@@ -5,15 +5,22 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Patient;
 import com.project.tim05.repository.PatientRepository;
 
 
 @Service
 public class PatientService {
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private PatientRepository pa;
@@ -48,22 +55,11 @@ public class PatientService {
 	{
 		int id = -1;
 		try {
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			Patient p = pa.findByEmail(email);
+			id = p.getId();
 			
-			PreparedStatement st = conn.prepareStatement("SELECT * FROM patients WHERE email = ?");
-			st.setString(1, email);
 			
-			ResultSet rs = st.executeQuery();
-			
-			if(!rs.next())
-				return id;
-			
-			id = rs.getInt("patient_id");
-			
-			rs.close();
-			st.close();		
-			
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			
 			return id;
 		}
@@ -74,6 +70,7 @@ public class PatientService {
 	public int addPatient(Patient patient) {
 		try {
 			
+			patient.setPassword(passwordEncoder.encode(patient.getPassword()));
 			pa.save(patient);
 			
 		} catch (Exception e) {
@@ -82,6 +79,36 @@ public class PatientService {
 		}
 		
 		return 1;
+	}
+	
+	public List<Patient> getPatients(Clinic cl)
+	{
+		List<Patient> patients = new ArrayList<Patient>();
+		
+		try {
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			
+			PreparedStatement st = conn.prepareStatement("SELECT p FROM patients WHERE p.clinic.name = ? and p.clinic.address = ?");
+			st.setString(1, cl.getName());
+			st.setString(2, cl.getAddress());
+			ResultSet rs = st.executeQuery();
+			
+			while(rs.next())
+			{	
+				patients.add(new Patient(rs.getString("email"), rs.getString("name"), rs.getString("surname"), rs.getString("address"), rs.getString("city"), rs.getString("country"), rs.getString("phone_number"), rs.getString("insurance_number")));	
+			}
+			
+			rs.close();
+			st.close();		
+			
+		} catch (SQLException e) {
+			
+			return patients;
+		}
+		
+		
+		return patients;
+		
 	}
 
 }

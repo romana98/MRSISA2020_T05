@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +33,7 @@ public class MedicineController<T> {
 	}
 	
 	@GetMapping("/getMedicines")
+	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
 	public List<MedicineDTO> getMedicines(){
 		List<MedicineDTO> mDTO = new ArrayList<MedicineDTO>();
 		List<Medicine> meds = ms.getMedicines();

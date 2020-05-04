@@ -58,7 +58,7 @@ public class PatientDTO {
 		super();
 	}
 
-	public PatientDTO(String email, String password, String name, String surname, String address, String city, String town,
+	public PatientDTO(String email, String password, String name, String surname, String address, String city, String country,
 			String phone_number, String insurance_number) {
 		super();
 		this.email = email;
@@ -67,7 +67,20 @@ public class PatientDTO {
 		this.surname = surname;
 		this.address = address;
 		this.city = city;
-		this.country = town;
+		this.country = country;
+		this.phone_number = phone_number;
+		this.insurance_number = insurance_number;
+	}
+	
+	public PatientDTO(String email, String name, String surname, String address, String city, String country,
+			String phone_number, String insurance_number) {
+		super();
+		this.email = email;
+		this.name = name;
+		this.surname = surname;
+		this.address = address;
+		this.city = city;
+		this.country = country;
 		this.phone_number = phone_number;
 		this.insurance_number = insurance_number;
 	}

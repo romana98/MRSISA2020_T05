@@ -63,6 +63,13 @@ public class User implements UserDetails{
 	}
 
 
+	public User(String email2, String name2, String surname2) {
+		this.email = email2;
+		this.name = name2;
+		this.surname = surname2;
+	}
+
+
 	public String getEmail() {
 		return email;
 	}
@@ -157,10 +164,10 @@ public class User implements UserDetails{
     }
 
 
+	@Override
 	public String getUsername() {
-		return this.email;
+		return this.getEmail();
 	}
-
 	
 
 }

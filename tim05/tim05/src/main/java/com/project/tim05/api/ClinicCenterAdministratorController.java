@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,12 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.ClinicCenterAdministratorDTO;
 import com.project.tim05.model.ClinicCenterAdministrator;
+import com.project.tim05.model.User;
 import com.project.tim05.service.ClinicCenterAdministratorService;
+import com.project.tim05.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/clinicCenterAdministrator")
 @RestController
 public class ClinicCenterAdministratorController<T> {
+	
+	@Autowired
+	private UserService userService;
 
 	private final ClinicCenterAdministratorService ccas;
 	
@@ -36,7 +42,12 @@ public class ClinicCenterAdministratorController<T> {
 	}
 	
 	@PostMapping("/addClinicCenterAdministrator")
+	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
 	public ResponseEntity<T> addClinicCenterAdministrator(@Valid @RequestBody ClinicCenterAdministratorDTO cca) {
+		User existUser = this.userService.findByEmail(cca.getEmail());
+		if (existUser != null) {
+			 ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}
 		
 		ClinicCenterAdministrator ccadmin = new ClinicCenterAdministrator(cca.getName(), cca.getSurname(), cca.getEmail(), cca.getPassword());
 		int flag = ccas.addClinicCenterAdministrator(ccadmin);

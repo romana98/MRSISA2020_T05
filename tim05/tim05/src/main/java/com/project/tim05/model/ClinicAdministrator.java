@@ -5,8 +5,12 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 @Table(name="clinic_admins")
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class ClinicAdministrator extends User {
 
 	private static final long serialVersionUID = 1L;
@@ -35,7 +39,7 @@ public class ClinicAdministrator extends User {
 
 
 	public ClinicAdministrator(String name, String surname, String email, String password, Clinic cl) {
-		super(name, surname, email, password);
+		super(email, password, name, surname);
 		this.clinic = cl;
 	}
 
@@ -79,12 +83,4 @@ public class ClinicAdministrator extends User {
 		this.appointmentTypes = appointmentTypes;
 	}
 
-
-	@Override
-	public String getUsername() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
 }
