@@ -51,7 +51,7 @@ public class RegistrationRequestController<T> {
 		return rrDTO;
 	}
 	
-	@PostMapping("/registerPatient")
+	@PostMapping("/register")
 	public ResponseEntity<T> addPatient(@Valid @RequestBody RegistrationRequestDTO patient, UriComponentsBuilder ucBuilder) throws Exception {
 	
 		User existUser = this.userService.findByEmail(patient.getEmail());

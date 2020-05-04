@@ -20,12 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.NurseDTO;
 import com.project.tim05.dto.PatientDTO;
-import com.project.tim05.model.Clinic;
 import com.project.tim05.model.ClinicAdministrator;
 import com.project.tim05.model.Nurse;
 import com.project.tim05.model.Patient;
 import com.project.tim05.model.User;
-import com.project.tim05.service.ClinicService;
 import com.project.tim05.service.NurseService;
 import com.project.tim05.service.PatientService;
 
@@ -36,13 +34,11 @@ public class NurseController {
 	
 	private final PatientService ps;
 	private final NurseService ns;
-	private final ClinicService cs;
 	
 	@Autowired
-	public NurseController(PatientService ps, NurseService ns, ClinicService cs) {
+	public NurseController(PatientService ps, NurseService ns) {
 		this.ps = ps;
 		this.ns = ns;
-		this.cs = cs;
 	}
 	
 	@GetMapping("/getPatients")

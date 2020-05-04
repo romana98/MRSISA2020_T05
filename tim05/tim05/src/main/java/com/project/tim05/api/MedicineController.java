@@ -44,6 +44,7 @@ public class MedicineController<T> {
 	}
 	
 	@PostMapping("/addMedicine")
+	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
 	public ResponseEntity<T> addMedicine(@Valid @RequestBody MedicineDTO m) {
 		int flag = ms.addMedicine(new Medicine(m.getName(), m.getDescription(), m.isAuthenticated()));
 		

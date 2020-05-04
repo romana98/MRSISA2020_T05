@@ -33,6 +33,7 @@ public class DiagnosisContoller<T> {
 	}
 	
 	@GetMapping("/getDiagnosises")
+	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
 	public List<DiagnosisDTO> getDiagnosis(){
 		List<DiagnosisDTO> dDTO = new ArrayList<DiagnosisDTO>();
 		List<Diagnosis> diags = ds.getDiagnosises();

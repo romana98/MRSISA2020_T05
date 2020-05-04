@@ -17,28 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.MedicalStaffDTO;
-import com.project.tim05.model.Authority;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.MedicalStaff;
 import com.project.tim05.model.Nurse;
-import com.project.tim05.service.CustomUserDetailsService;
 import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.NurseService;
-import com.project.tim05.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/medicalStaff")
 @RestController
 public class MedicalStaffController<T> {
-	
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private CustomUserDetailsService userDetailsService;
-	
-	@Autowired
-	private AuthenticationController ac;
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
@@ -56,7 +44,6 @@ public class MedicalStaffController<T> {
 	@PreAuthorize("hasRole('DOCTOR') || hasRole('NURSE')") 
 	public ResponseEntity<T> editProfile(@Valid @RequestBody MedicalStaffDTO ms) {
 		
-		Authentication current = SecurityContextHolder.getContext().getAuthentication();
 		MedicalStaff currentUser = (MedicalStaff)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String email = currentUser.getEmail();
 		if(!email.equals(ms.getEmail()))

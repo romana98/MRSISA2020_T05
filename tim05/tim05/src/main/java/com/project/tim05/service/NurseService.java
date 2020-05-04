@@ -34,11 +34,11 @@ public class NurseService {
 			ps.setString(3, nurse.getSurname());
 			ps.setString(4, nurse.getEmail());
 			flag = ps.executeUpdate();
+			
 			ps.close();
 			connection.close();
 			return flag;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			return flag;
 		}	
 	}
@@ -48,15 +48,17 @@ public class NurseService {
 	}
 	
 	public int addNurse(Nurse nurse) {
+		int flag = 0;
 		try {
 			nurse.setPassword(passwordEncoder.encode(nurse.getPassword()));
 			nr.save(nurse);
-			return 1;
+			flag = 1;
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
-			return 0;
+			return flag;
 		}
+		return flag;
 		
 	}
 
