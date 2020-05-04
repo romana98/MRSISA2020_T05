@@ -36,13 +36,13 @@ public class TokenUtils {
 	private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 
 	
-	public String generateToken(String email) {
+	public String generateToken(String email,int id, String role) {
 		return Jwts.builder()
 				.setIssuer(APP_NAME)
 				.setSubject(email)
 				.setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(generateExpirationDate())
-				// .claim("key", value) //moguce je postavljanje proizvoljnih podataka u telo JWT tokena
+				.claim("email", email).claim("id", id).claim("role", role) //moguce je postavljanje proizvoljnih podataka u telo JWT tokena
 				.signWith(SIGNATURE_ALGORITHM, SECRET).compact();
 	}
 

@@ -22,7 +22,7 @@ import { EditPatientProfile } from './edit-patient/edit-patient.component';
 import { RegisterPatientForm } from './register-patient-form/register-patient.component';
 import { AddHallFormComponent } from './add-hall-form/add-hall-form.component';
 import { EditMedicalStaff } from './edit-medical-staff/edit-medical-staff.component';
-import { HttpClientModule } from "@angular/common/http"
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http"
 import {AddMedicineFromComponent} from "./add-medicine-form/add-medicine-form.component";
 import {AddDiagnosisFormComponent} from "./add-diagnosis-form/add-diagnosis-form.component";
 import {DialogOverview, RequestListPatientsComponent} from "./request-list-patients/request-list-patients.component";
@@ -40,90 +40,121 @@ import {MatSortModule} from "@angular/material/sort";
 import {EditClinicAdministratorComponent} from "./edit-clinic-administrator/edit-clinic-administrator.component";
 import { ClinicsComponent } from './patient/clinics/clinics.component';
 import {MatExpansionModule, matExpansionAnimations} from '@angular/material/expansion';
+import { InterceptorService } from './services/interceptor.service';
+import { PatientGuardService } from './guards/patient-guard.service';
+import { LoginComponent } from './login/login.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import { ClinicAdminGuardService } from './guards/clinic-admin-guard.service';
+import { LoginGuardService } from './guards/login-guard.service';
+import { ClinicCenterAdminGuardService } from './guards/clinic-center-admin-guard.service';
+import { DoctorGuardService } from './guards/doctor-guard.service';
+import { NurseGuardService } from './guards/nurse-guard.service';
+
+
 
 
 
 const appRoutes : Routes = [
   {
     path : 'addDoctor',
-    component : AddDoctorFormComponent
+    component : AddDoctorFormComponent,
+    canActivate : [ClinicAdminGuardService]
   },
   {
     path : '',
-    component : AddDoctorFormComponent,
-    pathMatch : 'full'
+    component : LoginComponent,
+    pathMatch : 'full',
+    canActivate : [LoginGuardService]
 
   },
+
   {
     path: 'addClinicCenterAdministrator',
-    component : AddClinicCenterAdminFromComponent
+    component : AddClinicCenterAdminFromComponent,
+    canActivate : [ClinicCenterAdminGuardService]
   },
   {
     path: 'addClinic',
-    component : AddClinicFromComponent
+    component : AddClinicFromComponent,
+    canActivate : [ClinicCenterAdminGuardService]
   },
   {
     path: 'addClinicAdministrator',
-    component : AddClinicAdminFromComponent
+    component : AddClinicAdminFromComponent,
+    canActivate : [ClinicCenterAdminGuardService]
   },
   {
     path: 'editPatient',
-    component : EditPatientProfile
+    component : EditPatientProfile,
+    canActivate : [PatientGuardService]
   },
   {
     path : 'registerPatient',
-    component : RegisterPatientForm
+    component : RegisterPatientForm,
+    canActivate : [LoginGuardService]
   },
 
   {
     path : 'addPredefinedAppointment',
-    component : AddPredifinedAppointmentComponent
+    component : AddPredifinedAppointmentComponent,
+    canActivate : [ClinicAdminGuardService]
   },
 
   {
     path : 'addAppointmentType',
-    component: AddAppointmentTypeComponent
+    component: AddAppointmentTypeComponent,
+    canActivate : [ClinicAdminGuardService]
   },
 
   {
     path : 'addHall',
-    component : AddHallFormComponent
+    component : AddHallFormComponent,
+    canActivate : [ClinicAdminGuardService]
   },
   {
     path: 'editMedicalStaff',
-    component : EditMedicalStaff
+    component : EditMedicalStaff,
+    canActivate : [DoctorGuardService,NurseGuardService]
   },
   {
     path: 'editProfileCA',
-    component : EditClinicAdministratorComponent
+    component : EditClinicAdministratorComponent,
+    canActivate : [ClinicAdminGuardService]
   },
   {
     path : 'addMedicine',
-    component : AddMedicineFromComponent
+    component : AddMedicineFromComponent,
+    canActivate : [ClinicCenterAdminGuardService]
   },
   {
     path : 'addDiagnosis',
-    component : AddDiagnosisFormComponent
+    component : AddDiagnosisFormComponent,
+    canActivate : [ClinicCenterAdminGuardService]
   },
   {
     path : 'requestTable',
-    component : RequestListPatientsComponent
+    component : RequestListPatientsComponent,
+    canActivate : [ClinicCenterAdminGuardService]
   },
   {
     path : 'addNurse',
-    component : AddNurseFormComponent
+    component : AddNurseFormComponent,
+    canActivate : [ClinicAdminGuardService]
   },
   {
     path: 'viewClinics',
-    component: ViewClinicsComponent
+    component: ViewClinicsComponent,
+    canActivate : [ClinicCenterAdminGuardService]
   },
   {
     path : 'viewPatients',
-    component : ViewPatientsNurseComponent
+    component : ViewPatientsNurseComponent,
+    canActivate : [DoctorGuardService,NurseGuardService]
   },
   {
     path: 'patient/clinics',
-    component: ClinicsComponent
+    component: ClinicsComponent,
+    canActivate : [PatientGuardService]
   },
   {
     path : '**',
@@ -155,7 +186,8 @@ const appRoutes : Routes = [
     ViewPatientsNurseComponent,
     DialogOverview,
     EditClinicAdministratorComponent,
-    ClinicsComponent
+    ClinicsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -180,10 +212,15 @@ const appRoutes : Routes = [
     MatDialogModule,
     FormsModule,
     MatSortModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTabsModule
 
   ],
-  providers: [MatDatepickerModule],
+  providers: [MatDatepickerModule,
+    {
+      provide: HTTP_INTERCEPTORS, useClass:InterceptorService, multi:true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
