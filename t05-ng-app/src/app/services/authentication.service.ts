@@ -29,10 +29,23 @@ export class AuthenticationService {
         let decoded = jwt_decode(res['accessToken']);
         sessionStorage.setItem('user_id', decoded['id']);
         sessionStorage.setItem('role', decoded['role']);
-        /*if (sessionStorage.getItem('role').localeCompare("Role")){
+        console.log(sessionStorage.getItem('role'));
+        console.log(sessionStorage.getItem('token'));
+        if (sessionStorage.getItem('role') === "ROLE_CLINIC_ADMIN"){
+          this.router.navigate(['/addDoctor']);
+        }
+        else if (sessionStorage.getItem('role') === "ROLE_CLINIC_CENTER_ADMIN"){
+          this.router.navigate(['/addClinicCenterAdministrator']);
+        }
+        else if (sessionStorage.getItem('role') === "ROLE_DOCTOR"){
+          this.router.navigate(['/viewPatients']);
+        }
+        else if (sessionStorage.getItem('role') === "ROLE_NURSE"){
+          this.router.navigate(['/viewPatients']);
+        }
+        else if (sessionStorage.getItem('role') === "ROLE_PATIENT"){
           this.router.navigate(['/patient/clinics']);
-        }*/
-        console.log(sessionStorage.getItem('user_id') + " " + sessionStorage.getItem('role'));
+        }
         return res;  
       }
      );

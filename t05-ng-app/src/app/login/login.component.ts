@@ -15,9 +15,11 @@ export class LoginComponent implements OnInit {
   password : String = '';
 
   myModel : model = {
-    email : "admin@example.com",
-    password : "123"
+    email : "",
+    password : ""
   }
+
+  hide : boolean = true;
 
   response : any;
 
@@ -28,7 +30,6 @@ export class LoginComponent implements OnInit {
 
   loginAuth(){
       this.authservice.authenticate(this.myModel);
-      console.log(sessionStorage.getItem('role'));
   }
 
 }

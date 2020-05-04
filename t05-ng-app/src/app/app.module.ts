@@ -49,6 +49,7 @@ import { LoginGuardService } from './guards/login-guard.service';
 import { ClinicCenterAdminGuardService } from './guards/clinic-center-admin-guard.service';
 import { DoctorGuardService } from './guards/doctor-guard.service';
 import { NurseGuardService } from './guards/nurse-guard.service';
+import { MedicallStuffGuardService } from './guards/medicall-stuff-guard.service';
 
 
 
@@ -114,7 +115,7 @@ const appRoutes : Routes = [
   {
     path: 'editMedicalStaff',
     component : EditMedicalStaff,
-    canActivate : [DoctorGuardService,NurseGuardService]
+    canActivate : [MedicallStuffGuardService]
   },
   {
     path: 'editProfileCA',
@@ -149,12 +150,12 @@ const appRoutes : Routes = [
   {
     path : 'viewPatients',
     component : ViewPatientsNurseComponent,
-    canActivate : [DoctorGuardService,NurseGuardService]
+    canActivate : [MedicallStuffGuardService]
   },
   {
     path: 'patient/clinics',
     component: ClinicsComponent,
-    canActivate : [ClinicCenterAdminGuardService]
+    canActivate : [PatientGuardService]
   },
   {
     path : '**',

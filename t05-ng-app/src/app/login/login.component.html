@@ -5,13 +5,25 @@
         <div>
             <form  #f="ngForm" (submit)="loginAuth()" style="display: inline-block;margin-right: auto;margin-left: auto; padding-top: 5%; padding-bottom: 5% ;width: 37%">
                 <mat-form-field appearance="outline" style="padding-left:80%; width: 180%">
-                    <mat-label>Username</mat-label>
-                    <input matInput>
+                    <mat-label>Email</mat-label>
+                    <input matInput  [(ngModel)] = "myModel.email" name="input_email"
+                    #email="ngModel" pattern="[a-z]+[a-z0-9._]*[a-z0-9]+@[a-z]*.com"
+                    required/>
+                    <mat-error *ngIf=" email.invalid">
+                        Example: example_1@mail.com
+                    </mat-error>
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" style="padding-left:80%; width: 180%">
                     <mat-label>Password</mat-label>
-                    <input matInput>
+                    <input matInput  [(ngModel)] = "myModel.password" #password="ngModel" name="input_password"
+                            required minlength="8"
+                            [type]="hide ? 'password' : 'text'">
+
+                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    <mat-error *ngIf="password.invalid">
+                        Password field must be at least 8 characters long!
+                    </mat-error>
                 </mat-form-field>
                 <div style="text-align: center;">
                     <button mat-raised-button style="margin-left: 110%; width: 100px;" >Login</button>

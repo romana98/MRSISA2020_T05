@@ -5,14 +5,12 @@ import { AuthenticationService } from '../services/authentication.service';
 @Injectable({
   providedIn: 'root'
 })
-export class DoctorGuardService {
+export class MedicallStuffGuardService {
 
   constructor(private router: Router,private authservice: AuthenticationService) { }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     //ovde ide check da li je trenutni korisnik pacijent
-    console.log(sessionStorage.getItem('role'));
-
-    if(sessionStorage.getItem('role')===("ROLE_DOCTOR")){
+    if(sessionStorage.getItem('role')===("ROLE_NURSE") || sessionStorage.getItem('role')===("ROLE_DOCTOR")){
       return true;
     }
     else{
