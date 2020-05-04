@@ -33,6 +33,7 @@ public class ClinicController<T> {
 	}
 	
 	@GetMapping("/getClinics")
+	@PreAuthorize("hasRole('PATIENT')")
 	public List<ClinicDTO> getClinics(){
 		List<ClinicDTO> clsDTO = new ArrayList<ClinicDTO>();
 		List<Clinic> cls = cs.getClinics();

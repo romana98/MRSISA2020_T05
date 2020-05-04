@@ -36,20 +36,16 @@ public abstract class MedicalStaffDTO {
 	@NotNull
 	private String workEnd;
 
-	private String type;
-
 	public MedicalStaffDTO() {
 		super();
 	}
 
-	public MedicalStaffDTO(String name, String surname, String email, String password, String workStart, String workEnd,
-			String type) {
+	public MedicalStaffDTO(String name, String surname, String email, String password, String workStart, String workEnd) {
 		super();
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
 		this.password = password;
-		this.type = type;
 	}
 
 	public String getWorkStart() {
@@ -98,14 +94,6 @@ public abstract class MedicalStaffDTO {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
 	}
 
 }

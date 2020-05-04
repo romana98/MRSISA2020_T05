@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.tim05.model.Nurse;
@@ -16,10 +17,15 @@ import com.project.tim05.repository.NurseRepository;
 public class NurseService {
 	
 	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
 	private NurseRepository nr;
 	
-	public void editProfile(Nurse nurse) {
+	public int editProfile(Nurse nurse) {
+		int flag = 0;
 		try {
+			nurse.setPassword(passwordEncoder.encode(nurse.getPassword()));
 	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 	        String query = "UPDATE nurses set password = ?, name = ?, surname = ? WHERE email = ?;";
 	        PreparedStatement ps = connection.prepareStatement(query);
@@ -27,10 +33,13 @@ public class NurseService {
 			ps.setString(2, nurse.getName());
 			ps.setString(3, nurse.getSurname());
 			ps.setString(4, nurse.getEmail());
-			int num = ps.executeUpdate();
+			flag = ps.executeUpdate();
+			ps.close();
+			connection.close();
+			return flag;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return flag;
 		}	
 	}
 	
@@ -40,6 +49,7 @@ public class NurseService {
 	
 	public int addNurse(Nurse nurse) {
 		try {
+			nurse.setPassword(passwordEncoder.encode(nurse.getPassword()));
 			nr.save(nurse);
 			return 1;
 		}

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.tim05.dto.NurseDTO;
 import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.Clinic;
+import com.project.tim05.model.ClinicAdministrator;
 import com.project.tim05.model.Nurse;
 import com.project.tim05.model.Patient;
 import com.project.tim05.model.User;
@@ -61,17 +62,15 @@ public class NurseController {
 	}
 	
 	@PostMapping("/addNurse")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	public ResponseEntity<Object> addNurse(@Valid @RequestBody NurseDTO nurse) {
 		Nurse n = new Nurse();
-				
-		Clinic c = cs.getClinicbyId(nurse.getClinic_id());
 		
-		if (c == null) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		}
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		ClinicAdministrator user = (ClinicAdministrator) authentication.getPrincipal();
 		
 		
-		n.setClinic(c);
+		n.setClinic(user.getClinic());
 		n.setName(nurse.getName());
 		n.setSurname(nurse.getSurname());
 		n.setEmail(nurse.getEmail());
@@ -81,9 +80,7 @@ public class NurseController {
 		
 		
 		int flag = ns.addNurse(n);
-		
-		System.out.println(flag);
-		
+				
 		if(flag != 0) {
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		}else {

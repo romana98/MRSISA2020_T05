@@ -48,7 +48,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 		// Ocitavamo trenutno ulogovanog korisnika
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-		String username = ((User) currentUser).getEmail();
+		String username = ((User) currentUser.getPrincipal()).getEmail();
 
 		if (authenticationManager != null) {
 			LOGGER.debug("Re-authenticating user '" + username + "' for password change request.");

@@ -7,6 +7,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.HallDTO;
+import com.project.tim05.model.Clinic;
 import com.project.tim05.model.ClinicAdministrator;
 import com.project.tim05.model.Hall;
+import com.project.tim05.model.User;
 import com.project.tim05.service.ClinicAdministratorService;
 import com.project.tim05.service.HallService;
 
@@ -37,18 +42,16 @@ public class HallController<T> {
 	}
 	
 	@PostMapping("/addHall")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	public ResponseEntity<T> addHall(@Valid @RequestBody HallDTO hall) {
 		Hall h = new Hall();
 		h.setName(hall.getName());
 		h.setNumber(hall.getNumber());
-		List<ClinicAdministrator> list = cas.getClinicAdministrators();
-		for(ClinicAdministrator ca : list) {
-			if(ca.getEmail().equals(hall.getAdmin())) {
-				h.setClinic(ca.getClinic());
-				h.setClinicAdmin(ca);
-				break;
-			}
-		}
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		ClinicAdministrator currentUser = (ClinicAdministrator) authentication.getPrincipal();
+		h.setClinicAdmin(currentUser);
+		h.setClinic(currentUser.getClinic());
+		
 		int flag = hs.addHall(h);
 		
 		if(flag == 0)

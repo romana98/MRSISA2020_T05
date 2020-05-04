@@ -25,9 +25,10 @@ public class PatientService {
 	@Autowired
 	private PatientRepository pa;
 	
-	public void editPatient(Patient patient) {
-		
+	public int editPatient(Patient patient) {
+		int flag = 0;
 		try {
+			patient.setPassword(passwordEncoder.encode(patient.getPassword()));
 	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 	        String query = "UPDATE patient set password = ?, name = ?, surname = ?, address = ?, city = ?, country = ?, phone_number = ?, insurance_number = ? WHERE email = ?;";
 	        PreparedStatement ps = connection.prepareStatement(query);
@@ -40,10 +41,13 @@ public class PatientService {
 			ps.setString(7, patient.getPhone_number());
 			ps.setString(8, patient.getInsurance_number());
 			ps.setString(9, patient.getEmail());
-			int num = ps.executeUpdate();
+			flag = ps.executeUpdate();
+			ps.close();
+			connection.close();
+			return flag;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return flag;
 		}	
 	}
 	

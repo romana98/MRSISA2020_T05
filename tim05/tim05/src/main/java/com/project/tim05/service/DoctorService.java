@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.tim05.model.Doctor;
@@ -16,6 +17,9 @@ import com.project.tim05.repository.DoctorRepository;
 @Service
 public class DoctorService {
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@Autowired
 	private DoctorRepository dr;
 	
@@ -34,8 +38,10 @@ public class DoctorService {
 		return dr.findAll();
 	}
 	
-	public void editProfile(Doctor doctor) {
+	public int editProfile(Doctor doctor) {
+		int flag = 0;
 		try {
+			doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
 	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 	        String query = "UPDATE doctors set password = ?, name = ?, surname = ? WHERE email = ?;";
 	        PreparedStatement ps = connection.prepareStatement(query);
@@ -43,10 +49,13 @@ public class DoctorService {
 			ps.setString(2, doctor.getName());
 			ps.setString(3, doctor.getSurname());
 			ps.setString(4, doctor.getEmail());
-			int num = ps.executeUpdate();
+			flag = ps.executeUpdate();
+			ps.close();
+			connection.close();
+			return flag;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return flag;
 		}	
 	}
 	
