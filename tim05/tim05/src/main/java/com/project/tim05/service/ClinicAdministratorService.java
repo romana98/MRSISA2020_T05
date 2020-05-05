@@ -49,19 +49,39 @@ public int editClinicAdministrator(ClinicAdministrator admincl) {
 		try {
 			
 	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
-	        String query = "UPDATE users set password = ?, name = ?, surname = ?, last_password_reset_date = ? WHERE email = ?;";
-	        PreparedStatement ps = connection.prepareStatement(query);
 	        
-	        ps.setString(1, passwordEncoder.encode(admincl.getPassword()));
-			ps.setString(2, admincl.getName());
-			ps.setString(3, admincl.getSurname());
-			ps.setTimestamp(4, admincl.getLastPasswordResetDate());
-			ps.setString(5, admincl.getEmail());
-		
-			flag = ps.executeUpdate();
+	        if(admincl.getPassword().length() != 0)
+	        {
+	        	String query = "UPDATE users set password = ?, name = ?, surname = ?, last_password_reset_date = ? WHERE email = ?;";
+	 	        PreparedStatement ps = connection.prepareStatement(query);
+	 	        ps.setString(1, passwordEncoder.encode(admincl.getPassword()));
+	 			ps.setString(2, admincl.getName());
+	 			ps.setString(3, admincl.getSurname());
+	 			ps.setTimestamp(4, admincl.getLastPasswordResetDate());
+	 			ps.setString(5, admincl.getEmail());
+	 		
+	 			flag = ps.executeUpdate();
+	 			ps.close();
+	        }
+	        else
+	        {
+	        	String query = "UPDATE users set name = ?, surname = ?, last_password_reset_date = ? WHERE email = ?;";
+	 	        PreparedStatement ps = connection.prepareStatement(query);
+	 			ps.setString(1, admincl.getName());
+	 			ps.setString(2, admincl.getSurname());
+	 			ps.setTimestamp(3, admincl.getLastPasswordResetDate());
+	 			ps.setString(4, admincl.getEmail());
+	 		
+	 			flag = ps.executeUpdate();
+	 			ps.close();
+	        	
+	        }
+	        
+	        
+	       
 			
 			connection.close();
-			ps.close();
+			
 			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());

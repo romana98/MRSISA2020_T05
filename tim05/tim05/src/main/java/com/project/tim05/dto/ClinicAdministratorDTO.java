@@ -2,8 +2,6 @@ package com.project.tim05.dto;
 
 import javax.validation.constraints.*;
 
-import org.hibernate.validator.constraints.Length;
-
 
 public class ClinicAdministratorDTO {
 	
@@ -17,9 +15,7 @@ public class ClinicAdministratorDTO {
 	@Pattern(regexp="[A-Z][a-z]*")
     private String surname;
 	
-	@NotBlank 
 	@NotNull
-	@Length(min=8)
     private String password;
 	
 	@NotBlank 

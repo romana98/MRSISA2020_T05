@@ -1,7 +1,8 @@
-import { Component, OnInit} from '@angular/core';
+import {Component, Directive, Input, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {clinicModel} from "../add-clinic-form/add-clinic-form.component";
+import {AbstractControl, FormControl, NG_VALIDATORS, Validator, ValidatorFn, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-edit-clinic-administrator',
@@ -33,6 +34,7 @@ export class EditClinicAdministratorComponent implements OnInit{
     this.http.get("http://localhost:8081/clinicAdministrator/getClinicAdministrator")
       .subscribe((res)=>{
         this.model = <clinicAdminModel>res;
+        this.model.password = '';
       });
     this.hide = true;
 
@@ -66,6 +68,11 @@ export class EditClinicAdministratorComponent implements OnInit{
       }
     );
   }
+
+  checkPassword() {
+
+    return this.model.password.length == 0 || this.model.password.length >= 8;
+  }
 }
 
 
@@ -78,3 +85,26 @@ export interface clinicAdminModel
   clinic: clinicModel;
 }
 
+@Directive({
+  selector: '[requiredLen]',
+  providers: [
+    {provide: NG_VALIDATORS,useExisting:RequiredPassDirective, multi: true}
+  ]
+})
+export class RequiredPassDirective implements Validator {
+  @Input("requiredLen")
+  requiredLen: boolean;
+
+  validate(c:AbstractControl) {
+
+    let value = c.value;
+    if (value == null) value = '';
+    if ((value.length > 0 && value.length < 8)) {
+      return {
+        requiredLen: {condition:false}
+      };
+    }
+    return null;
+  }
+
+}
