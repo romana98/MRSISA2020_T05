@@ -1,28 +1,46 @@
-<nav class="navbar navbar-expand-xl navbar-light" style="background-color: lightgray !important;">
-      <a class="navbar-brand mb-0 h2" style="padding-left: 4%;padding-top: 2%; font-size: 30px !important;" href="#">
-        <img src="assets/img/pic1.png" width="30" height="30" alt="" style="background-color: transparent !important;">
-        eClinic
-      </a>
+<mat-toolbar color="primary">
+  
+  <span class="material-icons" style="margin-left: 3%;">local_hospital</span>
 
-      <ul class="nav nav-tabs" style="padding-left: 15%;padding-top: 2%;">
-        <li class="active" style="font-size: 20px; padding-left: 10px;">
-          <a class="nav-link" style="color: black;" href="#">Home </a>
-        </li>
-        <li style="font-size: 20px; padding-left: 10px;">
-          <a class="nav-link" style="color: black;" href="#">Home</a>
-        </li>
-        <li style="font-size: 20px; padding-left: 10px;">
-          <a class="nav-link" style="color: black;" href="#">Home </a>
-        </li>
-        <li style="font-size: 20px; padding-left: 10px;">
-          <a class="nav-link" style="color: black;" href="#">Home </a>
-        </li>
-        <li style="font-size: 20px; padding-left: 10px;">
-          <a class="nav-link" style="color: black;" href="#">Home </a>
-        </li>
-      </ul>
+  <span>eClinic</span>
 
-</nav>
-<div style="color: lightgray;">
-    <hr style="background-color: black; width: 55;margin: 0%;">
-</div>
+  
+  <!--Patient-->
+  <a *ngIf="checkPatient()" routerLink="/patient/clinics" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Clinics</button></a>
+ 
+  <!--Clinic Admin-->
+  <a *ngIf="checkCAdmin()" routerLink="clinicAdmin/addDoctor" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Doctors</button></a>
+  <a *ngIf="checkCAdmin()" routerLink="clinicAdmin/addPredefinedAppointment" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Appointments</button></a>
+  <a *ngIf="checkCAdmin()" routerLink="clinicAdmin/addAppointmentType" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Appointment types</button></a>
+  <a *ngIf="checkCAdmin()" routerLink="clinicAdmin/addHall" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Halls</button></a>
+  <a *ngIf="checkCAdmin()" routerLink="clinicAdmin/addNurse" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Nurses</button></a>
+  
+  <!--ClinicCenterAdmin-->
+  <button *ngIf="checkCCAdmin()" button mat-flat-button color="primary" style="margin-left: 3%;" [matMenuTriggerFor]="menu">Administrators</button>
+  <mat-menu #menu="matMenu">
+    <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/addClinicAdministrator" style="margin-left: 3%;" ><button mat-flat-button >Clinic Adminstrator</button></a>
+    <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/addClinicCenterAdministrator" style="margin-left: 3%;" ><button mat-flat-button  >Clinic Center Adminstrator</button></a>
+  </mat-menu>
+  
+  <button *ngIf="checkCCAdmin()" button mat-flat-button color="primary" style="margin-left: 3%;" [matMenuTriggerFor]="menu">Clinics</button>
+  <mat-menu #menu="matMenu">
+    <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/addClinic" style="margin-left: 3%;" ><button mat-flat-button >Add clinic</button></a>
+    <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/viewClinics" style="margin-left: 3%;" ><button mat-flat-button  >View clinics</button></a>
+  </mat-menu>
+  
+  <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/addMedicine" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Medicine</button></a>
+  <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/addDiagnosis" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Diagnosis</button></a>
+  <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/requestTable" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Requests</button></a>
+
+  <!--Doctor-->
+  <a *ngIf="checkDoctor()" routerLink="/viewPatients" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Patients</button></a>
+  <!--Nurse-->
+  <a *ngIf="checkNurse()" routerLink="/viewPatients" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Patients</button></a>
+
+
+  <!--Kod svakog proverava koji je user jer svako ima da edituje svoj profil-->
+  <span class="example-spacer"> </span>
+  <a *ngIf="checkLogged()" href="#" style="margin-left: 2%;" ><mat-icon (click)="logout()" [ngStyle]="{'color':'white'}">exit_to_app</mat-icon></a>
+  <a *ngIf="checkLogged()" routerLink="{{this.editProfile}}" style="margin-left: 1%;" ><mat-icon [ngStyle]="{'color':'white'}">face</mat-icon></a>
+
+</mat-toolbar>

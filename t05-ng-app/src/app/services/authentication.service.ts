@@ -29,13 +29,11 @@ export class AuthenticationService {
         let decoded = jwt_decode(res['accessToken']);
         sessionStorage.setItem('user_id', decoded['id']);
         sessionStorage.setItem('role', decoded['role']);
-        console.log(sessionStorage.getItem('role'));
-        console.log(sessionStorage.getItem('token'));
         if (sessionStorage.getItem('role') === "ROLE_CLINIC_ADMIN"){
-          this.router.navigate(['/addDoctor']);
+          this.router.navigate(['/clinicAdmin/addDoctor']);
         }
         else if (sessionStorage.getItem('role') === "ROLE_CLINIC_CENTER_ADMIN"){
-          this.router.navigate(['/addClinicCenterAdministrator']);
+          this.router.navigate(['/clinicCenterAdmin/addClinicCenterAdministrator']);
         }
         else if (sessionStorage.getItem('role') === "ROLE_DOCTOR"){
           this.router.navigate(['/viewPatients']);
@@ -61,6 +59,7 @@ logOut() {
   sessionStorage.removeItem('token');
   sessionStorage.removeItem('role');
   sessionStorage.removeItem('id');
+  this.router.navigate(['']);
 }
 
 getCurrentUserId(){

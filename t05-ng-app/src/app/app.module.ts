@@ -49,6 +49,8 @@ import { ClinicCenterAdminGuardService } from './guards/clinic-center-admin-guar
 import { DoctorGuardService } from './guards/doctor-guard.service';
 import { NurseGuardService } from './guards/nurse-guard.service';
 import { MedicallStuffGuardService } from './guards/medicall-stuff-guard.service';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatMenuModule} from '@angular/material/menu';
 
 
 
@@ -56,7 +58,7 @@ import { MedicallStuffGuardService } from './guards/medicall-stuff-guard.service
 
 const appRoutes : Routes = [
   {
-    path : 'addDoctor',
+    path : 'clinicAdmin/addDoctor',
     component : AddDoctorFormComponent,
     canActivate : [ClinicAdminGuardService]
   },
@@ -84,25 +86,25 @@ const appRoutes : Routes = [
     canActivate : [ClinicCenterAdminGuardService]
   },
   {
-    path: 'editPatient',
+    path: 'patient/editPatient',
     component : EditPatientProfile,
     canActivate : [PatientGuardService]
   },
 
   {
-    path : 'addPredefinedAppointment',
+    path : 'clinicAdmin/addPredefinedAppointment',
     component : AddPredifinedAppointmentComponent,
     canActivate : [ClinicAdminGuardService]
   },
 
   {
-    path : 'addAppointmentType',
+    path : 'clinicAdmin/addAppointmentType',
     component: AddAppointmentTypeComponent,
     canActivate : [ClinicAdminGuardService]
   },
 
   {
-    path : 'addHall',
+    path : 'clinicAdmin/addHall',
     component : AddHallFormComponent,
     canActivate : [ClinicAdminGuardService]
   },
@@ -112,7 +114,7 @@ const appRoutes : Routes = [
     canActivate : [MedicallStuffGuardService]
   },
   {
-    path: 'editProfileCA',
+    path: 'clinicAdmin/editProfileCA',
     component : EditClinicAdministratorComponent,
     canActivate : [ClinicAdminGuardService]
   },
@@ -132,12 +134,12 @@ const appRoutes : Routes = [
     canActivate : [ClinicCenterAdminGuardService]
   },
   {
-    path : 'addNurse',
+    path : 'clinicAdmin/addNurse',
     component : AddNurseFormComponent,
     canActivate : [ClinicAdminGuardService]
   },
   {
-    path: 'viewClinics',
+    path: 'clinicCenterAdmin/viewClinics',
     component: ViewClinicsComponent,
     canActivate : [ClinicCenterAdminGuardService]
   },
@@ -207,7 +209,9 @@ const appRoutes : Routes = [
     FormsModule,
     MatSortModule,
     MatExpansionModule,
-    MatTabsModule
+    MatTabsModule,
+    MatToolbarModule,
+    MatMenuModule
 
   ],
   providers: [MatDatepickerModule,
