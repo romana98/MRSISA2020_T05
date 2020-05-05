@@ -31,6 +31,7 @@ import com.project.tim05.service.HallService;
 @RestController
 public class HallController<T> {
 	
+	
 	private final HallService hs;
 	private final ClinicAdministratorService cas;
 	

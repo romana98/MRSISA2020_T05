@@ -44,7 +44,7 @@ export class AddHallFormComponent implements OnInit{
               this.something= res;
               console.log("OVO JE RES" + res);
         });
-      
+
       let params = new HttpParams().set('clinic_id', "1");
       this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
       .subscribe((res) => {

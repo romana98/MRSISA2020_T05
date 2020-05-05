@@ -62,14 +62,14 @@ public class HallService {
 			st.close();
 			conn.close();
 			rs.close();
-			
+	
 			return lh;
 			
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
 		}	
-		
+
 		return null;	
 	}
 	
