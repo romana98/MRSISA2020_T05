@@ -1,3 +1,7 @@
 ::ng-deep.mat-tab-label, ::ng-deep.mat-tab-label-active{
     min-width: 50%!important;
    }
+
+.invalid-input{
+  color: red;
+}

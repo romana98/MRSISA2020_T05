@@ -19,7 +19,6 @@ import { AddClinicCenterAdminFromComponent } from './add-clinic-center-administr
 import { AddClinicFromComponent } from './add-clinic-form/add-clinic-form.component';
 import { AddClinicAdminFromComponent } from './add-clinic-administrator-form/add-clinic-administrator-form.component';
 import { EditPatientProfile } from './edit-patient/edit-patient.component';
-import { RegisterPatientForm } from './register-patient-form/register-patient.component';
 import { AddHallFormComponent } from './add-hall-form/add-hall-form.component';
 import { EditMedicalStaff } from './edit-medical-staff/edit-medical-staff.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http"
@@ -88,11 +87,6 @@ const appRoutes : Routes = [
     path: 'editPatient',
     component : EditPatientProfile,
     canActivate : [PatientGuardService]
-  },
-  {
-    path : 'registerPatient',
-    component : RegisterPatientForm,
-    canActivate : [LoginGuardService]
   },
 
   {
@@ -177,7 +171,6 @@ const appRoutes : Routes = [
     AddDiagnosisFormComponent,
     RequestListPatientsComponent,
     EditPatientProfile,
-    RegisterPatientForm,
     AddPredifinedAppointmentComponent,
     AddHallFormComponent,
     EditMedicalStaff,
