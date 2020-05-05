@@ -11,8 +11,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.tim05.model.Authority;
+import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Nurse;
 import com.project.tim05.repository.NurseRepository;
+import com.project.tim05.service.initializeAndUnproxy;
 
 @Service
 public class NurseService {
@@ -86,5 +88,12 @@ public class NurseService {
 	public Nurse getNurse(String email) {
 		return nr.findByEmail(email);
 	}
+
+	public Clinic getClinic(String email) {
+		Nurse n = nr.findByEmail(email);
+		Clinic c = initializeAndUnproxy.initAndUnproxy(n.getClinic());
+		return c;
+	}
+	
 
 }

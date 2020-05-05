@@ -45,7 +45,9 @@ public class Patient extends User {
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="patient")
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 	
-	@ManyToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
+
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinColumn(name="clinic", referencedColumnName="clinic_id", nullable=true)
 	private Set<Clinic> clinics = new HashSet<Clinic>();
 
 

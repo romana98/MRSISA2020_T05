@@ -49,9 +49,9 @@ public class NurseController {
 	public List<PatientDTO> getPatients(){
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		User user = (Nurse) authentication.getPrincipal();
+		Nurse  nurse = (Nurse) authentication.getPrincipal();
 		
-		List<Patient> pss = ps.getPatients(((Nurse) user).getClinic());
+		List<Patient> pss = ps.getPatients(ns.getClinic(nurse.getEmail()));
 		
 		List<PatientDTO> psDTO = new ArrayList<PatientDTO>();
 		for (Patient p : pss) {
