@@ -18,7 +18,7 @@ export class AddDoctorFormComponent implements OnInit {
     workStart : '',
     appointment_type_id : 0,
     //ovde treba preuzeti od administratora koji dodaje kliniku zapravo
-    clinic_id : 1
+    clinic_id : parseInt(sessionStorage.getItem('id'))
   }
 
   appointmentTypes : any=[];

@@ -31,7 +31,7 @@ public class AppointmentDTO {
 	private int appointmentType_id;
 	@NotNull
 	private int clinic_id;
-
+	
 	private ClinicDTO clinic;
 	private HallDTO hall;
 	private DoctorDTO doctor;

@@ -34,24 +34,33 @@ export class AddPredifinedAppointmentComponent implements OnInit {
 
 
   constructor(private _snackBar: MatSnackBar,private http: HttpClient) {
-      this.model.clinic_id = 1;
+      
    }
   /**  Treba dodati deo u kom se inicijalizuje za koju kliniku se trazi admin
    * u ovom slucaju je to hardcodovana vrednost jer jos nemamo logovanje **/
 
   ngOnInit(): void {
-    let params = new HttpParams().set('clinic_id', this.model.clinic_id.toString());
-    let url = "http://localhost:8081/halls/getClinicHall";
-    this.http.get(url,{params:params}).subscribe(
+
+    let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id'))
+    this.http.get("http://localhost:8081/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
       res => {
-            this.halls = res;
+            this.model.clinic_id = res;
+            console.log(this.model.clinic_id);
+            let params = new HttpParams().set('clinic_id', this.model.clinic_id.toString() );
+            let url = "http://localhost:8081/halls/getClinicHall";
+            this.http.get(url,{params:params}).subscribe(
+              res => {
+                    this.halls = res;
+              });
+            
+            url = "http://localhost:8081/appointmentType/getAppointmentTypes"
+            this.http.get(url,{params:params}).subscribe(
+              res => {
+                    this.appointmentTypes = res;
+              });
       });
+
     
-    url = "http://localhost:8081/appointmentType/getAppointmentTypes"
-    this.http.get(url,{params:params}).subscribe(
-      res => {
-            this.appointmentTypes = res;
-      });
 
 
   }
@@ -97,7 +106,7 @@ export interface appointmentModel
     doctor_id : number;
     hall_id : number;
     appointmentType_id: number;
-    clinic_id :number;
+    clinic_id :any;
     
 }
 

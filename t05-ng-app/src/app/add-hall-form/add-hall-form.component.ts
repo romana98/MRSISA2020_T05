@@ -22,6 +22,8 @@ export class AddHallFormComponent implements OnInit{
         number: 0
     }
 
+    something : any;
+
     deleteModel : deleteHall = {
         hall_id : 0
     }
@@ -35,6 +37,14 @@ export class AddHallFormComponent implements OnInit{
 
     ngOnInit(): void{
       //vrednost parametra clinic_id treba da se dinamicki popuni tako da se preuzimaju hale tacno odredjene klinike.
+
+      let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id'))
+      this.http.get("http://localhost:8081/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
+        res => {
+              this.something= res;
+              console.log("OVO JE RES" + res);
+        });
+      
       let params = new HttpParams().set('clinic_id', "1");
       this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
       .subscribe((res) => {

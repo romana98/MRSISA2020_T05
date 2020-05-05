@@ -11,7 +11,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class AddAppointmentTypeComponent implements OnInit {
 
   model : AppointmentTypeModel = {
-    name : ''
+    name : '',
+    admin_id : parseInt(sessionStorage.getItem('id'))
   }
 
   constructor(private _snackBar: MatSnackBar, private http: HttpClient) { }
@@ -21,7 +22,9 @@ export class AddAppointmentTypeComponent implements OnInit {
 
 
   addAppointmentType() : void {
-    let url = "http://localhost:8081//appointmentType/addAppointmentType"
+    let url = "http://localhost:8081/appointmentType/addAppointmentType";
+    this.model.admin_id = parseInt(sessionStorage.getItem('user_id'));
+    console.log(this.model.admin_id);
     this.http.post(url,this.model).subscribe(
       res => {
         this._snackBar.open("Appointment type successfully added", "Close", {
@@ -47,5 +50,6 @@ export class AddAppointmentTypeComponent implements OnInit {
 
 export interface AppointmentTypeModel{
     name: string;
+    admin_id : number;
 
 }

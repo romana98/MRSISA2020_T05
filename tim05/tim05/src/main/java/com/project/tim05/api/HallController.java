@@ -63,6 +63,8 @@ public class HallController<T> {
 	@GetMapping("/getClinicHall")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	private ResponseEntity<List<Hall>> getHalls(@RequestParam String clinic_id){
+		System.out.println(clinic_id);
+		List<Hall> halls = hs.getClinicHalls(1);
 		return ResponseEntity.ok(hs.getClinicHalls(Integer.parseInt(clinic_id)));
 	}
 	

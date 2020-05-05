@@ -106,5 +106,11 @@ public int editClinicAdministrator(ClinicAdministrator admincl) {
 			return null;
 		}
 	}
+	
+	public ClinicAdministrator getClinicAdmin(int id) {
+		return car.findById(id).orElse(null);
+	}
+	
+	
 
 }
