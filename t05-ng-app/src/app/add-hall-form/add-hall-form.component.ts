@@ -43,6 +43,8 @@ export class AddHallFormComponent implements OnInit{
         res => {
               this.something= res;
               console.log("OVO JE RES" + res);
+              console.log(sessionStorage.getItem('token'))
+              console.log(sessionStorage.getItem('role'))
         });
       
       let params = new HttpParams().set('clinic_id', "1");
