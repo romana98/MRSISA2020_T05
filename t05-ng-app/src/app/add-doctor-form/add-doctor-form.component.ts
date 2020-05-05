@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
@@ -18,7 +18,7 @@ export class AddDoctorFormComponent implements OnInit {
     workStart : '',
     appointment_type_id : 0,
     //ovde treba preuzeti od administratora koji dodaje kliniku zapravo
-    clinic_id : 1
+    clinic_id : null
   }
 
   appointmentTypes : any=[];
@@ -35,6 +35,13 @@ export class AddDoctorFormComponent implements OnInit {
       res => {
             this.appointmentTypes = res;
       });
+
+    let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id'))
+    this.http.get("http://localhost:8081/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
+        res => {
+              this.model.clinic_id = res;
+              
+        });
 
 
   }
@@ -69,6 +76,6 @@ export interface doctorModel
     workStart : string;
     workEnd : string;
     appointment_type_id : number;
-    clinic_id : number;
+    clinic_id : any;
 
 }

@@ -11,6 +11,10 @@ public class AppointmentTypeDTO {
 	@Pattern(regexp="[A-Z][a-z]*")
 	private String name;
 	
+	@NotNull
+	private int admin_id;
+	
+	private int id;
 	
 	public AppointmentTypeDTO() {
 		super();
@@ -20,6 +24,24 @@ public class AppointmentTypeDTO {
 	public AppointmentTypeDTO(String name) {
 		super();
 		this.name = name;
+	}
+	
+	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getAdmin_id() {
+		return admin_id;
+	}
+
+	public void setAdmin_id(int admin_id) {
+		this.admin_id = admin_id;
 	}
 
 	public String getName() {

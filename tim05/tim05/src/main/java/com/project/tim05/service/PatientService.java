@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import com.project.tim05.model.Authority;
 import com.project.tim05.model.Clinic;
-import com.project.tim05.model.ClinicAdministrator;
 import com.project.tim05.model.MedicalRecord;
 import com.project.tim05.model.Patient;
 import com.project.tim05.repository.PatientRepository;
@@ -29,6 +28,9 @@ public class PatientService {
 	
 	@Autowired
 	private AuthorityService authService;
+	
+	@Autowired
+	private ClinicService cs;
 
 	
 	@Autowired
@@ -119,6 +121,9 @@ public class PatientService {
 			patient.setPassword(patient.getPassword());
 			patient.setLastPasswordResetDate(new Timestamp(date.getTime()));
 			patient.setMedicalRecord(new MedicalRecord());
+			
+			patient.getClinics().add(cs.getClinicbyId(1));
+
 			patient.setEnabled(true);
 			pa.save(patient);
 			
@@ -137,14 +142,13 @@ public class PatientService {
 		try {
 			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 			
-			PreparedStatement st = conn.prepareStatement("SELECT p FROM patients WHERE p.clinic.name = ? and p.clinic.address = ?");
-			st.setString(1, cl.getName());
-			st.setString(2, cl.getAddress());
+			PreparedStatement st = conn.prepareStatement("SELECT * FROM patients_clinics WHERE patients_clinics.clinics_clinic_id = ?");
+			st.setInt(1, cl.getId());
 			ResultSet rs = st.executeQuery();
 			
 			while(rs.next())
 			{	
-				patients.add(new Patient(rs.getString("email"), rs.getString("name"), rs.getString("surname"), rs.getString("address"), rs.getString("city"), rs.getString("country"), rs.getString("phone_number"), rs.getString("insurance_number")));	
+				patients.add(pa.findById(rs.getInt("patient_user_id")));	
 			}
 			
 			rs.close();
@@ -153,6 +157,7 @@ public class PatientService {
 			
 		} catch (SQLException e) {
 			
+			System.out.println(e.getMessage());
 			return patients;
 		}
 		

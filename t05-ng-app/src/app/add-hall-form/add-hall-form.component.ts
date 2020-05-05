@@ -22,6 +22,8 @@ export class AddHallFormComponent implements OnInit{
         number: 0
     }
 
+    clinic_id : any = '';
+
     deleteModel : deleteHall = {
         hall_id : 0
     }
@@ -35,14 +37,23 @@ export class AddHallFormComponent implements OnInit{
 
     ngOnInit(): void{
       //vrednost parametra clinic_id treba da se dinamicki popuni tako da se preuzimaju hale tacno odredjene klinike.
-      let params = new HttpParams().set('clinic_id', "1");
-      this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
-      .subscribe((res) => {
-      // @ts-ignore
-         this.dataSource.data = res;
 
+      let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id'))
 
-    });
+      this.http.get("http://localhost:8081/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
+        res => {
+          this.clinic_id = res.toString();
+          let params = new HttpParams().set('clinic_id', this.clinic_id);
+          this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
+          .subscribe((res) => {
+          // @ts-ignore
+             this.dataSource.data = res;
+    
+    
+        });
+      });
+      
+      
         this.dataSource.paginator = this.paginator;
     }
 
@@ -52,7 +63,7 @@ export class AddHallFormComponent implements OnInit{
             res => {
 
               //kada dobijem odgovor da sam uspeo da dodam salu hocu da posaljem upit za uzimanje svih sala da bih u tabeli prikazao
-              let params = new HttpParams().set('clinic_id', "1");
+              let params = new HttpParams().set('clinic_id', this.clinic_id);
               this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
               .subscribe((res) => {
               // @ts-ignore

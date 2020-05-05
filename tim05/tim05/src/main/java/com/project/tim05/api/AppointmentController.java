@@ -52,6 +52,8 @@ public class AppointmentController {
 	public ResponseEntity<String> addAppointment(@RequestBody AppointmentDTO adto) {
 		Appointment ap = new Appointment();
 
+		
+		
 		Doctor dr = ds.getDoctorbyID(adto.getDoctor_id());
 		Hall hall = hs.getHallbyId(adto.getHall_id());
 		AppointmentType at = ats.getAppointmentTypebyId(adto.getAppointmentType_id());

@@ -32,8 +32,7 @@ public class Clinic {
 	@JoinColumn(name="clinic_center_admin", referencedColumnName="user_id", nullable=true)
 	private ClinicCenterAdministrator clinicCenterAdministrator;
    
-	@ManyToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name="patient", referencedColumnName="user_id", nullable=true)
+	@ManyToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
 	private List<Patient> patients = new ArrayList<Patient>();
 	
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.ClinicAdministratorDTO;
@@ -128,6 +129,14 @@ public class ClinicAdministratorController<T> {
 			
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		}
+	}
+	
+
+	
+	@GetMapping("/getAdminsClinic")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
+	public int getClinics(@RequestParam String admin_id){
+		return cas.getClinicAdmin(Integer.parseInt(admin_id)).getClinic().getId();
 	}
 	
 	

@@ -107,4 +107,5 @@ public class ClinicService {
 		
 		return clinics;
 	}
+	
 }

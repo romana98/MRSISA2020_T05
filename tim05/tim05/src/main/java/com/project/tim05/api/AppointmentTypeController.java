@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.tim05.dto.AppointmentTypeDTO;
 import com.project.tim05.model.AppointmentType;
 import com.project.tim05.service.AppointmentTypeService;
+import com.project.tim05.service.ClinicAdministratorService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/appointmentType")
@@ -25,17 +26,20 @@ import com.project.tim05.service.AppointmentTypeService;
 public class AppointmentTypeController {
 
 	private final AppointmentTypeService ats;
+	private final ClinicAdministratorService cas;
 
 	@Autowired
-	public AppointmentTypeController(AppointmentTypeService ats) {
+	public AppointmentTypeController(AppointmentTypeService ats, ClinicAdministratorService cas) {
 		super();
 		this.ats = ats;
+		this.cas = cas;
 	}
 	
 	@PostMapping("/addAppointmentType")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	public ResponseEntity<Object> addAppointmentType(@Valid @RequestBody AppointmentTypeDTO atDTO) {
 		AppointmentType at = new AppointmentType(atDTO.getName());
+		at.setClinicAdmin(cas.getClinicAdmin(atDTO.getAdmin_id()));
 		
 		int flag = ats.addAppointmentType(at);
 		
@@ -48,8 +52,8 @@ public class AppointmentTypeController {
 	
 	@GetMapping("/getAppointmentTypes")
 	@PreAuthorize("hasRole('CLINIC_ADMIN') || hasRole('PATIENT')")
-	public List<AppointmentType> getAppointmetTypes(){
-		return ats.getAppointmentTypes();
+	public ResponseEntity<List<AppointmentTypeDTO>> getAppointmetTypes(){
+		return ResponseEntity.ok(ats.getAppointmentTypes());
 	}
 	
 	
