@@ -27,7 +27,7 @@ public class Patient extends User {
 	@Column(name = "phone_number", nullable = false)
 	private String phone_number;
 	
-	@Column(name = "insurance_number", nullable = false)
+	@Column(name = "insurance_number", unique = true, nullable = false)
 	private String insurance_number;
 
 	@ManyToOne(fetch=FetchType.LAZY)

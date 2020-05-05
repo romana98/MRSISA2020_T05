@@ -46,7 +46,6 @@ export class LoginComponent implements OnInit {
   }
 
   registerPatient(): void{
-    console.log("hereeeeee")
     let url = "http://localhost:8081/registrationRequests/register"
     this.http.post(url,this.model).subscribe(
       res => {
@@ -75,7 +74,6 @@ export class LoginComponent implements OnInit {
   }
 
   checkPassword(): boolean{
-    console.log("hereeeeee")
     var pass1 = this.model.password;
     var pass2 = this.password2;
 

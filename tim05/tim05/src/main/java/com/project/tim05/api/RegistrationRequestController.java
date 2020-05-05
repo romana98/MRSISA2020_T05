@@ -56,7 +56,7 @@ public class RegistrationRequestController<T> {
 	
 		User existUser = this.userService.findByEmail(patient.getEmail());
 		if (existUser != null) {
-			 ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+			 return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		}
 		
 		RegistrationRequest rr = new RegistrationRequest();

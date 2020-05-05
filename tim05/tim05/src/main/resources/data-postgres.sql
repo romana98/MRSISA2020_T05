@@ -4,11 +4,15 @@ INSERT INTO USERS (email, password, name, surname, enabled, last_password_reset_
 INSERT INTO USERS (email, password, name, surname, enabled, last_password_reset_date) VALUES ('nurse@example.com', '$2y$12$mqtpfiMpMZ9m/n0N8gDWE./ThGjArCwkPJLFxO07D1IESbvzJSEQ6', 'Admin', 'Admin', true, '2019-10-01 18:57:58.508-07');
 INSERT INTO USERS (email, password, name, surname, enabled, last_password_reset_date) VALUES ('patient@example.com', '$2y$12$mqtpfiMpMZ9m/n0N8gDWE./ThGjArCwkPJLFxO07D1IESbvzJSEQ6', 'Admin', 'Admin', true, '2019-10-01 18:57:58.508-07');
 
-
-
-INSERT INTO CLINIC_CENTER_ADMINS(user_id) VALUES (1);
-
 INSERT INTO CLINICS (name, address, description) VALUES('Clinic', 'Address 1', 'Des');
+
+INSERT INTO CLINIC_CENTER_ADMINS(user_id) VALUES (2);
+INSERT INTO CLINIC_ADMINS(user_id, clinic) VALUES (1, 1);
+--INSERT INTO DOCTORS(user_id) VALUES (3);
+--INSERT INTO NURSE(user_id) VALUES (4);
+--INSERT INTO PATIENTS(user_id) VALUES (5);
+
+
 
 INSERT INTO AUTHORITIES (name) VALUES ('ROLE_PATIENT');
 INSERT INTO AUTHORITIES (name) VALUES ('ROLE_CLINIC_ADMIN');

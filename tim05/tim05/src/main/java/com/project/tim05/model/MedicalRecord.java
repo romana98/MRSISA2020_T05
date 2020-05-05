@@ -19,7 +19,7 @@ public class MedicalRecord {
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="medicalRecord")
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 	
-	@OneToOne(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
+	@OneToOne( fetch=FetchType.LAZY)
 	private Patient patient;
 	
 	public MedicalRecord(Set<Disease> diseases, Set<Appointment> appointments) {

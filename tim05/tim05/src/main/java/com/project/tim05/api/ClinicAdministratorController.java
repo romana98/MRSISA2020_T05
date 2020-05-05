@@ -11,12 +11,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.ClinicAdministratorDTO;
+import com.project.tim05.dto.ClinicDTO;
 import com.project.tim05.dto.UserTokenStateDTO;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.ClinicAdministrator;
@@ -69,12 +71,33 @@ public class ClinicAdministratorController<T> {
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 	
+	
+	@GetMapping("/getClinicAdministrator")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
+	public ResponseEntity<ClinicAdministratorDTO> getClinicAdministrator() {
+		
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		User ca = (User) currentUser.getPrincipal();
+		String email = ca.getEmail();
+		
+		ClinicAdministrator c = cas.getClinicAdmin(email);
+		
+		if(c == null)
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		else
+		{
+			ClinicAdministratorDTO cDTO = new ClinicAdministratorDTO(c.getName(), c.getSurname(), c.getEmail(), new ClinicDTO(c.getClinic().getName(), c.getClinic().getAddress(), c.getClinic().getDescription()));
+			return ResponseEntity.status(HttpStatus.OK).body(cDTO);
+		}
+	
+	}
+	
 	@PostMapping("/editClinicAdministrator")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	public ResponseEntity<UserTokenStateDTO> editClinicAdministrator(@Valid @RequestBody ClinicAdministratorDTO cca) {
 		
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-		ClinicAdministrator ca = ((ClinicAdministrator) currentUser.getPrincipal());
+		User ca = ((User) currentUser.getPrincipal());
 		String email = ca.getEmail();
 
 		if(!email.equals(cca.getEmail()))

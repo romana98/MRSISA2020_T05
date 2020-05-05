@@ -74,4 +74,17 @@ public int editClinicAdministrator(ClinicAdministrator admincl) {
 	public List<ClinicAdministrator> getClinicAdministrators(){
 		return car.findAll();
 	}
+	
+	public ClinicAdministrator getClinicAdmin(String email)
+	{
+		try {
+			ClinicAdministrator ca = car.findByEmail(email);
+			return ca;
+			
+		} catch (Exception e) {
+			
+			return null;
+		}
+	}
+
 }

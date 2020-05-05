@@ -29,6 +29,11 @@ export class EditClinicAdministratorComponent implements OnInit{
   }
 
   ngOnInit(): void{
+
+    this.http.get("http://localhost:8081/clinicAdministrator/getClinicAdministrator")
+      .subscribe((res)=>{
+        this.model = <clinicAdminModel>res;
+      });
     this.hide = true;
 
   }

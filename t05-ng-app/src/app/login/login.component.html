@@ -35,7 +35,7 @@
         </mat-tab>
         <mat-tab label="Registration">
           <div >
-            <form  #f="ngForm" (click)="f.form.valid && checkPassword() && registerPatient()" style="padding-left: 25px;">
+            <form  #f1="ngForm" (submit)="f1.form.valid && checkPassword() && registerPatient()" style="padding-left: 25px;">
 
               <mat-form-field appearance="outline" style="width: 250px;">
                 <mat-label>Name</mat-label>

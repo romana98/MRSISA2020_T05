@@ -4,6 +4,7 @@ import javax.validation.constraints.*;
 
 import org.hibernate.validator.constraints.Length;
 
+
 public class ClinicAdministratorDTO {
 	
 	@NotBlank 
@@ -45,6 +46,13 @@ public class ClinicAdministratorDTO {
 		
 	}
 	 
+	public ClinicAdministratorDTO(String name2, String surname2, String email2, @NotNull ClinicDTO clinic2) {
+		this.name = name2;
+		this.surname = surname2;
+		this.email = email2;
+		this.clinic = clinic2;
+	}
+
 	public String getName() {
 		return name;
 	}

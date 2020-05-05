@@ -5,13 +5,17 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.tim05.model.Authority;
 import com.project.tim05.model.Clinic;
+import com.project.tim05.model.MedicalRecord;
 import com.project.tim05.model.Patient;
 import com.project.tim05.repository.PatientRepository;
 
@@ -21,6 +25,10 @@ public class PatientService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private AuthorityService authService;
+
 	
 	@Autowired
 	private PatientRepository pa;
@@ -73,8 +81,12 @@ public class PatientService {
 	
 	public int addPatient(Patient patient) {
 		try {
-			
+			Date date = new Date();
+			List<Authority> auth = authService.findByname("PATIENT");
+			patient.setAuthorities(auth);
 			patient.setPassword(passwordEncoder.encode(patient.getPassword()));
+			patient.setLastPasswordResetDate(new Timestamp(date.getTime()));
+			patient.setMedicalRecord(new MedicalRecord());
 			pa.save(patient);
 			
 		} catch (Exception e) {

@@ -69,17 +69,17 @@ const appRoutes : Routes = [
   },
 
   {
-    path: 'addClinicCenterAdministrator',
+    path: 'clinicCenterAdmin/addClinicCenterAdministrator',
     component : AddClinicCenterAdminFromComponent,
     canActivate : [ClinicCenterAdminGuardService]
   },
   {
-    path: 'addClinic',
+    path: 'clinicCenterAdmin/addClinic',
     component : AddClinicFromComponent,
     canActivate : [ClinicCenterAdminGuardService]
   },
   {
-    path: 'addClinicAdministrator',
+    path: 'clinicCenterAdmin/addClinicAdministrator',
     component : AddClinicAdminFromComponent,
     canActivate : [ClinicCenterAdminGuardService]
   },
@@ -117,17 +117,17 @@ const appRoutes : Routes = [
     canActivate : [ClinicAdminGuardService]
   },
   {
-    path : 'addMedicine',
+    path : 'clinicCenterAdmin/addMedicine',
     component : AddMedicineFromComponent,
     canActivate : [ClinicCenterAdminGuardService]
   },
   {
-    path : 'addDiagnosis',
+    path : 'clinicCenterAdmin/addDiagnosis',
     component : AddDiagnosisFormComponent,
     canActivate : [ClinicCenterAdminGuardService]
   },
   {
-    path : 'requestTable',
+    path : 'clinicCenterAdmin/requestTable',
     component : RequestListPatientsComponent,
     canActivate : [ClinicCenterAdminGuardService]
   },
