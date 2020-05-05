@@ -14,6 +14,8 @@ public class AppointmentTypeDTO {
 	@NotNull
 	private int admin_id;
 	
+	private int id;
+	
 	public AppointmentTypeDTO() {
 		super();
 		
@@ -25,6 +27,14 @@ public class AppointmentTypeDTO {
 	}
 	
 	
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public int getAdmin_id() {
 		return admin_id;

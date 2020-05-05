@@ -52,8 +52,8 @@ public class AppointmentTypeController {
 	
 	@GetMapping("/getAppointmentTypes")
 	@PreAuthorize("hasRole('CLINIC_ADMIN') || hasRole('PATIENT')")
-	public List<AppointmentType> getAppointmetTypes(){
-		return ats.getAppointmentTypes();
+	public ResponseEntity<List<AppointmentTypeDTO>> getAppointmetTypes(){
+		return ResponseEntity.ok(ats.getAppointmentTypes());
 	}
 	
 	
