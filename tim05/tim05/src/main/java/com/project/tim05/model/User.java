@@ -51,6 +51,7 @@ public class User implements UserDetails{
 
 	public User() {
 		super();
+		enabled = true;
 	}
 	
 

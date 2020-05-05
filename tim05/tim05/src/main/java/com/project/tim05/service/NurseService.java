@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.tim05.model.Authority;
 import com.project.tim05.model.Nurse;
 import com.project.tim05.repository.NurseRepository;
 
@@ -21,6 +22,9 @@ public class NurseService {
 	
 	@Autowired
 	private NurseRepository nr;
+	
+	@Autowired
+	private AuthorityService authService;
 	
 	public int editProfile(Nurse nurse) {
 		int flag = 0;
@@ -66,6 +70,8 @@ public class NurseService {
 		int flag = 0;
 		try {
 			nurse.setPassword(passwordEncoder.encode(nurse.getPassword()));
+			List<Authority> auth = authService.findByname("ROLE_NURSE");
+			nurse.setAuthorities(auth);
 			nr.save(nurse);
 			flag = 1;
 		}

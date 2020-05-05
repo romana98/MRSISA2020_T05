@@ -18,7 +18,7 @@ export class NavigationComponent implements OnInit {
   ngOnInit(): void {
 
   }
-  
+
   checkPatient(){
     if(sessionStorage.getItem('role') === "ROLE_PATIENT"){
       this.editProfile = "patient/editPatient";
@@ -52,7 +52,7 @@ export class NavigationComponent implements OnInit {
 
   checkNurse(){
     if(sessionStorage.getItem('role') === "ROLE_NURSE"){
-      this.editProfile = "/editMedicalStaff";
+      this.editProfile = "editMedicalStaff";
       return true;
     }
     return false;
