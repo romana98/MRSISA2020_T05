@@ -71,8 +71,9 @@
 
               <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
                 <mat-label>Confirm password</mat-label>
-                <input matInput  [(ngModel)] = "password2" #password="ngModel" name="input_password2"
-                       required minlength="8"  [type]="hide1 ? 'password' : 'text'"/>
+                <input matInput  [(ngModel)] = "password2" #password="ngModel" name="input_password"
+                       [type]="hide1 ? 'password' : 'text'"
+                       required minlength = "8"/>
 
                 <mat-icon matSuffix (click)="hide1 = !hide1">{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
                 <mat-error *ngIf="password.invalid">

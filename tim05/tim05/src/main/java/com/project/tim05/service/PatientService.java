@@ -41,42 +41,54 @@ public class PatientService {
 	        
 	        if(patient.getPassword().length() != 0) {
 	        	patient.setPassword(passwordEncoder.encode(patient.getPassword()));
-		        String query = "UPDATE patient set password = ?, name = ?, surname = ?, address = ?, city = ?, country = ?, phone_number = ?, insurance_number = ? WHERE email = ?;";
+		        String query = "UPDATE users set password = ?, name = ?, surname = ? where user_id = ?;";
 		        PreparedStatement ps = connection.prepareStatement(query);
 				ps.setString(1, patient.getPassword());
 				ps.setString(2, patient.getName());
 				ps.setString(3, patient.getSurname());
-				ps.setString(4, patient.getAddress());
-				ps.setString(5, patient.getCity());
-				ps.setString(6, patient.getCountry());
-				ps.setString(7, patient.getPhone_number());
-				ps.setString(8, patient.getInsurance_number());
-				ps.setString(9, patient.getEmail());
+				ps.setInt(4, patient.getId());
 				flag = ps.executeUpdate();
-				
 				ps.close();
+				
+				String query2 = "UPDATE patients set address = ?, city = ?, country = ?, phone_number = ? where user_id = ?;";
+		        PreparedStatement ps2 = connection.prepareStatement(query2);
+				ps2.setString(1, patient.getAddress());
+				ps2.setString(2, patient.getCity());
+				ps2.setString(3, patient.getCountry());
+				ps2.setString(4, patient.getPhone_number());
+				ps2.setInt(5, patient.getId());
+				flag = ps2.executeUpdate();
+				ps2.close();
+				
 				connection.close();
-				return flag;
+				return 1;
 	        }else {
-		        String query = "UPDATE patient name = ?, surname = ?, address = ?, city = ?, country = ?, phone_number = ?, insurance_number = ? WHERE email = ?;";
+	        	String query = "UPDATE users set name = ?, surname = ? where user_id = ?;";
 		        PreparedStatement ps = connection.prepareStatement(query);
 				ps.setString(1, patient.getName());
 				ps.setString(2, patient.getSurname());
-				ps.setString(3, patient.getAddress());
-				ps.setString(4, patient.getCity());
-				ps.setString(5, patient.getCountry());
-				ps.setString(6, patient.getPhone_number());
-				ps.setString(7, patient.getInsurance_number());
-				ps.setString(8, patient.getEmail());
+				ps.setInt(3, patient.getId());
 				flag = ps.executeUpdate();
-				
 				ps.close();
+				
+				String query2 = "UPDATE patients set address = ?, city = ?, country = ?, phone_number = ? where user_id = ?;";
+		        PreparedStatement ps2 = connection.prepareStatement(query2);
+				ps2.setString(1, patient.getAddress());
+				ps2.setString(2, patient.getCity());
+				ps2.setString(3, patient.getCountry());
+				ps2.setString(4, patient.getPhone_number());
+				ps2.setInt(5, patient.getId());
+				flag = ps2.executeUpdate();
+				ps2.close();
+				
 				connection.close();
-				return flag;
+				return 1;
 	        }
 		} catch (SQLException e) {
-			return flag;
-		}	
+			e.printStackTrace();
+			//return flag;
+		}
+		return flag;	
 	}
 	
 	public List<Patient> getPatients(){

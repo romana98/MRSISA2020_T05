@@ -63,6 +63,8 @@ public class MedicalStaffController<T> {
 			ddto.setPassword(d.getPassword());
 			ddto.setSurname(d.getSurname());
 			ddto.setType("doctor");
+			ddto.setWorkEnd(d.getWorkEnd());
+			ddto.setWorkStart(d.getWorkStart());
 			return ddto;
 		}else {
 			NurseDTO ddto = new NurseDTO();
@@ -71,6 +73,8 @@ public class MedicalStaffController<T> {
 			ddto.setPassword(n.getPassword());
 			ddto.setSurname(n.getSurname());
 			ddto.setType("nurse");
+			ddto.setWorkEnd(n.getWorkEnd());
+			ddto.setWorkStart(n.getWorkEnd());
 			return ddto;
 		}
 		
@@ -96,6 +100,7 @@ public class MedicalStaffController<T> {
 			d.setName(ms.getName());
 			d.setSurname(ms.getSurname());
 			d.setEmail(ms.getEmail());
+			d.setId(currentUser.getId());
 			int flag = ds.editProfile(d);
 			
 			if(ms.getPassword().length() != 0 && flag != 0)
@@ -110,10 +115,6 @@ public class MedicalStaffController<T> {
 			if(flag == 0) {
 				return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 			}else {
-				Authentication authentication = authenticationManager
-						.authenticate(new UsernamePasswordAuthenticationToken(currentUser.getEmail(),ms.getPassword()));
-
-				SecurityContextHolder.getContext().setAuthentication(authentication);
 				return ResponseEntity.status(HttpStatus.OK).body(null);
 			}
 		}else {
@@ -122,6 +123,7 @@ public class MedicalStaffController<T> {
 			d.setName(ms.getName());
 			d.setSurname(ms.getSurname());
 			d.setEmail(ms.getEmail());
+			d.setId(currentUser.getId());
 			int flag = ns.editProfile(d);
 			
 			if(ms.getPassword().length() != 0 && flag != 0)
@@ -136,10 +138,6 @@ public class MedicalStaffController<T> {
 			if(flag == 0) {
 				return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 			}else {
-				Authentication authentication = authenticationManager
-						.authenticate(new UsernamePasswordAuthenticationToken(currentUser.getEmail(),ms.getPassword()));
-
-				SecurityContextHolder.getContext().setAuthentication(authentication);
 				return ResponseEntity.status(HttpStatus.OK).body(null);
 			}
 		}

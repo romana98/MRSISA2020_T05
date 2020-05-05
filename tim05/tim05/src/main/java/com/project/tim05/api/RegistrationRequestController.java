@@ -72,9 +72,11 @@ public class RegistrationRequestController<T> {
 		
 		int flag = rrs.addRegistrationRequest(rr);
 		if(flag == 0)
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-		else
 			return ResponseEntity.status(HttpStatus.OK).body(null);
+		else if(flag == 1)
+			return (ResponseEntity<T>) ResponseEntity.status(HttpStatus.CONFLICT).body("email");
+		else
+			return (ResponseEntity<T>) ResponseEntity.status(HttpStatus.CONFLICT).body("insurance_number");
 	}
 	
 	

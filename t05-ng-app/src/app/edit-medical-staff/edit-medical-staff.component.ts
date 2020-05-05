@@ -16,7 +16,9 @@ export class EditMedicalStaff implements OnInit{
         password : '',
         name : '',
         surname : '',
-        type: ''
+        type: '',
+        workStart: '',
+        workEnd: '',
     }
   hide: boolean;
 
@@ -25,7 +27,7 @@ export class EditMedicalStaff implements OnInit{
     }
 
     ngOnInit(): void{
-        this.hide = true;
+      this.hide = true;
       let url = "http://localhost:8081/medicalStaff/getData";
       this.http.get(url).subscribe(
         res => {
@@ -63,4 +65,7 @@ export class EditMedicalStaff implements OnInit{
         name : string |RegExp;
         surname : string |RegExp;
         type : string;
+        workStart : string;
+        workEnd : string;
+
     }
