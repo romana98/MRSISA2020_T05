@@ -139,11 +139,6 @@ const appRoutes : Routes = [
     canActivate : [ClinicAdminGuardService]
   },
   {
-    path: 'clinicCenterAdmin/viewClinics',
-    component: ViewClinicsComponent,
-    canActivate : [ClinicCenterAdminGuardService]
-  },
-  {
     path : 'viewPatients',
     component : ViewPatientsNurseComponent,
     canActivate : [MedicallStuffGuardService]
