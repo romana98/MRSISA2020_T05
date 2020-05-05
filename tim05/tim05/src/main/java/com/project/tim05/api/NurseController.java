@@ -78,6 +78,7 @@ public class NurseController {
 		n.setPassword(nurse.getPassword());
 		n.setWorkStart(nurse.getWorkStart());
 		n.setWorkEnd(nurse.getWorkEnd());
+		n.setEnabled(true);
 		
 		
 		int flag = ns.addNurse(n);
