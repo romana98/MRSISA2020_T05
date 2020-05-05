@@ -57,9 +57,16 @@ export class LoginComponent implements OnInit {
       err => {
         if(err.status == 409)
         {
-          this._snackBar.open("Email already taken!", "Close", {
-            duration: 2000,
-          });
+          if(err.body === 'email'){
+            this._snackBar.open("Email already taken!", "Close", {
+              duration: 2000,
+            });
+          }else{
+            this._snackBar.open("Insurance number already taken!", "Close", {
+              duration: 2000,
+            });
+          }
+
 
         }
         else

@@ -136,7 +136,6 @@ public class ClinicAdministratorController<T> {
 	@GetMapping("/getAdminsClinic")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	public int getClinics(@RequestParam String admin_id){
-		System.out.println("neki tekst");
 		return cas.getClinicAdmin(Integer.parseInt(admin_id)).getClinic().getId();
 	}
 	

@@ -55,6 +55,8 @@ public class HallController<T> {
 		
 		int flag = hs.addHall(h);
 		
+		List<Hall> halls = hs.getClinicHalls(1);
+		
 		if(flag == 0)
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		else
@@ -63,15 +65,14 @@ public class HallController<T> {
 	
 	@GetMapping("/getClinicHall")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
-	private ResponseEntity<List<Hall>> getHalls(@RequestParam String clinic_id){
-		System.out.println(clinic_id);
-		List<Hall> halls = hs.getClinicHalls(1);
+	public ResponseEntity<List<Hall>> getHalls(@RequestParam String clinic_id){
 		return ResponseEntity.ok(hs.getClinicHalls(Integer.parseInt(clinic_id)));
 	}
 	
+	
 	@DeleteMapping("/deleteHall")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
-	private ResponseEntity<T> deleteHall(@RequestParam String hall_id){
+	public ResponseEntity<T> deleteHall(@RequestParam String hall_id){
 		int flag = hs.deleteHall(Integer.parseInt(hall_id));
 		if(flag != 0) {
 			return ResponseEntity.status(HttpStatus.OK).body(null);

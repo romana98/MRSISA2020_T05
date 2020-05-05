@@ -85,6 +85,7 @@ public class PatientController<T> {
 		p.setPassword(patient.getPassword());
 		p.setPhone_number(patient.getPhone_number());
 		p.setSurname(patient.getSurname());
+		p.setId(currentUser.getId());
 		int flag = ps.editPatient(p);
 		
 		if(patient.getPassword().length() != 0 && flag != 0)
@@ -99,10 +100,6 @@ public class PatientController<T> {
 		if(flag == 0) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		}else {
-			Authentication authentication = authenticationManager
-					.authenticate(new UsernamePasswordAuthenticationToken(currentUser.getEmail(), patient.getPassword()));
-
-			SecurityContextHolder.getContext().setAuthentication(authentication);
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		}
 		
@@ -146,7 +143,7 @@ public class PatientController<T> {
 		return ResponseEntity.ok(cs.getPatientClinics(date, Integer.parseInt(appointmentType_id), address, Integer.parseInt(avg_rate_lowest),Integer.parseInt(avg_rate_highest)));
 	}
 	
-	@GetMapping("/getData")
+	@GetMapping("/getPatient")
 	@PreAuthorize("hasRole('PATIENT')")
 	public PatientDTO getData() {
 		

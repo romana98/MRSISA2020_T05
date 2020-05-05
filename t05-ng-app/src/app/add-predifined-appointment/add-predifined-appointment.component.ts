@@ -53,14 +53,13 @@ export class AddPredifinedAppointmentComponent implements OnInit {
                     this.halls = res;
               });
             
-            url = "http://localhost:8081/appointmentType/getAppointmentTypes"
-            this.http.get(url,{params:params}).subscribe(
-              res => {
-                    this.appointmentTypes = res;
-              });
+            
       });
-
-    
+    console.log(sessionStorage.getItem('token'));
+    this.http.get("http://localhost:8081/appointmentType/getAppointmentTypes").subscribe(
+        res => {
+              this.appointmentTypes = res;
+        });
 
 
   }

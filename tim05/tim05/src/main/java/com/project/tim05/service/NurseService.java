@@ -35,7 +35,7 @@ public class NurseService {
 	        
 	        if(nurse.getPassword().length()!=0) {
 				nurse.setPassword(passwordEncoder.encode(nurse.getPassword()));
-	        	String query = "UPDATE nurses set password = ?, name = ?, surname = ? WHERE email = ?;";
+	        	String query = "UPDATE users set password = ?, name = ?, surname = ? WHERE email = ?;";
 		        PreparedStatement ps = connection.prepareStatement(query);
 				ps.setString(1, nurse.getPassword());
 				ps.setString(2, nurse.getName());
@@ -47,7 +47,7 @@ public class NurseService {
 				connection.close();
 				return flag;
 	        }else {
-	        	String query = "UPDATE nurses set name = ?, surname = ? WHERE email = ?;";
+	        	String query = "UPDATE users set name = ?, surname = ? WHERE email = ?;";
 		        PreparedStatement ps = connection.prepareStatement(query);
 				ps.setString(1, nurse.getName());
 				ps.setString(2, nurse.getSurname());

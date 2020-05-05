@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tim05.model.RegistrationRequest;
+import com.project.tim05.model.User;
 import com.project.tim05.repository.RegistrationRequestRepository;
+import com.project.tim05.repository.UserRepository;
 
 @Service
 public class RegistrationRequestService {
@@ -18,18 +20,34 @@ public class RegistrationRequestService {
 
 	@Autowired
 	private RegistrationRequestRepository rrr;
+	
+	@Autowired
+	private UserRepository ur;
 
 	public int addRegistrationRequest(RegistrationRequest rr) {
 		try {
 			rr.setPassword(passwordEncoder.encode(rr.getPassword()));
 			rrr.save(rr);
+			User u1 = ur.findByEmail(rr.getEmail());
+			User u2 = ur.findByInsurance_number(rr.getInsurance_number());
+			if(u1 != null) {
+				return 1;
+			}else if(u2 != null) {
+				return 2;
+			}
 			
 		} catch (Exception e) {
 			
-			return 0;
+			RegistrationRequest r = rrr.findByEmail(rr.getEmail());
+			RegistrationRequest r2 = rrr.findByInsurance_number(rr.getInsurance_number());
+			if(r != null) {
+				return 1;
+			}else if(r2 != null) {
+				return 2;
+			}
 		}
 		
-		return 1;	
+		return 0;	
 	}
 
 	public List<RegistrationRequest> getRequests(){

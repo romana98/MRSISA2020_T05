@@ -1,10 +1,12 @@
 package com.project.tim05.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.tim05.dto.AppointmentTypeDTO;
 import com.project.tim05.model.AppointmentType;
 import com.project.tim05.repository.AppointmentTypeRespository;
 
@@ -28,8 +30,16 @@ public class AppointmentTypeService {
 		
 	}
 	
-	public List<AppointmentType> getAppointmentTypes(){
-		return atr.findAll();
+	public ArrayList<AppointmentTypeDTO> getAppointmentTypes(){
+		ArrayList<AppointmentTypeDTO> apps = new ArrayList<AppointmentTypeDTO>();
+		for(AppointmentType at : atr.findAll()) {
+			AppointmentTypeDTO adto = new AppointmentTypeDTO();
+			adto.setName(at.getName());
+			adto.setId(at.getId());
+			adto.setAdmin_id(at.getClinicAdmin().getId());
+			apps.add(adto);
+		}
+		return apps;
 	}
 	
 	public AppointmentType getAppointmentTypebyId(int id) {

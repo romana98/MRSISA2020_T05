@@ -73,6 +73,40 @@ public class HallService {
 		return null;	
 	}
 	
+	public ArrayList<Hall> getClinicHallsBre(int id){
+		Connection conn;
+		try {
+			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+		
+			PreparedStatement st;
+			
+			st = conn.prepareStatement("SELECT * FROM halls WHERE clinic = ?");
+			
+			st.setInt(1, id);
+			ResultSet rs = st.executeQuery();
+			ArrayList<Hall> lh = new ArrayList<Hall>();
+			while(rs.next()) {
+				Hall new_hall = new Hall();
+				new_hall.setId(rs.getInt("hall_id"));
+				new_hall.setName(rs.getString("name"));
+				new_hall.setNumber(rs.getInt("number"));
+				lh.add(new_hall);
+			}
+			st.close();
+			conn.close();
+			rs.close();
+			
+			return lh;
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}	
+		
+		return null;	
+	}
+	
+	
 	public int deleteHall(int id) {
 		int success = 0;
 		try {
