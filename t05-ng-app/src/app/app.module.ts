@@ -36,7 +36,7 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatDialogModule} from "@angular/material/dialog";
 import {ViewPatientsNurseComponent} from "./view-patients-nurse/view-patients-nurse.component";
 import {MatSortModule} from "@angular/material/sort";
-import {EditClinicAdministratorComponent} from "./edit-clinic-administrator/edit-clinic-administrator.component";
+import {EditClinicAdministratorComponent, RequiredPassDirective} from "./edit-clinic-administrator/edit-clinic-administrator.component";
 import { ClinicsComponent } from './patient/clinics/clinics.component';
 import {MatExpansionModule, matExpansionAnimations} from '@angular/material/expansion';
 import { InterceptorService } from './services/interceptor.service';
@@ -114,7 +114,7 @@ const appRoutes : Routes = [
     canActivate : [MedicallStuffGuardService]
   },
   {
-    path: 'clinicAdmin/editProfileCA',
+    path: 'clinicCenterAdmin/editProfile',
     component : EditClinicAdministratorComponent,
     canActivate : [ClinicAdminGuardService]
   },
@@ -183,7 +183,8 @@ const appRoutes : Routes = [
     DialogOverview,
     EditClinicAdministratorComponent,
     ClinicsComponent,
-    LoginComponent
+    LoginComponent,
+    RequiredPassDirective
   ],
   imports: [
     BrowserModule,

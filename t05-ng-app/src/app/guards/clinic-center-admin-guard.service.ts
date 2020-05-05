@@ -9,8 +9,7 @@ export class ClinicCenterAdminGuardService {
 
   constructor(private router: Router,private authservice: AuthenticationService) { }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-
-
+    
     if(sessionStorage.getItem('role')===("ROLE_CLINIC_CENTER_ADMIN")){
       return true;
     }

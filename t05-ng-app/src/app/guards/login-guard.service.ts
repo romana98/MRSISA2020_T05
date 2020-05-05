@@ -16,6 +16,7 @@ export class LoginGuardService {
         this.router.navigate(['/AddDoctorFormComponent']);
       }
       else if (sessionStorage.getItem('role') === "ROLE_CLINIC_CENTER_ADMIN"){
+        
         this.router.navigate(['/addClinicCenterAdministrator']);
       }
       else if (sessionStorage.getItem('role') === "ROLE_DOCTOR"){
@@ -30,6 +31,7 @@ export class LoginGuardService {
       return false;
     }
     else{
+
       return true;
     }
   }

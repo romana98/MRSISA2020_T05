@@ -58,7 +58,7 @@ public class ClinicAdministratorController<T> {
 		}
 		
 		Clinic cl = cs.getClinic(cca.getClinic());
-		if(cl == null)
+		if(cl == null || cca.getPassword().length() < 8)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		
 		ClinicAdministrator cadmin = new ClinicAdministrator(cca.getName(), cca.getSurname(), cca.getEmail(), cca.getPassword(), cl);
@@ -77,7 +77,7 @@ public class ClinicAdministratorController<T> {
 	public ResponseEntity<ClinicAdministratorDTO> getClinicAdministrator() {
 		
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-		User ca = (User) currentUser.getPrincipal();
+		ClinicAdministrator ca = (ClinicAdministrator) currentUser.getPrincipal();
 		String email = ca.getEmail();
 		
 		ClinicAdministrator c = cas.getClinicAdmin(email);
@@ -97,27 +97,34 @@ public class ClinicAdministratorController<T> {
 	public ResponseEntity<UserTokenStateDTO> editClinicAdministrator(@Valid @RequestBody ClinicAdministratorDTO cca) {
 		
 		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
-		User ca = ((User) currentUser.getPrincipal());
+		ClinicAdministrator ca = ((ClinicAdministrator) currentUser.getPrincipal());
 		String email = ca.getEmail();
 
 		if(!email.equals(cca.getEmail()))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
 		Clinic cl = cs.getClinic(cca.getClinic());
-		if(cl == null)
+		if(cl == null || (cca.getPassword().length() > 0 && cca.getPassword().length() < 8))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+
 		
 		ClinicAdministrator cadmin = new ClinicAdministrator(cca.getName(), cca.getSurname(), cca.getEmail(), cca.getPassword(), cl);
 		int flag = cas.editClinicAdministrator(cadmin);
 		
-		if(flag == 0)
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-		else
+		if(cca.getPassword().length() != 0 && flag != 0)
 		{
 			Authentication authentication = authenticationManager
 					.authenticate(new UsernamePasswordAuthenticationToken(ca.getEmail(),cca.getPassword()));
 
 			SecurityContextHolder.getContext().setAuthentication(authentication);
+				
+		}
+		
+		
+		if(flag == 0)
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		else
+		{
 			
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		}
