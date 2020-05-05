@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.repository.DoctorRepository;
 
@@ -77,10 +78,10 @@ public class DoctorService {
 	}
 	
 	public Doctor getDoctorbyID(int id) {
-		return dr.findById(id).orElse(new Doctor());
+		return dr.findById(id);
 	}
 	
-	public ArrayList<Doctor> getDoctors(int clinic_id, int appointment_id){
+	public ArrayList<DoctorDTO> getDoctors(int clinic_id, int appointment_id){
 		try {
 	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 	        String query = "SELECT * FROM doctors WHERE appointment_type = ? and clinic= ?;";
@@ -88,23 +89,21 @@ public class DoctorService {
 			ps.setInt(1, appointment_id);
 			ps.setInt(2, clinic_id);
 			ResultSet rs = ps.executeQuery();
-			ArrayList<Doctor> doctors = new ArrayList<Doctor>();
+			ArrayList<DoctorDTO> doctors = new ArrayList<DoctorDTO>();
 			while(rs.next()) {
-				Doctor dr = new Doctor();
-				dr.setId(rs.getInt("staff_id"));
-				dr.setName(rs.getString("name"));
-				dr.setSurname(rs.getString("surname"));
-				dr.setPassword(rs.getString("password"));
-				dr.setEmail(rs.getString("email"));
-				dr.setWorkStart(rs.getString("work_start"));
-				dr.setWorkEnd(rs.getString("work_end"));
-				doctors.add(dr);
+				Doctor dr1 = dr.findById(rs.getInt("user_id"));
+				DoctorDTO drdto = new DoctorDTO();
+				drdto.setName(dr1.getName());
+				drdto.setId(dr1.getId());
+				drdto.setSurname(dr1.getSurname());
+				doctors.add(drdto);
 			}
 			connection.close();
 			ps.close();
 			rs.close();
 			return doctors;
 		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 			return null;
 		}	
 		

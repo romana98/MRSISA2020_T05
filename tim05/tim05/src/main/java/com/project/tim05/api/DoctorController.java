@@ -78,8 +78,8 @@ public class DoctorController {
 	}
 	
 	@GetMapping("/getDoctorsAppointment")
-	@PreAuthorize("hasRole('DOCTOR')")
-	public ResponseEntity<ArrayList<Doctor>> getDoctors(@RequestParam String clinic_id,String appointment_type_id){
+	@PreAuthorize("hasRole('DOCTOR') || hasRole('CLINIC_ADMIN')")
+	public ResponseEntity<ArrayList<DoctorDTO>> getDoctors(@RequestParam String clinic_id,String appointment_type_id){
 		return ResponseEntity.ok(ds.getDoctors(Integer.parseInt(clinic_id),Integer.parseInt(appointment_type_id)));
 	}
 	
