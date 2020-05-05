@@ -104,13 +104,15 @@ public class PatientService {
 	public int addPatient(Patient patient) {
 		try {
 			Date date = new Date();
-			List<Authority> auth = authService.findByname("PATIENT");
+			List<Authority> auth = authService.findByname("ROLE_PATIENT");
 			patient.setAuthorities(auth);
-			patient.setPassword(passwordEncoder.encode(patient.getPassword()));
+			patient.setPassword(patient.getPassword());
 			patient.setLastPasswordResetDate(new Timestamp(date.getTime()));
 			patient.setMedicalRecord(new MedicalRecord());
 			
 			patient.getClinics().add(cs.getClinicbyId(1));
+
+			patient.setEnabled(true);
 			pa.save(patient);
 			
 		} catch (Exception e) {

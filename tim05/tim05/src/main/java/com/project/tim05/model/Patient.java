@@ -54,6 +54,7 @@ public class Patient extends User {
 	public Patient(){
 		super();
 		this.medicalRecord = new MedicalRecord();
+		this.setEnabled(true);
 	}
 	
 	

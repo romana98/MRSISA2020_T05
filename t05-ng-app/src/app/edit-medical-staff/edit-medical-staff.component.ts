@@ -54,7 +54,7 @@ export class EditMedicalStaff implements OnInit{
     }
   checkPassword() {
 
-    return this.model.password.length == 0 || this.model.password.length >= 8;
+    return this.model.password.length === 0 || this.model.password.length >= 8;
   }
 }
     export interface medicalStaffModel{
