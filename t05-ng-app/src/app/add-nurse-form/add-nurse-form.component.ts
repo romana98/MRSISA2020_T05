@@ -16,8 +16,6 @@ export class AddNurseFormComponent implements OnInit {
     password : '',
     workEnd : '',
     workStart : '',
-    //ovde treba preuzeti od administratora koji dodaje kliniku zapravo
-    clinic_id : 1
   }
 
   hide: boolean;
@@ -40,11 +38,15 @@ export class AddNurseFormComponent implements OnInit {
 
       },
       err => {
-        this._snackBar.open("Error has occurred while adding nurse", "Close", {
-          duration: 2000,
-        });
-
-        console.log(err)
+        if(err.status == 409){
+          this._snackBar.open("Nurse with that email already exists!", "Close", {
+            duration: 2000,
+          });
+        }else{
+          this._snackBar.open("Error has occurred while adding nurse", "Close", {
+            duration: 2000,
+          });
+        }
       }
     );
 
@@ -59,6 +61,5 @@ export interface nurseModel
   password : string;
   workStart : string;
   workEnd : string;
-  clinic_id : number;
 
 }

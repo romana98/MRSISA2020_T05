@@ -6,11 +6,13 @@ INSERT INTO USERS (email, password, name, surname, enabled, last_password_reset_
 
 INSERT INTO CLINICS (name, address, description) VALUES('Clinic', 'Address 1', 'Des');
 
+--INSERT INTO MEDICAL_RECORDS (medical_record_id) VALUES (1);
+
 INSERT INTO CLINIC_CENTER_ADMINS(user_id) VALUES (2);
 INSERT INTO CLINIC_ADMINS(user_id, clinic) VALUES (1, 1);
 --INSERT INTO DOCTORS(user_id) VALUES (3);
 --INSERT INTO NURSE(user_id) VALUES (4);
---INSERT INTO PATIENTS(user_id) VALUES (5);
+--INSERT INTO PATIENTS(user_id, address, city, country, insurance_number, phone_number, doctor, medical_record, nurse) VALUES (5, 'Adresa1', 'Grad', 'Drzava', '123A', '100-100-100', 3, 1, 4);
 
 
 

@@ -25,19 +25,34 @@ public class NurseService {
 	public int editProfile(Nurse nurse) {
 		int flag = 0;
 		try {
-			nurse.setPassword(passwordEncoder.encode(nurse.getPassword()));
-	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
-	        String query = "UPDATE nurses set password = ?, name = ?, surname = ? WHERE email = ?;";
-	        PreparedStatement ps = connection.prepareStatement(query);
-			ps.setString(1, nurse.getPassword());
-			ps.setString(2, nurse.getName());
-			ps.setString(3, nurse.getSurname());
-			ps.setString(4, nurse.getEmail());
-			flag = ps.executeUpdate();
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+	        
+	        if(nurse.getPassword().length()!=0) {
+				nurse.setPassword(passwordEncoder.encode(nurse.getPassword()));
+	        	String query = "UPDATE nurses set password = ?, name = ?, surname = ? WHERE email = ?;";
+		        PreparedStatement ps = connection.prepareStatement(query);
+				ps.setString(1, nurse.getPassword());
+				ps.setString(2, nurse.getName());
+				ps.setString(3, nurse.getSurname());
+				ps.setString(4, nurse.getEmail());
+				flag = ps.executeUpdate();
+				
+				ps.close();
+				connection.close();
+				return flag;
+	        }else {
+	        	String query = "UPDATE nurses set name = ?, surname = ? WHERE email = ?;";
+		        PreparedStatement ps = connection.prepareStatement(query);
+				ps.setString(1, nurse.getName());
+				ps.setString(2, nurse.getSurname());
+				ps.setString(3, nurse.getEmail());
+				flag = ps.executeUpdate();
+				
+				ps.close();
+				connection.close();
+				return flag;
+	        }
 			
-			ps.close();
-			connection.close();
-			return flag;
 		} catch (SQLException e) {
 			return flag;
 		}	
@@ -60,6 +75,10 @@ public class NurseService {
 		}
 		return flag;
 		
+	}
+	
+	public Nurse getNurse(String email) {
+		return nr.findByEmail(email);
 	}
 
 }

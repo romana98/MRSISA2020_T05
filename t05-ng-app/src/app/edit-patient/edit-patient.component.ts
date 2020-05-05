@@ -1,6 +1,8 @@
-import { Component, OnInit} from '@angular/core';
+import {Component, Directive, Input, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {AbstractControl, FormControl, NG_VALIDATORS, Validator, ValidatorFn, Validators} from "@angular/forms";
+
 
 @Component({
     selector: 'app-edit-patient',
@@ -10,15 +12,15 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class EditPatientProfile implements OnInit{
 
     model: patientModel = {
-        email : 'email1@email.com',
-        password : 'password1',
-        name : 'Ime1',
-        surname : 'Prezime1',
-        address : 'Adresa1',
-        city : 'Grad1',
-        country : 'Drzava1',
-        phone_number : 'Telefon1',
-        insurance_number : 'Jedinstveni1'
+        email : '',
+        password : '',
+        name : '',
+        surname : '',
+        address : '',
+        city : '',
+        country : '',
+        phone_number : '',
+        insurance_number : ''
     }
   hide: boolean;
 
@@ -28,6 +30,13 @@ export class EditPatientProfile implements OnInit{
 
     ngOnInit(): void{
         this.hide = true;
+        let url = "http://localhost:8081/patients/getPatient";
+        this.http.get(url).subscribe(
+          res => {
+            this.model = <patientModel>res;
+            this.model.password = '';
+          }
+        )
     }
 
     editPatient(): void{
@@ -47,6 +56,10 @@ export class EditPatientProfile implements OnInit{
             }
         );
     }
+  checkPassword() {
+
+    return this.model.password.length == 0 || this.model.password.length >= 8;
+  }
 }
     export interface patientModel{
         email : string |RegExp;
@@ -59,4 +72,6 @@ export class EditPatientProfile implements OnInit{
         phone_number : string |RegExp;
         insurance_number : string |RegExp;
     }
+
+
 

@@ -4,7 +4,7 @@
 <br>
 
 <div >
-  <form  #f="ngForm" (submit)="f.form.valid && editMedicalStaff()" style="padding-left: 25px;">
+  <form  #f="ngForm" (submit)="f.form.valid && checkPassword() && editMedicalStaff()" style="padding-left: 25px;">
 
     <mat-form-field appearance="outline" style="width: 250px;">
       <mat-label>Name</mat-label>
@@ -39,9 +39,9 @@
 
 
     <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
-      <mat-label>Password</mat-label>
+      <mat-label>New password</mat-label>
       <input matInput  [(ngModel)] = "model.password" #password="ngModel" name="input_password"
-             required minlength="8"
+             required
              [type]="hide ? 'password' : 'text'">
 
       <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>

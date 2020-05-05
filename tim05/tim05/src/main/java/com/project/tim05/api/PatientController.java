@@ -67,11 +67,14 @@ public class PatientController<T> {
 	public ResponseEntity<T> editPatient(@Valid @RequestBody PatientDTO patient) {
 		
 		Authentication current = SecurityContextHolder.getContext().getAuthentication();
-		Patient currentUser = (Patient)current.getPrincipal();
+		User currentUser = (User)current.getPrincipal();
 		
 		if(!currentUser.getEmail().equals(patient.getEmail()))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 	
+		if(patient.getPassword().length() > 0 && patient.getPassword().length() < 8)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		
 		Patient p = new Patient();
 		p.setAddress(patient.getAddress());
 		p.setCity(patient.getCity());
@@ -83,6 +86,16 @@ public class PatientController<T> {
 		p.setPhone_number(patient.getPhone_number());
 		p.setSurname(patient.getSurname());
 		int flag = ps.editPatient(p);
+		
+		if(patient.getPassword().length() != 0 && flag != 0)
+		{
+			Authentication authentication = authenticationManager
+					.authenticate(new UsernamePasswordAuthenticationToken(currentUser.getEmail(),patient.getPassword()));
+
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+				
+		}
+		
 		if(flag == 0) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		}else {
@@ -131,6 +144,29 @@ public class PatientController<T> {
 	@PreAuthorize("hasRole('PATIENT')")
 	public ResponseEntity<List<PatientClinicsDTO>> getClinics(@RequestParam String date, String appointmentType_id, String address, String avg_rate_lowest, String avg_rate_highest){
 		return ResponseEntity.ok(cs.getPatientClinics(date, Integer.parseInt(appointmentType_id), address, Integer.parseInt(avg_rate_lowest),Integer.parseInt(avg_rate_highest)));
+	}
+	
+	@GetMapping("/getData")
+	@PreAuthorize("hasRole('PATIENT')")
+	public PatientDTO getData() {
+		
+		Authentication current = SecurityContextHolder.getContext().getAuthentication();
+		User currentUser = (User)current.getPrincipal();
+		
+		Patient p = ps.getPatient(currentUser.getEmail());
+		
+		PatientDTO pdto = new PatientDTO();
+		pdto.setAddress(p.getAddress());
+		pdto.setCity(p.getCity());
+		pdto.setCountry(p.getCountry());
+		pdto.setEmail(p.getEmail());
+		pdto.setInsurance_number(p.getInsurance_number());
+		pdto.setName(p.getName());
+		pdto.setPassword(p.getPassword());
+		pdto.setPhone_number(p.getPhone_number());
+		pdto.setSurname(p.getSurname());
+		return pdto;
+		
 	}
 	
 }

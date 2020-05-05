@@ -1,6 +1,8 @@
-import { Component, OnInit} from '@angular/core';
+import {Component, Directive, Input, OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {patientModel} from "../edit-patient/edit-patient.component";
+import {AbstractControl, FormControl, NG_VALIDATORS, Validator, ValidatorFn, Validators} from "@angular/forms";
 
 @Component({
     selector: 'app-edit-medical-staff',
@@ -10,11 +12,11 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 export class EditMedicalStaff implements OnInit{
 
     model: medicalStaffModel = {
-        email : 'email1@email.com',
-        password : 'password1',
-        name : 'Ime1',
-        surname : 'Prezime1',
-        type : 'doctor'
+        email : '',
+        password : '',
+        name : '',
+        surname : '',
+        type: ''
     }
   hide: boolean;
 
@@ -24,6 +26,13 @@ export class EditMedicalStaff implements OnInit{
 
     ngOnInit(): void{
         this.hide = true;
+      let url = "http://localhost:8081/medicalStaff/getData";
+      this.http.get(url).subscribe(
+        res => {
+          this.model = <medicalStaffModel>res;
+          this.model.password = '';
+        }
+      )
     }
 
     editMedicalStaff(): void{
@@ -43,6 +52,10 @@ export class EditMedicalStaff implements OnInit{
             }
         );
     }
+  checkPassword() {
+
+    return this.model.password.length == 0 || this.model.password.length >= 8;
+  }
 }
     export interface medicalStaffModel{
         email : string |RegExp;
@@ -51,4 +64,3 @@ export class EditMedicalStaff implements OnInit{
         surname : string |RegExp;
         type : string;
     }
-

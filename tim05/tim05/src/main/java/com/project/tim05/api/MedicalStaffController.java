@@ -11,15 +11,19 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.dto.MedicalStaffDTO;
+import com.project.tim05.dto.NurseDTO;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.MedicalStaff;
 import com.project.tim05.model.Nurse;
+import com.project.tim05.model.User;
 import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.NurseService;
 
@@ -40,22 +44,69 @@ public class MedicalStaffController<T> {
 		this.ns = ns;
 	}
 	
+	
+	@GetMapping("/getData")
+	@PreAuthorize("hasRole('DOCTOR') || hasRole('NURSE')")
+	public MedicalStaffDTO getData() {
+		
+		
+		Authentication current = SecurityContextHolder.getContext().getAuthentication();
+		User currentUser = (User)current.getPrincipal();
+		
+		Doctor d = ds.getDoctor(currentUser.getEmail());
+		Nurse n = ns.getNurse(currentUser.getEmail());
+		
+		if(d != null) {
+			DoctorDTO ddto = new DoctorDTO();
+			ddto.setEmail(d.getEmail());
+			ddto.setName(d.getName());
+			ddto.setPassword(d.getPassword());
+			ddto.setSurname(d.getSurname());
+			ddto.setType("doctor");
+			return ddto;
+		}else {
+			NurseDTO ddto = new NurseDTO();
+			ddto.setEmail(d.getEmail());
+			ddto.setName(d.getName());
+			ddto.setPassword(d.getPassword());
+			ddto.setSurname(d.getSurname());
+			ddto.setType("nurse");
+			return ddto;
+		}
+		
+		
+	}
+	
 	@PostMapping("/editMedicalStaff")
 	@PreAuthorize("hasRole('DOCTOR') || hasRole('NURSE')") 
 	public ResponseEntity<T> editProfile(@Valid @RequestBody MedicalStaffDTO ms) {
 		
-		MedicalStaff currentUser = (MedicalStaff)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String email = currentUser.getEmail();
 		if(!email.equals(ms.getEmail()))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
-		if(currentUser.getClass() == Doctor.class) {
+		if(ms.getPassword().length() > 0 && ms.getPassword().length() < 8) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+		
+		if(ms.getType().equals("doctor")) {
 			Doctor d = new Doctor();
 			d.setPassword(ms.getPassword());
 			d.setName(ms.getName());
 			d.setSurname(ms.getSurname());
 			d.setEmail(ms.getEmail());
 			int flag = ds.editProfile(d);
+			
+			if(ms.getPassword().length() != 0 && flag != 0)
+			{
+				Authentication authentication = authenticationManager
+						.authenticate(new UsernamePasswordAuthenticationToken(d.getEmail(),ms.getPassword()));
+
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+					
+			}
+			
 			if(flag == 0) {
 				return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 			}else {
@@ -72,6 +123,16 @@ public class MedicalStaffController<T> {
 			d.setSurname(ms.getSurname());
 			d.setEmail(ms.getEmail());
 			int flag = ns.editProfile(d);
+			
+			if(ms.getPassword().length() != 0 && flag != 0)
+			{
+				Authentication authentication = authenticationManager
+						.authenticate(new UsernamePasswordAuthenticationToken(d.getEmail(),ms.getPassword()));
+
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+					
+			}
+			
 			if(flag == 0) {
 				return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 			}else {

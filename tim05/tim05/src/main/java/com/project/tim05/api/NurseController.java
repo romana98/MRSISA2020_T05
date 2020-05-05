@@ -24,6 +24,7 @@ import com.project.tim05.model.ClinicAdministrator;
 import com.project.tim05.model.Nurse;
 import com.project.tim05.model.Patient;
 import com.project.tim05.model.User;
+import com.project.tim05.service.ClinicAdministratorService;
 import com.project.tim05.service.NurseService;
 import com.project.tim05.service.PatientService;
 
@@ -34,11 +35,13 @@ public class NurseController {
 	
 	private final PatientService ps;
 	private final NurseService ns;
+	private final ClinicAdministratorService cas;
 	
 	@Autowired
-	public NurseController(PatientService ps, NurseService ns) {
+	public NurseController(PatientService ps, NurseService ns, ClinicAdministratorService cas) {
 		this.ps = ps;
 		this.ns = ns;
+		this.cas = cas;
 	}
 	
 	@GetMapping("/getPatients")
@@ -63,10 +66,12 @@ public class NurseController {
 		Nurse n = new Nurse();
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		ClinicAdministrator user = (ClinicAdministrator) authentication.getPrincipal();
+		User user = (User) authentication.getPrincipal();
+		
+		ClinicAdministrator currentUser = cas.getClinicAdmin(user.getEmail());
 		
 		
-		n.setClinic(user.getClinic());
+		n.setClinic(currentUser.getClinic());
 		n.setName(nurse.getName());
 		n.setSurname(nurse.getSurname());
 		n.setEmail(nurse.getEmail());

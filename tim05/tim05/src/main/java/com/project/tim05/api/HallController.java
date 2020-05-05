@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.tim05.dto.HallDTO;
 import com.project.tim05.model.ClinicAdministrator;
 import com.project.tim05.model.Hall;
+import com.project.tim05.model.User;
+import com.project.tim05.service.ClinicAdministratorService;
 import com.project.tim05.service.HallService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -30,10 +32,12 @@ import com.project.tim05.service.HallService;
 public class HallController<T> {
 	
 	private final HallService hs;
+	private final ClinicAdministratorService cas;
 	
 	@Autowired
-	public HallController(HallService hs) {
+	public HallController(HallService hs, ClinicAdministratorService cas) {
 		this.hs = hs;
+		this.cas = cas;
 	}
 	
 	@PostMapping("/addHall")
@@ -43,9 +47,10 @@ public class HallController<T> {
 		h.setName(hall.getName());
 		h.setNumber(hall.getNumber());
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		ClinicAdministrator currentUser = (ClinicAdministrator) authentication.getPrincipal();
-		h.setClinicAdmin(currentUser);
-		h.setClinic(currentUser.getClinic());
+		User currentUser = (User) authentication.getPrincipal();
+		ClinicAdministrator ca = cas.getClinicAdmin(currentUser.getEmail());
+		h.setClinic(ca.getClinic());
+		h.setClinicAdmin(ca);
 		
 		int flag = hs.addHall(h);
 		
