@@ -66,10 +66,10 @@ public class MedicalStaffController<T> {
 			return ddto;
 		}else {
 			NurseDTO ddto = new NurseDTO();
-			ddto.setEmail(d.getEmail());
-			ddto.setName(d.getName());
-			ddto.setPassword(d.getPassword());
-			ddto.setSurname(d.getSurname());
+			ddto.setEmail(n.getEmail());
+			ddto.setName(n.getName());
+			ddto.setPassword(n.getPassword());
+			ddto.setSurname(n.getSurname());
 			ddto.setType("nurse");
 			return ddto;
 		}
