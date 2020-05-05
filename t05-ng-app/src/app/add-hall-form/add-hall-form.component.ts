@@ -19,8 +19,7 @@ export class AddHallFormComponent implements OnInit{
 
     model: hallModel = {
         name: '',
-        number: 0,
-        admin: 'emailadmin@admin.com'
+        number: 0
     }
 
     deleteModel : deleteHall = {
@@ -35,7 +34,7 @@ export class AddHallFormComponent implements OnInit{
 
 
     ngOnInit(): void{
-      //vrednost parametra clinic_id treba da se dinamicki popuni tako da se preuzimaju hale tacno odredjene klinike. 
+      //vrednost parametra clinic_id treba da se dinamicki popuni tako da se preuzimaju hale tacno odredjene klinike.
       let params = new HttpParams().set('clinic_id', "1");
       this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
       .subscribe((res) => {
@@ -51,7 +50,7 @@ export class AddHallFormComponent implements OnInit{
         let url = "http://localhost:8081/halls/addHall"
         this.http.post(url, this.model).subscribe(
             res => {
-              
+
               //kada dobijem odgovor da sam uspeo da dodam salu hocu da posaljem upit za uzimanje svih sala da bih u tabeli prikazao
               let params = new HttpParams().set('clinic_id', "1");
               this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
@@ -107,7 +106,6 @@ export interface hallModel
 {
     name: string | RegExp;
     number: Number | RegExp;
-    admin: string | RegExp;
 }
 
 export interface deleteHall{

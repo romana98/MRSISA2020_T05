@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.tim05.model.Authority;
 import com.project.tim05.model.Clinic;
+import com.project.tim05.model.ClinicAdministrator;
 import com.project.tim05.model.MedicalRecord;
 import com.project.tim05.model.Patient;
 import com.project.tim05.repository.PatientRepository;
@@ -36,24 +37,43 @@ public class PatientService {
 	public int editPatient(Patient patient) {
 		int flag = 0;
 		try {
-			patient.setPassword(passwordEncoder.encode(patient.getPassword()));
 	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
-	        String query = "UPDATE patient set password = ?, name = ?, surname = ?, address = ?, city = ?, country = ?, phone_number = ?, insurance_number = ? WHERE email = ?;";
-	        PreparedStatement ps = connection.prepareStatement(query);
-			ps.setString(1, patient.getPassword());
-			ps.setString(2, patient.getName());
-			ps.setString(3, patient.getSurname());
-			ps.setString(4, patient.getAddress());
-			ps.setString(5, patient.getCity());
-			ps.setString(6, patient.getCountry());
-			ps.setString(7, patient.getPhone_number());
-			ps.setString(8, patient.getInsurance_number());
-			ps.setString(9, patient.getEmail());
-			flag = ps.executeUpdate();
-			
-			ps.close();
-			connection.close();
-			return flag;
+	        
+	        if(patient.getPassword().length() != 0) {
+	        	patient.setPassword(passwordEncoder.encode(patient.getPassword()));
+		        String query = "UPDATE patient set password = ?, name = ?, surname = ?, address = ?, city = ?, country = ?, phone_number = ?, insurance_number = ? WHERE email = ?;";
+		        PreparedStatement ps = connection.prepareStatement(query);
+				ps.setString(1, patient.getPassword());
+				ps.setString(2, patient.getName());
+				ps.setString(3, patient.getSurname());
+				ps.setString(4, patient.getAddress());
+				ps.setString(5, patient.getCity());
+				ps.setString(6, patient.getCountry());
+				ps.setString(7, patient.getPhone_number());
+				ps.setString(8, patient.getInsurance_number());
+				ps.setString(9, patient.getEmail());
+				flag = ps.executeUpdate();
+				
+				ps.close();
+				connection.close();
+				return flag;
+	        }else {
+		        String query = "UPDATE patient name = ?, surname = ?, address = ?, city = ?, country = ?, phone_number = ?, insurance_number = ? WHERE email = ?;";
+		        PreparedStatement ps = connection.prepareStatement(query);
+				ps.setString(1, patient.getName());
+				ps.setString(2, patient.getSurname());
+				ps.setString(3, patient.getAddress());
+				ps.setString(4, patient.getCity());
+				ps.setString(5, patient.getCountry());
+				ps.setString(6, patient.getPhone_number());
+				ps.setString(7, patient.getInsurance_number());
+				ps.setString(8, patient.getEmail());
+				flag = ps.executeUpdate();
+				
+				ps.close();
+				connection.close();
+				return flag;
+	        }
 		} catch (SQLException e) {
 			return flag;
 		}	
@@ -126,6 +146,18 @@ public class PatientService {
 		
 		return patients;
 		
+	}
+	
+	public Patient getPatient(String email)
+	{
+		try {
+			Patient ca = pa.findByEmail(email);
+			return ca;
+			
+		} catch (Exception e) {
+			
+			return null;
+		}
 	}
 
 }

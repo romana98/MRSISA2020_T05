@@ -43,19 +43,33 @@ public class DoctorService {
 	public int editProfile(Doctor doctor) {
 		int flag = 0;
 		try {
-			doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
 	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
-	        String query = "UPDATE doctors set password = ?, name = ?, surname = ? WHERE email = ?;";
-	        PreparedStatement ps = connection.prepareStatement(query);
-			ps.setString(1, doctor.getPassword());
-			ps.setString(2, doctor.getName());
-			ps.setString(3, doctor.getSurname());
-			ps.setString(4, doctor.getEmail());
-			flag = ps.executeUpdate();
-			
-			ps.close();
-			connection.close();
-			return flag;
+	        
+	        if(doctor.getPassword().length()!=0) {
+				doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
+	        	String query = "UPDATE doctors set password = ?, name = ?, surname = ? WHERE email = ?;";
+		        PreparedStatement ps = connection.prepareStatement(query);
+				ps.setString(1, doctor.getPassword());
+				ps.setString(2, doctor.getName());
+				ps.setString(3, doctor.getSurname());
+				ps.setString(4, doctor.getEmail());
+				flag = ps.executeUpdate();
+				
+				ps.close();
+				connection.close();
+				return flag;
+	        }else {
+	        	String query = "UPDATE doctors set name = ?, surname = ? WHERE email = ?;";
+		        PreparedStatement ps = connection.prepareStatement(query);
+				ps.setString(1, doctor.getName());
+				ps.setString(2, doctor.getSurname());
+				ps.setString(3, doctor.getEmail());
+				flag = ps.executeUpdate();
+				
+				ps.close();
+				connection.close();
+				return flag;
+	        }
 			
 		} catch (SQLException e) {
 			return flag;
@@ -94,5 +108,9 @@ public class DoctorService {
 			return null;
 		}	
 		
+	}
+	
+	public Doctor getDoctor(String email) {
+		return dr.findByEmail(email);
 	}
 }

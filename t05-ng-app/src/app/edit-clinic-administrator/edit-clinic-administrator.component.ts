@@ -40,7 +40,7 @@ export class EditClinicAdministratorComponent implements OnInit{
 
   }
 
-  editPatient(): void{
+  editClinicAdmin(): void{
     let url = "http://localhost:8081/clinicAdministrator/editClinicAdministrator"
     this.http.post(url,this.model).subscribe(
       res => {

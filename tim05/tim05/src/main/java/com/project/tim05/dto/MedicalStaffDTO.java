@@ -23,9 +23,7 @@ public abstract class MedicalStaffDTO {
 	@Pattern(regexp = "[a-z]+[a-z0-9._]*[a-z0-9]+@[a-z]*.com")
 	private String email;
 
-	@NotBlank
 	@NotNull
-	@Length(min = 8)
 	private String password;
 
 	@NotBlank
@@ -35,6 +33,8 @@ public abstract class MedicalStaffDTO {
 	@NotBlank
 	@NotNull
 	private String workEnd;
+	
+	private String type;
 
 	public MedicalStaffDTO() {
 		super();
@@ -94,6 +94,14 @@ public abstract class MedicalStaffDTO {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }
