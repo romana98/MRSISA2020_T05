@@ -130,13 +130,13 @@ public class PatientService {
 		try {
 			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 			
-			PreparedStatement st = conn.prepareStatement("SELECT * FROM clinics_patients WHERE clinic_clinic_id = ?");
+			PreparedStatement st = conn.prepareStatement("SELECT * FROM patients_clinics WHERE patients_clinics.clinics_clinic_id = ?");
 			st.setInt(1, cl.getId());
 			ResultSet rs = st.executeQuery();
 			
 			while(rs.next())
 			{	
-				patients.add(pa.findById(rs.getInt("patient_id")));	
+				patients.add(pa.findById(rs.getInt("patient_user_id")));	
 			}
 			
 			rs.close();
