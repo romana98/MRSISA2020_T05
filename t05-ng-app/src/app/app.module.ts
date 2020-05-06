@@ -59,9 +59,79 @@ import {RequiredPassDirective} from "./directive/RequiredPassDirective";
 
 const appRoutes : Routes = [
   {
-    path : 'clinicAdmin/addDoctor',
-    component : AddDoctorFormComponent,
-    canActivate : [ClinicAdminGuardService]
+    path: 'clinicAdmin',
+    canActivate: [ClinicAdminGuardService],
+    children: [
+      {
+        path : 'addDoctor',
+        component : AddDoctorFormComponent
+      },
+      {
+        path : 'addPredefinedAppointment',
+        component : AddPredifinedAppointmentComponent
+      },
+      {
+        path : 'addAppointmentType',
+        component: AddAppointmentTypeComponent
+      },
+      {
+        path : 'addHall',
+        component : AddHallFormComponent
+      },
+      {
+        path: 'editProfile',
+        component : EditClinicAdministratorComponent
+      },
+      {
+        path : 'addNurse',
+        component : AddNurseFormComponent
+      },
+    ]
+  },
+  {
+    path: 'clinicCenterAdmin',
+    canActivate: [ClinicCenterAdminGuardService],
+    children: [
+      {
+        path: 'addClinicCenterAdministrator',
+        component : AddClinicCenterAdminFromComponent
+      },
+      {
+        path: 'addClinic',
+        component : AddClinicFromComponent
+      },
+      {
+        path: 'addClinicAdministrator',
+        component : AddClinicAdminFromComponent
+      },
+      {
+        path : 'addMedicine',
+        component : AddMedicineFromComponent
+      },
+      {
+        path : 'addDiagnosis',
+        component : AddDiagnosisFormComponent
+      },
+      {
+        path : 'requestTable',
+        component : RequestListPatientsComponent
+      },
+    ]
+  },
+  
+  {
+    path:'patient',
+    canActivate: [PatientGuardService],
+    children:[
+      {
+        path: 'editPatient',
+        component : EditPatientProfile
+      },
+      {
+        path: 'clinics',
+        component: ClinicsComponent
+      },
+    ]
   },
   {
     path : '',
@@ -70,85 +140,19 @@ const appRoutes : Routes = [
     canActivate : [LoginGuardService]
 
   },
-
-  {
-    path: 'clinicCenterAdmin/addClinicCenterAdministrator',
-    component : AddClinicCenterAdminFromComponent,
-    canActivate : [ClinicCenterAdminGuardService]
-  },
-  {
-    path: 'clinicCenterAdmin/addClinic',
-    component : AddClinicFromComponent,
-    canActivate : [ClinicCenterAdminGuardService]
-  },
-  {
-    path: 'clinicCenterAdmin/addClinicAdministrator',
-    component : AddClinicAdminFromComponent,
-    canActivate : [ClinicCenterAdminGuardService]
-  },
-  {
-    path: 'patient/editPatient',
-    component : EditPatientProfile,
-    canActivate : [PatientGuardService]
-  },
-
-  {
-    path : 'clinicAdmin/addPredefinedAppointment',
-    component : AddPredifinedAppointmentComponent,
-    canActivate : [ClinicAdminGuardService]
-  },
-
-  {
-    path : 'clinicAdmin/addAppointmentType',
-    component: AddAppointmentTypeComponent,
-    canActivate : [ClinicAdminGuardService]
-  },
-
-  {
-    path : 'clinicAdmin/addHall',
-    component : AddHallFormComponent,
-    canActivate : [ClinicAdminGuardService]
-  },
+ 
   {
     path: 'editMedicalStaff',
     component : EditMedicalStaff,
     canActivate : [MedicallStuffGuardService]
   },
-  {
-    path: 'clinicAdmin/editProfile',
-    component : EditClinicAdministratorComponent,
-    canActivate : [ClinicAdminGuardService]
-  },
-  {
-    path : 'clinicCenterAdmin/addMedicine',
-    component : AddMedicineFromComponent,
-    canActivate : [ClinicCenterAdminGuardService]
-  },
-  {
-    path : 'clinicCenterAdmin/addDiagnosis',
-    component : AddDiagnosisFormComponent,
-    canActivate : [ClinicCenterAdminGuardService]
-  },
-  {
-    path : 'clinicCenterAdmin/requestTable',
-    component : RequestListPatientsComponent,
-    canActivate : [ClinicCenterAdminGuardService]
-  },
-  {
-    path : 'clinicAdmin/addNurse',
-    component : AddNurseFormComponent,
-    canActivate : [ClinicAdminGuardService]
-  },
+ 
   {
     path : 'viewPatients',
     component : ViewPatientsNurseComponent,
     canActivate : [MedicallStuffGuardService]
   },
-  {
-    path: 'patient/clinics',
-    component: ClinicsComponent,
-    canActivate : [PatientGuardService]
-  },
+  
   {
     path : '**',
     component : NavigationComponent

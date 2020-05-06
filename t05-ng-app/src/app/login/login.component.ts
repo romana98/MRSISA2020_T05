@@ -10,6 +10,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class LoginComponent implements OnInit {
 
+
+  
   username : String = '';
   password : String = '';
   password2 :String = '';
@@ -18,6 +20,8 @@ export class LoginComponent implements OnInit {
     email : "",
     password : ""
   }
+
+  status : boolean = false;
 
   model: patientModel = {
     email : '',
@@ -39,10 +43,18 @@ export class LoginComponent implements OnInit {
   constructor(private _snackBar: MatSnackBar, private http : HttpClient, private authservice : AuthenticationService) { }
 
   ngOnInit(): void {
+    this.status = false;
   }
 
   loginAuth(){
-      this.authservice.authenticate(this.myModel);
+    console.log(this.status);
+    this.authservice.authenticate(this.myModel).then( num => {
+      this.status = (num === 401);
+      document.getElementById('validation').style.display = 'block'}
+    );
+    /*console.log(newStatus);
+    this.status = newStatus;*/
+      
   }
 
   registerPatient(): void{
