@@ -1,5 +1,10 @@
 package com.project.tim05.service;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,25 +29,57 @@ public class RegistrationRequestService {
 	@Autowired
 	private UserRepository ur;
 
-	public int addRegistrationRequest(RegistrationRequest rr) {
+	public int addRegistrationRequest(RegistrationRequest rr) throws SQLException {
 		try {
 			rr.setPassword(passwordEncoder.encode(rr.getPassword()));
 			rrr.save(rr);
 			User u1 = ur.findByEmail(rr.getEmail());
-			User u2 = ur.findByInsurance_number(rr.getInsurance_number());
+			
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			PreparedStatement st = conn.prepareStatement("SELECT * FROM patients WHERE insurance_number = ?");
+			st.setString(1, rr.getInsurance_number());
+			ResultSet rs = st.executeQuery();
+			
+			int u2 = -1;
+			if(rs.next())
+			{
+				u2 = rs.getInt("user_id");	
+			}
+			
+			rs.close();
+			st.close();		
+			conn.close();
+					
 			if(u1 != null) {
 				return 1;
-			}else if(u2 != null) {
+			}else if(u2 != -1) {
 				return 2;
 			}
 			
 		} catch (Exception e) {
 			
 			RegistrationRequest r = rrr.findByEmail(rr.getEmail());
-			RegistrationRequest r2 = rrr.findByInsurance_number(rr.getInsurance_number());
+			
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			PreparedStatement st = conn.prepareStatement("SELECT * FROM registration_requests WHERE insurance_number = ?");
+			st.setString(1, rr.getInsurance_number());
+			ResultSet rs = st.executeQuery();
+			
+			int r2 = -1;
+			if(rs.next())
+			{
+				r2 = rs.getInt("registration_request_id");	
+			}
+			
+			rs.close();
+			st.close();		
+			conn.close();
+					
+		
+		
 			if(r != null) {
 				return 1;
-			}else if(r2 != null) {
+			}else if(r2 != -1) {
 				return 2;
 			}
 		}
