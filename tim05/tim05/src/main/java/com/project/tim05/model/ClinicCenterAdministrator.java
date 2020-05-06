@@ -38,7 +38,7 @@ public class ClinicCenterAdministrator extends User {
 		}
 
 	
-	public ClinicCenterAdministrator(String email, String password, String name, String surname) {
+	public ClinicCenterAdministrator(String name, String surname, String email, String password) {
 		super(email, password, name, surname);
 	}
 

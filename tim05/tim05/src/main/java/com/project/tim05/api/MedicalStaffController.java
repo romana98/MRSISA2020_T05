@@ -23,7 +23,6 @@ import com.project.tim05.dto.NurseDTO;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.MedicalStaff;
 import com.project.tim05.model.Nurse;
-import com.project.tim05.model.User;
 import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.NurseService;
 
@@ -51,7 +50,7 @@ public class MedicalStaffController<T> {
 		
 		
 		Authentication current = SecurityContextHolder.getContext().getAuthentication();
-		User currentUser = (User)current.getPrincipal();
+		MedicalStaff currentUser = (MedicalStaff)current.getPrincipal();
 		
 		Doctor d = ds.getDoctor(currentUser.getEmail());
 		Nurse n = ns.getNurse(currentUser.getEmail());
@@ -85,7 +84,7 @@ public class MedicalStaffController<T> {
 	@PreAuthorize("hasRole('DOCTOR') || hasRole('NURSE')") 
 	public ResponseEntity<T> editProfile(@Valid @RequestBody MedicalStaffDTO ms) {
 		
-		User currentUser = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		MedicalStaff currentUser = (MedicalStaff)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String email = currentUser.getEmail();
 		if(!email.equals(ms.getEmail()))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);

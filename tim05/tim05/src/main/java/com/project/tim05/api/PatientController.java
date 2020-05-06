@@ -67,7 +67,7 @@ public class PatientController<T> {
 	public ResponseEntity<T> editPatient(@Valid @RequestBody PatientDTO patient) {
 		
 		Authentication current = SecurityContextHolder.getContext().getAuthentication();
-		User currentUser = (User)current.getPrincipal();
+		Patient currentUser = (Patient)current.getPrincipal();
 		
 		if(!currentUser.getEmail().equals(patient.getEmail()))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -148,7 +148,7 @@ public class PatientController<T> {
 	public PatientDTO getData() {
 		
 		Authentication current = SecurityContextHolder.getContext().getAuthentication();
-		User currentUser = (User)current.getPrincipal();
+		Patient currentUser = (Patient)current.getPrincipal();
 		
 		Patient p = ps.getPatient(currentUser.getEmail());
 		

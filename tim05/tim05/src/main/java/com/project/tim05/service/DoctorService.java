@@ -27,6 +27,7 @@ public class DoctorService {
 	public int addDoctor(Doctor doctor) {
 		int flag = 0;
 		try {
+			doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
 			dr.save(doctor);
 			flag = 1;
 		}
