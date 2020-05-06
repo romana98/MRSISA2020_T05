@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../services/authentication.service';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -33,10 +34,14 @@ export class LoginComponent implements OnInit {
 
   hide : boolean = true;
   hide1: boolean = true;
+  hide2: boolean = true;
 
   response : any;
 
-  constructor(private _snackBar: MatSnackBar, private http : HttpClient, private authservice : AuthenticationService) { }
+
+  constructor(private _snackBar: MatSnackBar, private http : HttpClient, private authservice : AuthenticationService) {
+
+  }
 
   ngOnInit(): void {
   }
@@ -81,10 +86,10 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  checkPassword(): boolean{
-    var pass1 = this.model.password;
-    var pass2 = this.password2;
-
+  checkPassword():boolean
+  {
+    let pass1 = this.model.password;
+    let pass2 = this.password2;
     return pass1 === pass2;
   }
 

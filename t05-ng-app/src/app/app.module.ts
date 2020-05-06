@@ -51,7 +51,7 @@ import { NurseGuardService } from './guards/nurse-guard.service';
 import { MedicallStuffGuardService } from './guards/medicall-stuff-guard.service';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
-import {RequiredPassDirective} from "./directive/RequiredPassDirective";
+import {PasswordMatchDirective, RequiredPassDirective} from "./directive/RequiredPassDirective";
 
 
 
@@ -180,7 +180,8 @@ const appRoutes : Routes = [
     EditClinicAdministratorComponent,
     ClinicsComponent,
     LoginComponent,
-    RequiredPassDirective
+    RequiredPassDirective,
+    PasswordMatchDirective
   ],
   imports: [
     BrowserModule,

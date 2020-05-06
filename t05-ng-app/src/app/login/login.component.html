@@ -42,7 +42,7 @@
                 <input matInput  [(ngModel)] = "model.name" #name="ngModel"  name="input_name"
                        pattern="[A-Z][a-z]*" required/>
                 <mat-error *ngIf="name.invalid && name.errors?.pattern">
-                  Name can only have letters!
+                  Invalid name format! Example: Mike
                 </mat-error>
               </mat-form-field>
 
@@ -51,7 +51,7 @@
                 <input matInput  [(ngModel)] = "model.surname" #surname="ngModel" name="input_surname"
                        pattern= "[A-Z][a-z]*" required/>
                 <mat-error *ngIf="surname.invalid && surname.errors?.pattern">
-                  Surname can only have letters!
+                  Invalid surname format! Example: Portman
                 </mat-error>
               </mat-form-field>
 
@@ -61,7 +61,6 @@
                 <mat-label>Password</mat-label>
                 <input matInput  [(ngModel)] = "model.password" #password="ngModel" name="input_password"
                        required minlength="8"  [type]="hide1 ? 'password' : 'text'"/>
-
                 <mat-icon matSuffix (click)="hide1 = !hide1">{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
                 <mat-error *ngIf="password.invalid">
                   Password field must be at least 8 characters long!
@@ -71,14 +70,11 @@
 
               <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
                 <mat-label>Confirm password</mat-label>
-                <input matInput  [(ngModel)] = "password2" #password="ngModel" name="input_password"
-                       [type]="hide1 ? 'password' : 'text'"
-                       required minlength = "8"/>
-
-                <mat-icon matSuffix (click)="hide1 = !hide1">{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                <input matInput  [(ngModel)] = "password2" #password="ngModel" name="input_password2"
+                       required minlength="8"  [type]="hide2 ? 'password' : 'text'"/>
+                <mat-icon matSuffix (click)="hide2 = !hide2">{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
                 <mat-error *ngIf="password.invalid">
                   Password field must be at least 8 characters long!
-                </mat-error>
               </mat-form-field>
 
               <br>
@@ -90,7 +86,7 @@
                        #email="ngModel" pattern="[a-z]+[a-z0-9._]*[a-z0-9]+@[a-z]*.com"
                        required/>
                 <mat-error *ngIf=" email.invalid">
-                  Please enter a valid email address!
+                  Invalid email format! Example: example_1@mail.com
                 </mat-error>
               </mat-form-field>
 
@@ -99,7 +95,7 @@
                 <input matInput  [(ngModel)] = "model.address" #address="ngModel"  name="input_address"
                        pattern="([A-Z][a-z]+[ ]*){1,}[0-9]+" required/>
                 <mat-error *ngIf="address.invalid && address.errors?.pattern">
-                  Address can only have letters and numbers!
+                  Invalid address format! Example: Saint Patric 5
                 </mat-error>
               </mat-form-field>
 
@@ -110,7 +106,7 @@
                 <input matInput  [(ngModel)] = "model.city" #city="ngModel" name="input_city"
                        pattern=  "^([A-Z][a-z]+[ ]*){1,}" required/>
                 <mat-error *ngIf="city.invalid && city.errors?.pattern">
-                  Invalid city name!
+                  Invalid city name! Example: New York
                 </mat-error>
               </mat-form-field>
 
@@ -119,7 +115,7 @@
                 <input matInput  [(ngModel)] = "model.country" #country="ngModel"  name="input_country"
                        pattern= "([A-Z][a-z]+[ ]*){1,}" required/>
                 <mat-error *ngIf="country.invalid && country.errors?.pattern">
-                  Invalid country name!
+                  Invalid country name! Example: New York
                 </mat-error>
               </mat-form-field>
 
@@ -130,7 +126,7 @@
                 <input matInput  [(ngModel)] = "model.phone_number" #phone_number="ngModel" name="input_phone_number"
                        pattern= "[0-9]{3,3}-[0-9]{3,3}-[0-9]{3,3}" required/>
                 <mat-error *ngIf="phone_number.invalid && phone_number.errors?.pattern">
-                  Invalid phone number!
+                  Invalid phone number! Example: 063-478-856
                 </mat-error>
               </mat-form-field>
 
@@ -139,7 +135,7 @@
                 <input matInput  [(ngModel)] = "model.insurance_number" #insurance_number="ngModel" name="input_insurance_number"
                        pattern= "[A-Z0-9]+" required/>
                 <mat-error *ngIf="insurance_number.invalid && insurance_number.errors?.pattern">
-                  Invalid insurance number!
+                  Invalid insurance number! Example: ABC123
                 </mat-error>
               </mat-form-field>
               <br>
