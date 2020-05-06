@@ -23,9 +23,11 @@ import com.project.tim05.dto.ClinicDTO;
 import com.project.tim05.dto.UserTokenStateDTO;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.ClinicAdministrator;
+import com.project.tim05.model.RegistrationRequest;
 import com.project.tim05.model.User;
 import com.project.tim05.service.ClinicAdministratorService;
 import com.project.tim05.service.ClinicService;
+import com.project.tim05.service.RegistrationRequestService;
 import com.project.tim05.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -42,11 +44,13 @@ public class ClinicAdministratorController<T> {
 	
 	private final ClinicAdministratorService cas;
 	private final ClinicService cs;
+	private final RegistrationRequestService rs;
 	
 	@Autowired
-	public ClinicAdministratorController(ClinicAdministratorService cas, ClinicService cs) {
+	public ClinicAdministratorController(ClinicAdministratorService cas, ClinicService cs, RegistrationRequestService rs) {
 		this.cas = cas;
 		this.cs = cs;
+		this.rs = rs;
 	}
 	
 	@PostMapping("/addClinicAdministrator")
@@ -54,7 +58,8 @@ public class ClinicAdministratorController<T> {
 	public ResponseEntity<T> addClinicAdministrator(@Valid @RequestBody ClinicAdministratorDTO cca) {
 		
 		User existUser = this.userService.findByEmail(cca.getEmail());
-		if (existUser != null) {
+		RegistrationRequest existUser1 = this.rs.findByEmail(cca.getEmail());
+		if (existUser != null || existUser1 != null) {
 			 ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		}
 		

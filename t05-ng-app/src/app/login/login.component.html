@@ -10,7 +10,7 @@
                 </mat-error>
 
                 <br>
-                
+
                 <mat-form-field appearance="outline" style="padding-left:80%; width: 180%">
                     <mat-label>Email</mat-label>
                     <input matInput  [(ngModel)] = "myModel.email" name="input_email"
@@ -31,7 +31,7 @@
                     <mat-error *ngIf="password.invalid">
                         Password field must be at least 8 characters long!
                     </mat-error>
-                    
+
                 </mat-form-field>
                 <div style="text-align: center;">
                     <button mat-raised-button style="margin-left: 110%; width: 100px;" >Login</button>
@@ -83,6 +83,7 @@
                 <mat-icon matSuffix (click)="hide2 = !hide2">{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
                 <mat-error *ngIf="password.invalid">
                   Password field must be at least 8 characters long!
+                  </mat-error>
               </mat-form-field>
 
               <br>
@@ -152,7 +153,7 @@
                 <button mat-raised-button style="margin-right: 31%; width: 100px;" >Register</button>
 
             </div>
-              
+
               <br>
             </form>
           </div>

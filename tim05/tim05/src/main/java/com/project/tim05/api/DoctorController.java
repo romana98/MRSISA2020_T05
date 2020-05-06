@@ -20,9 +20,11 @@ import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.model.AppointmentType;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Doctor;
+import com.project.tim05.model.RegistrationRequest;
 import com.project.tim05.service.AppointmentTypeService;
 import com.project.tim05.service.ClinicService;
 import com.project.tim05.service.DoctorService;
+import com.project.tim05.service.RegistrationRequestService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/doctors")
@@ -32,12 +34,14 @@ public class DoctorController {
 	private final DoctorService ds;
 	private final AppointmentTypeService ats;
 	private final ClinicService cs;
+	private final RegistrationRequestService rs;
 	
 	@Autowired
-	public DoctorController(DoctorService ds, AppointmentTypeService ats, ClinicService cs) {
+	public DoctorController(DoctorService ds, AppointmentTypeService ats, ClinicService cs, RegistrationRequestService rs) {
 		this.ds = ds;
 		this.ats = ats;
 		this.cs = cs;
+		this.rs = rs;
 	}
 	
 	@GetMapping("/getDoctors")
@@ -49,6 +53,11 @@ public class DoctorController {
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	public ResponseEntity<Object> addDoctor(@Valid @RequestBody DoctorDTO doctor) {
 		Doctor dr = new Doctor();
+		
+		RegistrationRequest existUser = this.rs.findByEmail(doctor.getEmail());
+		if (existUser != null) {
+			 ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}
 		
 		AppointmentType at = ats.getAppointmentTypebyId(doctor.getAppointment_type_id());
 		

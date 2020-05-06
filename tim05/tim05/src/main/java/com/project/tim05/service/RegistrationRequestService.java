@@ -106,4 +106,9 @@ public class RegistrationRequestService {
 		return success;
 	}
 
+	
+	public RegistrationRequest findByEmail(String email) {
+		return rrr.findByEmail(email);
+	}
+
 }

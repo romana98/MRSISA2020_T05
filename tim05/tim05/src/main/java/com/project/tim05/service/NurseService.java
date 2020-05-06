@@ -70,6 +70,7 @@ public class NurseService {
 	
 	public int addNurse(Nurse nurse) {
 		int flag = 0;
+		
 		try {
 			nurse.setPassword(passwordEncoder.encode(nurse.getPassword()));
 			List<Authority> auth = authService.findByname("ROLE_NURSE");

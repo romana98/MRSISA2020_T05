@@ -24,27 +24,3 @@ export class RequiredPassDirective implements Validator {
   }
 
 }
-
-@Directive({
-  selector: '[match]',
-  providers: [
-    {provide: NG_VALIDATORS,useExisting:RequiredPassDirective, multi: true}
-  ]
-})
-export class PasswordMatchDirective implements Validator {
-  @Input("match")
-  match: boolean;
-
-  validate(c:AbstractControl) {
-
-    let value = c.value;
-    if (value == null) value = '';
-    if ((value.length > 0 && value.length < 8)) {
-      return {
-        match: {condition:false}
-      };
-    }
-    return null;
-  }
-
-}

@@ -12,7 +12,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 export class LoginComponent implements OnInit {
 
 
-  
+
   username : String = '';
   password : String = '';
   password2 :String = '';
@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
     );
     /*console.log(newStatus);
     this.status = newStatus;*/
-      
+
   }
 
   registerPatient(): void{
@@ -102,7 +102,19 @@ export class LoginComponent implements OnInit {
   {
     let pass1 = this.model.password;
     let pass2 = this.password2;
-    return pass1 === pass2;
+    if(pass1 === pass2)
+    {
+
+      return true;
+    }
+    else
+    {
+      this._snackBar.open("Passwords do not match!", "Close", {
+        duration: 2000,
+      });
+      return false;
+    }
+
   }
 
 }

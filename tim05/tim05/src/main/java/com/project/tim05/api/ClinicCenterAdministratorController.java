@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.ClinicCenterAdministratorDTO;
 import com.project.tim05.model.ClinicCenterAdministrator;
+import com.project.tim05.model.RegistrationRequest;
 import com.project.tim05.model.User;
 import com.project.tim05.service.ClinicCenterAdministratorService;
+import com.project.tim05.service.RegistrationRequestService;
 import com.project.tim05.service.UserService;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -27,19 +29,24 @@ public class ClinicCenterAdministratorController<T> {
 	private UserService userService;
 
 	private final ClinicCenterAdministratorService ccas;
+	private final RegistrationRequestService rs;
 	
 	@Autowired
-	public ClinicCenterAdministratorController(ClinicCenterAdministratorService ccas) {
+	public ClinicCenterAdministratorController(ClinicCenterAdministratorService ccas, RegistrationRequestService rs) {
 		this.ccas = ccas;
+		this.rs = rs;
 	}
 	
 	@PostMapping("/addClinicCenterAdministrator")
 	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
 	public ResponseEntity<T> addClinicCenterAdministrator(@Valid @RequestBody ClinicCenterAdministratorDTO cca) {
+		
 		User existUser = this.userService.findByEmail(cca.getEmail());
-		if (existUser != null) {
+		RegistrationRequest existUser1 = this.rs.findByEmail(cca.getEmail());
+		if (existUser != null || existUser1 != null) {
 			 ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		}
+		
 		
 		ClinicCenterAdministrator ccadmin = new ClinicCenterAdministrator(cca.getName(), cca.getSurname(), cca.getEmail(), cca.getPassword());
 		int flag = ccas.addClinicCenterAdministrator(ccadmin);

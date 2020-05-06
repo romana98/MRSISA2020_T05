@@ -1,19 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, Component } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule, ErrorStateMatcher} from '@angular/material/core';
+import {MatNativeDateModule} from '@angular/material/core';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatInputModule} from '@angular/material/input';
-import {MatError, MatFormFieldModule} from '@angular/material/form-field';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import {MatDividerModule} from '@angular/material/divider';
-import {MatButtonModule, MatButton} from '@angular/material/button';
+import {MatButtonModule} from '@angular/material/button';
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { Routes, RouterModule} from "@angular/router";
-import {FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { AddDoctorFormComponent } from './add-doctor-form/add-doctor-form.component';
 import { AddClinicCenterAdminFromComponent } from './add-clinic-center-administrator-form/add-clinic-center-administrator-form.component';
 import { AddClinicFromComponent } from './add-clinic-form/add-clinic-form.component';
@@ -38,7 +38,7 @@ import {ViewPatientsNurseComponent} from "./view-patients-nurse/view-patients-nu
 import {MatSortModule} from "@angular/material/sort";
 import {EditClinicAdministratorComponent} from "./edit-clinic-administrator/edit-clinic-administrator.component";
 import { ClinicsComponent } from './patient/clinics/clinics.component';
-import {MatExpansionModule, matExpansionAnimations} from '@angular/material/expansion';
+import {MatExpansionModule} from '@angular/material/expansion';
 import { InterceptorService } from './services/interceptor.service';
 import { PatientGuardService } from './guards/patient-guard.service';
 import { LoginComponent } from './login/login.component';
@@ -46,12 +46,10 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { ClinicAdminGuardService } from './guards/clinic-admin-guard.service';
 import { LoginGuardService } from './guards/login-guard.service';
 import { ClinicCenterAdminGuardService } from './guards/clinic-center-admin-guard.service';
-import { DoctorGuardService } from './guards/doctor-guard.service';
-import { NurseGuardService } from './guards/nurse-guard.service';
 import { MedicallStuffGuardService } from './guards/medicall-stuff-guard.service';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
-import {PasswordMatchDirective, RequiredPassDirective} from "./directive/RequiredPassDirective";
+import {RequiredPassDirective} from "./directive/RequiredPassDirective";
 
 
 
@@ -118,7 +116,7 @@ const appRoutes : Routes = [
       },
     ]
   },
-  
+
   {
     path:'patient',
     canActivate: [PatientGuardService],
@@ -140,19 +138,19 @@ const appRoutes : Routes = [
     canActivate : [LoginGuardService]
 
   },
- 
+
   {
     path: 'editMedicalStaff',
     component : EditMedicalStaff,
     canActivate : [MedicallStuffGuardService]
   },
- 
+
   {
     path : 'viewPatients',
     component : ViewPatientsNurseComponent,
     canActivate : [MedicallStuffGuardService]
   },
-  
+
   {
     path : '**',
     component : NavigationComponent
@@ -184,8 +182,7 @@ const appRoutes : Routes = [
     EditClinicAdministratorComponent,
     ClinicsComponent,
     LoginComponent,
-    RequiredPassDirective,
-    PasswordMatchDirective
+    RequiredPassDirective
   ],
   imports: [
     BrowserModule,

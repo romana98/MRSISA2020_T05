@@ -23,10 +23,12 @@ import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.ClinicAdministrator;
 import com.project.tim05.model.Nurse;
 import com.project.tim05.model.Patient;
+import com.project.tim05.model.RegistrationRequest;
 import com.project.tim05.model.User;
 import com.project.tim05.service.ClinicAdministratorService;
 import com.project.tim05.service.NurseService;
 import com.project.tim05.service.PatientService;
+import com.project.tim05.service.RegistrationRequestService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/nurse")
@@ -36,12 +38,14 @@ public class NurseController {
 	private final PatientService ps;
 	private final NurseService ns;
 	private final ClinicAdministratorService cas;
+	private final RegistrationRequestService rs;
 	
 	@Autowired
-	public NurseController(PatientService ps, NurseService ns, ClinicAdministratorService cas) {
+	public NurseController(PatientService ps, NurseService ns, ClinicAdministratorService cas, RegistrationRequestService rs) {
 		this.ps = ps;
 		this.ns = ns;
 		this.cas = cas;
+		this.rs = rs;
 	}
 	
 	@GetMapping("/getPatients")
@@ -80,6 +84,10 @@ public class NurseController {
 		n.setWorkEnd(nurse.getWorkEnd());
 		n.setEnabled(true);
 		
+		RegistrationRequest existUser = this.rs.findByEmail(nurse.getEmail());
+		if (existUser != null) {
+			 ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}
 		
 		int flag = ns.addNurse(n);
 				
