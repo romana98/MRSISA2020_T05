@@ -52,11 +52,11 @@ public class RegistrationRequestController<T> {
 	}
 	
 	@PostMapping("/register")
-	public ResponseEntity<T> addPatient(@Valid @RequestBody RegistrationRequestDTO patient, UriComponentsBuilder ucBuilder) throws Exception {
+	public ResponseEntity<String> addPatient(@Valid @RequestBody RegistrationRequestDTO patient, UriComponentsBuilder ucBuilder) throws Exception {
 	
 		User existUser = this.userService.findByEmail(patient.getEmail());
 		if (existUser != null) {
-			 return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+			 return ResponseEntity.status(HttpStatus.CONFLICT).body("email");
 		}
 		
 		RegistrationRequest rr = new RegistrationRequest();
@@ -74,9 +74,9 @@ public class RegistrationRequestController<T> {
 		if(flag == 0)
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		else if(flag == 1)
-			return (ResponseEntity<T>) ResponseEntity.status(HttpStatus.CONFLICT).body("email");
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("email");
 		else
-			return (ResponseEntity<T>) ResponseEntity.status(HttpStatus.CONFLICT).body("insurance_number");
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("insurance_number");
 	}
 	
 	

@@ -6,6 +6,6 @@ import com.project.tim05.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 	User findByEmail(String email);
-	User findByInsurance_number(String insurance_number);
+	
 }
 
