@@ -22,8 +22,8 @@
     <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/addClinicCenterAdministrator" style="margin-left: 3%;" ><button mat-flat-button  >Clinic Center Adminstrator</button></a>
   </mat-menu>
   
-  <button *ngIf="checkCCAdmin()" button mat-flat-button color="primary" style="margin-left: 3%;" [matMenuTriggerFor]="menu">Clinics</button>
-  <mat-menu #menu="matMenu">
+  <button *ngIf="checkCCAdmin()" button mat-flat-button color="primary" style="margin-left: 3%;" [matMenuTriggerFor]="menu1">Clinics</button>
+  <mat-menu #menu1="matMenu">
     <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/addClinic" style="margin-left: 3%;" ><button mat-flat-button >Add clinic</button></a>
     <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/viewClinics" style="margin-left: 3%;" ><button mat-flat-button  >View clinics</button></a>
   </mat-menu>

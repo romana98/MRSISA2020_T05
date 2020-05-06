@@ -21,8 +21,47 @@ export class AuthenticationService {
     private httpClient:HttpClient,private router: Router
   ) { }
 
-  authenticate(model) {
-    this.httpClient.post('http://localhost:8081/auth/login',model).subscribe(
+  authenticate(model):Promise<number> {
+    let status = 0;
+    let promise  =  new Promise<number>((resolve,reject) => {
+      this.httpClient.post('http://localhost:8081/auth/login',model).toPromise().then(
+        res => {
+          let tokenStr= 'Bearer ' + res['accessToken'];
+          sessionStorage.setItem('token', tokenStr);
+          let decoded = jwt_decode(res['accessToken']);
+          sessionStorage.setItem('user_id', decoded['id']);
+          sessionStorage.setItem('role', decoded['role']);
+          if (sessionStorage.getItem('role') === "ROLE_CLINIC_ADMIN"){
+            this.router.navigate(['/clinicAdmin/addDoctor']);
+          }
+          else if (sessionStorage.getItem('role') === "ROLE_CLINIC_CENTER_ADMIN"){
+            this.router.navigate(['/clinicCenterAdmin/addClinicCenterAdministrator']);
+          }
+          else if (sessionStorage.getItem('role') === "ROLE_DOCTOR"){
+            this.router.navigate(['/viewPatients']);
+          }
+          else if (sessionStorage.getItem('role') === "ROLE_NURSE"){
+            this.router.navigate(['/viewPatients']);
+          }
+          else if (sessionStorage.getItem('role') === "ROLE_PATIENT"){
+            this.router.navigate(['/patient/clinics']);
+          }
+          status = 200;
+          resolve(200);
+        },
+        err => {
+          console.log(err.status);
+          if (err.status === 401) {
+            status = 401;
+            resolve(401);
+          } 
+        }
+      )
+    });
+    
+    return promise;
+    
+    /*this.httpClient.post('http://localhost:8081/auth/login',model).subscribe(
        res => {
         let tokenStr= 'Bearer ' + res['accessToken'];
         sessionStorage.setItem('token', tokenStr);
@@ -44,9 +83,18 @@ export class AuthenticationService {
         else if (sessionStorage.getItem('role') === "ROLE_PATIENT"){
           this.router.navigate(['/patient/clinics']);
         }
-        return res;  
+        status = 200;  
+        return new Promise<>
+      },
+      err => {
+        console.log(err.status);
+        if (err.status === 401) {
+          status = 401;
+          console.log("Vracam status" + status)
+          return status;
+        } 
       }
-     );
+     );*/
   }
 
 
