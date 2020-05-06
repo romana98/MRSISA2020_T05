@@ -31,6 +31,9 @@ export class AuthenticationService {
           let decoded = jwt_decode(res['accessToken']);
           sessionStorage.setItem('user_id', decoded['id']);
           sessionStorage.setItem('role', decoded['role']);
+          console.log(decoded['role']);
+          console.log("USAO");
+          console.log(sessionStorage.getItem('role'));
           if (sessionStorage.getItem('role') === "ROLE_CLINIC_ADMIN"){
             this.router.navigate(['/clinicAdmin/addDoctor']);
           }
@@ -47,11 +50,13 @@ export class AuthenticationService {
             this.router.navigate(['/patient/clinics']);
           }
           status = 200;
+          console.log(200);
           resolve(200);
         },
         err => {
-          console.log(err.status);
           if (err.status === 401) {
+            console.log(401);
+
             status = 401;
             resolve(401);
           } 

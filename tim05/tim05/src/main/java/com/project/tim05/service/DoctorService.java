@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.tim05.dto.DoctorDTO;
+import com.project.tim05.model.Authority;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.repository.DoctorRepository;
 
@@ -22,13 +23,18 @@ public class DoctorService {
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
+	private AuthorityService authService;
+	
+	@Autowired
 	private DoctorRepository dr;
 	
 	public int addDoctor(Doctor doctor) {
 		int flag = 0;
 		try {
 			doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
-			dr.save(doctor);
+			List<Authority> auth = authService.findByname("ROLE_DOCTOR");
+			doctor.setAuthorities(auth);
+			dr.save(doctor);	
 			flag = 1;
 		}
 		catch(Exception e) {

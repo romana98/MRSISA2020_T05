@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.tim05.dto.NurseDTO;
 import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.ClinicAdministrator;
+import com.project.tim05.model.MedicalStaff;
 import com.project.tim05.model.Nurse;
 import com.project.tim05.model.Patient;
 import com.project.tim05.model.RegistrationRequest;
@@ -47,21 +48,7 @@ public class NurseController {
 		this.rs = rs;
 	}
 	
-	@GetMapping("/getPatients")
-	@PreAuthorize("hasRole('NURSE')")
-	public List<PatientDTO> getPatients(){
-		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		Nurse  nurse = (Nurse) authentication.getPrincipal();
-		
-		List<Patient> pss = ps.getPatients(ns.getClinic(nurse.getEmail()));
-		
-		List<PatientDTO> psDTO = new ArrayList<PatientDTO>();
-		for (Patient p : pss) {
-			psDTO.add(new PatientDTO(p.getEmail(), p.getName(), p.getSurname(), p.getAddress(), p.getCity(), p.getCountry(), p.getPhone_number(), p.getInsurance_number()));
-		}
-		return psDTO;
-	}
+
 	
 	@PostMapping("/addNurse")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
@@ -69,7 +56,7 @@ public class NurseController {
 		Nurse n = new Nurse();
 		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		Nurse user = (Nurse) authentication.getPrincipal();
+		ClinicAdministrator user = (ClinicAdministrator) authentication.getPrincipal();
 		
 		ClinicAdministrator currentUser = cas.getClinicAdmin(user.getEmail());
 		

@@ -1,5 +1,8 @@
 package com.project.tim05.api;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.dto.MedicalStaffDTO;
 import com.project.tim05.dto.NurseDTO;
+import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.MedicalStaff;
 import com.project.tim05.model.Nurse;
+import com.project.tim05.model.Patient;
 import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.NurseService;
+import com.project.tim05.service.PatientService;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/medicalStaff")
@@ -36,11 +42,13 @@ public class MedicalStaffController<T> {
 	
 	private final DoctorService ds;
 	private final NurseService ns;
+	private final PatientService ps;
 	
 	@Autowired
-	public MedicalStaffController(DoctorService ds, NurseService ns) {
+	public MedicalStaffController(DoctorService ds, NurseService ns, PatientService ps) {
 		this.ds = ds;
 		this.ns = ns;
+		this.ps = ps;
 	}
 	
 	
@@ -78,6 +86,22 @@ public class MedicalStaffController<T> {
 		}
 		
 		
+	}
+	
+	@GetMapping("/getPatients")
+	@PreAuthorize("hasRole('NURSE') || hasRole('DOCTOR')")
+	public List<PatientDTO> getPatients(){
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		MedicalStaff  ms = (MedicalStaff) authentication.getPrincipal();
+		
+		List<Patient> pss = ps.getPatients(ns.getClinic(ms.getEmail()));
+		
+		List<PatientDTO> psDTO = new ArrayList<PatientDTO>();
+		for (Patient p : pss) {
+			psDTO.add(new PatientDTO(p.getEmail(), p.getName(), p.getSurname(), p.getAddress(), p.getCity(), p.getCountry(), p.getPhone_number(), p.getInsurance_number()));
+		}
+		return psDTO;
 	}
 	
 	@PostMapping("/editMedicalStaff")
