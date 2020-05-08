@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {patientModel} from "../edit-patient/edit-patient.component";
 import {AbstractControl, FormControl, NG_VALIDATORS, Validator, ValidatorFn, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
     selector: 'app-edit-medical-staff',
@@ -22,7 +23,8 @@ export class EditMedicalStaff implements OnInit{
     }
   hide: boolean;
 
-    constructor(private _snackBar: MatSnackBar, private http: HttpClient){
+    constructor(private _snackBar: MatSnackBar, private http: HttpClient,
+                private router: Router, private r:ActivatedRoute){
 
     }
 
@@ -53,6 +55,7 @@ export class EditMedicalStaff implements OnInit{
                 console.log(err)
             }
         );
+        let booleanPromise = this.router.navigate(["../viewProfile"], {relativeTo: this.r});
     }
   checkPassword() {
 

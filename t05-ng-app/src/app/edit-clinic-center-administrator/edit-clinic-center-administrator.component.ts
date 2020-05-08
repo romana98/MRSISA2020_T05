@@ -6,25 +6,20 @@ import {ActivatedRoute, Router} from "@angular/router";
 
 
 @Component({
-  selector: 'app-edit-clinic-administrator',
-  templateUrl: './edit-clinic-administrator.component.html',
-  styleUrls: ['./edit-clinic-administrator.component.css']
+  selector: 'app-edit-clinic-center-administrator',
+  templateUrl: './edit-clinic-center-administrator.component.html',
+  styleUrls: ['./edit-clinic-center-administrator.component.css']
 })
-export class EditClinicAdministratorComponent implements OnInit{
+export class EditClinicCenterAdministratorComponent implements OnInit{
 
-  model: clinicAdminModel = {
+  model: clinicCenterAdminModel = {
     name: '',
     surname: '',
     email: '',
     password: '',
-    clinic: new class implements clinicModel {
-      address: '';
-      description: '';
-      name: '';
-    }
+
   }
   hide: boolean;
-  clinic_info : string;
 
   constructor(private _snackBar: MatSnackBar, private http: HttpClient,
               private router: Router, private r:ActivatedRoute){
@@ -33,18 +28,17 @@ export class EditClinicAdministratorComponent implements OnInit{
 
   ngOnInit(): void{
 
-    this.http.get("http://localhost:8081/clinicAdministrator/getClinicAdministrator")
+    this.http.get("http://localhost:8081/clinicCenterAdministrator/getClinicCenterAdministrator")
       .subscribe((res)=>{
-        this.model = <clinicAdminModel>res;
+        this.model = <clinicCenterAdminModel>res;
         this.model.password = '';
-        this.clinic_info = this.model.clinic.name + ", " + this.model.clinic.address;
       });
     this.hide = true;
 
   }
 
-  editClinicAdmin(): void{
-    let url = "http://localhost:8081/clinicAdministrator/editClinicAdministrator"
+  editClinicCenterAdmin(): void{
+    let url = "http://localhost:8081/clinicCenterAdministrator/editClinicCenterAdministrator"
     this.http.post(url,this.model).subscribe(
       res => {
         this._snackBar.open("Your profile has been updated successfully!", "Close", {
@@ -80,11 +74,10 @@ export class EditClinicAdministratorComponent implements OnInit{
 }
 
 
-export interface clinicAdminModel
+export interface clinicCenterAdminModel
 {
   name: string | RegExp;
   surname: string | RegExp;
   email: string | RegExp;
   password: string;
-  clinic: clinicModel;
 }

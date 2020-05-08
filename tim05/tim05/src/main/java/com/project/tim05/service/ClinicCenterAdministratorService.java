@@ -1,5 +1,11 @@
 package com.project.tim05.service;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +40,50 @@ public class ClinicCenterAdministratorService {
 	
 	public List<ClinicCenterAdministrator> getClinicCenterAdministrators(){
 		return ccar.findAll();
+	}
+
+	public int editClinicCenterAdministrator(ClinicCenterAdministrator cadmin) {
+		int flag = 0;
+		try {
+			
+	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+	        
+	        if(cadmin.getPassword().length() != 0)
+	        {
+	        	String query = "UPDATE users set password = ?, name = ?, surname = ?, last_password_reset_date = ? WHERE email = ?;";
+	 	        PreparedStatement ps = connection.prepareStatement(query);
+	 	        ps.setString(1, passwordEncoder.encode(cadmin.getPassword()));
+	 			ps.setString(2, cadmin.getName());
+	 			ps.setString(3, cadmin.getSurname());
+	 			ps.setTimestamp(4, new Timestamp(new Date().getTime()));
+	 			ps.setString(5, cadmin.getEmail());
+	 		
+	 			flag = ps.executeUpdate();
+	 			ps.close();
+	        }
+	        else
+	        {
+	        	String query = "UPDATE users set name = ?, surname = ? WHERE email = ?;";
+	 	        PreparedStatement ps = connection.prepareStatement(query);
+	 			ps.setString(1, cadmin.getName());
+	 			ps.setString(2, cadmin.getSurname());
+	 			ps.setString(3, cadmin.getEmail());
+	 		
+	 			flag = ps.executeUpdate();
+	 			ps.close();
+	        	
+	        }
+	             
+			
+			connection.close();
+			
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return flag;
+		}	
+			
+		return flag;		
 	}
 
 }

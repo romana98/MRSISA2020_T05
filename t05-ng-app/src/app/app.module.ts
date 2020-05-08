@@ -50,6 +50,11 @@ import { MedicallStuffGuardService } from './guards/medicall-stuff-guard.service
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
 import {RequiredPassDirective} from "./directive/RequiredPassDirective";
+import {EditClinicCenterAdministratorComponent} from "./edit-clinic-center-administrator/edit-clinic-center-administrator.component";
+import {ViewClinicAdministratorComponent} from "./view-clinic-administrator/view-clinic-administrator.component";
+import {ViewClinicCenterAdministratorComponent} from "./view-clinic-center-administrator/view-clinic-center-administrator.component";
+import {ViewMedicalStaff} from "./view-medical-staff/view-medical-staff.component";
+import {ViewPatientProfile} from "./view-patient/view-patient.component";
 
 
 
@@ -81,6 +86,10 @@ const appRoutes : Routes = [
         component : EditClinicAdministratorComponent
       },
       {
+        path: 'viewProfile',
+        component : ViewClinicAdministratorComponent
+      },
+      {
         path : 'addNurse',
         component : AddNurseFormComponent
       },
@@ -103,6 +112,14 @@ const appRoutes : Routes = [
         component : AddClinicAdminFromComponent
       },
       {
+        path: 'editProfile',
+        component : EditClinicCenterAdministratorComponent
+      },
+      {
+        path: 'viewProfile',
+        component : ViewClinicCenterAdministratorComponent
+      },
+      {
         path : 'addMedicine',
         component : AddMedicineFromComponent
       },
@@ -122,8 +139,12 @@ const appRoutes : Routes = [
     canActivate: [PatientGuardService],
     children:[
       {
-        path: 'editPatient',
+        path: 'editProfile',
         component : EditPatientProfile
+      },
+      {
+        path: 'viewProfile',
+        component : ViewPatientProfile
       },
       {
         path: 'clinics',
@@ -140,15 +161,29 @@ const appRoutes : Routes = [
   },
 
   {
-    path: 'editMedicalStaff',
-    component : EditMedicalStaff,
-    canActivate : [MedicallStuffGuardService]
-  },
+    path:'staff',
+    canActivate: [MedicallStuffGuardService],
+    children:[
+      {
+        path: 'editProfile',
+        component : EditMedicalStaff,
+        canActivate : [MedicallStuffGuardService]
+      },
 
-  {
-    path : 'viewPatients',
-    component : ViewPatientsNurseComponent,
-    canActivate : [MedicallStuffGuardService]
+      {
+        path: 'viewProfile',
+        component : ViewMedicalStaff,
+        canActivate : [MedicallStuffGuardService]
+      },
+
+      {
+        path : 'viewPatients',
+        component : ViewPatientsNurseComponent,
+        canActivate : [MedicallStuffGuardService]
+      },
+
+
+    ]
   },
 
   {
@@ -182,7 +217,12 @@ const appRoutes : Routes = [
     EditClinicAdministratorComponent,
     ClinicsComponent,
     LoginComponent,
-    RequiredPassDirective
+    RequiredPassDirective,
+    EditClinicCenterAdministratorComponent,
+    ViewClinicAdministratorComponent,
+    ViewClinicCenterAdministratorComponent,
+    ViewMedicalStaff,
+    ViewPatientProfile
   ],
   imports: [
     BrowserModule,
