@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class Tim05Application {
 
 	public static void main(String[] args) {
+		System.setProperty("java.runtime.version", "1.8");
 		SpringApplication.run(Tim05Application.class, args);
 	}
 
