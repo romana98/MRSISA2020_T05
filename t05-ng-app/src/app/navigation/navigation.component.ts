@@ -21,7 +21,7 @@ export class NavigationComponent implements OnInit {
 
   checkPatient(){
     if(sessionStorage.getItem('role') === "ROLE_PATIENT"){
-      this.editProfile = "patient/editPatient";
+      this.editProfile = "patient/viewProfile";
       return true;
     }
     return false;
@@ -29,7 +29,7 @@ export class NavigationComponent implements OnInit {
 
   checkDoctor(){
     if(sessionStorage.getItem('role') === "ROLE_DOCTOR"){
-      this.editProfile = "/editMedicalStaff";
+      this.editProfile = "staff/viewProfile";
       return true;
     }
     return false;
@@ -37,7 +37,7 @@ export class NavigationComponent implements OnInit {
 
   checkCAdmin(){
     if(sessionStorage.getItem('role') === "ROLE_CLINIC_ADMIN"){
-      this.editProfile = "clinicAdmin/editProfile"
+      this.editProfile = "clinicAdmin/viewProfile"
       return true;
     }
     return false;
@@ -45,6 +45,7 @@ export class NavigationComponent implements OnInit {
 
   checkCCAdmin(){
     if(sessionStorage.getItem('role') === "ROLE_CLINIC_CENTER_ADMIN"){
+      this.editProfile = "clinicCenterAdmin/viewProfile"
       return true;
     }
     return false;
@@ -52,7 +53,7 @@ export class NavigationComponent implements OnInit {
 
   checkNurse(){
     if(sessionStorage.getItem('role') === "ROLE_NURSE"){
-      this.editProfile = "editMedicalStaff";
+      this.editProfile = "staff/viewProfile";
       return true;
     }
     return false;

@@ -8,7 +8,7 @@ export class User{
   constructor(
     public token:string,
      ) {}
-  
+
 }
 
 
@@ -41,10 +41,10 @@ export class AuthenticationService {
             this.router.navigate(['/clinicCenterAdmin/addClinicCenterAdministrator']);
           }
           else if (sessionStorage.getItem('role') === "ROLE_DOCTOR"){
-            this.router.navigate(['/viewPatients']);
+            this.router.navigate(['staff/viewPatients']);
           }
           else if (sessionStorage.getItem('role') === "ROLE_NURSE"){
-            this.router.navigate(['/viewPatients']);
+            this.router.navigate(['staff/viewPatients']);
           }
           else if (sessionStorage.getItem('role') === "ROLE_PATIENT"){
             this.router.navigate(['/patient/clinics']);
@@ -59,13 +59,13 @@ export class AuthenticationService {
 
             status = 401;
             resolve(401);
-          } 
+          }
         }
       )
     });
-    
+
     return promise;
-    
+
     /*this.httpClient.post('http://localhost:8081/auth/login',model).subscribe(
        res => {
         let tokenStr= 'Bearer ' + res['accessToken'];
@@ -88,7 +88,7 @@ export class AuthenticationService {
         else if (sessionStorage.getItem('role') === "ROLE_PATIENT"){
           this.router.navigate(['/patient/clinics']);
         }
-        status = 200;  
+        status = 200;
         return new Promise<>
       },
       err => {
@@ -97,7 +97,7 @@ export class AuthenticationService {
           status = 401;
           console.log("Vracam status" + status)
           return status;
-        } 
+        }
       }
      );*/
   }

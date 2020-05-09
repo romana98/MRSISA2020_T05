@@ -19,4 +19,22 @@ public class MedicalRecordDTO {
 	this.appointments = new HashSet<>();
    }
 
+public Set<DiseaseDTO> getDiseases() {
+	return diseases;
+}
+
+public void setDiseases(Set<DiseaseDTO> diseases) {
+	this.diseases = diseases;
+}
+
+public Set<AppointmentDTO> getAppointments() {
+	return appointments;
+}
+
+public void setAppointments(Set<AppointmentDTO> appointments) {
+	this.appointments = appointments;
+}
+   
+   
+
 }

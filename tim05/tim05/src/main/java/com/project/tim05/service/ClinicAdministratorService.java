@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +59,7 @@ public int editClinicAdministrator(ClinicAdministrator admincl) {
 	 	        ps.setString(1, passwordEncoder.encode(admincl.getPassword()));
 	 			ps.setString(2, admincl.getName());
 	 			ps.setString(3, admincl.getSurname());
-	 			ps.setTimestamp(4, admincl.getLastPasswordResetDate());
+	 			ps.setTimestamp(4, new Timestamp(new Date().getTime()));
 	 			ps.setString(5, admincl.getEmail());
 	 		
 	 			flag = ps.executeUpdate();
@@ -65,12 +67,11 @@ public int editClinicAdministrator(ClinicAdministrator admincl) {
 	        }
 	        else
 	        {
-	        	String query = "UPDATE users set name = ?, surname = ?, last_password_reset_date = ? WHERE email = ?;";
+	        	String query = "UPDATE users set name = ?, surname = ? WHERE email = ?;";
 	 	        PreparedStatement ps = connection.prepareStatement(query);
 	 			ps.setString(1, admincl.getName());
 	 			ps.setString(2, admincl.getSurname());
-	 			ps.setTimestamp(3, admincl.getLastPasswordResetDate());
-	 			ps.setString(4, admincl.getEmail());
+	 			ps.setString(3, admincl.getEmail());
 	 		
 	 			flag = ps.executeUpdate();
 	 			ps.close();

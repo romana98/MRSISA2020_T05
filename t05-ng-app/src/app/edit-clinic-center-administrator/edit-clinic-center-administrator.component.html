@@ -4,7 +4,7 @@
 <br>
 
 <div >
-  <form  #f="ngForm" (submit)="f.form.valid && checkPassword() && editClinicAdmin()" style="padding-left: 25px;">
+  <form  #f="ngForm" (submit)="f.form.valid && checkPassword() && editClinicCenterAdmin()" style="padding-left: 25px;">
 
     <mat-form-field appearance="outline" style="width: 250px;">
       <mat-label>Name</mat-label>
@@ -41,21 +41,13 @@
     <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
       <mat-label>New password</mat-label>
       <input matInput  [(ngModel)] = "model.password" #password="ngModel" name="input_password"
-            [type]="hide ? 'password' : 'text'"
+             [type]="hide ? 'password' : 'text'"
              [requiredLen]="checkPassword()">
 
       <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       <mat-error *ngIf="password.invalid">
         Password field must be at least 8 characters long!
       </mat-error>
-    </mat-form-field>
-
-    <br>
-
-    <mat-form-field appearance="outline" style=" width: 250px;">
-      <mat-label>Clinic</mat-label>
-      <input matInput  [(ngModel)] = "clinic_info" #clinic="ngModel"  name="input_clinic"
-             required [disabled]="true">
     </mat-form-field>
 
     <br>

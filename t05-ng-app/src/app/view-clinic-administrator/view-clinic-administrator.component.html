@@ -1,0 +1,42 @@
+<br>
+<h1 style="margin-left: 30px;">View profile: </h1>
+<mat-divider></mat-divider>
+<br>
+
+<div >
+  <form  #f="ngForm" (submit)="goToEdit()" style="padding-left: 25px;">
+
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Name</mat-label>
+      <input matInput  [(ngModel)] = "model.name" #name="ngModel"  name="input_name"
+             [disabled]="true">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
+      <mat-label>Surname</mat-label>
+      <input matInput  [(ngModel)] = "model.surname" #surname="ngModel" name="input_surname"
+             [disabled]="true">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Email</mat-label>
+      <input matInput
+             [(ngModel)] = "model.email" name="input_email"
+             #email="ngModel" [disabled]="true">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
+      <mat-label>Clinic</mat-label>
+      <input matInput  [(ngModel)] = "clinic_info" #clinic="ngModel"  name="input_clinic" [disabled]="true">
+    </mat-form-field>
+
+    <br>
+    <br>
+
+    <button mat-raised-button >Edit profile</button>
+
+
+  </form>
+</div>

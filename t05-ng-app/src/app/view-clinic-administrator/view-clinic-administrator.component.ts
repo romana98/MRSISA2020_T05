@@ -6,11 +6,11 @@ import {ActivatedRoute, Router} from "@angular/router";
 
 
 @Component({
-  selector: 'app-edit-clinic-administrator',
-  templateUrl: './edit-clinic-administrator.component.html',
-  styleUrls: ['./edit-clinic-administrator.component.css']
+  selector: 'app-view-clinic-administrator',
+  templateUrl: './view-clinic-administrator.component.html',
+  styleUrls: ['./view-clinic-administrator.component.css']
 })
-export class EditClinicAdministratorComponent implements OnInit{
+export class ViewClinicAdministratorComponent implements OnInit{
 
   model: clinicAdminModel = {
     name: '',
@@ -36,47 +36,17 @@ export class EditClinicAdministratorComponent implements OnInit{
     this.http.get("http://localhost:8081/clinicAdministrator/getClinicAdministrator")
       .subscribe((res)=>{
         this.model = <clinicAdminModel>res;
-        this.model.password = '';
         this.clinic_info = this.model.clinic.name + ", " + this.model.clinic.address;
       });
     this.hide = true;
 
   }
 
-  editClinicAdmin(): void{
-    let url = "http://localhost:8081/clinicAdministrator/editClinicAdministrator"
-    this.http.post(url,this.model).subscribe(
-      res => {
-        this._snackBar.open("Your profile has been updated successfully!", "Close", {
-          duration: 2000,
-        });
-
-      },
-      err => {
-        if(err.status == 409)
-        {
-          this._snackBar.open("Email already taken!", "Close", {
-            duration: 2000,
-          });
-
-        }
-        else
-        {
-          this._snackBar.open("Error has occurred while adding admin!", "Close", {
-            duration: 2000,
-          });
-
-          console.log(err);
-        }
-      }
-    );
-    let booleanPromise = this.router.navigate(["../viewProfile"], {relativeTo: this.r});
+  goToEdit(): void {
+    let booleanPromise = this.router.navigate(["../editProfile"], {relativeTo: this.r});
   }
 
-  checkPassword() {
 
-    return this.model.password.length == 0 || this.model.password.length >= 8;
-  }
 }
 
 

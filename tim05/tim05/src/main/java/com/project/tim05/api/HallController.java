@@ -55,8 +55,6 @@ public class HallController<T> {
 		
 		int flag = hs.addHall(h);
 		
-		List<Hall> halls = hs.getClinicHalls(1);
-		
 		if(flag == 0)
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		else
