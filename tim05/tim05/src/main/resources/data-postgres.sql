@@ -14,7 +14,7 @@ INSERT INTO CLINIC_ADMINS(user_id, clinic) VALUES (1, 1);
 --INSERT INTO NURSE(user_id) VALUES (4);
 --INSERT INTO PATIENTS(user_id, address, city, country, insurance_number, phone_number, doctor, medical_record, nurse) VALUES (5, 'Adresa1', 'Grad', 'Drzava', '123A', '100-100-100', 3, 1, 4);
 
-
+--comm
 
 INSERT INTO AUTHORITIES (name) VALUES ('ROLE_PATIENT');
 INSERT INTO AUTHORITIES (name) VALUES ('ROLE_CLINIC_ADMIN');
@@ -27,3 +27,5 @@ INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (2, 3);
 --INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (3, 4);
 --INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (4, 5);
 --INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (5, 1);
+
+
