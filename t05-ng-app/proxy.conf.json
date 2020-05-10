@@ -1,7 +1,0 @@
-{
-  "/auth": {
-    "target": "https://eclinic05.herokuapp.com",
-    "secure": false,
-    "changeOrigin": true
-  }
-}
