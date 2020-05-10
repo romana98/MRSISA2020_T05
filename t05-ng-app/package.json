@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -28,6 +28,7 @@
     "forms-angular": "^0.12.0-beta.64",
     "hammerjs": "^2.0.8",
     "jwt-decode": "^2.2.0",
+    "maven": "^4.7.0",
     "ngx-form-control": "0.0.29",
     "ngx-material-timepicker": "^5.5.1",
     "rxjs": "~6.5.4",
