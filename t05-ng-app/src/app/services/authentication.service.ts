@@ -34,6 +34,7 @@ export class AuthenticationService {
           console.log(decoded['role']);
           console.log("USAO");
           console.log(sessionStorage.getItem('role'));
+          console.log(tokenStr);
           if (sessionStorage.getItem('role') === "ROLE_CLINIC_ADMIN"){
             this.router.navigate(['/clinicAdmin/addDoctor']);
           }

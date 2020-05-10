@@ -46,7 +46,7 @@ public class AppointmentController {
 		this.ats = ats;
 		this.cs = cs;
 	}
-
+	
 	@PostMapping("/addAppointment")
 	@PreAuthorize("hasRole('CLINIC_ADMIN') || hasRole('PATIENT')")
 	public ResponseEntity<String> addAppointment(@RequestBody AppointmentDTO adto) {
