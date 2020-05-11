@@ -15,5 +15,5 @@ dist: trusty
 
 deploy:
   provider: heroku
-  api_key: $HEROKU_API_KEY
+  api_key: 71bab1b3-3025-462f-9ba5-8b60537340c7
   app: tim05
