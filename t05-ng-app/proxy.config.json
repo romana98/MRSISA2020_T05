@@ -1,6 +1,8 @@
 {
   "**": {
-    "target": "http://localhost:8081",
+    "target": "https://eclinic05.herokuapp.com",
     "secure": false
-  }
+
+  },
+  "changeOrigin": true
 }
