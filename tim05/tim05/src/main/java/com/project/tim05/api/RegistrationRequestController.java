@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +24,7 @@ import com.project.tim05.service.EmailService;
 import com.project.tim05.service.RegistrationRequestService;
 import com.project.tim05.service.UserService;
 
-@RequestMapping("/registrationRequests")
+@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
 @RestController
 public class RegistrationRequestController<T> {
 

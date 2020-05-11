@@ -32,7 +32,7 @@ import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.NurseService;
 import com.project.tim05.service.PatientService;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
 @RequestMapping("/medicalStaff")
 @RestController
 public class MedicalStaffController<T> {

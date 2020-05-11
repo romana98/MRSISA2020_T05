@@ -20,7 +20,7 @@ import com.project.tim05.dto.ClinicDTO;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.service.ClinicService;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
 @RequestMapping("/clinic")
 @RestController
 public class ClinicController<T> {
