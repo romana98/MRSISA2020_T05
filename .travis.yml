@@ -7,7 +7,7 @@ services:
 
 
 script:
-  - ~./mvnw clean install -DskipTests=false -B
+  - ./mvnw clean install -DskipTests=false -B
 
 dist: trusty
 
