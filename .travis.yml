@@ -17,7 +17,7 @@ addons:
  
 script:
   - ./mvnw clean install -DskipTests=true -B
-  - ./mvnw sonar:sonar -Dsonar.projectKey=tim05 -Dsonar.organization=romana98-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=76b1154d1c99218978e06dbdf77d657cb88fb202
+  - ./mvnw sonar:sonar -Dsonar.projectKey=tim05 -Dsonar.organization=Romana-github -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=76b1154d1c99218978e06dbdf77d657cb88fb202
 
 dist: trusty
 
