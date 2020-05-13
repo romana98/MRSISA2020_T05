@@ -43,7 +43,7 @@ public class ClinicService {
 	public Clinic getClinic(ClinicDTO clinic){
 		Clinic c = null;
 		try {
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
 			
 			PreparedStatement st = conn.prepareStatement("SELECT * FROM clinics WHERE name = ? and address = ?");
 			st.setString(1, clinic.getName());
@@ -79,7 +79,7 @@ public class ClinicService {
 		ArrayList<PatientClinicsDTO> clinics = new ArrayList<PatientClinicsDTO>();
 		
 		try {
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
 			
 			PreparedStatement st = conn.prepareStatement("SELECT * FROM clinics");
 			//kada se budu prosledjivali pravi parametri ovde treba staviti parametre sql poziva

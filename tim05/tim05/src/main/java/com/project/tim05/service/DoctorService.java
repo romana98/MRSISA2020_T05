@@ -51,8 +51,8 @@ public class DoctorService {
 	public int editProfile(Doctor doctor) {
 		int flag = 0;
 		try {
-	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
-	        
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			
 	        if(doctor.getPassword().length()!=0) {
 				doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
 	        	String query = "UPDATE users set password = ?, name = ?, surname = ? WHERE email = ?;";
@@ -90,8 +90,8 @@ public class DoctorService {
 	
 	public ArrayList<DoctorDTO> getDoctors(int clinic_id, int appointment_id){
 		try {
-	        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
-	        String query = "SELECT * FROM doctors WHERE appointment_type = ? and clinic= ?;";
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			String query = "SELECT * FROM doctors WHERE appointment_type = ? and clinic= ?;";
 	        PreparedStatement ps = connection.prepareStatement(query);
 			ps.setInt(1, appointment_id);
 			ps.setInt(2, clinic_id);
