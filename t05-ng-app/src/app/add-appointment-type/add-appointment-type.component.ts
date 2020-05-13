@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 
 @Component({
@@ -10,14 +12,53 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 })
 export class AddAppointmentTypeComponent implements OnInit {
 
+  displayedColumns: string[] = ['name', 'delete'];
+
+  dataSource = new MatTableDataSource();
+
+  selectedRowIndex: number = 0;
+
   model : AppointmentTypeModel = {
     name : '',
     admin_id : parseInt(sessionStorage.getItem('id'))
   }
 
-  constructor(private _snackBar: MatSnackBar, private http: HttpClient) { }
+  clinic_id : any = '';
+
+  deleteModel : deleteAppointmentType = {
+    aptype : ''
+  }
+
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
+
+  constructor(private _snackBar: MatSnackBar, private http: HttpClient, private changeDetectorRefs: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+
+    let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id'))
+
+    this.http.get("http://localhost:8081/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
+      res => {
+        this.clinic_id = res.toString();
+        let params = new HttpParams().set('clinic_id', this.clinic_id);
+        this.http.get("http://localhost:8081/appointmentType/getClinicAppointmentTypes",{params:params})
+          .subscribe((res) => {
+            // @ts-ignore
+            this.dataSource.data = res;
+
+          });
+      });
+
+    let params = new HttpParams().set('clinic_id', "1");
+    this.http.get("http://localhost:8081/appointmentType/getClinicAppointmentTypes",{params:params})
+      .subscribe((res) => {
+        // @ts-ignore
+        this.dataSource.data = res;
+      });
+
+    this.dataSource.paginator = this.paginator;
+
   }
 
 
@@ -27,6 +68,13 @@ export class AddAppointmentTypeComponent implements OnInit {
     console.log(this.model.admin_id);
     this.http.post(url,this.model).subscribe(
       res => {
+
+        let params = new HttpParams().set('clinic_id', this.clinic_id);
+        this.http.get("http://localhost:8081/appointmentType/getClinicAppointmentTypes",{params:params})
+          .subscribe((res) => {
+            // @ts-ignore
+            this.dataSource.data = res;
+          }
         this._snackBar.open("Appointment type successfully added", "Close", {
           duration: 2000,
         });
