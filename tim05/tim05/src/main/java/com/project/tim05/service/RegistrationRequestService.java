@@ -32,10 +32,9 @@ public class RegistrationRequestService {
 	public int addRegistrationRequest(RegistrationRequest rr) throws SQLException {
 		try {
 			rr.setPassword(passwordEncoder.encode(rr.getPassword()));
-			rrr.save(rr);
 			User u1 = ur.findByEmail(rr.getEmail());
 			
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
 			PreparedStatement st = conn.prepareStatement("SELECT * FROM patients WHERE insurance_number = ?");
 			st.setString(1, rr.getInsurance_number());
 			ResultSet rs = st.executeQuery();
@@ -55,12 +54,13 @@ public class RegistrationRequestService {
 			}else if(u2 != -1) {
 				return 2;
 			}
+			rrr.save(rr);
 			
 		} catch (Exception e) {
-			
+			System.out.println(e.getMessage());
 			RegistrationRequest r = rrr.findByEmail(rr.getEmail());
 			
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
 			PreparedStatement st = conn.prepareStatement("SELECT * FROM registration_requests WHERE insurance_number = ?");
 			st.setString(1, rr.getInsurance_number());
 			ResultSet rs = st.executeQuery();
