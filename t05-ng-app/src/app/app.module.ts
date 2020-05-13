@@ -55,6 +55,8 @@ import {ViewClinicAdministratorComponent} from "./view-clinic-administrator/view
 import {ViewClinicCenterAdministratorComponent} from "./view-clinic-center-administrator/view-clinic-center-administrator.component";
 import {ViewMedicalStaff} from "./view-medical-staff/view-medical-staff.component";
 import {ViewPatientProfile} from "./view-patient/view-patient.component";
+import {AdminsStaffGuardService} from "./guards/admins-staff-guard.service";
+import { InitialChangePasswordComponent } from './initial-change-password/initial-change-password.component';
 
 
 
@@ -187,6 +189,11 @@ const appRoutes : Routes = [
   },
 
   {
+    path : 'initialPasswordChange',
+    component : InitialChangePasswordComponent
+  },
+
+  {
     path : '**',
     component : NavigationComponent
   }
@@ -222,7 +229,8 @@ const appRoutes : Routes = [
     ViewClinicAdministratorComponent,
     ViewClinicCenterAdministratorComponent,
     ViewMedicalStaff,
-    ViewPatientProfile
+    ViewPatientProfile,
+    InitialChangePasswordComponent
   ],
   imports: [
     BrowserModule,

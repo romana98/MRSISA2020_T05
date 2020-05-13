@@ -61,6 +61,11 @@ export class AuthenticationService {
             status = 401;
             resolve(401);
           }
+          else if (err.status === 409) {
+            console.log(409);
+            status = 409;
+            resolve(409);
+          }
         }
       )
     });

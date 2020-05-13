@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../services/authentication.service';
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -10,8 +10,6 @@ import {FormBuilder, FormGroup} from "@angular/forms";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-
 
   username : String = '';
   password : String = '';
@@ -43,7 +41,8 @@ export class LoginComponent implements OnInit {
   response : any;
 
 
-  constructor(private _snackBar: MatSnackBar, private http : HttpClient, private authservice : AuthenticationService) {
+  constructor(private _snackBar: MatSnackBar, private http : HttpClient, private authservice : AuthenticationService,
+              private router: Router, private r:ActivatedRoute) {
 
   }
 
@@ -54,7 +53,14 @@ export class LoginComponent implements OnInit {
   loginAuth(){
     console.log(this.status);
     this.authservice.authenticate(this.myModel).then( num => {
-      this.status = (num === 401);
+      console.log("num")
+      console.log(num === 409);
+      if(num === 409)
+      {
+        let booleanPromise = this.router.navigate(["../initialPasswordChange"], {relativeTo: this.r});
+
+      }
+       this.status = (num === 401);
       document.getElementById('validation').style.display = 'block'}
     );
     /*console.log(newStatus);

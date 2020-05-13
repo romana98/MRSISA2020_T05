@@ -86,8 +86,8 @@
 			              <outputDirectory>src/main/resources/static</outputDirectory >
 			              <resources>
 			                  <resource>
-			                      <directory>../t05-ng-app/dist/t05-ng-app</directory >
 			                      <targetPath>src/main/resources/static</targetPath>
+			                      <directory>../../t05-ng-app/dist/t05-ng-app</directory>
 			                  </resource>
 			              </resources>
 			          </configuration>
