@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthenticationService } from '../services/authentication.service';
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -10,8 +9,6 @@ import {FormBuilder, FormGroup} from "@angular/forms";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-
 
   username : String = '';
   password : String = '';
