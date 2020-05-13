@@ -44,6 +44,7 @@ public class HallController<T> {
 	@PostMapping("/addHall")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	public ResponseEntity<T> addHall(@Valid @RequestBody HallDTO hall) {
+		System.out.println("Add hall is called!");
 		Hall h = new Hall();
 		h.setName(hall.getName());
 		h.setNumber(hall.getNumber());
