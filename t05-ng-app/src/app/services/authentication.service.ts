@@ -63,6 +63,7 @@ export class AuthenticationService {
           }
           else if (err.status === 409) {
             console.log(409);
+
             status = 409;
             resolve(409);
           }

@@ -106,6 +106,32 @@ public class PatientController<T> {
 		
 	}
 	
+	static class activateAccount {
+		public int id;
+		public String email;
+	}
+	
+	@PostMapping("/activate")
+	public ResponseEntity<T> activate(@RequestBody activateAccount aa) {
+		
+		User existUser = this.userService.findByEmail(aa.email);
+		if (existUser == null) {
+			 ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+		
+		
+		int flag = ps.activateAccount(aa.email, aa.id);
+		
+		
+		if(flag == 0)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		else
+		{
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
+			
+	}
+	
 	@PostMapping("/addPatient")
 	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
 	public ResponseEntity<T> addPatient(@Valid @RequestBody PatientDTO p) {

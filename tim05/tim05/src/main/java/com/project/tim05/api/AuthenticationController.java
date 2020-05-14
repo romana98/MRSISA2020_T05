@@ -1,14 +1,10 @@
 package com.project.tim05.api;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +15,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.JwtAuthenticationRequestDTO;
@@ -27,6 +22,7 @@ import com.project.tim05.dto.UserTokenStateDTO;
 import com.project.tim05.model.User;
 import com.project.tim05.security.TokenUtils;
 import com.project.tim05.service.CustomUserDetailsService;
+import com.project.tim05.service.UserService;
 
 //Kontroler zaduzen za autentifikaciju korisnika
 @RestController
@@ -43,6 +39,8 @@ public class AuthenticationController {
 	@Autowired
 	private CustomUserDetailsService userDetailsService;
 	
+	@Autowired
+	private UserService userService;	
 	
 
 	// Prvi endpoint koji pogadja korisnik kada se loguje.
@@ -97,17 +95,36 @@ public class AuthenticationController {
 	}
 
 	@PostMapping(value = "/changePassword")
-	@PreAuthorize("hasRole('CLINIC_ADMIN') || hasRole('CLINIC_CENTER_ADMIN') || hasRole('NURSE') || hasRole('DOCTOR')")
 	public ResponseEntity<?> changePassword(@RequestBody PasswordChanger passwordChanger) {
-		userDetailsService.changePassword(passwordChanger.oldPassword, passwordChanger.newPassword);
+		int flag = -1;
+		
+		flag = userService.changeInitialPassword(passwordChanger.email, passwordChanger.password);
+		
+		if(flag == 0)
+			return ResponseEntity.badRequest().body(null);
+		
+		Authentication authentication = authenticationManager
+				.authenticate(new UsernamePasswordAuthenticationToken(passwordChanger.email,
+						passwordChanger.password));
+		
+		// Ubaci korisnika u trenutni security kontekst
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+	
+		// Kreiraj token za tog korisnika
+		User user = (User) authentication.getPrincipal();
+		String role = "";
+		for (GrantedAuthority e : user.getAuthorities()) {
+			 role = e.getAuthority();
+		}
+		String jwt = tokenUtils.generateToken(user.getEmail(),user.getId(), role );
+		int expiresIn = tokenUtils.getExpiredIn();
 
-		Map<String, String> result = new HashMap<>();
-		result.put("result", "success");
-		return ResponseEntity.accepted().body(result);
+		// Vrati token kao odgovor na uspesnu autentifikaciju
+		return ResponseEntity.ok(new UserTokenStateDTO(jwt, expiresIn));
 	}
 
 	static class PasswordChanger {
-		public String oldPassword;
-		public String newPassword;
+		public String password;
+		public String email;
 	}
 }

@@ -57,6 +57,7 @@ import {ViewMedicalStaff} from "./view-medical-staff/view-medical-staff.componen
 import {ViewPatientProfile} from "./view-patient/view-patient.component";
 import {AdminsStaffGuardService} from "./guards/admins-staff-guard.service";
 import { InitialChangePasswordComponent } from './initial-change-password/initial-change-password.component';
+import {ActivationLinkComponent} from "./activation-link/activation-link.component";
 
 
 
@@ -163,6 +164,13 @@ const appRoutes : Routes = [
   },
 
   {
+    path : 'activateAccount',
+    component : ActivationLinkComponent,
+    canActivate : [LoginGuardService]
+
+  },
+
+  {
     path:'staff',
     canActivate: [MedicallStuffGuardService],
     children:[
@@ -190,7 +198,8 @@ const appRoutes : Routes = [
 
   {
     path : 'initialPasswordChange',
-    component : InitialChangePasswordComponent
+    component : InitialChangePasswordComponent,
+    canActivate : [LoginGuardService]
   },
 
   {
@@ -230,7 +239,8 @@ const appRoutes : Routes = [
     ViewClinicCenterAdministratorComponent,
     ViewMedicalStaff,
     ViewPatientProfile,
-    InitialChangePasswordComponent
+    InitialChangePasswordComponent,
+    ActivationLinkComponent
   ],
   imports: [
     BrowserModule,

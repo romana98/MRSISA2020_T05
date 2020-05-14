@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AuthenticationService } from '../services/authentication.service';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {ActivatedRoute, Params, Router} from "@angular/router";
+import * as jwt_decode from "jwt-decode";
 
 @Component({
   selector: 'initial-change-password',
@@ -12,27 +13,51 @@ export class InitialChangePasswordComponent implements OnInit {
 
   model: passwordModel = {
       password: '',
-      password2: ''
+      password2: '',
+      email: ''
   }
 
   hide : boolean = true;
   hide1: boolean = true;
 
-  constructor(private _snackBar: MatSnackBar, private http : HttpClient, private authservice : AuthenticationService) {
+  constructor(private _snackBar: MatSnackBar, private http : HttpClient, private router: Router,
+              private route: ActivatedRoute) {
 
   }
 
   ngOnInit(): void {
-
+    this.route.params.subscribe((params: Params) => this.model.email = params['email']);
   }
 
   changePassword(): void{
     let url = "http://localhost:8081/auth/changePassword"
-    this.http.post(url,this.model).subscribe(
+    this.http.post(url,{email: this.model.email, password:this.model.password}).subscribe(
       res => {
         this._snackBar.open("Password successfully changed!", "Close", {
           duration: 2000,
         });
+
+        let tokenStr= 'Bearer ' + res['accessToken'];
+        sessionStorage.setItem('token', tokenStr);
+        let decoded = jwt_decode(res['accessToken']);
+        sessionStorage.setItem('user_id', decoded['id']);
+        sessionStorage.setItem('role', decoded['role']);
+
+        if (sessionStorage.getItem('role') === "ROLE_CLINIC_ADMIN"){
+          this.router.navigate(['/clinicAdmin/addDoctor']);
+        }
+        else if (sessionStorage.getItem('role') === "ROLE_CLINIC_CENTER_ADMIN"){
+          this.router.navigate(['/clinicCenterAdmin/addClinicCenterAdministrator']);
+        }
+        else if (sessionStorage.getItem('role') === "ROLE_DOCTOR"){
+          this.router.navigate(['staff/viewPatients']);
+        }
+        else if (sessionStorage.getItem('role') === "ROLE_NURSE"){
+          this.router.navigate(['staff/viewPatients']);
+        }
+        else if (sessionStorage.getItem('role') === "ROLE_PATIENT"){
+          this.router.navigate(['/patient/clinics']);
+        }
 
       },
       err => {
@@ -64,4 +89,5 @@ export class InitialChangePasswordComponent implements OnInit {
 export interface passwordModel{
  password: String;
  password2: String;
+ email: String;
 }

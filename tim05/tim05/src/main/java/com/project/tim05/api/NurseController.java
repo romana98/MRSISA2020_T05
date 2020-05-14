@@ -58,7 +58,7 @@ public class NurseController {
 		n.setPassword(nurse.getPassword());
 		n.setWorkStart(nurse.getWorkStart());
 		n.setWorkEnd(nurse.getWorkEnd());
-		n.setEnabled(true);
+		n.setEnabled(false);
 		
 		RegistrationRequest existUser = this.rs.findByEmail(nurse.getEmail());
 		if (existUser != null) {

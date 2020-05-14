@@ -125,7 +125,6 @@ public class PatientService {
 			
 			patient.getClinics().add(cs.getClinicbyId(1));
 
-			patient.setEnabled(true);
 			pa.save(patient);
 			
 		} catch (Exception e) {
@@ -178,6 +177,36 @@ public class PatientService {
 			
 			return null;
 		}
+	}
+	
+	public int activateAccount(String email, int id)
+	{
+		int flag = 0;
+		try {
+			
+			//Connection connection = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+	        
+	      
+	        	String query = "UPDATE users enabled = ? WHERE email = ? and id = ?;";
+	 	        PreparedStatement ps = connection.prepareStatement(query);
+	 			ps.setBoolean(2, true);
+	 			ps.setString(3, email);
+	 			ps.setInt(3, id);
+	 		
+	 			flag = ps.executeUpdate();
+	 			ps.close();
+	        
+	        			
+			connection.close();
+			
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return flag;
+		}	
+			
+		return flag;	
 	}
 
 }
