@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.AppointmentTypeDTO;
 import com.project.tim05.model.AppointmentType;
+import com.project.tim05.model.Clinic;
+import com.project.tim05.model.ClinicAdministrator;
 import com.project.tim05.service.AppointmentTypeService;
 import com.project.tim05.service.ClinicAdministratorService;
 
@@ -38,22 +40,27 @@ public class AppointmentTypeController {
 	@PostMapping("/addAppointmentType")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	public ResponseEntity<Object> addAppointmentType(@Valid @RequestBody AppointmentTypeDTO atDTO) {
+		
 		AppointmentType at = new AppointmentType(atDTO.getName());
-		at.setClinicAdmin(cas.getClinicAdmin(atDTO.getAdmin_id()));
+		ClinicAdministrator ca = cas.getClinicAdmin(atDTO.getAdmin_id());
+		at.setClinic(ca.getClinic());
+		
+		
 		
 		int flag = ats.addAppointmentType(at);
 		
 		if(flag == 0)
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		else
-			return ResponseEntity.status(HttpStatus.OK).body(null);
+			return ResponseEntity.ok(ats.getClinicAppointmentTypes(ca.getClinic().getId()));
 		
 	}
 	
 	@GetMapping("/getAppointmentTypes")
 	@PreAuthorize("hasRole('CLINIC_ADMIN') || hasRole('PATIENT')")
-	public ResponseEntity<List<AppointmentTypeDTO>> getAppointmetTypes(){
-		return ResponseEntity.ok(ats.getAppointmentTypes());
+	public ResponseEntity<List<AppointmentTypeDTO>> getAppointmetTypes(String admin_id){
+		ClinicAdministrator ca = cas.getClinicAdmin(Integer.parseInt(admin_id));
+		return ResponseEntity.ok(ats.getClinicAppointmentTypes(ca.getClinic().getId()));
 	}
 	
 	

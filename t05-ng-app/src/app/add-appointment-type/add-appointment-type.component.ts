@@ -20,14 +20,11 @@ export class AddAppointmentTypeComponent implements OnInit {
 
   model : AppointmentTypeModel = {
     name : '',
-    admin_id : parseInt(sessionStorage.getItem('id'))
+    admin_id : parseInt(sessionStorage.getItem('id')),
+    id : 0
   }
 
   clinic_id : any = '';
-
-  deleteModel : deleteAppointmentType = {
-    aptype : ''
-  }
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -36,31 +33,16 @@ export class AddAppointmentTypeComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id'))
+    let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id').toString())
 
-    this.http.get("http://localhost:8081/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
+    this.http.get("http://localhost:8081/appointmentType/getAppointmentTypes",{params:params1}).subscribe(
       res => {
-        this.clinic_id = res.toString();
-        let params = new HttpParams().set('clinic_id', this.clinic_id);
-        this.http.get("http://localhost:8081/appointmentType/getClinicAppointmentTypes",{params:params})
-          .subscribe((res) => {
-            // @ts-ignore
-            this.dataSource.data = res;
-
-          });
-      });
-
-    let params = new HttpParams().set('clinic_id', "1");
-    this.http.get("http://localhost:8081/appointmentType/getClinicAppointmentTypes",{params:params})
-      .subscribe((res) => {
         // @ts-ignore
         this.dataSource.data = res;
-      });
 
-    this.dataSource.paginator = this.paginator;
-
+        });
+      this.dataSource.paginator = this.paginator;
   }
-
 
   addAppointmentType() : void {
     let url = "http://localhost:8081/appointmentType/addAppointmentType";
@@ -68,17 +50,18 @@ export class AddAppointmentTypeComponent implements OnInit {
     console.log(this.model.admin_id);
     this.http.post(url,this.model).subscribe(
       res => {
+        //poziv kako bismo nakon dodavanja appointmenta dobili novije podatke u tabeli
+        let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id').toString())
+        this.http.get("http://localhost:8081/appointmentType/getAppointmentTypes",{params:params1}).subscribe(
+          res => {
+        // @ts-ignore
+              this.dataSource.data = res;
 
-        let params = new HttpParams().set('clinic_id', this.clinic_id);
-        this.http.get("http://localhost:8081/appointmentType/getClinicAppointmentTypes",{params:params})
-          .subscribe((res) => {
-            // @ts-ignore
-            this.dataSource.data = res;
-          }
-        this._snackBar.open("Appointment type successfully added", "Close", {
-          duration: 2000,
         });
 
+        this._snackBar.open("Appointment type added successfully.", "Close", {
+          duration: 2000,
+        });
       },
       err => {
         this._snackBar.open("Error has occurred while adding appointment type", "Close", {
@@ -93,11 +76,27 @@ export class AddAppointmentTypeComponent implements OnInit {
 
     }
 
+    deleteAppointmentType(element){
+      let params = new HttpParams().set("aptype_id", element.id.toString());
+      this.http.delete("http://localhost:8081/appointmentType/deleteAppointmentType",{params:params}).subscribe(
+        res =>{
+          let index = this.dataSource.data.indexOf(element);
+          this.dataSource.data.splice(index,1);
+          this.dataSource._updateChangeSubscription();
+          this._snackBar.open("Appointment type deleted successfully.", "Close", {
+          duration: 2000,
+          });
+        }
+
+      );
+    }
+
 }
 
 
 export interface AppointmentTypeModel{
     name: string;
     admin_id : number;
-
+    id : number;
 }
+

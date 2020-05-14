@@ -17,8 +17,8 @@ public class AppointmentType {
 	private String name;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="clinic_admin", referencedColumnName="user_id", nullable=true)
-	private ClinicAdministrator clinicAdministrator;
+	@JoinColumn(name="clinic", referencedColumnName="clinic_id", nullable=true)
+	private Clinic clinic;
    
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="appointmentType")
 	private Set<Appointment> doctors = new HashSet<Appointment>();
@@ -34,7 +34,8 @@ public class AppointmentType {
 		super();
 	}
 
-
+	
+	
 	public AppointmentType(Integer id, String name) {
 		super();
 		this.id = id;
@@ -71,13 +72,13 @@ public class AppointmentType {
 	}
 
 
-	public ClinicAdministrator getClinicAdmin() {
-		return clinicAdministrator;
+	public Clinic getClinic() {
+		return clinic;
 	}
 
 
-	public void setClinicAdmin(ClinicAdministrator clinicAdmin) {
-		this.clinicAdministrator = clinicAdmin;
+	public void setClinic(Clinic clinic) {
+		this.clinic = clinic;
 	}
 
 
