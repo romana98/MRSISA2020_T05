@@ -48,7 +48,7 @@ public class User implements UserDetails {
 
 	public User() {
 		super();
-		enabled = true;
+		enabled = false;
 	}
 
 	public User(String email, String password, String name, String surname) {

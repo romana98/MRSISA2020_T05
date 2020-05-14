@@ -36,7 +36,7 @@ public class EmailService {
 		mail.setTo(email);
 		mail.setFrom(env.getProperty("spring.mail.username"));
 		mail.setSubject("Registration accepted");
-		mail.setText("User id: " + id);
+		mail.setText("http://localhost:8081/activateAccount?id=" + id + "&email=" + email);
 		javaMailSender.send(mail);
 
 	}

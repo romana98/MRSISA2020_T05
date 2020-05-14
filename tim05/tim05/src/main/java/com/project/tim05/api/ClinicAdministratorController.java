@@ -68,7 +68,7 @@ public class ClinicAdministratorController<T> {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		
 		ClinicAdministrator cadmin = new ClinicAdministrator(cca.getName(), cca.getSurname(), cca.getEmail(), cca.getPassword(), cl);
-		cadmin.setEnabled(true);;
+
 		int flag = cas.addClinicAdministrator(cadmin);
 		
 		if(flag == 0)

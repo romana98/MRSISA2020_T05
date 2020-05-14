@@ -62,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
 				// svim korisnicima dopust	i da pristupe putanjama /auth/**
-				.authorizeRequests().antMatchers("/auth/**", "/registrationRequests/register").permitAll()
+				.authorizeRequests().antMatchers("/auth/**", "/patients/activate", "/registrationRequests/register").permitAll()
 				
 				// za svaki drugi zahtev korisnik mora biti autentifikovan
 				.anyRequest().authenticated().and()
@@ -80,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		// TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
-		web.ignoring().antMatchers(HttpMethod.POST, "/auth/login", "/registrationRequests/register");
+		web.ignoring().antMatchers(HttpMethod.POST, "/auth/login", "/patients/activate", "/auth/changePassword", "/registrationRequests/register");
 		web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
 				"/**/*.css", "/**/*.js");
 		
