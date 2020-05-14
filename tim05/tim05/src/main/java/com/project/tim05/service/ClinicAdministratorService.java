@@ -113,6 +113,5 @@ public int editClinicAdministrator(ClinicAdministrator admincl) {
 		return car.findById(id).orElse(null);
 	}
 	
-	
 
 }

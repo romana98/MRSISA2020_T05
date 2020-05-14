@@ -28,8 +28,6 @@ public class ClinicAdministrator extends User {
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinicAdministrator")
 	private Set<Doctor> doctors = new HashSet<Doctor>();
    
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinicAdministrator")
-	private Set<AppointmentType> appointmentTypes = new HashSet<AppointmentType>();
    
 	
 	public ClinicAdministrator() {
@@ -75,12 +73,5 @@ public class ClinicAdministrator extends User {
 		this.doctors = doctors;
 	}
 
-	public Set<AppointmentType> getAppointmentTypes() {
-		return appointmentTypes;
-	}
-
-	public void setAppointmentTypes(Set<AppointmentType> appointmentTypes) {
-		this.appointmentTypes = appointmentTypes;
-	}
 
 }

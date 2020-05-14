@@ -35,6 +35,8 @@ public class Clinic {
 	@ManyToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
 	private List<Patient> patients = new ArrayList<Patient>();
 	
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinic")
+	private Set<AppointmentType> appointmentTypes = new HashSet<AppointmentType>();
 
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinic")
 	private Set<ClinicAdministrator> clinicAdmin = new HashSet<ClinicAdministrator>();
@@ -81,6 +83,17 @@ public class Clinic {
 		this.halls = halls;
 		this.pricelist = pricelist;
 		this.appointments = appointments;
+	}
+
+	
+	
+	
+	public Set<AppointmentType> getAppointmentTypes() {
+		return appointmentTypes;
+	}
+
+	public void setAppointmentTypes(Set<AppointmentType> appointmentTypes) {
+		this.appointmentTypes = appointmentTypes;
 	}
 
 	public Integer getId() {
