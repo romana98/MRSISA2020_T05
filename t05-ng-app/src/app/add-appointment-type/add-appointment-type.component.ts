@@ -87,6 +87,9 @@ export class AddAppointmentTypeComponent implements OnInit {
     }
 
     deleteAppointmentType(element){
+      this.currentlySelected.admin_id = -1;
+      this.currentlySelected.id = -1;
+      this.currentlySelected.name = '';
       let params = new HttpParams().set("aptype_id", element.id.toString());
       this.http.delete("http://localhost:8081/appointmentType/deleteAppointmentType",{params:params}).subscribe(
         res =>{
@@ -96,11 +99,11 @@ export class AddAppointmentTypeComponent implements OnInit {
           this._snackBar.open("Appointment type deleted successfully.", "Close", {
           duration: 2000,
           });
-          this.isDisabled = true;
-          this.isOpen = false;
+          
         }
 
       );
+
     }
 
     selectionChanged(element){

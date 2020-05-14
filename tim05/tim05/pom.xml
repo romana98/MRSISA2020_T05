@@ -83,7 +83,7 @@
 			          <phase>validate</phase>
 			          <goals><goal>copy-resources</goal></goals>
 			          <configuration>
-			              <outputDirectory>src/main/resources/static</outputDirectory >
+			          	<outputDirectory>src/main/resources/static</outputDirectory>
 			              <resources>
 			                  <resource>
 			                      <targetPath>src/main/resources/static</targetPath>

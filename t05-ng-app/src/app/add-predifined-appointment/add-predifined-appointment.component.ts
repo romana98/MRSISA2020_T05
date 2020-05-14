@@ -56,9 +56,12 @@ export class AddPredifinedAppointmentComponent implements OnInit {
             
       });
     console.log(sessionStorage.getItem('token'));
-    this.http.get("http://localhost:8081/appointmentType/getAppointmentTypes").subscribe(
-        res => {
+    let params = new HttpParams().set('admin_id',sessionStorage.getItem('user_id').toString())
+        this.http.get("http://localhost:8081/appointmentType/getAppointmentTypes",{params:params}).subscribe(
+          res => {
+        // @ts-ignore
               this.appointmentTypes = res;
+
         });
 
 
