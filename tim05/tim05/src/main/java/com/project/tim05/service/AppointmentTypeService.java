@@ -50,42 +50,20 @@ public class AppointmentTypeService {
 	public AppointmentType getAppointmentTypebyId(int id) {
 		return atr.findById(id).orElse(null);
 	}
-
-	public List<AppointmentType> getClinicAppointmentTypes(int id) {
-		// TODO Auto-generated method stub
-		Connection conn;
-		try {
-			//conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
-	        
-			PreparedStatement st;
-			
-			st = conn.prepareStatement("SELECT * FROM appointment_types WHERE clinic = ?");
-			
-			st.setInt(1, id);
-			ResultSet rs = st.executeQuery();
-			List<AppointmentType> lh = new ArrayList<AppointmentType>();
-			while(rs.next()) {
-				AppointmentType new_at = new AppointmentType();
-				new_at.setId(rs.getInt("appointment_type_id"));
-				new_at.setName(rs.getString("name"));
-				lh.add(new_at);
-			}
-			st.close();
-			conn.close();
-			rs.close();
 	
-			return lh;
-			
-		}
-		catch(SQLException e) {
-			e.printStackTrace();
-		}	
-
-		return null;
+	public AppointmentType getAppointmentTypebyName(String name) {
+		return atr.findByName(name);
 	}
-
-
+	
+	public AppointmentType changeAppointmentType(int id , String name) {
+		AppointmentType at = atr.findById(id).orElse(null);
+		if(atr.findByName(name) == null) {
+			at.setName(name);
+			atr.save(at);
+			return null;
+		}
+		return at;
+	}
 	
 	public int deleteAppointmentType(int id) {
 		int success = 0;
@@ -142,5 +120,7 @@ public class AppointmentTypeService {
 
 		return null;	
 	}
+	
+	
 	
 }

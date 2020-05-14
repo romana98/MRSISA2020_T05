@@ -77,10 +77,23 @@ public class AppointmentTypeController<T> {
 		}
 	}
 	
-	@GetMapping("/getClinicAppointmenTypes")
+	@PostMapping("/editAppointmentType")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
+	public ResponseEntity<Object> editAppointmentType(@Valid @RequestBody AppointmentTypeDTO atDTO) {
+		if (ats.changeAppointmentType(atDTO.getId(), atDTO.getName()) == null) {
+			return ResponseEntity.ok(null);
+
+		}
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+
+		
+		
+	}
+	
+	/*@GetMapping("/getClinicAppointmenTypes")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	public ResponseEntity<List<AppointmentType>> getClinicAppointmentTypes(@RequestParam String clinic_id){
 		return ResponseEntity.ok(ats.getClinicAppointmentTypes(Integer.parseInt(clinic_id)));
-	}
+	}*/
 }
 

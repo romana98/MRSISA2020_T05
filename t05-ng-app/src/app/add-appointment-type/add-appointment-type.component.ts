@@ -18,7 +18,17 @@ export class AddAppointmentTypeComponent implements OnInit {
 
   selectedRowIndex: number = 0;
 
+  isDisabled : boolean = true;
+
+  isOpen : boolean = false;
+
   model : AppointmentTypeModel = {
+    name : '',
+    admin_id : parseInt(sessionStorage.getItem('id')),
+    id : 0
+  }
+
+  currentlySelected : AppointmentTypeModel = {
     name : '',
     admin_id : parseInt(sessionStorage.getItem('id')),
     id : 0
@@ -86,9 +96,45 @@ export class AddAppointmentTypeComponent implements OnInit {
           this._snackBar.open("Appointment type deleted successfully.", "Close", {
           duration: 2000,
           });
+          this.isDisabled = true;
+          this.isOpen = false;
         }
 
       );
+    }
+
+    selectionChanged(element){
+      this.isDisabled = false;
+      this.isOpen = true;
+      this.currentlySelected.admin_id = element.admin_id;
+      this.currentlySelected.id = element.id;
+      this.currentlySelected.name = element.name;
+    }
+
+    editSubbmited() {
+      this.http.post("http://localhost:8081/appointmentType/editAppointmentType", this.currentlySelected).subscribe(
+        res =>{
+
+          let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id').toString())
+          this.http.get("http://localhost:8081/appointmentType/getAppointmentTypes",{params:params1}).subscribe(
+            res => {
+          // @ts-ignore
+                this.dataSource.data = res;
+  
+          });
+
+          this._snackBar.open("Appointment type changed successfully.", "Close", {
+          duration: 2000,
+          });
+        },
+        err => {
+          this._snackBar.open("Appointment type with that name already exists", "Close", {
+            duration: 2000,
+          });
+        }
+
+      );
+
     }
 
 }
