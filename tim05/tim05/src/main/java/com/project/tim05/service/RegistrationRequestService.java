@@ -34,8 +34,8 @@ public class RegistrationRequestService {
 			rr.setPassword(passwordEncoder.encode(rr.getPassword()));
 			User u1 = ur.findByEmail(rr.getEmail());
 			
-			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 	        
 			PreparedStatement st = conn.prepareStatement("SELECT * FROM patients WHERE insurance_number = ?");
 			st.setString(1, rr.getInsurance_number());
@@ -62,8 +62,8 @@ public class RegistrationRequestService {
 			System.out.println(e.getMessage());
 			RegistrationRequest r = rrr.findByEmail(rr.getEmail());
 			
-			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 	        
 			PreparedStatement st = conn.prepareStatement("SELECT * FROM registration_requests WHERE insurance_number = ?");
 			st.setString(1, rr.getInsurance_number());
