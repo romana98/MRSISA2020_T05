@@ -26,7 +26,7 @@ import com.project.tim05.model.User;
 import com.project.tim05.service.ClinicAdministratorService;
 import com.project.tim05.service.HallService;
 
-@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
+@CrossOrigin(origins = "https://localhost:4200")
 @RequestMapping("/halls")
 @RestController
 public class HallController<T> {

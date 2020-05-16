@@ -68,6 +68,7 @@ public class AuthenticationController {
 		}
 		String jwt = tokenUtils.generateToken(user.getEmail(),user.getId(), role );
 		int expiresIn = tokenUtils.getExpiredIn();
+		System.out.println("Role je" + role);
 
 		// Vrati token kao odgovor na uspesnu autentifikaciju
 		return ResponseEntity.ok(new UserTokenStateDTO(jwt, expiresIn));
