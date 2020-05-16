@@ -32,7 +32,7 @@ import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.NurseService;
 import com.project.tim05.service.PatientService;
 
-@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
+@CrossOrigin(origins = "https://localhost:4200")
 @RequestMapping("/medicalStaff")
 @RestController
 public class MedicalStaffController<T> {
@@ -95,7 +95,16 @@ public class MedicalStaffController<T> {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		MedicalStaff  ms = (MedicalStaff) authentication.getPrincipal();
 		
-		List<Patient> pss = ps.getPatients(ns.getClinic(ms.getEmail()));
+		List<Patient> pss = null;
+		
+		if (ms.getClass() == Doctor.class) {
+			pss = ps.getPatients(ds.getClinic(ms.getEmail()));
+
+		}
+		else {
+			pss = ps.getPatients(ns.getClinic(ms.getEmail()));
+
+		}
 		
 		List<PatientDTO> psDTO = new ArrayList<PatientDTO>();
 		for (Patient p : pss) {

@@ -12,8 +12,7 @@ import {MatPaginator} from "@angular/material/paginator";
   styleUrls: ['./view-patients-nurse.component.css']
 })
 export class ViewPatientsNurseComponent implements OnInit {
-  displayedColumns: string[] = ['email', 'name', 'surname', 'address',
-    'city', 'country', 'phone_number', 'insurance_number'];
+  displayedColumns: string[] = ['name', 'surname','insurance_number'];
 
   dataSource = new MatTableDataSource();
 
@@ -23,9 +22,17 @@ export class ViewPatientsNurseComponent implements OnInit {
   constructor(private _snackBar: MatSnackBar, private http: HttpClient) {
   }
 
+  model : searchModel = {
+    parameter : 'name',
+    value : ''
+    
+  }
+
   ngOnInit(): void {
 
+    this.model.parameter = 'name'
 
+    
     this.http.get("http://localhost:8081/medicalStaff/getPatients")
       .subscribe((res) => {
         // @ts-ignore
@@ -37,7 +44,16 @@ export class ViewPatientsNurseComponent implements OnInit {
 
   }
 
+  search(): void {
+    console.log(this.model.parameter);
+    console.log(this.model.value);
+  }
 
 
+}
+
+export interface searchModel{
+  parameter : string;
+  value : string;
 }
 

@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.model.Authority;
+import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Doctor;
+import com.project.tim05.model.Nurse;
 import com.project.tim05.repository.DoctorRepository;
 
 @Service
@@ -121,5 +123,11 @@ public class DoctorService {
 	
 	public Doctor getDoctor(String email) {
 		return dr.findByEmail(email);
+	}
+	
+	public Clinic getClinic(String email) {
+		Doctor d = dr.findByEmail(email);
+		Clinic c = initializeAndUnproxy.initAndUnproxy(d.getClinic());
+		return c;
 	}
 }
