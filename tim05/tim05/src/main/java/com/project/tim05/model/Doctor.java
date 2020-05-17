@@ -14,6 +14,9 @@ import org.hibernate.annotations.OnDeleteAction;
 public class Doctor extends MedicalStaff {
 
 	private static final long serialVersionUID = 1L;
+	
+	@Column(name = "active")
+	private boolean active;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "clinic_admin", referencedColumnName = "user_id", nullable = true)
@@ -32,6 +35,7 @@ public class Doctor extends MedicalStaff {
 
 	public Doctor() {
 		super();
+		this.active = true;
 	}
 
 	public Doctor(Integer id, AppointmentType appointmentType) {

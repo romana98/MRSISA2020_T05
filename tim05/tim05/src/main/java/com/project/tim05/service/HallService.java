@@ -97,5 +97,26 @@ public class HallService {
 		
 		return success;
 	}
+	
+	public int editHall(String name, int number, int id) {
+		Hall h = hr.findById(id).orElse(null);
+		if(h == null) {
+			return 1;
+		}
+		List<Hall> halls = hr.getByName(name);
+		
+		if(!halls.isEmpty()) {
+			for(Hall hall : halls) {
+				if (hall.getNumber() == number) {
+					return 1;
+				}
+			}
+		}
+		
+		h.setName(name);
+		h.setNumber(number);
+		hr.save(h);
+		return 0;
+	}
 
 }

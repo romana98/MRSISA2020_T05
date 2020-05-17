@@ -3,7 +3,7 @@
 <mat-divider></mat-divider>
 <br>
 
-<div >
+<div style="display: block;">
   <form  #f="ngForm" (submit)="addDoctor()" style="padding-left: 25px;">
 
     <mat-form-field appearance="outline" style="width: 250px;">
@@ -52,14 +52,14 @@
 
     <br>
 
-    <mat-form-field appearance="outline" style="width: 200px;" >
+    <mat-form-field appearance="outline" style="width: 250px;" >
       <input [(ngModel)] = "model.workEnd" name="input_workEnd"
       #workEnd="ngModel" matInput placeholder="Work start" aria-label="24hr format" [ngxTimepicker]="fullTime1" [format]="24"  readonly required>
     </mat-form-field>
 
     <ngx-material-timepicker #fullTime1></ngx-material-timepicker>
 
-    <mat-form-field appearance="outline" style="padding-left: 25px; width: 225px;" >
+    <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;" >
       <input [(ngModel)] = "model.workStart" name="input_workStart"
       #workStart="ngModel" matInput placeholder="Work end" aria-label="24hr format" [ngxTimepicker]="fullTime2" [format]="24"  readonly required>
     </mat-form-field>
@@ -68,7 +68,7 @@
 
     <br>
 
-    <mat-form-field appearance="outline" style="width: 300px;">
+    <mat-form-field appearance="outline" style="width: 250px;">
       <mat-label>Appointment type</mat-label>
       <mat-select  [(ngModel)] = "model.appointment_type_id" name="input_appointmentType" #appointmentType="ngModel" required>
         <mat-option  *ngFor="let a of appointmentTypes" [value]="a.id"> {{a.name}}</mat-option>
@@ -83,4 +83,29 @@
 
 
   </form>
+
+  <!--<table mat-table [dataSource]="dataSource" style="float: left;" >
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="number">
+        <th mat-header-cell *matHeaderCellDef> Number </th>
+        <td mat-cell *matCellDef="let element"> {{element.number}} </td>
+      </ng-container>
+
+    <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef> Delete </th>
+        <td mat-cell *matCellDef="let element" (click)="deleteHall(element)" style="width: 150px;"><span class="fake-link"><mat-icon [ngStyle]="{'color':'red'}">clear</mat-icon></span></td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
+
+</table>
+
+<mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+-->
 </div>

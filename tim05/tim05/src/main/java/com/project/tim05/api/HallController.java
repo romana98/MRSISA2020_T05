@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.tim05.dto.AppointmentTypeDTO;
 import com.project.tim05.dto.HallDTO;
 import com.project.tim05.model.ClinicAdministrator;
 import com.project.tim05.model.Hall;
@@ -82,6 +83,16 @@ public class HallController<T> {
 
 		
 	}
-
+	
+	@GetMapping("/editHall")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
+	public ResponseEntity<Object> editAppointmentType(@RequestParam String name, String number, String id) {
+		if(hs.editHall(name, Integer.parseInt(number), Integer.parseInt(id)) == 1) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}			
+	}
 
 }
