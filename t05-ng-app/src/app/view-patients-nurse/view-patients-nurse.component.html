@@ -7,7 +7,7 @@
   <form #f="ngForm" (submit)="f.valid && search()">
     <mat-form-field appearance="outline" style="width: 250px;">
       <mat-label>Search</mat-label>
-      <input matInput  [(ngModel)] = "model.value" #value="ngModel"  name="input_value" required>
+      <input matInput  [(ngModel)] = "model.value" #value="ngModel"  name="input_value">
       <!--<mat-error *ngIf="name.invalid && name.errors?.pattern">
         Invalid name format! Example: Brooklyn Hospital
       </mat-error>-->
@@ -28,7 +28,10 @@
   </form>
 
 </div>
+  <label id="errorMsg" style="color: red;margin-left: 2%;display: none;">There are no results.</label>
+<div>
 
+</div>
 
 <div class="mat-elevation-z8" style="width: 50%; margin-left: 2%;">
   <table mat-table [dataSource]="dataSource" matSort >

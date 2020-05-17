@@ -26,7 +26,7 @@ import com.project.tim05.service.ClinicService;
 import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.HallService;
 
-@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
+@CrossOrigin(origins = "https://localhost:4200")
 @RequestMapping("/appointment")
 @RestController
 public class AppointmentController {

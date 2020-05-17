@@ -24,7 +24,7 @@ import com.project.tim05.service.EmailService;
 import com.project.tim05.service.RegistrationRequestService;
 import com.project.tim05.service.UserService;
 
-@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
+@CrossOrigin(origins = "https://localhost:4200")
 @RestController
 @RequestMapping(value = "/registrationRequests")
 public class RegistrationRequestController<T> {

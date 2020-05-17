@@ -75,25 +75,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
-			<artifactId>maven-resources-plugin</artifactId>
-			<executions>
-			      <execution>
-			          <id>copy-resources</id>
-			          <phase>validate</phase>
-			          <goals><goal>copy-resources</goal></goals>
-			          <configuration>
-			          	<outputDirectory>src/main/resources/static</outputDirectory>
-			              <resources>
-			                  <resource>
-			                      <targetPath>src/main/resources/static</targetPath>
-			                      <directory>../../t05-ng-app/dist/t05-ng-app</directory>
-			                  </resource>
-			              </resources>
-			          </configuration>
-			      </execution>
-			</executions>
-			</plugin>
 		</plugins>
 	</build>
 

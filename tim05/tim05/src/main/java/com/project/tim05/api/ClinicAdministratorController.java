@@ -30,7 +30,7 @@ import com.project.tim05.service.ClinicService;
 import com.project.tim05.service.RegistrationRequestService;
 import com.project.tim05.service.UserService;
 
-@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
+@CrossOrigin(origins = "https://localhost:4200")
 @RequestMapping("/clinicAdministrator")
 @RestController
 public class ClinicAdministratorController<T> {
