@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.dto.MedicalStaffDTO;
 import com.project.tim05.dto.NurseDTO;
-import com.project.tim05.dto.PatientClinicsDTO;
 import com.project.tim05.dto.PatientDTO;
+import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.MedicalStaff;
 import com.project.tim05.model.Nurse;
@@ -182,11 +182,22 @@ public class MedicalStaffController<T> {
 	//api endpoint prima parametar pretrage, njegovu vrednost i id korisnika koji poziva
 	@GetMapping("/searchPatients")
 	@PreAuthorize("hasRole('DOCTOR') || hasRole('NURSE')")
-	public ResponseEntity<List<PatientDTO>> getClinics(@RequestParam String parameter, String value, String admin_id){
+	public ResponseEntity<List<PatientDTO>> searchPatients(@RequestParam String parameter, String value, String admin_id){
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		MedicalStaff  ms = (MedicalStaff) authentication.getPrincipal();
+		int clinic_id = -1;
 		
 		//preuzimanje klinike od korisnika koji poziva metodu
-		Doctor d = ds.getDoctorbyID(Integer.parseInt(admin_id));
-		int clinic_id = d.getClinic().getId();
+		//provera korisnika da li je doktor ili medicinska sestra
+		if (ms.getClass() == Doctor.class) {
+			Doctor d = ds.getDoctor(ms.getEmail());
+			clinic_id = d.getClinic().getId();
+		}
+		else {
+			Nurse n = ns.getNurse(ms.getEmail());
+			clinic_id = n.getClinic().getId();
+		}
 		
 		//pozivanje metode za pretrazivanje po bazi iz servisa
 		List<PatientDTO> dtos = ps.searchPatients(parameter, value, clinic_id);
@@ -196,6 +207,81 @@ public class MedicalStaffController<T> {
 		return ResponseEntity.ok(ps.searchPatients(parameter, value, clinic_id));
 	}
 	
+	@GetMapping("/getCities")
+	@PreAuthorize("hasRole('DOCTOR') || hasRole('NURSE')")
+	public ResponseEntity<List<String>> getCities(@RequestParam String user_id){
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		MedicalStaff  ms = (MedicalStaff) authentication.getPrincipal();
+		int clinic_id = -1;
+		
+		//preuzimanje klinike od korisnika koji poziva metodu
+		//provera korisnika da li je doktor ili medicinska sestra
+		if (ms.getClass() == Doctor.class) {
+			Doctor d = ds.getDoctor(ms.getEmail());
+			clinic_id = d.getClinic().getId();
+		}
+		else {
+			Nurse n = ns.getNurse(ms.getEmail());
+			clinic_id = n.getClinic().getId();
+		}
+		
+		List<String> cities = ps.getCities(clinic_id);
+		
+		if (cities.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}
+		return ResponseEntity.ok(cities);
+	}
+	
+	@GetMapping("/filterPatients")
+	@PreAuthorize("hasRole('DOCTOR') || hasRole('NURSE')")
+	public ResponseEntity<List<PatientDTO>> filterPatients(@RequestParam String parameter, String value, String admin_id, String filter){
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		MedicalStaff  ms = (MedicalStaff) authentication.getPrincipal();
+		int clinic_id = -1;
+		Clinic c = null;
+		
+		//preuzimanje klinike od korisnika koji poziva metodu
+		//provera korisnika da li je doktor ili medicinska sestra
+		if (ms.getClass() == Doctor.class) {
+			Doctor d = ds.getDoctor(ms.getEmail());
+			c = d.getClinic();
+			clinic_id = d.getClinic().getId();
+		}
+		else {
+			Nurse n = ns.getNurse(ms.getEmail());
+			c = n.getClinic();
+			clinic_id = n.getClinic().getId();
+		}
+		
+		List<PatientDTO> patients = new ArrayList<PatientDTO>();
+		
+		if (ps.searchPatients(parameter, value, clinic_id).isEmpty()) {
+			List<Patient> pats = ps.getPatients(c);
+			for (Patient p : pats) {
+				PatientDTO pdto = new PatientDTO();
+				pdto.setName(p.getName());
+				pdto.setSurname(p.getSurname());
+				pdto.setInsurance_number(p.getInsurance_number());
+				pdto.setEmail(p.getEmail());
+				pdto.setCity(p.getCity());
+				patients.add(pdto);
+			}
+			patients = ps.filterPatients(filter, patients);
+
+		}
+		else {
+			patients = ps.filterPatients(filter, ps.searchPatients(parameter, value, clinic_id));
+		}
+		
+		
+		if (patients.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}
+		return ResponseEntity.ok(patients);
+	}
 	
 
 }

@@ -24,6 +24,12 @@ export class AddDoctorFormComponent implements OnInit {
     clinic_id : null
   }
 
+  searchModel : searchModel = {
+    parameter : '',
+    value : '',
+    clinic_id : -1
+  }
+
   dataSource = new MatTableDataSource();
 
   appointmentTypes : any=[];
@@ -110,6 +116,30 @@ export class AddDoctorFormComponent implements OnInit {
         }
     );
   }
+
+  search() : void {
+    let params = new HttpParams();
+    params = params.append('parameter', this.searchModel.parameter );
+    params = params.append('value',this.searchModel.value);
+    params = params.append('clinic_id' , this.model.clinic_id);
+    this.http.get("http://localhost:8081/clinicAdministrator/searchDoctors", {params:params})
+      .subscribe((res) => {
+        // @ts-ignore
+        this.dataSource.data = res;
+        document.getElementById("errorMsg").style.display = "none";
+    },
+    err => {
+        let params2 = new HttpParams().set('clinic_id',this.model.clinic_id.toString());
+        this.http.get("http://localhost:8081/doctors/getClinicsDoctors",{params:params2}).subscribe(
+          res => {
+            // @ts-ignore
+            this.dataSource.data = res;
+
+        });
+        document.getElementById("errorMsg").style.display = "block";
+        this.searchModel.value = "";
+    });
+  }
 }
 
 export interface doctorModel
@@ -122,5 +152,13 @@ export interface doctorModel
     workEnd : string;
     appointment_type_id : number;
     clinic_id : any;
+
+}
+
+export interface searchModel
+{
+   parameter: string;
+   value : string;
+   clinic_id : any;
 
 }

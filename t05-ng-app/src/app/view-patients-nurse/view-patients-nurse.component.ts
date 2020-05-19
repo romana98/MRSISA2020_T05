@@ -22,6 +22,8 @@ export class ViewPatientsNurseComponent implements OnInit {
   constructor(private _snackBar: MatSnackBar, private http: HttpClient) {
   }
 
+  cities : any[];
+
   model : searchModel = {
     parameter : 'name',
     value : '',
@@ -29,9 +31,17 @@ export class ViewPatientsNurseComponent implements OnInit {
 
   }
 
+  filterModel : filterModel = {
+    parameter : 'name',
+    value : '',
+    admin_id : sessionStorage.getItem('id'),
+    filter : ''
+  }
+
   ngOnInit(): void {
 
     this.model.parameter = 'name'
+
 
 
     this.http.get("http://localhost:8081/medicalStaff/getPatients")
@@ -40,9 +50,40 @@ export class ViewPatientsNurseComponent implements OnInit {
         this.dataSource.data = res;
       });
 
+    let params = new HttpParams().set('user_id', sessionStorage.getItem('user_id').toString())
+    this.http.get("http://localhost:8081/medicalStaff/getCities", {params:params}).subscribe(
+      res => {
+        // @ts-ignore
+        this.cities = res;
+      }
+    )
+
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
 
+  }
+
+  filterpatients(): void {
+    let params = new HttpParams();
+    params = params.append('parameter', this.model.parameter );
+    params = params.append('value',this.model.value);
+    params = params.append('admin_id' , sessionStorage.getItem('user_id').toString());
+    params = params.append('filter' , this.filterModel.filter)
+    this.http.get("http://localhost:8081/medicalStaff/filterPatients", {params:params})
+      .subscribe((res) => {
+        // @ts-ignore
+        this.dataSource.data = res;
+        document.getElementById("errorMsg").style.display = "none";
+    },
+    err => {
+        this.http.get("http://localhost:8081/medicalStaff/getPatients")
+        .subscribe((res) => {
+          // @ts-ignore
+          this.dataSource.data = res;
+        });
+        document.getElementById("errorMsg").style.display = "block";
+        this.model.value = "";
+    });
   }
 
   search(): void {
@@ -69,12 +110,18 @@ export class ViewPatientsNurseComponent implements OnInit {
 
   }
 
-
 }
 
 export interface searchModel{
   parameter : string;
   value : string;
   admin_id : string;
+}
+
+export interface filterModel{
+  parameter : string;
+  value : string;
+  admin_id : string;
+  filter : string;
 }
 

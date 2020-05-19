@@ -26,6 +26,31 @@
     <button mat-raised-button style="margin-left:2%">Search</button>
 
   </form>
+  
+  <div style="float: right;display: block;width: 40%;margin-right: 6% ;">
+    <mat-expansion-panel #expanel  >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+            Filter patients
+        </mat-panel-title>
+        </mat-expansion-panel-header>
+    
+        <mat-form-field appearance="outline" style="width: 250px;">
+          <mat-label>Hall</mat-label>
+          <mat-select [(ngModel)] = "filterModel.filter" name="input_filter"
+          #filter="ngModel" required>
+            <mat-option *ngFor="let c of cities" [value]="c" >{{c}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+    
+        <br>
+  
+        <button mat-raised-button (click)="filterpatients()" >Filter</button>
+        
+    </mat-expansion-panel>
+  </div>
+  
+  
 
 </div>
   <label id="errorMsg" style="color: red;margin-left: 2%;display: none;">There are no results.</label>
@@ -33,7 +58,7 @@
 
 </div>
 
-<div class="mat-elevation-z8" style="width: 50%; margin-left: 2%;">
+<div class="mat-elevation-z8" style="width: 50%; margin-left: 2%;display: block;">
   <table mat-table [dataSource]="dataSource" matSort >
 
     <ng-container matColumnDef="name">
@@ -57,3 +82,4 @@
 
   <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
 </div>
+
