@@ -29,7 +29,7 @@ export class AddNurseFormComponent implements OnInit {
   }
 
   addNurse(): void{
-    let url =  "/nurse/addNurse"
+    let url =  "http://localhost:8081/nurse/addNurse"
     this.http.post(url,this.model).subscribe(
       res => {
         this._snackBar.open("Nurse added successfully", "Close", {

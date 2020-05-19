@@ -29,7 +29,7 @@ export class RequestListPatientsComponent implements OnInit {
   ngOnInit(): void {
 
 
-    this.http.get("/registrationRequests/getRequests")
+    this.http.get("http://localhost:8081/registrationRequests/getRequests")
       .subscribe((res) => {
         // @ts-ignore
         this.dataSource.data = res;
@@ -42,7 +42,7 @@ export class RequestListPatientsComponent implements OnInit {
 
   Accept(req): void {
 
-    let url = "/patients/addPatient"
+    let url = "http://localhost:8081/patients/addPatient"
     this.http.post(url, req).subscribe(
       res => {
         let index = this.dataSource.data.indexOf(req);
@@ -85,7 +85,7 @@ export class RequestListPatientsComponent implements OnInit {
 
       if(result.sent === true && req.text != null)
       {
-        let url = "/registrationRequests/declineRequest"
+        let url = "http://localhost:8081/registrationRequests/declineRequest"
         this.http.post(url, req).subscribe(
           res => {
             let index = this.dataSource.data.indexOf(req);

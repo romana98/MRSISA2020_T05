@@ -50,11 +50,11 @@ export class AddHallFormComponent implements OnInit{
 
       let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id'))
 
-      this.http.get("/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
+      this.http.get("http://localhost:8081/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
         res => {
           this.clinic_id = res.toString();
           let params = new HttpParams().set('clinic_id', this.clinic_id);
-          this.http.get("/halls/getClinicHall",{params:params})
+          this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
           .subscribe((res) => {
           // @ts-ignore
              this.dataSource.data = res;
@@ -63,7 +63,7 @@ export class AddHallFormComponent implements OnInit{
         });
 
         let params = new HttpParams().set('clinic_id', "1");
-        this.http.get("/halls/getClinicHall",{params:params})
+        this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
         .subscribe((res) => {
         // @ts-ignore
            this.dataSource.data = res;
@@ -73,13 +73,13 @@ export class AddHallFormComponent implements OnInit{
     }
 
     AddHall(): void{
-        let url = "/halls/addHall"
+        let url = "http://localhost:8081/halls/addHall"
         this.http.post(url, this.model).subscribe(
             res => {
 
               //kada dobijem odgovor da sam uspeo da dodam salu hocu da posaljem upit za uzimanje svih sala da bih u tabeli prikazao
               let params = new HttpParams().set('clinic_id', this.clinic_id);
-              this.http.get("/halls/getClinicHall",{params:params})
+              this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
               .subscribe((res) => {
               // @ts-ignore
               this.dataSource.data = res;
@@ -112,9 +112,9 @@ export class AddHallFormComponent implements OnInit{
 
     deleteHall(element): void{
         let params = new HttpParams().set("hall_id", element.id.toString());
-        this.http.delete("/halls/deleteHall",{params:params}).subscribe(
+        this.http.delete("http://localhost:8081/halls/deleteHall",{params:params}).subscribe(
           res =>{
-            
+
             let index = this.dataSource.data.indexOf(element);
             this.dataSource.data.splice(index,1);
             this.dataSource._updateChangeSubscription();

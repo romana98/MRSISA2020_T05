@@ -54,14 +54,14 @@
     <br>
 
     <mat-form-field appearance="outline" style="width: 250px;" >
-      <input [(ngModel)] = "model.workStart" name="input_workStart" [min]="'11:00 am'"
+      <input [(ngModel)] = "model.workStart" name="input_workStart"
       #workEnd="ngModel" matInput placeholder="Work start" aria-label="24hr format" [ngxTimepicker]="fullTime1" [format]="24"  readonly required>
     </mat-form-field>
 
     <ngx-material-timepicker #fullTime1></ngx-material-timepicker>
 
     <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;" >
-      <input [(ngModel)] = "model.workEnd" name="input_workEnd"
+      <input [(ngModel)] = "model.workEnd" name="input_workEnd" [min]="model.workStart"
       #workStart="ngModel" matInput placeholder="Work end" aria-label="24hr format" [ngxTimepicker]="fullTime2" [format]="24"  readonly required>
     </mat-form-field>
 

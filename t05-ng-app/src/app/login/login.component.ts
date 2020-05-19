@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit {
   }
 
   registerPatient(): void{
-    let url = "/registrationRequests/register"
+    let url = "http://localhost:8081/registrationRequests/register"
     this.http.post(url,this.model).subscribe(
       res => {
         this._snackBar.open("Your registration request has been sent! Your activation link will be sent to you soon.", "Close", {

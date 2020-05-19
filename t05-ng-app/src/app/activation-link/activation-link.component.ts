@@ -12,9 +12,9 @@ import * as jwt_decode from "jwt-decode";
 export class ActivationLinkComponent implements OnInit {
 
   model: activateModel = {
-  id:  -1,
-  email: ''
-}
+    id:  -1,
+    email: ''
+  }
 
   constructor(private _snackBar: MatSnackBar,
               private activatedRoute: ActivatedRoute,private router: Router,  private http : HttpClient) {
@@ -26,7 +26,7 @@ export class ActivationLinkComponent implements OnInit {
       this.model.id = params['id'];
       this.model.email = params['email'];
 
-      let url = "/patients/activate"
+      let url = "http://localhost:8081/patients/activate"
       this.http.post(url,this.model).subscribe(
         res => {
           this._snackBar.open("Your account is successfully activated!", "Close", {
@@ -38,9 +38,9 @@ export class ActivationLinkComponent implements OnInit {
         },
         err => {
 
-            this._snackBar.open("Error has occurred while activating your account!", "Close", {
-              duration: 2000,
-            });
+          this._snackBar.open("Error has occurred while activating your account!", "Close", {
+            duration: 2000,
+          });
         }
       );
 

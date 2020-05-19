@@ -28,7 +28,7 @@ export class EditClinicCenterAdministratorComponent implements OnInit{
 
   ngOnInit(): void{
 
-    this.http.get("/clinicCenterAdministrator/getClinicCenterAdministrator")
+    this.http.get("http://localhost:8081/clinicCenterAdministrator/getClinicCenterAdministrator")
       .subscribe((res)=>{
         this.model = <clinicCenterAdminModel>res;
         this.model.password = '';
@@ -38,7 +38,7 @@ export class EditClinicCenterAdministratorComponent implements OnInit{
   }
 
   editClinicCenterAdmin(): void{
-    let url = "/clinicCenterAdministrator/editClinicCenterAdministrator"
+    let url = "http://localhost:8081/clinicCenterAdministrator/editClinicCenterAdministrator"
     this.http.post(url,this.model).subscribe(
       res => {
         this._snackBar.open("Your profile has been updated successfully!", "Close", {

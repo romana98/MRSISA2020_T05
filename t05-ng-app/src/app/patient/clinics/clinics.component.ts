@@ -49,7 +49,7 @@ export class ClinicsComponent implements OnInit {
     params = params.append('avg_rate_lowest', "0");
     params = params.append('avg_rate_highest', "0");
 
-    this.http.get("/patients/getClinics",{params:params})
+    this.http.get("http://localhost:8081/patients/getClinics",{params:params})
     .subscribe((res) => {
       // @ts-ignore
       this.dataSource.data = res;
@@ -60,7 +60,7 @@ export class ClinicsComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.selectedRowIndex  = 1;
 
-    this.http.get("/appointmentType/getAppointmentTypes").subscribe(
+    this.http.get("http://localhost:8081/appointmentType/getAppointmentTypes").subscribe(
       (res) =>{
         this.appointmentTypes = res;
       }

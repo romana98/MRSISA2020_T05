@@ -26,7 +26,7 @@ export class AddMedicineFromComponent implements OnInit{
   }
 
   AddMedicine(): void{
-    let url = "/medicine/addMedicine"
+    let url = "http://localhost:8081/medicine/addMedicine"
     this.http.post(url, this.model).subscribe(
       res => {
         this._snackBar.open("Medicine added successfully!", "Close", {

@@ -31,7 +31,7 @@ export class AddLeaveRequestComponent implements OnInit{
   }
 
   MakeRequest(): void{
-    let url = "/clinicAdministrator/addClinicAdministrator"
+    let url = "http://localhost:8081/clinicAdministrator/addClinicAdministrator"
     this.http.post(url, this.model).subscribe(
       res => {
         this._snackBar.open("Request made successfully!", "Close", {

@@ -34,7 +34,7 @@ export class ViewPatientsNurseComponent implements OnInit {
     this.model.parameter = 'name'
 
 
-    this.http.get("/medicalStaff/getPatients")
+    this.http.get("http://localhost:8081/medicalStaff/getPatients")
       .subscribe((res) => {
         // @ts-ignore
         this.dataSource.data = res;

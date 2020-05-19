@@ -32,7 +32,7 @@ export class ViewPatientProfile implements OnInit{
 
   ngOnInit(): void{
     this.hide = true;
-    let url = "/patients/getPatient";
+    let url = "http://localhost:8081/patients/getPatient";
     this.http.get(url).subscribe(
       res => {
         this.model = <patientModel>res;

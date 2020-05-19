@@ -30,7 +30,7 @@ export class InitialChangePasswordComponent implements OnInit {
   }
 
   changePassword(): void{
-    let url = "/auth/changePassword"
+    let url = "http://localhost:8081/auth/changePassword"
     this.http.post(url,{email: this.model.email, password:this.model.password}).subscribe(
       res => {
         this._snackBar.open("Password successfully changed!", "Close", {

@@ -25,7 +25,7 @@ export class AddDiagnosisFormComponent implements OnInit{
   }
 
   AddDiagnosis(): void{
-    let url = "/diagnosis/addDiagnosis"
+    let url = "http://localhost:8081/diagnosis/addDiagnosis"
     this.http.post(url, this.model).subscribe(
       res => {
 

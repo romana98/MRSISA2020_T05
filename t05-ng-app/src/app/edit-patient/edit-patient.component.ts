@@ -32,7 +32,7 @@ export class EditPatientProfile implements OnInit{
 
     ngOnInit(): void{
         this.hide = true;
-        let url = "/patients/getPatient";
+        let url = "http://localhost:8081/patients/getPatient";
         this.http.get(url).subscribe(
           res => {
             this.model = <patientModel>res;
@@ -42,7 +42,7 @@ export class EditPatientProfile implements OnInit{
     }
 
     editPatient(): void{
-        let url = "/patients/editPatient"
+        let url = "http://localhost:8081/patients/editPatient"
         this.http.post(url,this.model).subscribe(
             res => {
               this._snackBar.open("Your profile has been updated successfully!", "Close", {
