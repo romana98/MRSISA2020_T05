@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,12 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.AppointmentTypeDTO;
 import com.project.tim05.model.AppointmentType;
-import com.project.tim05.model.Clinic;
 import com.project.tim05.model.ClinicAdministrator;
 import com.project.tim05.service.AppointmentTypeService;
 import com.project.tim05.service.ClinicAdministratorService;
 
-@CrossOrigin(origins = "https://localhost:4200")
+//@CrossOrigin(origins = "https://localhost:4200")
 @RequestMapping("/appointmentType")
 @RestController
 public class AppointmentTypeController<T> {

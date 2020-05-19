@@ -1,0 +1,33 @@
+<br>
+<h1 style="margin-left: 30px;">Make new request for leave: </h1>
+<mat-divider></mat-divider>
+<br>
+
+<div >
+  <form  #f="ngForm" (submit)="f.form.valid && MakeRequest()" style="padding-left: 25px;">
+
+    <mat-form-field appearance="outline" style="width: 250px;">
+    <mat-label>Choose a start date</mat-label>
+    <input [(ngModel)] = "model.start_date" name="input_start_date" [min]="today"
+           #start_date="ngModel" matInput [matDatepicker]="picker" readonly required>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker ></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
+    <mat-label>Choose a end date</mat-label>
+    <input [(ngModel)] = "model.end_date" name="input_end_date" [min]="model.start_date"
+           #end_date="ngModel" matInput [matDatepicker]="picker1" readonly required>
+    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+    <mat-datepicker #picker1 ></mat-datepicker>
+    </mat-form-field>
+
+    <br>
+    <br>
+
+    <button mat-raised-button >Make request</button>
+
+
+
+  </form>
+</div>

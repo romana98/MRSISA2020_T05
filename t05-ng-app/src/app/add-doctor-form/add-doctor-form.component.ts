@@ -31,7 +31,7 @@ export class AddDoctorFormComponent implements OnInit {
 
   ngOnInit(): void {
     let params = new HttpParams().set('admin_id',sessionStorage.getItem('user_id').toString())
-        this.http.get("http://localhost:8081/appointmentType/getAppointmentTypes",{params:params}).subscribe(
+        this.http.get("/appointmentType/getAppointmentTypes",{params:params}).subscribe(
           res => {
         // @ts-ignore
               this.appointmentTypes= res;
@@ -42,7 +42,7 @@ export class AddDoctorFormComponent implements OnInit {
     this.http.get("http://localhost:8081/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
         res => {
               this.model.clinic_id = res;
-              
+
         });
 
 

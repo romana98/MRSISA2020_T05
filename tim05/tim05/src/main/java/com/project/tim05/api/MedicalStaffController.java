@@ -13,7 +13,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +31,7 @@ import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.NurseService;
 import com.project.tim05.service.PatientService;
 
-@CrossOrigin(origins = "https://localhost:4200")
+//@CrossOrigin(origins = "https://localhost:4200")
 @RequestMapping("/medicalStaff")
 @RestController
 public class MedicalStaffController<T> {

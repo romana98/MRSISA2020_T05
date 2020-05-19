@@ -32,7 +32,7 @@ export class EditPatientProfile implements OnInit{
 
     ngOnInit(): void{
         this.hide = true;
-        let url = "http://localhost:8081/patients/getPatient";
+        let url = "/patients/getPatient";
         this.http.get(url).subscribe(
           res => {
             this.model = <patientModel>res;
@@ -42,12 +42,14 @@ export class EditPatientProfile implements OnInit{
     }
 
     editPatient(): void{
-        let url = "http://localhost:8081/patients/editPatient"
+        let url = "/patients/editPatient"
         this.http.post(url,this.model).subscribe(
             res => {
               this._snackBar.open("Your profile has been updated successfully!", "Close", {
                 duration: 2000,
               });
+
+              let booleanPromise = this.router.navigate(["../viewProfile"], {relativeTo: this.r});
 
             },
             err => {
@@ -57,7 +59,7 @@ export class EditPatientProfile implements OnInit{
               console.log(err)
             }
         );
-      let booleanPromise = this.router.navigate(["../viewProfile"], {relativeTo: this.r});
+
     }
   checkPassword() {
 

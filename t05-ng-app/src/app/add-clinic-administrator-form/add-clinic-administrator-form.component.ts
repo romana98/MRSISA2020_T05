@@ -31,7 +31,7 @@ export class AddClinicAdminFromComponent implements OnInit{
 
 
     ngOnInit(): void{
-         this.http.get("http://localhost:8081/clinic/getClinics")
+         this.http.get("/clinic/getClinics")
           .subscribe((res)=>{
             this.clinics = res;
             this.model.clinic = res[0];
@@ -40,7 +40,7 @@ export class AddClinicAdminFromComponent implements OnInit{
     }
 
     AddClinicAdmin(): void{
-        let url = "http://localhost:8081/clinicAdministrator/addClinicAdministrator"
+        let url = "/clinicAdministrator/addClinicAdministrator"
         this.http.post(url, this.model).subscribe(
             res => {
               this._snackBar.open("Admin added successfully!", "Close", {

@@ -33,7 +33,7 @@ export class EditClinicAdministratorComponent implements OnInit{
 
   ngOnInit(): void{
 
-    this.http.get("http://localhost:8081/clinicAdministrator/getClinicAdministrator")
+    this.http.get("/clinicAdministrator/getClinicAdministrator")
       .subscribe((res)=>{
         this.model = <clinicAdminModel>res;
         this.model.password = '';
@@ -44,12 +44,14 @@ export class EditClinicAdministratorComponent implements OnInit{
   }
 
   editClinicAdmin(): void{
-    let url = "http://localhost:8081/clinicAdministrator/editClinicAdministrator"
+    let url = "/clinicAdministrator/editClinicAdministrator"
     this.http.post(url,this.model).subscribe(
       res => {
         this._snackBar.open("Your profile has been updated successfully!", "Close", {
           duration: 2000,
         });
+
+        let booleanPromise = this.router.navigate(["../viewProfile"], {relativeTo: this.r});
 
       },
       err => {
@@ -70,7 +72,7 @@ export class EditClinicAdministratorComponent implements OnInit{
         }
       }
     );
-    let booleanPromise = this.router.navigate(["../viewProfile"], {relativeTo: this.r});
+
   }
 
   checkPassword() {

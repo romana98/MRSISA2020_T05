@@ -55,9 +55,9 @@ import {ViewClinicAdministratorComponent} from "./view-clinic-administrator/view
 import {ViewClinicCenterAdministratorComponent} from "./view-clinic-center-administrator/view-clinic-center-administrator.component";
 import {ViewMedicalStaff} from "./view-medical-staff/view-medical-staff.component";
 import {ViewPatientProfile} from "./view-patient/view-patient.component";
-import {AdminsStaffGuardService} from "./guards/admins-staff-guard.service";
 import { InitialChangePasswordComponent } from './initial-change-password/initial-change-password.component';
 import {ActivationLinkComponent} from "./activation-link/activation-link.component";
+import {AddLeaveRequestComponent} from "./add-leave-request/add-leave-request.component";
 
 
 
@@ -192,6 +192,12 @@ const appRoutes : Routes = [
         canActivate : [MedicallStuffGuardService]
       },
 
+      {
+        path : 'makeLeaveRequest',
+        component : AddLeaveRequestComponent,
+        canActivate : [MedicallStuffGuardService]
+      }
+
 
     ]
   },
@@ -240,7 +246,8 @@ const appRoutes : Routes = [
     ViewMedicalStaff,
     ViewPatientProfile,
     InitialChangePasswordComponent,
-    ActivationLinkComponent
+    ActivationLinkComponent,
+    AddLeaveRequestComponent
   ],
   imports: [
     BrowserModule,

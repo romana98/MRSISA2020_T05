@@ -45,7 +45,7 @@ export class AddAppointmentTypeComponent implements OnInit {
 
     let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id').toString())
 
-    this.http.get("http://localhost:8081/appointmentType/getAppointmentTypes",{params:params1}).subscribe(
+    this.http.get("/appointmentType/getAppointmentTypes",{params:params1}).subscribe(
       res => {
         // @ts-ignore
         this.dataSource.data = res;
@@ -55,14 +55,14 @@ export class AddAppointmentTypeComponent implements OnInit {
   }
 
   addAppointmentType() : void {
-    let url = "http://localhost:8081/appointmentType/addAppointmentType";
+    let url = "/appointmentType/addAppointmentType";
     this.model.admin_id = parseInt(sessionStorage.getItem('user_id'));
     console.log(this.model.admin_id);
     this.http.post(url,this.model).subscribe(
       res => {
         //poziv kako bismo nakon dodavanja appointmenta dobili novije podatke u tabeli
         let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id').toString())
-        this.http.get("http://localhost:8081/appointmentType/getAppointmentTypes",{params:params1}).subscribe(
+        this.http.get("/appointmentType/getAppointmentTypes",{params:params1}).subscribe(
           res => {
         // @ts-ignore
               this.dataSource.data = res;
@@ -91,7 +91,7 @@ export class AddAppointmentTypeComponent implements OnInit {
       this.currentlySelected.id = -1;
       this.currentlySelected.name = '';
       let params = new HttpParams().set("aptype_id", element.id.toString());
-      this.http.delete("http://localhost:8081/appointmentType/deleteAppointmentType",{params:params}).subscribe(
+      this.http.delete("/appointmentType/deleteAppointmentType",{params:params}).subscribe(
         res =>{
           let index = this.dataSource.data.indexOf(element);
           this.dataSource.data.splice(index,1);
@@ -99,7 +99,7 @@ export class AddAppointmentTypeComponent implements OnInit {
           this._snackBar.open("Appointment type deleted successfully.", "Close", {
           duration: 2000,
           });
-          
+
         }
 
       );
@@ -115,15 +115,15 @@ export class AddAppointmentTypeComponent implements OnInit {
     }
 
     editSubbmited() {
-      this.http.post("http://localhost:8081/appointmentType/editAppointmentType", this.currentlySelected).subscribe(
+      this.http.post("/appointmentType/editAppointmentType", this.currentlySelected).subscribe(
         res =>{
 
           let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id').toString())
-          this.http.get("http://localhost:8081/appointmentType/getAppointmentTypes",{params:params1}).subscribe(
+          this.http.get("/appointmentType/getAppointmentTypes",{params:params1}).subscribe(
             res => {
           // @ts-ignore
                 this.dataSource.data = res;
-  
+
           });
 
           this._snackBar.open("Appointment type changed successfully.", "Close", {

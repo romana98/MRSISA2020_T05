@@ -19,6 +19,9 @@ public abstract class MedicalStaff extends User {
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
 	private Set<Patient> patients;
 	
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
+	private Set<WorkCalendar> workCalendar;
+	
 	public MedicalStaff() {
 		super();
 	}
@@ -49,6 +52,17 @@ public abstract class MedicalStaff extends User {
 	public void setWorkEnd(String workEnd) {
 		this.workEnd = workEnd;
 	}
+
+
+	public Set<WorkCalendar> getWorkCalendar() {
+		return workCalendar;
+	}
+
+
+	public void setWorkCalendar(Set<WorkCalendar> workCalendar) {
+		this.workCalendar = workCalendar;
+	}
+	
 	
 	
 }

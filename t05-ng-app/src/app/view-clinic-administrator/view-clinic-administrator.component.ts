@@ -33,7 +33,7 @@ export class ViewClinicAdministratorComponent implements OnInit{
 
   ngOnInit(): void{
 
-    this.http.get("http://localhost:8081/clinicAdministrator/getClinicAdministrator")
+    this.http.get("/clinicAdministrator/getClinicAdministrator")
       .subscribe((res)=>{
         this.model = <clinicAdminModel>res;
         this.clinic_info = this.model.clinic.name + ", " + this.model.clinic.address;

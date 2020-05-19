@@ -10,7 +10,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +29,7 @@ import com.project.tim05.service.ClinicService;
 import com.project.tim05.service.RegistrationRequestService;
 import com.project.tim05.service.UserService;
 
-@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
+//@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
 @RequestMapping("/clinicAdministrator")
 @RestController
 public class ClinicAdministratorController<T> {

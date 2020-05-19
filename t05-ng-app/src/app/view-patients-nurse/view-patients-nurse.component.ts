@@ -25,15 +25,15 @@ export class ViewPatientsNurseComponent implements OnInit {
   model : searchModel = {
     parameter : 'name',
     value : ''
-    
+
   }
 
   ngOnInit(): void {
 
     this.model.parameter = 'name'
 
-    
-    this.http.get("http://localhost:8081/medicalStaff/getPatients")
+
+    this.http.get("/medicalStaff/getPatients")
       .subscribe((res) => {
         // @ts-ignore
         this.dataSource.data = res;

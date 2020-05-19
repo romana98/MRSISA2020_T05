@@ -26,7 +26,7 @@ export class ViewClinicsComponent implements OnInit {
   ngOnInit(): void {
 
 
-    this.http.get("http://localhost:8081/clinic/getClinics")
+    this.http.get("/clinic/getClinics")
       .subscribe((res) => {
         // @ts-ignore
         this.dataSource.data = res;

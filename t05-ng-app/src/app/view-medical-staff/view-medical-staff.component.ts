@@ -30,7 +30,7 @@ export class ViewMedicalStaff implements OnInit{
 
   ngOnInit(): void{
     this.hide = true;
-    let url = "http://localhost:8081/medicalStaff/getData";
+    let url = "/medicalStaff/getData";
     this.http.get(url).subscribe(
       res => {
         this.model = <medicalStaffModel>res;

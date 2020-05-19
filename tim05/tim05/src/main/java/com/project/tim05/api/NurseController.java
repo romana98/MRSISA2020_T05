@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.tim05.dto.NurseDTO;
 import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.ClinicAdministrator;
-import com.project.tim05.model.MedicalStaff;
 import com.project.tim05.model.Nurse;
 import com.project.tim05.model.Patient;
 import com.project.tim05.model.RegistrationRequest;
@@ -30,7 +28,7 @@ import com.project.tim05.service.NurseService;
 import com.project.tim05.service.PatientService;
 import com.project.tim05.service.RegistrationRequestService;
 
-@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
+//@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
 @RequestMapping("/nurse")
 @RestController
 public class NurseController {
