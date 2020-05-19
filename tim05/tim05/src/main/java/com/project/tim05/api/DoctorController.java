@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,14 +27,13 @@ import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Patient;
 import com.project.tim05.model.RegistrationRequest;
-import com.project.tim05.model.User;
 import com.project.tim05.service.AppointmentTypeService;
 import com.project.tim05.service.ClinicService;
 import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.PatientService;
 import com.project.tim05.service.RegistrationRequestService;
 
-//@CrossOrigin(origins = "https://localhost:4200")
+@CrossOrigin(origins = "https://localhost:4200")
 @RequestMapping("/doctors")
 @RestController
 public class DoctorController {
@@ -73,6 +74,11 @@ public class DoctorController {
 	@GetMapping("/getDoctors")
 	public List<Doctor> getHelloWorld() {
 		return ds.getDoctors();
+	}
+	
+	@GetMapping("/getClinicsDoctors")
+	public List<DoctorDTO> getDoctors(@RequestParam String clinic_id) {
+		return ds.getClinicsDoctors(Integer.parseInt(clinic_id));
 	}
 
 	@PostMapping("/addDoctor")
@@ -116,6 +122,17 @@ public class DoctorController {
 	public ResponseEntity<ArrayList<DoctorDTO>> getDoctors(@RequestParam String clinic_id, String appointment_type_id) {
 		//TODO proveri koji doktori su slobodni za odabrani termin
 		return ResponseEntity.ok(ds.getDoctors(Integer.parseInt(clinic_id), Integer.parseInt(appointment_type_id)));
+	}
+	
+	@DeleteMapping("/deleteDoctor")
+	@PreAuthorize("hasRole('DOCTOR') || hasRole('CLINIC_ADMIN')")
+	public ResponseEntity<ArrayList<DoctorDTO>> deleteDoctor(@RequestParam String doctor_id) {
+		if(ds.deleteDoctor(Integer.parseInt(doctor_id)) != 0) {
+			return ResponseEntity.ok(null);
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}
 	}
 
 }

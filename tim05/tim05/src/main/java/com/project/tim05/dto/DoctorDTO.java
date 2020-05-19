@@ -13,11 +13,25 @@ public class DoctorDTO extends MedicalStaffDTO {
 
 	@NotNull
 	private int id;
+ 
+	private String AppointmentTypeName;
 
 	public DoctorDTO() {
 		super();
 
 	}
+	
+	public String getAppointmentTypeName() {
+		return AppointmentTypeName;
+	}
+
+
+
+	public void setAppointmentTypeName(String appointmentTypeName) {
+		AppointmentTypeName = appointmentTypeName;
+	}
+
+
 
 	public int getId() {
 		return id;

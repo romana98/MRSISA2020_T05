@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatExpansionPanel } from '@angular/material/expansion';
 
 
 @Component({
@@ -37,6 +38,8 @@ export class AddAppointmentTypeComponent implements OnInit {
   clinic_id : any = '';
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild('expanel') expanel: MatExpansionPanel;
+
 
 
   constructor(private _snackBar: MatSnackBar, private http: HttpClient, private changeDetectorRefs: ChangeDetectorRef) { }
@@ -96,6 +99,8 @@ export class AddAppointmentTypeComponent implements OnInit {
           let index = this.dataSource.data.indexOf(element);
           this.dataSource.data.splice(index,1);
           this.dataSource._updateChangeSubscription();
+          this.isDisabled = true;
+          this.expanel.close();
           this._snackBar.open("Appointment type deleted successfully.", "Close", {
           duration: 2000,
           });
@@ -108,7 +113,7 @@ export class AddAppointmentTypeComponent implements OnInit {
 
     selectionChanged(element){
       this.isDisabled = false;
-      this.isOpen = true;
+      this.expanel.open();
       this.currentlySelected.admin_id = element.admin_id;
       this.currentlySelected.id = element.id;
       this.currentlySelected.name = element.name;

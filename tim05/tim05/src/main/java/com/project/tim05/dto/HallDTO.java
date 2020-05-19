@@ -16,7 +16,7 @@ public class HallDTO {
 	@NotNull
 	@Min(value=0)
     private int number;
-	    
+	
     public HallDTO(){
     	
     }
@@ -27,7 +27,7 @@ public class HallDTO {
 		this.number = number;
 		
 	}
-
+    
 	public String getName() {
 		return name;
 	}

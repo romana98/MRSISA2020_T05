@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,9 @@ import com.project.tim05.dto.ClinicDTO;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.service.ClinicService;
 
-//@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
+
+@CrossOrigin(origins = "https://localhost:4200")
+
 @RequestMapping("/clinic")
 @RestController
 public class ClinicController<T> {

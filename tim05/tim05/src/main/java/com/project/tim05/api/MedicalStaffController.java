@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.dto.MedicalStaffDTO;
 import com.project.tim05.dto.NurseDTO;
+import com.project.tim05.dto.PatientClinicsDTO;
 import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.MedicalStaff;
@@ -173,6 +175,24 @@ public class MedicalStaffController<T> {
 			}
 		}
 		
+	}
+	
+	
+	//api endpoint prima parametar pretrage, njegovu vrednost i id korisnika koji poziva
+	@GetMapping("/searchPatients")
+	@PreAuthorize("hasRole('DOCTOR') || hasRole('NURSE')")
+	public ResponseEntity<List<PatientDTO>> getClinics(@RequestParam String parameter, String value, String admin_id){
+		
+		//preuzimanje klinike od korisnika koji poziva metodu
+		Doctor d = ds.getDoctorbyID(Integer.parseInt(admin_id));
+		int clinic_id = d.getClinic().getId();
+		
+		//pozivanje metode za pretrazivanje po bazi iz servisa
+		List<PatientDTO> dtos = ps.searchPatients(parameter, value, clinic_id);
+		if(dtos.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(dtos);
+		}
+		return ResponseEntity.ok(ps.searchPatients(parameter, value, clinic_id));
 	}
 	
 	

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-add-doctor-form',
@@ -8,6 +9,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   styleUrls: ['./add-doctor-form.component.css']
 })
 export class AddDoctorFormComponent implements OnInit {
+
+  displayedColumns: string[] = ['name', 'surname', 'email','appointmentName','delete'];
 
   model: doctorModel = {
     name : '',
@@ -20,6 +23,8 @@ export class AddDoctorFormComponent implements OnInit {
     //ovde treba preuzeti od administratora koji dodaje kliniku zapravo
     clinic_id : null
   }
+
+  dataSource = new MatTableDataSource();
 
   appointmentTypes : any=[];
 
@@ -42,8 +47,24 @@ export class AddDoctorFormComponent implements OnInit {
     this.http.get("http://localhost:8081/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
         res => {
               this.model.clinic_id = res;
+<<<<<<< HEAD
 
         });
+=======
+              let params2 = new HttpParams().set('clinic_id',res.toString());
+              this.http.get("http://localhost:8081/doctors/getClinicsDoctors",{params:params2}).subscribe(
+                  res => {
+                    // @ts-ignore
+                    this.dataSource.data = res;
+              
+                  }); 
+               });
+
+
+    
+
+        
+>>>>>>> refs/remotes/origin/master
 
 
   }
@@ -52,6 +73,13 @@ export class AddDoctorFormComponent implements OnInit {
     let url =  "http://localhost:8081/doctors/addDoctor"
     this.http.post(url,this.model).subscribe(
         res => {
+          let params2 = new HttpParams().set('clinic_id',this.model.clinic_id.toString());
+              this.http.get("http://localhost:8081/doctors/getClinicsDoctors",{params:params2}).subscribe(
+                  res => {
+                    // @ts-ignore
+                    this.dataSource.data = res;
+              
+          }); 
           this._snackBar.open("Doctor added successfully", "Close", {
             duration: 2000,
           });
@@ -66,6 +94,33 @@ export class AddDoctorFormComponent implements OnInit {
         }
     );
 
+  }
+
+  deleteDoctor(element): void{
+    let url =  "http://localhost:8081/doctors/deleteDoctor"
+    let params = new HttpParams().set('doctor_id', element.id)
+    this.http.delete(url,{params:params}).subscribe(
+        res => {
+          let params2 = new HttpParams().set('clinic_id',this.model.clinic_id.toString());
+              this.http.get("http://localhost:8081/doctors/getClinicsDoctors",{params:params2}).subscribe(
+                  res => {
+                    // @ts-ignore
+                    this.dataSource.data = res;
+              
+          }); 
+          this._snackBar.open("Doctor deleted successfully", "Close", {
+            duration: 2000,
+          });
+
+        },
+        err => {
+          this._snackBar.open("Error has occurred while deleting doctor", "Close", {
+            duration: 2000,
+          });
+
+          console.log(err)
+        }
+    );
   }
 }
 

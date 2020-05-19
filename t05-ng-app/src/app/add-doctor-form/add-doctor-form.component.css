@@ -2,3 +2,8 @@
 .invalid-input{
     color: red;
   }
+.fake-link {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}

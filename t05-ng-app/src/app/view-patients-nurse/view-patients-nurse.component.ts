@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatSort} from "@angular/material/sort";
@@ -24,8 +24,13 @@ export class ViewPatientsNurseComponent implements OnInit {
 
   model : searchModel = {
     parameter : 'name',
+<<<<<<< HEAD
     value : ''
 
+=======
+    value : '',
+    admin_id : sessionStorage.getItem('id')
+>>>>>>> refs/remotes/origin/master
   }
 
   ngOnInit(): void {
@@ -45,8 +50,27 @@ export class ViewPatientsNurseComponent implements OnInit {
   }
 
   search(): void {
-    console.log(this.model.parameter);
-    console.log(this.model.value);
+    console.log(sessionStorage.getItem('user_id'))
+    let params = new HttpParams();
+    params = params.append('parameter', this.model.parameter );
+    params = params.append('value',this.model.value);
+    params = params.append('admin_id' , sessionStorage.getItem('user_id').toString());
+    this.http.get("http://localhost:8081/medicalStaff/searchPatients", {params:params})
+      .subscribe((res) => {
+        // @ts-ignore
+        this.dataSource.data = res;
+        document.getElementById("errorMsg").style.display = "none";
+    },
+    err => {
+        this.http.get("http://localhost:8081/medicalStaff/getPatients")
+        .subscribe((res) => {
+          // @ts-ignore
+          this.dataSource.data = res;
+        });
+        document.getElementById("errorMsg").style.display = "block";
+        this.model.value = "";
+    });
+
   }
 
 
@@ -55,5 +79,6 @@ export class ViewPatientsNurseComponent implements OnInit {
 export interface searchModel{
   parameter : string;
   value : string;
+  admin_id : string;
 }
 

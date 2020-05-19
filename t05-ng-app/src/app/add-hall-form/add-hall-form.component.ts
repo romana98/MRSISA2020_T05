@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { EXPANSION_PANEL_ANIMATION_TIMING, MatExpansionPanel } from '@angular/material/expansion';
 
 @Component({
     selector: 'app-add-hall-form',
@@ -17,9 +18,17 @@ export class AddHallFormComponent implements OnInit{
 
     selectedRowIndex: number = 0;
 
+    isDisabled : boolean = true;
+
     model: hallModel = {
         name: '',
         number: 0
+    }
+
+    currentlySelected: editHall = {
+      name : '',
+      number : 0,
+      id : 0
     }
 
     clinic_id : any = '';
@@ -29,6 +38,7 @@ export class AddHallFormComponent implements OnInit{
     }
 
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+    @ViewChild('expanel') expanel: MatExpansionPanel;
 
     constructor(private _snackBar: MatSnackBar, private http: HttpClient,private changeDetectorRefs: ChangeDetectorRef){
 
@@ -104,10 +114,12 @@ export class AddHallFormComponent implements OnInit{
         let params = new HttpParams().set("hall_id", element.id.toString());
         this.http.delete("/halls/deleteHall",{params:params}).subscribe(
           res =>{
-            console.log("inside the res");
+            
             let index = this.dataSource.data.indexOf(element);
             this.dataSource.data.splice(index,1);
             this.dataSource._updateChangeSubscription();
+            this.isDisabled = true;
+            this.expanel.close();
             this._snackBar.open("Hall deleted successfully.", "Close", {
             duration: 2000,
             });
@@ -116,6 +128,45 @@ export class AddHallFormComponent implements OnInit{
         );
 
     }
+
+    selectionChanged(element){
+      this.expanel.open();
+      this.isDisabled = false;
+      this.currentlySelected.name = element.name;
+      this.currentlySelected.number = element.number;
+      this.currentlySelected.id = element.id;
+    }
+
+    editSubbmited() {
+      let params = new HttpParams();
+      params = params.append('name', this.currentlySelected.name);
+      params = params.append('number', this.currentlySelected.number.toString());
+      params = params.append('id' , this.currentlySelected.id.toString());
+      console.log(params.get('name'));
+      this.http.get("http://localhost:8081/halls/editHall", {params:params}).subscribe(
+        res =>{
+
+          let params = new HttpParams().set('clinic_id', this.clinic_id);
+          this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
+          .subscribe((res) => {
+            // @ts-ignore
+            this.dataSource.data = res;
+          });
+
+          this._snackBar.open("Hall changed successfully.", "Close", {
+          duration: 2000,
+          });
+        },
+        err => {
+          this._snackBar.open("Hall with that name and number already exists", "Close", {
+            duration: 2000,
+          });
+        }
+
+      );
+
+    }
+
 }
 
 export interface hallModel
@@ -126,4 +177,10 @@ export interface hallModel
 
 export interface deleteHall{
     hall_id : number;
+}
+
+export interface editHall {
+  name: string;
+  number : Number;
+  id : number;
 }
