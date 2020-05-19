@@ -24,13 +24,9 @@ export class ViewPatientsNurseComponent implements OnInit {
 
   model : searchModel = {
     parameter : 'name',
-<<<<<<< HEAD
-    value : ''
-
-=======
     value : '',
     admin_id : sessionStorage.getItem('id')
->>>>>>> refs/remotes/origin/master
+
   }
 
   ngOnInit(): void {

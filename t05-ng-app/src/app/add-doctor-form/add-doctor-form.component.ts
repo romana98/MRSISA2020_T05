@@ -36,37 +36,25 @@ export class AddDoctorFormComponent implements OnInit {
 
   ngOnInit(): void {
     let params = new HttpParams().set('admin_id',sessionStorage.getItem('user_id').toString())
-        this.http.get("/appointmentType/getAppointmentTypes",{params:params}).subscribe(
-          res => {
+    this.http.get("http://localhost:8081/appointmentType/getAppointmentTypes",{params:params}).subscribe(
+      res => {
         // @ts-ignore
-              this.appointmentTypes= res;
+        this.appointmentTypes= res;
 
-        });
+      });
 
     let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id'))
     this.http.get("http://localhost:8081/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
-        res => {
-              this.model.clinic_id = res;
-<<<<<<< HEAD
+      res => {
+        this.model.clinic_id = res;
+        let params2 = new HttpParams().set('clinic_id',res.toString());
+        this.http.get("http://localhost:8081/doctors/getClinicsDoctors",{params:params2}).subscribe(
+          res => {
+            // @ts-ignore
+            this.dataSource.data = res;
 
-        });
-=======
-              let params2 = new HttpParams().set('clinic_id',res.toString());
-              this.http.get("http://localhost:8081/doctors/getClinicsDoctors",{params:params2}).subscribe(
-                  res => {
-                    // @ts-ignore
-                    this.dataSource.data = res;
-              
-                  }); 
-               });
-
-
-    
-
-        
->>>>>>> refs/remotes/origin/master
-
-
+          });
+      });
   }
 
   addDoctor(): void{
@@ -78,8 +66,8 @@ export class AddDoctorFormComponent implements OnInit {
                   res => {
                     // @ts-ignore
                     this.dataSource.data = res;
-              
-          }); 
+
+          });
           this._snackBar.open("Doctor added successfully", "Close", {
             duration: 2000,
           });
@@ -106,8 +94,8 @@ export class AddDoctorFormComponent implements OnInit {
                   res => {
                     // @ts-ignore
                     this.dataSource.data = res;
-              
-          }); 
+
+          });
           this._snackBar.open("Doctor deleted successfully", "Close", {
             duration: 2000,
           });
