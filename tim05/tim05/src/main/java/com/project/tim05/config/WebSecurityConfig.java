@@ -67,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// za svaki drugi zahtev korisnik mora biti autentifikovan
 				.anyRequest().authenticated().and()
 				// za development svrhe ukljuci konfiguraciju za CORS iz WebConfig klase
-				//.cors().and()
+				.cors().and()
 
 				// umetni custom filter TokenAuthenticationFilter kako bi se vrsila provera JWT tokena umesto cistih korisnickog imena i lozinke (koje radi BasicAuthenticationFilter)
 				.addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
