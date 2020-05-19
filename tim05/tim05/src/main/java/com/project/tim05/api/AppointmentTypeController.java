@@ -92,10 +92,10 @@ public class AppointmentTypeController<T> {
 	
 	@GetMapping("/searchAppointmentTypes")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
-	public List<AppointmentTypeDTO> searchAppointmentTypes(@RequestBody String searchInput){
+	public ResponseEntity<List<AppointmentTypeDTO>> searchAppointmentTypes(String searchInput){
 		ArrayList<AppointmentTypeDTO> search = new ArrayList<AppointmentTypeDTO>();
 		search = ats.search(searchInput);		
-		return search;
+		return ResponseEntity.ok(search);
 	}
 	
 	/*@GetMapping("/getClinicAppointmenTypes")

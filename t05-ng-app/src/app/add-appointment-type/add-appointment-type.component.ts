@@ -23,6 +23,10 @@ export class AddAppointmentTypeComponent implements OnInit {
 
   isOpen : boolean = false;
 
+  searchModel : SearchModel = {
+    search_input : ''
+  }
+
   model : AppointmentTypeModel = {
     name : '',
     admin_id : parseInt(sessionStorage.getItem('id')),
@@ -145,6 +149,15 @@ export class AddAppointmentTypeComponent implements OnInit {
 
     }
 
+  search() {
+    let params1 = new HttpParams().set('searchInput',this.searchModel.search_input.toString())
+    this.http.get("http://localhost:8081/appointmentType/searchAppointmentTypes", {params:params1}).subscribe(
+      res => {
+        console.log(res);
+        // @ts-ignore
+        this.dataSource.data = res;
+      });
+  }
 }
 
 
@@ -152,5 +165,9 @@ export interface AppointmentTypeModel{
     name: string;
     admin_id : number;
     id : number;
+}
+
+export interface SearchModel{
+  search_input: string;
 }
 

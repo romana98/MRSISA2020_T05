@@ -41,13 +41,21 @@
       </table>
 
       <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+
     </div>
-
-
-
   </form>
 
-  
+  <div>
+  <form name="form" #f="ngForm" (submit)="search()" style="padding-right: 25px;">
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Search</mat-label>
+      <input [(ngModel)]="searchModel.search_input" name="search_input" matInput>
+    </mat-form-field>
+    <br>
+    <button mat-raised-button >Search</button>
+  </form>
+  </div>
+
   <div style="float: left;display: block;width: 40%;padding-left: 8% ; margin-top: 2%;">
     <mat-expansion-panel #expanel [disabled]="isDisabled" >
       <mat-expansion-panel-header>
@@ -58,16 +66,16 @@
             Select appointment type to enable!
         </mat-panel-description>
         </mat-expansion-panel-header>
-    
+
         <mat-form-field style="width: 40%;">
         <mat-label>Clinic name</mat-label>
         <input [(ngModel)]="currentlySelected.name" matInput>
         </mat-form-field>
-    
+
         <br>
 
         <button mat-raised-button (click)="editSubbmited()" >Save changes</button>
-        
+
     </mat-expansion-panel>
 </div>
 
