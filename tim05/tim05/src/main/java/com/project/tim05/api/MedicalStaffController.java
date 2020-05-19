@@ -238,6 +238,10 @@ public class MedicalStaffController<T> {
 	@PreAuthorize("hasRole('DOCTOR') || hasRole('NURSE')")
 	public ResponseEntity<List<PatientDTO>> filterPatients(@RequestParam String parameter, String value, String admin_id, String filter){
 		
+		if(filter.equals("")) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}
+		
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		MedicalStaff  ms = (MedicalStaff) authentication.getPrincipal();
 		int clinic_id = -1;
