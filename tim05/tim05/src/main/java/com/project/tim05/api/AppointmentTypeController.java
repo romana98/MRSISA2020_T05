@@ -1,5 +1,6 @@
 package com.project.tim05.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -87,6 +88,14 @@ public class AppointmentTypeController<T> {
 
 		
 		
+	}
+	
+	@GetMapping("/searchAppointmentTypes")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
+	public List<AppointmentTypeDTO> searchAppointmentTypes(@RequestBody String searchInput){
+		ArrayList<AppointmentTypeDTO> search = new ArrayList<AppointmentTypeDTO>();
+		search = ats.search(searchInput);		
+		return search;
 	}
 	
 	/*@GetMapping("/getClinicAppointmenTypes")
