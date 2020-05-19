@@ -1,10 +1,13 @@
 <br>
-<h1 style="margin-left: 30px;">Add new doctor: </h1>
+<h1 style="margin-left: 30px;">Doctors: </h1>
 <mat-divider></mat-divider>
 <br>
 
 <div >
   <div style="float: left; width: 40%;">
+
+  <h2 style="padding-left: 25px;">Add doctor: </h2>
+
   <form  #f="ngForm" (submit)="addDoctor()" style="padding-left: 25px;">
 
     <mat-form-field appearance="outline" style="width: 250px;">
@@ -85,7 +88,41 @@
 
   </form>
   </div>
+  
+  <h2>Search doctors: </h2>
+
+  <form #f="ngForm" (submit)="f.valid && search()">
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Search</mat-label>
+      <input matInput  [(ngModel)] = "searchModel.value" #value="ngModel"  name="input_value">
+      <!--<mat-error *ngIf="name.invalid && name.errors?.pattern">
+        Invalid name format! Example: Brooklyn Hospital
+      </mat-error>-->
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="margin-left: 2%;">
+      <mat-label>Parameter</mat-label>
+      <mat-select [(ngModel)]="searchModel.parameter" name="input_parameter"
+      #parameter="ngModel">
+        <mat-option selected value="name">Name</mat-option>
+        <mat-option value="surname">Surname</mat-option>
+        <mat-option value="email">Email</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button style="margin-left:2%">Search</button>
+
+  </form>
+
+
+  </div>
+    <label id="errorMsg" style="color: red;margin-left: 2%;display: none;">There are no results.</label>
+  <div>
+
   <div class="mat-elevation-z8" style="float:right;width: 55% ;margin-right:5%">
+    
+    
+    
     <table mat-table [dataSource]="dataSource"  >
 
       <ng-container matColumnDef="name">

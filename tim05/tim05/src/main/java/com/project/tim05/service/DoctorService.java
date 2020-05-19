@@ -186,4 +186,59 @@ public class DoctorService {
 		Clinic c = initializeAndUnproxy.initAndUnproxy(d.getClinic());
 		return c;
 	}
+	
+	public List<DoctorDTO> searchDoctors(String param, String value, int clinic_id){
+		List<DoctorDTO> doctors = new ArrayList<DoctorDTO>();
+
+		PreparedStatement st = null;
+		Connection conn = null;
+
+		// provera po kom parametru treba da se radi pretrazivanje
+		try {
+			// Connection conn =
+			// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+			// "xslquaksjvvetl",
+			// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+			if (param.equals("name")) {
+				st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
+						"ON d.user_id = c.user_id where clinic = ? and name like ?;");
+			
+			} else if (param.equals("surname")){
+				st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
+						"ON d.user_id = c.user_id where clinic = ? and surname like ?;");
+			
+			}
+			else {
+				st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
+						"ON d.user_id = c.user_id where clinic = ? and email like ?;");
+			}
+			
+			st.setInt(1, clinic_id);
+			st.setString(2, "%" + value + "%");
+			
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+				DoctorDTO ddto = new DoctorDTO();
+				Doctor d = dr.findById(rs.getInt("user_id"));
+				ddto.setName(d.getName());
+				ddto.setSurname(d.getSurname());
+				ddto.setEmail(d.getEmail());
+				ddto.setAppointmentTypeName(d.getAppointmentType().getName());
+				doctors.add(ddto);
+			}
+
+			rs.close();
+			st.close();
+			conn.close();
+
+		} catch (Exception e) {
+			return doctors;
+		}
+
+		return doctors;
+	}
+	
 }

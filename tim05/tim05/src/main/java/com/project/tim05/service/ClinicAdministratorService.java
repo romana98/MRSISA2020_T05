@@ -3,8 +3,10 @@ package com.project.tim05.service;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,8 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.tim05.dto.DoctorDTO;
+import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.Authority;
 import com.project.tim05.model.ClinicAdministrator;
+import com.project.tim05.model.Patient;
 import com.project.tim05.repository.ClinicAdministratorRespository;
 
 @Service
@@ -112,6 +117,8 @@ public int editClinicAdministrator(ClinicAdministrator admincl) {
 	public ClinicAdministrator getClinicAdmin(int id) {
 		return car.findById(id).orElse(null);
 	}
+	
+	
 	
 
 }

@@ -120,6 +120,17 @@ public class AppointmentTypeService {
 
 		return null;	
 	}
+
+	public ArrayList<AppointmentTypeDTO> search(String searchInput) {
+		ArrayList<AppointmentTypeDTO> search = new ArrayList<AppointmentTypeDTO>();
+		AppointmentTypeDTO dto = new AppointmentTypeDTO();
+		AppointmentType search_result = atr.findByName(searchInput);
+		if(search_result != null) {
+			dto.setName(search_result.getName());
+			search.add(dto);
+		}
+		return search;
+	}
 	
 	
 	

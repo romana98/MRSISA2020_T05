@@ -149,6 +149,7 @@ public class PatientService {
 				pdto.setSurname(p.getSurname());
 				pdto.setInsurance_number(p.getInsurance_number());
 				pdto.setEmail(p.getEmail());
+				pdto.setCity(p.getCity());
 				patients.add(pdto);
 			}
 
@@ -162,6 +163,16 @@ public class PatientService {
 
 		return patients;
 
+	}
+	
+	public List<PatientDTO> filterPatients(String filter, List<PatientDTO> patients_to_filter){
+		List<PatientDTO> dtos = new ArrayList<PatientDTO>();
+		for (PatientDTO pdto : patients_to_filter) {
+			if(pdto.getCity().equalsIgnoreCase(filter)) {
+				dtos.add(pdto);
+			}
+		}
+		return dtos;
 	}
 
 	public int getPatientId(String email) {
@@ -228,6 +239,24 @@ public class PatientService {
 		}
 
 		return patients;
+
+	}
+	
+	public List<String> getCities(int clinic_id) {
+		List<String> cities = new ArrayList<String>();
+	
+		Clinic c = cs.getClinicbyId(clinic_id);
+		
+		
+		List<Patient> patients = getPatients(c);
+
+		for (Patient pdto : patients) {
+			if (!cities.contains(pdto.getCity())) {
+				cities.add(pdto.getCity());
+			}
+		}
+		
+		return cities;
 
 	}
 
