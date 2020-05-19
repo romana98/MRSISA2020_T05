@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.dto.MedicalStaffDTO;
 import com.project.tim05.dto.NurseDTO;
-import com.project.tim05.dto.PatientClinicsDTO;
 import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.MedicalStaff;

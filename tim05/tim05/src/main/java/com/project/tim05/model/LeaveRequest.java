@@ -1,7 +1,5 @@
 package com.project.tim05.model;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,25 +17,37 @@ public class LeaveRequest {
 	private Integer id;
 	
 	@Column(name = "start_date", nullable = false)
-	Date startDate;
+	private String startDate;
 	
 	@Column(name = "end_date", nullable = false)
-	Date endDate;
+	private String endDate;
 	
 	@Column(name = "email", nullable = false)
-	String email;
+	private String email;
 	
 	@Column(name = "name", nullable = false)
-	String name;
+	private String name;
 	
 	@Column(name = "surname", nullable = false)
-	String surname;
+	private String surname;
 	
 	public LeaveRequest() {
 		super();
 	}
 	
-	
+
+	public LeaveRequest(String startDate, String endDate, String email, String name, String surname) {
+		super();
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.email = email;
+		this.name = name;
+		this.surname = surname;
+	}
+
+
+
+
 
 	public Integer getId() {
 		return id;
@@ -47,19 +57,19 @@ public class LeaveRequest {
 		this.id = id;
 	}
 
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 

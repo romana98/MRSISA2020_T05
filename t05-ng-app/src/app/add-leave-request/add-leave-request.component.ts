@@ -13,8 +13,11 @@ export class AddLeaveRequestComponent implements OnInit{
   model: leaveRequest = {
     start_date: new Date(),
     end_date: null,
-    start_date_str: '',
-    end_date_str: ''
+    startDate: '',
+    endDate: '',
+    email: '',
+    name: '',
+    surname: ''
   }
 
   today:Date;
@@ -31,7 +34,11 @@ export class AddLeaveRequestComponent implements OnInit{
   }
 
   MakeRequest(): void{
-    let url = "http://localhost:8081/clinicAdministrator/addClinicAdministrator"
+    let url = "http://localhost:8081/leaveRequest/makeLeaveRequest"
+    this.model.startDate = this.model.start_date.getDate() + "/" + (this.model.start_date.getMonth()+1) + "/" + this.model.start_date.getFullYear();
+    this.model.endDate = this.model.end_date.getDate() + "/" + (this.model.end_date.getMonth()+1) + "/" + this.model.end_date.getFullYear();
+    console.log(this.model.startDate)
+    console.log(this.model.endDate)
     this.http.post(url, this.model).subscribe(
       res => {
         this._snackBar.open("Request made successfully!", "Close", {
@@ -65,6 +72,9 @@ export interface leaveRequest
 {
   start_date: Date;
   end_date: Date;
-  start_date_str: String;
-  end_date_str: String;
+  startDate: String;
+  endDate: String;
+  email: String;
+  name: String;
+  surname: String;
 }
