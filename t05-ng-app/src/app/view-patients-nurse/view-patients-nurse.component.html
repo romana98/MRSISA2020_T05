@@ -36,7 +36,7 @@
         </mat-expansion-panel-header>
     
         <mat-form-field appearance="outline" style="width: 250px;">
-          <mat-label>Hall</mat-label>
+          <mat-label>City</mat-label>
           <mat-select [(ngModel)] = "filterModel.filter" name="input_filter"
           #filter="ngModel" required>
             <mat-option *ngFor="let c of cities" [value]="c" >{{c}}</mat-option>

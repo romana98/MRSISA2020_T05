@@ -1,14 +1,15 @@
 <br>
-<h1 style="margin-left: 30px;">Add new appointment: </h1>
+<h1 style="margin-left: 30px;">Add new appointment type: </h1>
 <mat-divider></mat-divider>
 <br>
 
-<div >
-  <form name="form" #f="ngForm" (submit)="addAppointmentType()" style="padding-left: 25px;">
+<div>
+  <form name="form" #f="ngForm" (submit)="addAppointmentType()" style="padding-left: 25px;float : left">
     <mat-form-field appearance="outline" style="width: 250px;">
       <mat-label>Pick a name</mat-label>
       <input [(ngModel)]="model.name" name="appointment_name" matInput pattern="[A-Z][a-z]*" required>
     </mat-form-field>
+
 
     <br>
 
@@ -46,17 +47,17 @@
   </form>
 
   <div>
-  <form name="form" #f="ngForm" (submit)="search()" style="padding-right: 25px;">
-    <mat-form-field appearance="outline" style="width: 250px;">
-      <mat-label>Search</mat-label>
-      <input [(ngModel)]="searchModel.search_input" name="search_input" matInput>
-    </mat-form-field>
-    <br>
-    <button mat-raised-button >Search</button>
-  </form>
+    <form name="form" #f="ngForm" (submit)="search()" style="padding-right: 35%;float: right;">
+      <mat-form-field appearance="outline" style="width: 250px;">
+        <mat-label>Search</mat-label>
+        <input [(ngModel)]="searchModel.search_input" name="search_input" matInput>
+      </mat-form-field>
+      <br>
+      <button mat-raised-button >Search</button>
+    </form>
   </div>
 
-  <div style="float: left;display: block;width: 40%;padding-left: 8% ; margin-top: 2%;">
+  <div style="float: left;display: block;width: 40%;padding-left: 8% ; margin-top: 1%;">
     <mat-expansion-panel #expanel [disabled]="isDisabled" >
       <mat-expansion-panel-header>
         <mat-panel-title>
