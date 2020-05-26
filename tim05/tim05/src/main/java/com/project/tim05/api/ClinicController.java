@@ -57,6 +57,7 @@ public class ClinicController<T> {
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 	
 	}
+	 
 	
 	
 	

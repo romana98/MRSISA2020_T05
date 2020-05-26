@@ -53,6 +53,7 @@ export class AddDoctorFormComponent implements OnInit {
     this.http.get("http://localhost:8081/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
       res => {
         this.model.clinic_id = res;
+        console.log(this.model.clinic_id)
         let params2 = new HttpParams().set('clinic_id',res.toString());
         this.http.get("http://localhost:8081/doctors/getClinicsDoctors",{params:params2}).subscribe(
           res => {
@@ -67,6 +68,7 @@ export class AddDoctorFormComponent implements OnInit {
     let url =  "http://localhost:8081/doctors/addDoctor"
     this.http.post(url,this.model).subscribe(
         res => {
+          console.log(this.model.clinic_id)
           let params2 = new HttpParams().set('clinic_id',this.model.clinic_id.toString());
               this.http.get("http://localhost:8081/doctors/getClinicsDoctors",{params:params2}).subscribe(
                   res => {

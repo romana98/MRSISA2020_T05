@@ -81,7 +81,6 @@ public class AppointmentTypeService {
 			ps.close();
 			
 		} catch (SQLException e) {
-			
 			success = 0;
 		}
 		

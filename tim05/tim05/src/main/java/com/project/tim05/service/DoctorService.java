@@ -223,6 +223,7 @@ public class DoctorService {
 			while (rs.next()) {
 				DoctorDTO ddto = new DoctorDTO();
 				Doctor d = dr.findById(rs.getInt("user_id"));
+				ddto.setId(d.getId());
 				ddto.setName(d.getName());
 				ddto.setSurname(d.getSurname());
 				ddto.setEmail(d.getEmail());

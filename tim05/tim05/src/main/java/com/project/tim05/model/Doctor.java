@@ -38,6 +38,11 @@ public class Doctor extends MedicalStaff {
 		this.active = true;
 	}
 
+	public void addAppointment(Appointment ap, WorkCalendar wc) {
+		this.appointments.add(ap);
+		this.getWorkCalendar().add(wc);
+	}
+	
 	public Doctor(Integer id, AppointmentType appointmentType) {
 		super();
 		this.appointmentType = appointmentType;

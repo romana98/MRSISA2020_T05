@@ -91,7 +91,7 @@
   
   <h2>Search doctors: </h2>
 
-  <form #f="ngForm" (submit)="f.valid && search()">
+  <form #f="ngForm" (submit)="search()">
     <mat-form-field appearance="outline" style="width: 250px;">
       <mat-label>Search</mat-label>
       <input matInput  [(ngModel)] = "searchModel.value" #value="ngModel"  name="input_value">

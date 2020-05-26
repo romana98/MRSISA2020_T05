@@ -60,7 +60,7 @@ export class ClinicsComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.selectedRowIndex  = 1;
 
-    this.http.get("http://localhost:8081/appointmentType/getAppointmentTypes").subscribe(
+    this.http.get("http://localhost:8081/appointmentType/getAllApointmentTypes").subscribe(
       (res) =>{
         this.appointmentTypes = res;
       }

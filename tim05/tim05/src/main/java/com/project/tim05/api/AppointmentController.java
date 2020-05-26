@@ -20,11 +20,13 @@ import com.project.tim05.model.AppointmentType;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Hall;
+import com.project.tim05.model.WorkCalendar;
 import com.project.tim05.service.AppointmentService;
 import com.project.tim05.service.AppointmentTypeService;
 import com.project.tim05.service.ClinicService;
 import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.HallService;
+import com.project.tim05.service.WorkCalendarService;
 
 //@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
 
@@ -39,15 +41,17 @@ public class AppointmentController {
 	private final HallService hs;
 	private final AppointmentTypeService ats;
 	private final ClinicService cs;
+	private final WorkCalendarService wcs;
 
 	@Autowired
-	public AppointmentController(AppointmentService as, DoctorService ds, HallService hs, AppointmentTypeService ats,ClinicService cs) {
+	public AppointmentController(WorkCalendarService wcs,AppointmentService as, DoctorService ds, HallService hs, AppointmentTypeService ats,ClinicService cs) {
 		super();
 		this.as = as;
 		this.ds = ds;
 		this.hs = hs;
 		this.ats = ats;
 		this.cs = cs;
+		this.wcs = wcs;
 	}
 	
 	@PostMapping("/addAppointment")
@@ -67,10 +71,13 @@ public class AppointmentController {
 		}
 
 		SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		
+		SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
+
 		Date date = null;
+		Date wc_date = null;
 		try {
 			date = formatter1.parse(adto.getDate() + " " + adto.getTime());
+			wc_date = formatter2.parse(adto.getDate());
 		} catch (ParseException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
@@ -87,6 +94,34 @@ public class AppointmentController {
 
 		int flag = as.addAppointment(ap);
 		//TODO u doktoru treba da se doda appointment
+		
+
+		WorkCalendar wc = new WorkCalendar();
+		wc.setDate(wc_date);
+		wc.setStart_time(adto.getTime());
+		
+		//racunanje minuta od pocetka dana
+		String[] res = wc.getStart_time().split(":");
+		int start_minutes = Integer.parseInt(res[0])*60 + Integer.parseInt(res[1]);
+		//racunanje krajnjeg broja minuta od pocetka dana
+		int end_minutes = start_minutes + adto.getDuration();
+		//transliranje krajnjeg broja minuta nazad u oblik "hh:mm"
+		//uzima se broj minuta i ostatak pri deljenju sa 60 predstavlja broj minuta koji je preko punog sata
+		//a sati se dobijaju tako sto se uzme broj minuta i bez ostatka se podeli sa 60, tako dobijamo sati:minuti
+		int end_minute = end_minutes%60;
+		int end_hour = end_minutes/60;
+		
+		dr.getAppointments().add(ap);
+		
+		wc.setEnd_time(end_hour + ":" + end_minute);
+		wc.setDoctor(dr);
+		wc.setLeave(false);
+		
+		wcs.addCalendar(wc);
+		
+		for(Appointment a : dr.getAppointments()) {
+			System.out.println(a.getAppointmentType().getName());
+		}
 
 		if (flag == 0)
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);

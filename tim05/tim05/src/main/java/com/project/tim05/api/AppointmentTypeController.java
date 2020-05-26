@@ -58,6 +58,12 @@ public class AppointmentTypeController<T> {
 		
 	}
 	
+	@GetMapping("/getAllApointmentTypes")
+	@PreAuthorize("hasRole('CLINIC_ADMIN') || hasRole('PATIENT')")
+	public ResponseEntity<List<AppointmentTypeDTO>> getAllTypes(){
+		return ResponseEntity.ok(ats.getAppointmentTypes());
+	}
+	
 	@GetMapping("/getAppointmentTypes")
 	@PreAuthorize("hasRole('CLINIC_ADMIN') || hasRole('PATIENT')")
 	public ResponseEntity<List<AppointmentTypeDTO>> getAppointmetTypes(String admin_id){
