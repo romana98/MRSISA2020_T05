@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-clinics',
@@ -23,6 +24,7 @@ export class ClinicsComponent implements OnInit {
   appointmentTypes : any=[];
 
   model : ClinicModel = {
+    id : 0,
     name : '',
     address : '',
     avg_rating : 0,
@@ -30,6 +32,7 @@ export class ClinicsComponent implements OnInit {
   }
 
   searchModel : SearchClinicModel = {
+    date_field : null,
     date : '',
     appointmentType_id : 0,
     address : '',
@@ -39,10 +42,10 @@ export class ClinicsComponent implements OnInit {
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private _snackBar: MatSnackBar, private http: HttpClient) { }
+  constructor(private _snackBar: MatSnackBar, private http: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
-    let params = new HttpParams();
+    /*let params = new HttpParams();
     params = params.append('date', "0")
     params = params.append('appointmentType_id', this.searchModel.appointmentType_id.toString());
     params = params.append('address', "0");
@@ -54,7 +57,7 @@ export class ClinicsComponent implements OnInit {
       // @ts-ignore
       this.dataSource.data = res;
 
-    });
+    });*/
 
 
     this.dataSource.paginator = this.paginator;
@@ -67,9 +70,30 @@ export class ClinicsComponent implements OnInit {
     );
 
   }
+
+  search(): void{
+    this.searchModel.date = this.searchModel.date_field.getDate() + "/" + (this.searchModel.date_field.getMonth()+1) + "/" + this.searchModel.date_field.getFullYear();
+    let params = new HttpParams();    
+    params = params.append('date', this.searchModel.date.toString())
+    params = params.append('appointmentType_id', this.searchModel.appointmentType_id.toString());
+    this.http.get("http://localhost:8081/patients/getClinics",{params:params})
+    .subscribe((res) => {
+      // @ts-ignore
+      this.dataSource.data = res;
+
+    });
+  }
+
+  findDoctors(row){
+    this.router.navigate(['/patient/doctors'],{queryParams : {'clinic_id' : row.id,
+                                                              'appointment_type_id': this.searchModel.appointmentType_id,
+                                                              'date' : this.searchModel.date.toString()}});
+  }
+
 }
 
 export interface ClinicModel{
+   id : number,
    name: String,
    address : String,
    avg_rating : number,
@@ -77,6 +101,7 @@ export interface ClinicModel{
 }
 
 export interface SearchClinicModel{
+  date_field : Date,
   date : String,
   appointmentType_id : number,
   address : String,

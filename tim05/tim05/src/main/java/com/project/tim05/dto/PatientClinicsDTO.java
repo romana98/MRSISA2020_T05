@@ -2,6 +2,7 @@ package com.project.tim05.dto;
 
 public class PatientClinicsDTO {
 
+	int id;
 	String name;
 	String address;
 	double avg_rating;
@@ -17,6 +18,14 @@ public class PatientClinicsDTO {
 		this.address = address;
 		this.avg_rating = avg_rating;
 		this.price = price;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {

@@ -1,5 +1,7 @@
 package com.project.tim05.api;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +81,40 @@ public class DoctorController {
 	@GetMapping("/getClinicsDoctors")
 	public List<DoctorDTO> getDoctors(@RequestParam String clinic_id) {
 		return ds.getClinicsDoctors(Integer.parseInt(clinic_id));
+	}
+	
+	@GetMapping("/getAvailableDoctors")
+	public List<DoctorDTO> getAvailableDoctors(@RequestParam String clinic_id, String appointmentType_id, String date ) {
+		
+		ArrayList<Doctor> doctors = ds.getDoctorsbyAppointmentType(Integer.parseInt(appointmentType_id));	
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		java.util.Date date1 = null;
+		try {
+			date1 = formatter.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		java.sql.Date sd = new java.sql.Date(date1.getTime());
+
+		
+		ArrayList<DoctorDTO> doctors_filtered = new ArrayList<DoctorDTO>();
+		
+		for(Doctor dr : doctors) {
+			if (ds.getAvailableTime(sd, dr).size() > 0) {
+				DoctorDTO ddto = new DoctorDTO();
+				ddto.setName(dr.getName());
+				ddto.setSurname(dr.getSurname());
+				ddto.setAverage_rate(0);
+				ddto.setAvailable_times(ds.getAvailableTime(sd, dr));
+				doctors_filtered.add(ddto);
+	
+			}
+		}
+		
+		return doctors_filtered;
 	}
 
 	@PostMapping("/addDoctor")

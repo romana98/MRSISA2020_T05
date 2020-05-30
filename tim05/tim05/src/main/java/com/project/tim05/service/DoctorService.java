@@ -1,11 +1,14 @@
 package com.project.tim05.service;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,7 +18,6 @@ import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.model.Authority;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Doctor;
-import com.project.tim05.model.Nurse;
 import com.project.tim05.repository.DoctorRepository;
 
 @Service
@@ -240,6 +242,128 @@ public class DoctorService {
 		}
 
 		return doctors;
+	}
+	
+	public ArrayList<Doctor> getDoctorsbyAppointmentType(int app_type_id){
+		
+		ArrayList<Doctor> doctors = new ArrayList<Doctor>();
+		
+		try {
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			String query = "SELECT * FROM public.doctors where appointment_type = ?";
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, app_type_id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Doctor dr1 = dr.findById(rs.getInt("user_id"));
+				doctors.add(dr1);
+			}
+			connection.close();
+			ps.close();
+			rs.close();
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return doctors;
+	}
+	
+	public List<String> getAvailableTime(Date day, Doctor dr){
+		
+		try {
+		
+		Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+        //iz baze uzimam sve termine pregleda za datum Day i doctora koji je prosledjen
+        String query = "SELECT * from public.work_calendars where date = ? and doctor = ?";
+        PreparedStatement ps = connection.prepareStatement(query);
+		ps.setDate(1, day);
+		ps.setInt(2, dr.getId());
+		ResultSet rs = ps.executeQuery();
+		//pravljenje mape u kojoj ce biti vreme_pregleda:trajanje u minutima od 00:00
+		HashMap<Integer,Integer> appointment_times = new HashMap<Integer,Integer>();
+		
+		while(rs.next()) {
+			String start_time = rs.getString("start_time");
+			String end_time = rs.getString("end_time");
+			int length = timeToMinutes(end_time) -  timeToMinutes(start_time);
+			//stavljanje u mapu start_time : duzina
+			appointment_times.put(timeToMinutes(start_time), length);
+			
+		}
+		
+		//pocetak radnog vremena doktora u minutima
+		int doctor_ws = timeToMinutes(dr.getWorkStart());
+		//kraj doktorovog radnog vremena u minutima
+		int doctor_we = timeToMinutes(dr.getWorkEnd());
+		
+		//proveravmo da li doktor ima radno vreme koje se nastavlja u sledecem danu
+		//recimo od 22:00 do 06:00
+		//u tom slucaju posto zelimo za odredjen dan da zakazemo pregled gledamo samo do 24:00
+		//te njegovo vreme ogranicavam na 24:00
+		if(doctor_ws > doctor_we) {
+			doctor_we = 24*60;
+		}
+		
+		ArrayList<String> free_times = new ArrayList<String>();
+		
+		while(doctor_ws + 30<= doctor_we) {
+			//flag koji oznacava da li je vreme doctor_ws slobodno u narednih 30 minuta
+			int flag = 0;
+			
+			//provera da li doctor_ws zalazi u neki od vec zakazanih pregleda
+			for (Map.Entry<Integer, Integer> entry : appointment_times.entrySet()) {
+			    //ukoliko je termin izmedju pocetka i kraja zakaznog 
+				if(doctor_ws >= entry.getKey() && doctor_ws + 30<= entry.getKey() + entry.getValue()) {
+			    	//onda je termin zauzet i treba okinuti flag
+					flag = 1;
+					//krecemo opet potragu od minimalnog sledeceg
+					doctor_ws = entry.getKey()+entry.getValue();
+					break;
+			    }
+				//ukoliko nije nastavi da pretrazujes, a flag ce ostati 0
+			}
+			
+			//znaci da je termin nije negde uleteo u drugi termin i da je slobodan
+			if (flag == 0) {
+				free_times.add(MinutesToTime(doctor_ws));
+				//svaki pregled traje pola sata 
+				doctor_ws += 30;
+			}
+			
+			
+			
+
+		}
+		
+		
+		connection.close();
+		ps.close();
+		
+		return free_times;
+		}
+		catch(Exception e) {
+			
+		}
+		return null;
+	}
+	
+	//funkcija koja kao parametar prima vreme u obliku hh:mm a zatim vraca broj minuta od 00:00
+	public int timeToMinutes(String time) {
+		int hours  = Integer.parseInt(time.split(":")[0]);
+		int minutes = Integer.parseInt(time.split(":")[1]);
+		return hours*60+minutes;
+	}
+	
+	//funinja koja kao parametar prima integer minuta od 00:00 i vraca prirodan oblik hh:mm
+	public String MinutesToTime(int minutes) {
+		int minute = minutes%60;
+		int hour = minutes/60;
+		if (minute < 10) {
+			return hour + ":" + minute + "0";
+		}
+		return hour + ":" + minute;
 	}
 	
 }

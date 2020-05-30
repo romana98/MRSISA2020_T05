@@ -58,6 +58,7 @@ import {ViewPatientProfile} from "./view-patient/view-patient.component";
 import { InitialChangePasswordComponent } from './initial-change-password/initial-change-password.component';
 import {ActivationLinkComponent} from "./activation-link/activation-link.component";
 import {AddLeaveRequestComponent} from "./add-leave-request/add-leave-request.component";
+import { DoctorsComponent } from './patient/doctors/doctors.component';
 
 
 
@@ -153,6 +154,10 @@ const appRoutes : Routes = [
         path: 'clinics',
         component: ClinicsComponent
       },
+      {
+        path: 'doctors',
+        component : DoctorsComponent
+      }
     ]
   },
   {
@@ -247,7 +252,8 @@ const appRoutes : Routes = [
     ViewPatientProfile,
     InitialChangePasswordComponent,
     ActivationLinkComponent,
-    AddLeaveRequestComponent
+    AddLeaveRequestComponent,
+    DoctorsComponent
   ],
   imports: [
     BrowserModule,

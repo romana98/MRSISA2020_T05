@@ -74,7 +74,7 @@ public class ClinicService {
 		return cr.findById(id).orElse(null);
 	}
 	
-	public ArrayList<PatientClinicsDTO> getPatientClinics(String date, int appointmentType_id, String clinicAddress, int avg_rate_lowest, int avg_rate_highest){
+	public ArrayList<PatientClinicsDTO> getPatientClinics(String date, int appointmentType_id){
 		
 		//trenutno ovi gore podaci ce svi biti null ali u nastavku kada se bude pretraga implementirala stizace pravi podaci
 		ArrayList<PatientClinicsDTO> clinics = new ArrayList<PatientClinicsDTO>();

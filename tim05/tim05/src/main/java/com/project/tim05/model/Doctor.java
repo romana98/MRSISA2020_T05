@@ -9,12 +9,15 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@Table(name="doctors")
+@Table(name = "doctors")
 @OnDelete(action = OnDeleteAction.CASCADE)
 public class Doctor extends MedicalStaff {
 
 	private static final long serialVersionUID = 1L;
-	
+
+	@Column(name = "rate")
+	private double rate;
+
 	@Column(name = "active")
 	private boolean active;
 
@@ -36,13 +39,22 @@ public class Doctor extends MedicalStaff {
 	public Doctor() {
 		super();
 		this.active = true;
+		this.rate = 0;
+	}
+
+	public double getRate() {
+		return rate;
+	}
+
+	public void setRate(double rate) {
+		this.rate = rate;
 	}
 
 	public void addAppointment(Appointment ap, WorkCalendar wc) {
 		this.appointments.add(ap);
 		this.getWorkCalendar().add(wc);
 	}
-	
+
 	public Doctor(Integer id, AppointmentType appointmentType) {
 		super();
 		this.appointmentType = appointmentType;

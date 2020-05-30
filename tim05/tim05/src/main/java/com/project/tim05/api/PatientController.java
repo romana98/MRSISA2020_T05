@@ -1,5 +1,9 @@
 package com.project.tim05.api;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -22,10 +26,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.PatientClinicsDTO;
 import com.project.tim05.dto.PatientDTO;
+import com.project.tim05.model.Clinic;
+import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Patient;
 import com.project.tim05.model.RegistrationRequest;
 import com.project.tim05.model.User;
 import com.project.tim05.service.ClinicService;
+import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.EmailService;
 import com.project.tim05.service.PatientService;
 import com.project.tim05.service.RegistrationRequestService;
@@ -49,13 +56,15 @@ public class PatientController<T> {
 	private final RegistrationRequestService rrs;
 	private final EmailService es;
 	private final ClinicService cs;
+	private final DoctorService ds;
 	
 	@Autowired
-	public PatientController(PatientService ps, RegistrationRequestService rrs, EmailService es, ClinicService cs) {
+	public PatientController(DoctorService ds,PatientService ps, RegistrationRequestService rrs, EmailService es, ClinicService cs) {
 		this.ps = ps;
 		this.rrs = rrs;
 		this.es = es;
 		this.cs = cs;
+		this.ds = ds;
 	}
 	
 	@GetMapping("/getPatients")
@@ -167,8 +176,55 @@ public class PatientController<T> {
 	
 	@GetMapping("/getClinics")
 	@PreAuthorize("hasRole('PATIENT')")
-	public ResponseEntity<List<PatientClinicsDTO>> getClinics(@RequestParam String date, String appointmentType_id, String address, String avg_rate_lowest, String avg_rate_highest){
-		return ResponseEntity.ok(cs.getPatientClinics(date, Integer.parseInt(appointmentType_id), address, Integer.parseInt(avg_rate_lowest),Integer.parseInt(avg_rate_highest)));
+	public ResponseEntity<List<PatientClinicsDTO>> getClinics(@RequestParam String date, String appointmentType_id){
+		
+		ArrayList<Doctor> doctors = ds.getDoctorsbyAppointmentType(Integer.parseInt(appointmentType_id));	
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		java.util.Date date1 = null;
+		try {
+			date1 = formatter.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		java.sql.Date sd = new java.sql.Date(date1.getTime());
+
+		
+		ArrayList<Doctor> doctors_filtered = new ArrayList<Doctor>();
+		ArrayList<Clinic> clinics =  new ArrayList<Clinic>();
+		
+		for(Doctor dr : doctors) {
+			if (ds.getAvailableTime(sd, dr).size() > 0) {
+			
+				doctors_filtered.add(dr);
+				
+				if(!clinics.contains(dr.getClinic())) {
+					clinics.add(dr.getClinic());
+				
+				}
+			}
+		}
+		
+		ArrayList<PatientClinicsDTO> pcdtos = new ArrayList<PatientClinicsDTO>();
+		
+		for(Clinic cl : clinics) { 
+			PatientClinicsDTO pcdto = new PatientClinicsDTO();
+			
+			pcdto.setId(cl.getId());
+			pcdto.setName(cl.getName());
+			pcdto.setAddress(cl.getAddress());
+			pcdto.setAvg_rating(0);
+			pcdto.setPrice(0);
+			
+			pcdtos.add(pcdto);
+		}
+		
+		
+			
+		
+		return ResponseEntity.ok(pcdtos);
 	}
 	
 	@GetMapping("/getPatient")
