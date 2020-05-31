@@ -58,7 +58,8 @@ import {ViewPatientProfile} from "./view-patient/view-patient.component";
 import { InitialChangePasswordComponent } from './initial-change-password/initial-change-password.component';
 import {ActivationLinkComponent} from "./activation-link/activation-link.component";
 import {AddLeaveRequestComponent} from "./add-leave-request/add-leave-request.component";
-import { DoctorsComponent } from './patient/doctors/doctors.component';
+import {DialogConfirm, DoctorsComponent} from './patient/doctors/doctors.component';
+import {MatCardModule} from "@angular/material/card";
 
 
 
@@ -241,6 +242,7 @@ const appRoutes : Routes = [
     ViewClinicsComponent,
     ViewPatientsNurseComponent,
     DialogOverview,
+    DialogConfirm,
     EditClinicAdministratorComponent,
     ClinicsComponent,
     LoginComponent,
@@ -281,7 +283,8 @@ const appRoutes : Routes = [
     MatExpansionModule,
     MatTabsModule,
     MatToolbarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatCardModule
 
   ],
   providers: [MatDatepickerModule,

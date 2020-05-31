@@ -1,0 +1,19 @@
+<h2 mat-dialog-title style="text-align: center">Appointment details:</h2>
+<div mat-dialog-content>
+  <mat-card class="inline-block">Clinic: {{data.clinic}}</mat-card>
+  <mat-card class="inline-block">Clinic address: {{data.clinic_addr}}</mat-card>
+  <mat-card class="inline-block">Doctor: {{data.name}} {{data.surname}} </mat-card>
+  <mat-card class="inline-block">Type of appointment: {{data.appoint_type}}</mat-card>
+  <mat-card class="inline-block">Date: {{data.date}} </mat-card>
+  <mat-card class="inline-block">Time: {{data.time}}</mat-card>
+  <mat-card class="inline-block">Price: {{data.price}}</mat-card>
+</div>
+
+<div mat-dialog-actions>
+
+  <mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="data" (click)="data.sent = onClick()">Cancel</button>
+    <button mat-button [mat-dialog-close]="data" (click)="data.sent = Confirm()">Confirm</button>
+  </mat-dialog-actions>
+
+</div>
