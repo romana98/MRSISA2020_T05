@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.dto.PatientClinicsDTO;
 import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.Clinic;
@@ -167,6 +168,63 @@ public class PatientController<T> {
 
 	}
 
+	
+	@GetMapping("/searchDoctors")
+	@PreAuthorize("hasRole('PATIENT')")
+	public ResponseEntity<List<DoctorDTO>> searchDoctors(@RequestParam String doctorName, String doctorSurname, String rateFrom, String rateTo, String date, String clinic_id, String appointmentType_id){
+		
+		
+		ArrayList<DoctorDTO> result = new ArrayList<DoctorDTO>();
+		
+		//doktori 
+		ArrayList<Doctor> doctorsClinicsApts = ds.getClinicDoctorsbyAppointmentType(Integer.parseInt(appointmentType_id), Integer.parseInt(clinic_id));
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		java.util.Date date1 = null;
+		try {
+			date1 = formatter.parse(date);
+		} catch (ParseException e) {
+			
+			e.printStackTrace();
+		}
+
+		java.sql.Date sd = new java.sql.Date(date1.getTime());
+		
+		ArrayList<Doctor> doctorsDate = new ArrayList<Doctor>();
+		
+		for (Doctor dr : doctorsClinicsApts) {
+			if (ds.getAvailableTime(sd, dr).size() > 0) {
+
+				doctorsDate.add(dr);
+
+			}
+		}
+		
+		
+		ArrayList<Doctor> searchName = ds.searchDoctorsByParameters(doctorsDate, "name", doctorName);
+		ArrayList<Doctor> searchSurname = ds.searchDoctorsByParameters(doctorsDate, "surname", doctorSurname);
+		ArrayList<Doctor> searchRateFrom = ds.searchDoctorsByParameters(doctorsDate, "ratefrom", rateFrom);
+		ArrayList<Doctor> searchRateTo  = ds.searchDoctorsByParameters(doctorsDate, "rateto", rateTo);
+		
+		for(Doctor d : doctorsDate) {
+			if(ds.checkIfDoctorExists(d, searchName) && ds.checkIfDoctorExists(d, searchSurname) && ds.checkIfDoctorExists(d, searchRateFrom) && ds.checkIfDoctorExists(d, searchRateTo)) {
+				DoctorDTO dto = new DoctorDTO();
+				dto.setName(d.getName());
+				dto.setSurname(d.getSurname());
+				dto.setAverage_rate(d.getRate());
+				dto.setAvailable_times(ds.getAvailableTime(sd, d));
+				result.add(dto);
+			}
+		}
+		
+		if (result.size() == 0) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+		}
+		else {
+			return ResponseEntity.ok(result);	
+		}
+	}
+	
 	@GetMapping("/getClinics")
 	@PreAuthorize("hasRole('PATIENT')")
 	public ResponseEntity<List<PatientClinicsDTO>> getClinics(@RequestParam String date, String appointmentType_id) {

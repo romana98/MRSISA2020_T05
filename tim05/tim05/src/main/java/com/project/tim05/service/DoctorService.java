@@ -123,6 +123,7 @@ public class DoctorService {
 		}	
 		
 	}
+	
 	//vraca doktore koji pripadaju klinici sa id -> clinic_Id
 	public ArrayList<DoctorDTO> getClinicsDoctors(int clinic_id){
 		try {
@@ -393,6 +394,72 @@ public class DoctorService {
 			return hour + ":" + minute + "0";
 		}
 		return hour + ":" + minute;
+	}
+
+	public ArrayList<Doctor> searchDoctorsByParameters(ArrayList<Doctor> doctors, String parameter, String value) {
+		ArrayList<Doctor> result = new ArrayList<Doctor>();
+		
+		if(value.equals("")) {
+			result = doctors;
+		}else {
+			PreparedStatement st = null;
+			Connection conn = null;
+
+			// provera po kom parametru treba da se radi pretrazivanje
+			try {
+				
+				conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+				if (parameter.equals("name")) {
+					st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
+							"ON d.user_id = c.user_id where name like ?;");
+					st.setString(1, "%" + value + "%");
+				
+				} else if (parameter.equals("surname")){
+					st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
+							"ON d.user_id = c.user_id where surname like ?;");
+					st.setString(1, "%" + value + "%");
+				}
+				else if(parameter.equals("ratefrom")){
+					double ratefrom = Double.parseDouble(value);
+					st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
+							"ON d.user_id = c.user_id where rate >= ?;");
+					st.setDouble(1, ratefrom);
+				}else if(parameter.equals("rateto")) {
+					double rateto = Double.parseDouble(value);
+					st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
+							"ON d.user_id = c.user_id where rate <= ?;");
+					st.setDouble(1, rateto);
+				}
+				
+				ResultSet rs = st.executeQuery();
+				
+				while (rs.next()) {
+					Doctor d = dr.findById(rs.getInt("user_id"));
+					result.add(d);
+				}
+
+				rs.close();
+				st.close();
+				conn.close();
+
+			} catch (Exception e) {
+				return result;
+			}
+		}
+		
+		return result;
+	}
+	
+	public boolean checkIfDoctorExists(Doctor d, ArrayList<Doctor> doctors) {
+		boolean found = false;
+		for(Doctor doctor : doctors) {
+			if(doctor.getId() == d.getId()) {
+				found = true;
+				return found;
+			}
+		}
+		return found;
 	}
 	
 }
