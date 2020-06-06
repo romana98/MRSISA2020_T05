@@ -2,65 +2,71 @@
 <h2 style="margin-left: 30px;">Choose doctor: </h2>
 <mat-divider></mat-divider>
 <br>
-<!--
 <div>
+  <div>
     <mat-form-field appearance="outline" style="width: 250px;">
-        <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]= "searchModel.date_field" #date_field = "ngModel" name="date" readonly required>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker ></mat-datepicker>
+      <mat-label>Doctor's name: </mat-label>
+      <input matInput [(ngModel)] = searchModel.name name="doctor_name" #name="ngModel"/>
     </mat-form-field>
-
-    <mat-form-field appearance="outline" style="width: 280px;padding-left: 20px; padding-right: 20px;">
-        <mat-label>Appointment type</mat-label>
-        <mat-select [(ngModel)] = "searchModel.appointmentType_id" name="appointment_type_id"
-            #appointmentType_id="ngModel" required >
-            <mat-option *ngFor="let a of appointmentTypes" [value]="a.id" >{{a.name}}</mat-option>
-        </mat-select>
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Doctor's surname: </mat-label>
+      <input matInput [(ngModel)] = searchModel.surname name="doctor_surname" #surname="ngModel"/>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Rate from: </mat-label>
+      <input matInput [(ngModel)] = searchModel.rateFrom name="doctor_rfrom" #rateFrom="ngModel"/>
+    </mat-form-field>
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Rate to: </mat-label>
+      <input matInput [(ngModel)] = searchModel.rateTo name="doctor_rto" #rateTo="ngModel"/>
     </mat-form-field>
 
     <button mat-raised-button style="width: 120px" (click)="search()" >Search...</button>
 
-</div>
--->
+    <br>
 
-<div class="mat-elevation-z8" style="width: 800px;float:left;margin-left: 30px;">
+    <label id="search_err" style="color:red;visibility: hidden;">There are no doctors maching search criteria.</label>
 
-    <table mat-table [dataSource]="dataSource" >
+  </div>
 
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef style="width: 25%;"> Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-        </ng-container>
+  <div class="mat-elevation-z8" style="width: 800px;float:left;margin-left: 30px;">
 
-        <ng-container matColumnDef="surname">
-            <th mat-header-cell *matHeaderCellDef style="width: 25%;"> Surname </th>
-            <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
+      <table mat-table [dataSource]="dataSource" >
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef style="width: 25%;"> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
           </ng-container>
 
-        <ng-container matColumnDef="avg_rating">
-            <th mat-header-cell *matHeaderCellDef style="width: 25%;"> Average rate </th>
-            <td mat-cell *matCellDef="let element"> {{element.average_rate}} </td>
+          <ng-container matColumnDef="surname">
+              <th mat-header-cell *matHeaderCellDef style="width: 25%;"> Surname </th>
+              <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
+            </ng-container>
+
+          <ng-container matColumnDef="avg_rating">
+              <th mat-header-cell *matHeaderCellDef style="width: 25%;"> Average rate </th>
+              <td mat-cell *matCellDef="let element"> {{element.average_rate}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="times">
+              <th mat-header-cell *matHeaderCellDef style="width: 25%;"> Times </th>
+              <td mat-cell *matCellDef="let element" > <mat-select [(ngModel)]="element.time" #time="ngModel" required >
+                  <mat-option *ngFor="let a of element.available_times" [value]="a" >{{a}}</mat-option>
+              </mat-select></td>
+          </ng-container>
+
+        <ng-container matColumnDef="check">
+          <th mat-header-cell *matHeaderCellDef>  </th>
+          <td mat-cell *matCellDef="let element">  <button mat-button (click)="Check(element)" >Check out</button>
+          </td>
         </ng-container>
 
-        <ng-container matColumnDef="times">
-            <th mat-header-cell *matHeaderCellDef style="width: 25%;"> Times </th>
-            <td mat-cell *matCellDef="let element" > <mat-select [(ngModel)]="element.time" #time="ngModel" required >
-                <mat-option *ngFor="let a of element.available_times" [value]="a" >{{a}}</mat-option>
-            </mat-select></td>
-        </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns" style="background: transparent !important;"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
 
-      <ng-container matColumnDef="check">
-        <th mat-header-cell *matHeaderCellDef>  </th>
-        <td mat-cell *matCellDef="let element">  <button mat-button (click)="Check(element)" >Check out</button>
-        </td>
-      </ng-container>
+      </table>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns" style="background: transparent !important;"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
+      <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
 
-    </table>
-
-    <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
-
+  </div>
 </div>
