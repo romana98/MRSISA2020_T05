@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {DialogOverview} from "../../request-list-patients/request-list-patients.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import { StringifyOptions } from 'querystring';
 
 @Component({
   selector: 'app-doctors',
@@ -39,8 +40,16 @@ export class DoctorsComponent implements OnInit {
     time: ''
   }
 
+  reqModel : sendReqModel = {
+    date : '',
+    time : '',
+    app_type : '',
+    clinic : '',
+    doctor: '',
+    patient : ''
+  }
+
   ngOnInit(): void {
-    this.label = this.router.snapshot.queryParamMap.get('clinic_id');
     this.label = this.router.snapshot.queryParamMap.get('date');
     this.clinic_addr = this.router.snapshot.queryParamMap.get('clinic_addr');
     this.clinic = this.router.snapshot.queryParamMap.get('clinic');
@@ -70,8 +79,19 @@ export class DoctorsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result.sent === true)
       {
-        let url = "http://localhost:8081/appointment/"
-        this.http.post(url, req).subscribe(
+        
+        this.reqModel = {
+          date : this.label,
+          time : req.time,
+          app_type : this.router.snapshot.queryParamMap.get('appointment_type_id'),
+          clinic : this.router.snapshot.queryParamMap.get('clinic_id'),
+          doctor : req.id,
+          patient : sessionStorage.getItem('user_id').toString()
+
+        }
+
+        let url = "http://localhost:8081/appointment/sendRequest"
+        this.http.post(url, this.reqModel).subscribe(
           res => {
             let index = this.dataSource.data.indexOf(req);
             this.dataSource.data.splice(index, 1);
@@ -138,4 +158,13 @@ export class DialogConfirm {
     return true;
   }
 
+}
+
+export interface sendReqModel{
+    date : String;
+    time : String;
+    app_type : String;
+    clinic : String;
+    doctor: String;
+    patient : String;
 }

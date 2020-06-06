@@ -15,17 +15,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.AppointmentDTO;
+import com.project.tim05.dto.AppointmentRequestDTO;
 import com.project.tim05.model.Appointment;
 import com.project.tim05.model.AppointmentType;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Hall;
+import com.project.tim05.model.Patient;
 import com.project.tim05.model.WorkCalendar;
 import com.project.tim05.service.AppointmentService;
 import com.project.tim05.service.AppointmentTypeService;
 import com.project.tim05.service.ClinicService;
 import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.HallService;
+import com.project.tim05.service.PatientService;
 import com.project.tim05.service.WorkCalendarService;
 
 //@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
@@ -42,9 +45,10 @@ public class AppointmentController {
 	private final AppointmentTypeService ats;
 	private final ClinicService cs;
 	private final WorkCalendarService wcs;
-
+	private final PatientService ps;
+	
 	@Autowired
-	public AppointmentController(WorkCalendarService wcs,AppointmentService as, DoctorService ds, HallService hs, AppointmentTypeService ats,ClinicService cs) {
+	public AppointmentController(PatientService ps,WorkCalendarService wcs,AppointmentService as, DoctorService ds, HallService hs, AppointmentTypeService ats,ClinicService cs) {
 		super();
 		this.as = as;
 		this.ds = ds;
@@ -52,6 +56,7 @@ public class AppointmentController {
 		this.ats = ats;
 		this.cs = cs;
 		this.wcs = wcs;
+		this.ps = ps;
 	}
 	
 	@PostMapping("/addAppointment")
@@ -122,6 +127,49 @@ public class AppointmentController {
 		for(Appointment a : dr.getAppointments()) {
 			System.out.println(a.getAppointmentType().getName());
 		}
+
+		if (flag == 0)
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		else
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+
+	}
+	
+	@PostMapping("/sendRequest")
+	@PreAuthorize("hasRole('CLINIC_ADMIN') || hasRole('PATIENT')")
+	public ResponseEntity<String> sendRequest(@RequestBody AppointmentRequestDTO adto){
+	        
+		Appointment ap = new Appointment();
+		Clinic c = cs.getClinicbyId(Integer.parseInt(adto.getClinic()));
+		Doctor d = ds.getDoctorbyID(Integer.parseInt(adto.getDoctor()));
+		Patient p = ps.getPatientById(Integer.parseInt(adto.getPatient()));
+		AppointmentType at = ats.getAppointmentTypebyId(Integer.parseInt(adto.getApp_type()));
+		
+		SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		Date date = null;
+		try {
+			date = formatter1.parse(adto.getDate() + " " + adto.getTime());
+		} catch (ParseException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+		
+		
+		
+
+		ap.setDateTime(date);
+		ap.setDuration(30);
+		ap.setPrice(0);
+		ap.setRequest(true);
+		ap.setPredefined(false);
+		ap.setDoctor(d);
+		ap.setAppointmentType(at);
+		ap.setClinic(c);
+		ap.setPatient(p);
+
+		int flag = as.addAppointment(ap);
+		//TODO u doktoru treba da se doda appointment
+		
 
 		if (flag == 0)
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);

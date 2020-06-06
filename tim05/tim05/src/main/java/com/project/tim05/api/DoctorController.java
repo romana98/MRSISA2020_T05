@@ -106,6 +106,7 @@ public class DoctorController {
 		for(Doctor dr : doctors) {
 			if (ds.getAvailableTime(sd, dr).size() > 0) {
 				DoctorDTO ddto = new DoctorDTO();
+				ddto.setId(dr.getId());
 				ddto.setName(dr.getName());
 				ddto.setSurname(dr.getSurname());
 				ddto.setAverage_rate(0);
