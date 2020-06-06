@@ -271,7 +271,7 @@ public class DoctorService {
 	}
 	
 	public List<String> getAvailableTime(Date day, Doctor dr){
-		
+		//treba dodati proveru da li je doktor na godisnjem odmoru
 		try {
 		
 		Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
@@ -328,7 +328,7 @@ public class DoctorService {
 			//znaci da je termin nije negde uleteo u drugi termin i da je slobodan
 			if (flag == 0) {
 				free_times.add(MinutesToTime(doctor_ws));
-				//svaki pregled traje pola sata 
+				//svaki pregled traje pola sata ----> ZA MENJANJE DUZINE PREGLEDA PROMENITI OVAJ PARAMETAR
 				doctor_ws += 30;
 			}
 			
