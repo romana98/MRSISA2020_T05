@@ -1,0 +1,14 @@
+<h2 mat-dialog-title style="text-align: center">Send decline mail</h2>
+<div mat-dialog-content>
+  <mat-form-field>
+    <textarea matInput rows="5" [(ngModel)]="data.text"> </textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+
+  <mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="data" (click)="data.sent = onClick()">Cancel</button>
+    <button mat-button [mat-dialog-close]="data" (click)="data.sent = Send()">Send</button>
+  </mat-dialog-actions>
+
+</div>

@@ -20,9 +20,19 @@ public class LeaveRequestDTO {
 	
 	private String surname;
 	
+	private String text;
+	
 
 	public LeaveRequestDTO() {
 		super();
+	}
+
+	public LeaveRequestDTO(String email, String name, String surname, String startDate, String endDate) {
+		this.email = email;
+		this.name = name;
+		this.surname = surname;
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
 
 	public String getStartDate() {
@@ -64,7 +74,14 @@ public class LeaveRequestDTO {
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
-	
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
 	
 	
 
