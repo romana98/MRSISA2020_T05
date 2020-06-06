@@ -22,6 +22,7 @@ public class DoctorDTO extends MedicalStaffDTO {
 	private double average_rate;
 
 	private List<String> available_times;
+	private String time;
 
 	public DoctorDTO() {
 		super();
@@ -74,6 +75,14 @@ public class DoctorDTO extends MedicalStaffDTO {
 
 	public void setAppointment_type_id(int appointment_type_id) {
 		this.appointment_type_id = appointment_type_id;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
 	}
 
 	/*

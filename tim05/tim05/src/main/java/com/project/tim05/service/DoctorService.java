@@ -258,6 +258,7 @@ public class DoctorService {
 			
 			while(rs.next()) {
 				Doctor dr1 = dr.findById(rs.getInt("user_id"));
+				dr1.setAppointmentType(initializeAndUnproxy.initAndUnproxy(dr1.getAppointmentType()));
 				doctors.add(dr1);
 			}
 			connection.close();

@@ -109,7 +109,9 @@ public class DoctorController {
 				ddto.setName(dr.getName());
 				ddto.setSurname(dr.getSurname());
 				ddto.setAverage_rate(0);
+				ddto.setAppointmentTypeName(dr.getAppointmentType().getName());
 				ddto.setAvailable_times(ds.getAvailableTime(sd, dr));
+				ddto.setTime(ddto.getAvailable_times().get(0));
 				doctors_filtered.add(ddto);
 	
 			}
