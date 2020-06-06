@@ -17,7 +17,7 @@ INSERT INTO CLINIC_ADMINS(user_id, clinic) VALUES (1, 1);
 INSERT INTO MEDICAL_STAFF(work_end,work_start,user_id) VALUES('14:00','12:00',3);
 INSERT INTO MEDICAL_STAFF(work_end,work_start,user_id) VALUES('14:00','12:00',4);
 INSERT INTO DOCTORS(user_id,active,appointment_type,clinic,clinic_admin,rate) VALUES (3, true , 1,1,1, 0);
-INSERT INTO NURSES(user_id) VALUES (4);
+INSERT INTO NURSES(user_id, clinic) VALUES (4, 1);
 INSERT INTO PATIENTS(user_id, address, city, country, insurance_number, phone_number, doctor, medical_record, nurse) VALUES (5, 'Adresa1', 'Grad', 'Drzava', '123A', '100-100-100', 3, 1, 4);
 
 

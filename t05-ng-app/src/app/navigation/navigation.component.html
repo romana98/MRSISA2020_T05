@@ -30,7 +30,11 @@
 
   <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/addMedicine" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Medicine</button></a>
   <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/addDiagnosis" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Diagnosis</button></a>
-  <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/requestTable" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Requests</button></a>
+  <button *ngIf="checkCCAdmin()" button mat-flat-button color="primary" style="margin-left: 3%;" [matMenuTriggerFor]="menu2">Requests</button>
+  <mat-menu #menu2="matMenu">
+    <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/requestPatients" style="margin-left: 3%;" ><button mat-flat-button >Patients</button></a>
+    <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/requestLeave" style="margin-left: 3%;" ><button mat-flat-button  >Leave</button></a>
+  </mat-menu>
 
   <!--Doctor-->
   <a *ngIf="checkDoctor()" routerLink="staff/viewPatients" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Patients</button></a>

@@ -1,19 +1,29 @@
 package com.project.tim05.service;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.tim05.dto.LeaveRequestDTO;
 import com.project.tim05.model.Authority;
 import com.project.tim05.model.Clinic;
+import com.project.tim05.model.LeaveRequest;
 import com.project.tim05.model.Nurse;
+import com.project.tim05.model.WorkCalendar;
 import com.project.tim05.repository.NurseRepository;
+import com.project.tim05.repository.WorkCalendarRespository;
 import com.project.tim05.service.initializeAndUnproxy;
 
 @Service
@@ -24,6 +34,9 @@ public class NurseService {
 	
 	@Autowired
 	private NurseRepository nr;
+	
+	@Autowired
+	private WorkCalendarRespository wcr;
 	
 	@Autowired
 	private AuthorityService authService;
@@ -95,6 +108,44 @@ public class NurseService {
 		Nurse n = nr.findByEmail(email);
 		Clinic c = initializeAndUnproxy.initAndUnproxy(n.getClinic());
 		return c;
+	}
+
+	public int addLeave(LeaveRequest l) {
+		int flag = 0;
+		
+		try {
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			java.util.Date start = null;
+			java.util.Date end = null;
+			try {
+				start = formatter.parse(l.getStartDate());
+				end = formatter.parse(l.getEndDate());
+			} catch (ParseException e) {
+				
+				e.printStackTrace();
+			}
+	
+			Calendar start_cal = Calendar.getInstance();
+			start_cal.setTime(start);
+			Calendar end_cal = Calendar.getInstance();
+			end_cal.setTime(end);
+			end_cal.add(Calendar.DATE, 1);
+	
+			java.sql.Date sql = null;
+			for (java.util.Date date = start_cal.getTime(); start_cal.before(end_cal); start_cal.add(Calendar.DATE, 1), date = start_cal.getTime()) {
+				sql = new java.sql.Date(date.getTime());
+				WorkCalendar wc = new WorkCalendar("00:00", "23:59", sql, true);
+				wc.setNurse(nr.findByEmail(l.getEmail()));
+				wcr.save(wc);  
+				
+				
+			}
+			flag = 1;
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			flag = 0;
+		}
+		return flag;
 	}
 	
 
