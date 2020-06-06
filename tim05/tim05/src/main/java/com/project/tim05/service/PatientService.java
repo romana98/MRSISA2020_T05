@@ -187,6 +187,10 @@ public class PatientService {
 		}
 		return id;
 	}
+	
+	public Patient getPatientById(int id) {
+		return pa.findById(id);
+	}
 
 	public int addPatient(Patient patient) {
 		try {

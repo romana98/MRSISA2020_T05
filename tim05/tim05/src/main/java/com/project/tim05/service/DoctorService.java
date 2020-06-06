@@ -253,6 +253,34 @@ public class DoctorService {
 		return doctors;
 	}
 	
+	public ArrayList<Doctor> getClinicDoctorsbyAppointmentType(int app_type_id, int clinic_id){
+		
+		ArrayList<Doctor> doctors = new ArrayList<Doctor>();
+		
+		try {
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			String query = "SELECT * FROM public.doctors where appointment_type = ? and clinic = ?";
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, app_type_id);
+			ps.setInt(2, clinic_id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				Doctor dr1 = dr.findById(rs.getInt("user_id"));
+				dr1.setAppointmentType(initializeAndUnproxy.initAndUnproxy(dr1.getAppointmentType()));
+				doctors.add(dr1);
+			}
+			connection.close();
+			ps.close();
+			rs.close();
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return doctors;
+	}
+	
 	public ArrayList<Doctor> getDoctorsbyAppointmentType(int app_type_id){
 		
 		ArrayList<Doctor> doctors = new ArrayList<Doctor>();

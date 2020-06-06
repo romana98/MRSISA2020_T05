@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {DialogOverview} from "../../request-list-patients/request-list-patients.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import { StringifyOptions } from 'querystring';
 
 @Component({
   selector: 'app-doctors',
@@ -39,8 +40,24 @@ export class DoctorsComponent implements OnInit {
     time: ''
   }
 
+
+  reqModel : sendReqModel = {
+    date : '',
+    time : '',
+    app_type : '',
+    clinic : '',
+    doctor: '',
+    patient : ''
+
+  searchModel : searchDoctorModel = {
+    name: '',
+    surname: '',
+    rateFrom: 0,
+    rateTo: 5
+
+  }
+
   ngOnInit(): void {
-    this.label = this.router.snapshot.queryParamMap.get('clinic_id');
     this.label = this.router.snapshot.queryParamMap.get('date');
     this.clinic_addr = this.router.snapshot.queryParamMap.get('clinic_addr');
     this.clinic = this.router.snapshot.queryParamMap.get('clinic');
@@ -59,6 +76,26 @@ export class DoctorsComponent implements OnInit {
 
   }
 
+  search() : void {
+    let params = new HttpParams();
+    params = params.append("doctorName", this.searchModel.name.toString());
+    params = params.append("doctorSurname", this.searchModel.surname.toString());
+    params = params.append("rateFrom", this.searchModel.rateFrom.toString());
+    params = params.append("rateTo", this.searchModel.rateTo.toString());
+    params = params.append('date', this.router.snapshot.queryParamMap.get('date'))
+    params = params.append('clinic_id', this.router.snapshot.queryParamMap.get('clinic_id'));
+    params = params.append('appointmentType_id', this.router.snapshot.queryParamMap.get('appointment_type_id'));
+    this.http.get("http://localhost:8081/patients/searchDoctors",{params:params})
+      .subscribe((res) => {
+        // @ts-ignore
+        this.dataSource.data = res;
+        document.getElementById("search_err").style.visibility = "hidden";
+      },(err) => {
+        this.dataSource.data = [];
+        document.getElementById("search_err").style.visibility = "visible";
+      }
+      );
+  }
 
   Check(req): void {
     const dialogRef = this.dialog.open(DialogConfirm, {
@@ -70,8 +107,19 @@ export class DoctorsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result.sent === true)
       {
-        let url = "http://localhost:8081/appointment/"
-        this.http.post(url, req).subscribe(
+        
+        this.reqModel = {
+          date : this.label,
+          time : req.time,
+          app_type : this.router.snapshot.queryParamMap.get('appointment_type_id'),
+          clinic : this.router.snapshot.queryParamMap.get('clinic_id'),
+          doctor : req.id,
+          patient : sessionStorage.getItem('user_id').toString()
+
+        }
+
+        let url = "http://localhost:8081/appointment/sendRequest"
+        this.http.post(url, this.reqModel).subscribe(
           res => {
             let index = this.dataSource.data.indexOf(req);
             this.dataSource.data.splice(index, 1);
@@ -104,6 +152,12 @@ export interface doctorModel{
   time: string
 }
 
+export interface searchDoctorModel{
+  name: string,
+  surname: string,
+  rateFrom: number,
+  rateTo: number
+}
 
 
 export interface DialogData {
@@ -138,4 +192,13 @@ export class DialogConfirm {
     return true;
   }
 
+}
+
+export interface sendReqModel{
+    date : String;
+    time : String;
+    app_type : String;
+    clinic : String;
+    doctor: String;
+    patient : String;
 }
