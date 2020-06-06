@@ -39,6 +39,13 @@ export class DoctorsComponent implements OnInit {
     time: ''
   }
 
+  searchModel : searchDoctorModel = {
+    name: '',
+    surname: '',
+    rateFrom: 0,
+    rateTo: 5
+  }
+
   ngOnInit(): void {
     this.label = this.router.snapshot.queryParamMap.get('clinic_id');
     this.label = this.router.snapshot.queryParamMap.get('date');
@@ -59,6 +66,26 @@ export class DoctorsComponent implements OnInit {
 
   }
 
+  search() : void {
+    let params = new HttpParams();
+    params = params.append("doctorName", this.searchModel.name.toString());
+    params = params.append("doctorSurname", this.searchModel.surname.toString());
+    params = params.append("rateFrom", this.searchModel.rateFrom.toString());
+    params = params.append("rateTo", this.searchModel.rateTo.toString());
+    params = params.append('date', this.router.snapshot.queryParamMap.get('date'))
+    params = params.append('clinic_id', this.router.snapshot.queryParamMap.get('clinic_id'));
+    params = params.append('appointmentType_id', this.router.snapshot.queryParamMap.get('appointment_type_id'));
+    this.http.get("http://localhost:8081/patients/searchDoctors",{params:params})
+      .subscribe((res) => {
+        // @ts-ignore
+        this.dataSource.data = res;
+        document.getElementById("search_err").style.visibility = "hidden";
+      },(err) => {
+        this.dataSource.data = [];
+        document.getElementById("search_err").style.visibility = "visible";
+      }
+      );
+  }
 
   Check(req): void {
     const dialogRef = this.dialog.open(DialogConfirm, {
@@ -104,6 +131,12 @@ export interface doctorModel{
   time: string
 }
 
+export interface searchDoctorModel{
+  name: string,
+  surname: string,
+  rateFrom: number,
+  rateTo: number
+}
 
 
 export interface DialogData {
