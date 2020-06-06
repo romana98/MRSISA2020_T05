@@ -1,6 +1,5 @@
 package com.project.tim05.api;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,54 +37,53 @@ import com.project.tim05.service.PatientService;
 import com.project.tim05.service.RegistrationRequestService;
 import com.project.tim05.service.UserService;
 
-
 @CrossOrigin(origins = "https://localhost:4200")
 
 @RequestMapping("/patients")
 @RestController
 public class PatientController<T> {
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private AuthenticationManager authenticationManager;
-	
-	
+
 	private final PatientService ps;
 	private final RegistrationRequestService rrs;
 	private final EmailService es;
 	private final ClinicService cs;
 	private final DoctorService ds;
-	
+
 	@Autowired
-	public PatientController(DoctorService ds,PatientService ps, RegistrationRequestService rrs, EmailService es, ClinicService cs) {
+	public PatientController(DoctorService ds, PatientService ps, RegistrationRequestService rrs, EmailService es,
+			ClinicService cs) {
 		this.ps = ps;
 		this.rrs = rrs;
 		this.es = es;
 		this.cs = cs;
 		this.ds = ds;
 	}
-	
+
 	@GetMapping("/getPatients")
 	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
-	public List<Patient> getPatients(){
+	public List<Patient> getPatients() {
 		return ps.getPatients();
 	}
-	
+
 	@PostMapping("/editPatient")
-	@PreAuthorize("hasRole('PATIENT')") 
+	@PreAuthorize("hasRole('PATIENT')")
 	public ResponseEntity<T> editPatient(@Valid @RequestBody PatientDTO patient) {
-		
+
 		Authentication current = SecurityContextHolder.getContext().getAuthentication();
-		Patient currentUser = (Patient)current.getPrincipal();
-		
-		if(!currentUser.getEmail().equals(patient.getEmail()))
+		Patient currentUser = (Patient) current.getPrincipal();
+
+		if (!currentUser.getEmail().equals(patient.getEmail()))
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-	
-		if(patient.getPassword().length() > 0 && patient.getPassword().length() < 8)
+
+		if (patient.getPassword().length() > 0 && patient.getPassword().length() < 8)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		
+
 		Patient p = new Patient();
 		p.setAddress(patient.getAddress());
 		p.setCity(patient.getCity());
@@ -98,144 +96,140 @@ public class PatientController<T> {
 		p.setSurname(patient.getSurname());
 		p.setId(currentUser.getId());
 		int flag = ps.editPatient(p);
-		
-		if(patient.getPassword().length() != 0 && flag != 0)
-		{
-			Authentication authentication = authenticationManager
-					.authenticate(new UsernamePasswordAuthenticationToken(currentUser.getEmail(),patient.getPassword()));
+
+		if (patient.getPassword().length() != 0 && flag != 0) {
+			Authentication authentication = authenticationManager.authenticate(
+					new UsernamePasswordAuthenticationToken(currentUser.getEmail(), patient.getPassword()));
 
 			SecurityContextHolder.getContext().setAuthentication(authentication);
-				
+
 		}
-		
-		if(flag == 0) {
+
+		if (flag == 0) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-		}else {
+		} else {
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		}
-		
-		
+
 	}
-	
+
 	static class activateAccount {
 		public int id;
 		public String email;
 	}
-	
+
 	@PostMapping("/activate")
 	public ResponseEntity<T> activate(@RequestBody activateAccount aa) {
-		
+
 		User existUser = this.userService.findByEmail(aa.email);
 		if (existUser == null) {
-			 ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
-		
-		
+
 		int flag = ps.activateAccount(aa.email, aa.id);
-		
-		
-		if(flag == 0)
+
+		if (flag == 0)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		else
-		{
+		else {
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		}
-			
+
 	}
-	
+
 	@PostMapping("/addPatient")
 	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
 	public ResponseEntity<T> addPatient(@Valid @RequestBody PatientDTO p) {
-		
+
 		User existUser = this.userService.findByEmail(p.getEmail());
 		if (existUser != null) {
-			 ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+			ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		}
-		
-		
-		int flag = ps.addPatient(new Patient(p.getEmail(), p.getPassword(), p.getName(), p.getSurname(), p.getAddress(), p.getCity(), p.getCountry(), p.getPhone_number(), p.getInsurance_number()));
-		int flag1 = rrs.removeRegistrationRequest(new RegistrationRequest(p.getEmail(), p.getPassword(), p.getName(), p.getSurname(), p.getAddress(), p.getCity(), p.getCountry(), p.getPhone_number(), p.getInsurance_number()));
-		
-		
-		if(flag1 == 0)
+
+		int flag = ps.addPatient(new Patient(p.getEmail(), p.getPassword(), p.getName(), p.getSurname(), p.getAddress(),
+				p.getCity(), p.getCountry(), p.getPhone_number(), p.getInsurance_number()));
+		int flag1 = rrs.removeRegistrationRequest(
+				new RegistrationRequest(p.getEmail(), p.getPassword(), p.getName(), p.getSurname(), p.getAddress(),
+						p.getCity(), p.getCountry(), p.getPhone_number(), p.getInsurance_number()));
+
+		if (flag1 == 0)
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-		else if(flag == 0)
+		else if (flag == 0)
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		else
-		{
+		else {
 			try {
 				es.sendAcceptanceeMail(p.getEmail(), ps.getPatientId(p.getEmail()));
 			} catch (Exception e) {
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-			
+
 			}
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		}
-			
+
 	}
-	
+
 	@GetMapping("/getClinics")
 	@PreAuthorize("hasRole('PATIENT')")
-	public ResponseEntity<List<PatientClinicsDTO>> getClinics(@RequestParam String date, String appointmentType_id){
-		
-		ArrayList<Doctor> doctors = ds.getDoctorsbyAppointmentType(Integer.parseInt(appointmentType_id));	
-		
+	public ResponseEntity<List<PatientClinicsDTO>> getClinics(@RequestParam String date, String appointmentType_id) {
+
+		ArrayList<Doctor> doctors = ds.getDoctorsbyAppointmentType(Integer.parseInt(appointmentType_id));
+
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		java.util.Date date1 = null;
 		try {
 			date1 = formatter.parse(date);
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
-		
+
 		java.sql.Date sd = new java.sql.Date(date1.getTime());
 
-		
 		ArrayList<Doctor> doctors_filtered = new ArrayList<Doctor>();
-		ArrayList<Clinic> clinics =  new ArrayList<Clinic>();
-		
-		for(Doctor dr : doctors) {
+		ArrayList<Clinic> clinics = new ArrayList<Clinic>();
+
+		for (Doctor dr : doctors) {
 			if (ds.getAvailableTime(sd, dr).size() > 0) {
-			
+
 				doctors_filtered.add(dr);
-				
-				if(!clinics.contains(dr.getClinic())) {
+
+				if (!clinics.contains(dr.getClinic())) {
 					clinics.add(dr.getClinic());
-				
+
 				}
 			}
 		}
-		
+
 		ArrayList<PatientClinicsDTO> pcdtos = new ArrayList<PatientClinicsDTO>();
-		
-		for(Clinic cl : clinics) { 
+
+		for (Clinic cl : clinics) {
 			PatientClinicsDTO pcdto = new PatientClinicsDTO();
-			
+
 			pcdto.setId(cl.getId());
 			pcdto.setName(cl.getName());
 			pcdto.setAddress(cl.getAddress());
 			pcdto.setAvg_rating(0);
 			pcdto.setPrice(0);
-			
+
 			pcdtos.add(pcdto);
 		}
 		
-		
-			
-		
-		return ResponseEntity.ok(pcdtos);
+		if (pcdtos.size() == 0) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(pcdtos);
+		}
+		else {
+			return ResponseEntity.ok(pcdtos);	
+		}
 	}
-	
+
 	@GetMapping("/getPatient")
 	@PreAuthorize("hasRole('PATIENT')")
 	public PatientDTO getData() {
-		
+
 		Authentication current = SecurityContextHolder.getContext().getAuthentication();
-		Patient currentUser = (Patient)current.getPrincipal();
-		
+		Patient currentUser = (Patient) current.getPrincipal();
+
 		Patient p = ps.getPatient(currentUser.getEmail());
-		
+
 		PatientDTO pdto = new PatientDTO();
 		pdto.setAddress(p.getAddress());
 		pdto.setCity(p.getCity());
@@ -247,7 +241,7 @@ public class PatientController<T> {
 		pdto.setPhone_number(p.getPhone_number());
 		pdto.setSurname(p.getSurname());
 		return pdto;
-		
+
 	}
-	
+
 }

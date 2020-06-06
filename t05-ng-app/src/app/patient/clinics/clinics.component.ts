@@ -23,6 +23,8 @@ export class ClinicsComponent implements OnInit {
 
   appointmentTypes : any=[];
 
+  tomorrow : Date;
+
   model : ClinicModel = {
     id : 0,
     name : '',
@@ -59,6 +61,8 @@ export class ClinicsComponent implements OnInit {
 
     });*/
 
+    let today = new Date();
+    this.tomorrow = new Date(today.setDate(today.getDate() + 1));
 
     this.dataSource.paginator = this.paginator;
     this.selectedRowIndex  = 1;
@@ -80,8 +84,13 @@ export class ClinicsComponent implements OnInit {
     .subscribe((res) => {
       // @ts-ignore
       this.dataSource.data = res;
+      document.getElementById("search_err").style.visibility = "hidden";
+    },(err) => {
+      this.dataSource.data = [];
+      document.getElementById("search_err").style.visibility = "visible";
+    }
 
-    });
+    );
   }
 
   findDoctors(row){
