@@ -2,6 +2,7 @@ package com.project.tim05.api;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.tim05.dto.AppointmentTypeDTO;
 import com.project.tim05.dto.HallDTO;
 import com.project.tim05.model.ClinicAdministrator;
 import com.project.tim05.model.Hall;
@@ -100,7 +100,7 @@ public class HallController<T> {
 	@GetMapping("/getAvailabileHalls")
 	//@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	public ResponseEntity<Object> getAvailableHalls(@RequestParam String param_name, String param_value, String date, String clinic_admin_id) {
-
+		
 		int clinic_id = cas.getClinicAdmin(Integer.parseInt(clinic_admin_id)).getClinic().getId();
 		
 		//formiranje datuma kakav mi odgovara
@@ -113,10 +113,10 @@ public class HallController<T> {
 			e.printStackTrace();
 		}
 		
+		ArrayList<HallDTO> dtos = hs.getAvailableHalls(param_name, param_value , new_date, clinic_id);
 		
-		hs.getAvailableHalls(param_name, param_value , new_date, clinic_id);
 		
-		return ResponseEntity.status(HttpStatus.OK).body(null);
+		return ResponseEntity.status(HttpStatus.OK).body(dtos);
 
 	}
 }

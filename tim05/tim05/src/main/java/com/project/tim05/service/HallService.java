@@ -146,7 +146,7 @@ public class HallService {
 			}
 			else {
 				
-				st = conn.prepareStatement("SELECT * FROM halls WHERE number = value and clinic = ?");
+				st = conn.prepareStatement("SELECT * FROM halls WHERE number = ? and clinic = ?");
 				st.setInt(1, Integer.parseInt(value));
 				st.setInt(2,clinic_id);
 
@@ -162,6 +162,10 @@ public class HallService {
 				lh.add(new_hall);
 			}
 			
+			
+			if(lh.size() == 0) {
+				lh = getClinicHalls(clinic_id);
+			}
 			//uzimanje pregleda koji su zakazani za zadati datum
 			
 			
@@ -219,24 +223,29 @@ public class HallService {
 	private HashMap<Integer,ArrayList<String>> getAvailableTimes(ArrayList<Hall> halls, ArrayList<Appointment> appointments) {
 		HashMap<Integer,ArrayList<String>> map_of_times = new HashMap<Integer, ArrayList<String>>();
 		for (Hall h: halls) {
-			ArrayList<String> free_times = new ArrayList<String>();
-			int pocetak = 0;
-			for (Appointment app: appointments) {
-				if(app.getHall().getId() == h.getId()) {
-					//vreme pocetka pregleda
-					int startTime = getTimeMinutes(app.getDateTime());
-					//naleteo sam na pregled u toj sali znaci slobodno vreme je od pocetka do tog trenutka
-					String free_time = getMinutesToTime(pocetak) + " -> " +  getMinutesToTime(startTime);
-					free_times.add(free_time);
-					//a zatim postavljam za kraj tog pregleda nov pocetak za sledecu iteraciju petlje
-					pocetak = startTime + app.getDuration();
-				}
-				
-			}
-			free_times.add(getMinutesToTime(pocetak) + " -> " + "24:00");
+			ArrayList<String> free_times = getFreeTimes(h,appointments);
 			map_of_times.put(h.getId(), free_times);
 		}
 		return map_of_times;
+	}
+	
+	private ArrayList<String> getFreeTimes(Hall h, ArrayList<Appointment> appointments){
+		ArrayList<String> free_times = new ArrayList<String>();
+		int pocetak = 0;
+		for (Appointment app: appointments) {
+			if(app.getHall().getId() == h.getId()) {
+				//vreme pocetka pregleda
+				int startTime = getTimeMinutes(app.getDateTime());
+				//naleteo sam na pregled u toj sali znaci slobodno vreme je od pocetka do tog trenutka
+				String free_time = getMinutesToTime(pocetak) + " -> " +  getMinutesToTime(startTime);
+				free_times.add(free_time);
+				//a zatim postavljam za kraj tog pregleda nov pocetak za sledecu iteraciju petlje
+				pocetak = startTime + app.getDuration();
+			}
+			
+		}
+		free_times.add(getMinutesToTime(pocetak) + " -> " + "24:00");
+		return free_times;
 	}
 	
 	//metoda prima datum i vraca broj minuta od pocetka dana

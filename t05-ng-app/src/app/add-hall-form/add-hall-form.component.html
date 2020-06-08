@@ -4,48 +4,72 @@
 <br>
 
 <div >
-  <form  #f="ngForm" (submit)="f.form.valid && AddHall()" style="padding-left: 25px;">
+  <form #forma="ngForm" (submit)="goSearch()" style="float: left;width: 48%;margin-left: 2%;">
 
     <mat-form-field appearance="outline" style="width: 250px;">
-      <mat-label>Name</mat-label>
-      <input matInput  [(ngModel)] = "model.name" #name="ngModel"  name="input_name"
+      <mat-label>Search...</mat-label>
+      <input matInput  [(ngModel)] = "search_value" #searchvalue="ngModel"  name="search_value"
              pattern="([A-Z][a-z]+[ ]*){1,}" required>
-      <mat-error *ngIf="name.invalid && name.errors?.pattern">
+      <mat-error *ngIf="searchvalue.invalid && searchvalue.errors?.pattern">
         Invalid name format! Example: Operation Hall
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
-      <mat-label>Number</mat-label>
-      <input matInput  [(ngModel)] = "model.number" #number="ngModel"  name="input_number"
-             pattern="[0-9]*" required>
-      <mat-error *ngIf="number.invalid && number.errors?.pattern">
-        Invalid number format! Example: 5
-      </mat-error>
+    <mat-form-field appearance="outline" style="width: 250px;margin-left: 2%;">
+        <mat-label>Parameter</mat-label>
+        <mat-select [(ngModel)]="search_param" #searchparam="ngModel" name="searchparam"  required >
+          <mat-option value="name" selected>Name</mat-option>
+          <mat-option value="number">Number</mat-option>
+        </mat-select>
     </mat-form-field>
 
-    <button mat-raised-button style="margin-left: 25px;" >Save hall</button>
+    
+    <br>
+
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Choose a date</mat-label>
+      <input [(ngModel)] = "date_value" name="date_value" [min]="today"
+      #datevalue="ngModel" matInput [matDatepicker]="picker" readonly required>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker ></mat-datepicker>
+    </mat-form-field>
+
+    <button mat-raised-button style="margin-left: 25px;" >Search</button>
+
 
     <br>
 
-    <div class="mat-elevation-z8" style="display: block;width: 650px;float:left;margin-top: 2%;">
+    <div class="mat-elevation-z8" style="display: block;width: 90%;float:left;margin-top: 2%;">
 
       <table mat-table [dataSource]="dataSource" >
 
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> Name </th>
-            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            <td mat-cell *matCellDef="let element" style="width: 15%;"> {{element.name}} </td>
           </ng-container>
 
           <ng-container matColumnDef="number">
-              <th mat-header-cell *matHeaderCellDef> Number </th>
+              <th mat-header-cell *matHeaderCellDef style="width: 15%;"> Number </th>
               <td mat-cell *matCellDef="let element"> {{element.number}} </td>
-            </ng-container>
-
-          <ng-container matColumnDef="delete">
-              <th mat-header-cell *matHeaderCellDef> Delete </th>
-              <td mat-cell *matCellDef="let element" (click)="deleteHall(element)"  style="width: 150px;"><span class="fake-link"><mat-icon [ngStyle]="{'color':'red'}">clear</mat-icon></span></td>
           </ng-container>
+
+          <ng-container matColumnDef="available">
+            <th mat-header-cell *matHeaderCellDef style="width: 25%;"> Available </th>
+            <td mat-cell *matCellDef="let element" > <mat-select style="max-width: 120px;" [(ngModel)]="element.time" #time="ngModel" name = "time" required >
+              <mat-option *ngFor="let a of element.times" [value]="a" >{{a}}</mat-option>
+          </mat-select></td>
+          </ng-container>
+      
+          <ng-container matColumnDef="reserve">
+            <th mat-header-cell *matHeaderCellDef style="width:15%;align-content: center;"> Reserve </th>
+            <td mat-cell *matCellDef="let element"> <button mat-button (click)="Reserve(element)" >Reserve</button> </td>
+          </ng-container>
+     
+          <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef style="width: 15%;"> Delete </th>
+            <td mat-cell *matCellDef="let element" (click)="deleteHall(element)"  style="width: 150px;"><span class="fake-link"><mat-icon [ngStyle]="{'color':'red'}">clear</mat-icon></span></td>
+          </ng-container>
+
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectionChanged(row)" ></tr>
@@ -58,7 +82,34 @@
 
   </form>
 
-  <mat-expansion-panel #expanel [disabled]="isDisabled" style="width: 40%;margin-right: 9%; margin-top: 2%;float: right;" >
+  <div>
+    <form #f="ngForm" (submit)="f.form.valid && AddHall()" style="float: right;margin-right: 9%;">
+      <mat-form-field appearance="outline" style="width: 250px;">
+        <mat-label>Name</mat-label>
+        <input matInput  [(ngModel)] = "model.name" #name="ngModel"  name="input_name"
+               pattern="([A-Z][a-z]+[ ]*){1,}" required>
+        <mat-error *ngIf="name.invalid && name.errors?.pattern">
+          Invalid name format! Example: Operation Hall
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
+        <mat-label>Number</mat-label>
+        <input matInput  [(ngModel)] = "model.number" #number="ngModel"  name="input_number"
+               pattern="[0-9]*" required>
+        <mat-error *ngIf="number.invalid && number.errors?.pattern">
+          Invalid number format! Example: 5
+        </mat-error>
+      </mat-form-field>
+  
+      <button mat-raised-button style="margin-left: 25px;" >Save hall</button>
+  
+    </form>
+
+
+  </div>
+
+  <mat-expansion-panel #expanel [disabled]="isDisabled" style="width: 39%;margin-right: 9%; margin-top: 2%;float: right;" >
     <mat-expansion-panel-header>
       <mat-panel-title>
           Edit hall
@@ -92,5 +143,7 @@
         <button mat-raised-button style="margin-left: 3%;" >Save changes</button>
       </form>
   </mat-expansion-panel>
+
+  
 
 </div>

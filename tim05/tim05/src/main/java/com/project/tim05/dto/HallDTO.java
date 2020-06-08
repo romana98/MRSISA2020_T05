@@ -19,6 +19,8 @@ public class HallDTO {
 	@Min(value=0)
     private int number;
 	
+	private String time;
+	
 	@NotNull
 	private ArrayList<String> times = new ArrayList<String>();
 	

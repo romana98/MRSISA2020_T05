@@ -12,13 +12,18 @@ import { EXPANSION_PANEL_ANIMATION_TIMING, MatExpansionPanel } from '@angular/ma
 })
 export class AddHallFormComponent implements OnInit{
 
-    displayedColumns: string[] = ['name', 'number', 'delete'];
+    displayedColumns: string[] = ['name', 'number','available' , 'reserve', 'delete'];
 
     dataSource = new MatTableDataSource();
 
     selectedRowIndex: number = 0;
 
     isDisabled : boolean = true;
+
+    search_param : String = '';
+    search_value : String = '';
+    date_value : Date = null;
+    today: Date;
 
     model: hallModel = {
         name: '',
@@ -46,30 +51,22 @@ export class AddHallFormComponent implements OnInit{
 
 
     ngOnInit(): void{
-      //vrednost parametra clinic_id treba da se dinamicki popuni tako da se preuzimaju hale tacno odredjene klinike.
+      this.today = new Date();
+      let date : String;
+      date = this.today.getDate() + "/" + (this.today.getMonth()+1) + "/" + this.today.getFullYear();
+      this.refreshData(date);
+      this.dataSource.paginator = this.paginator;
+    }
 
-      let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id'))
-
-      this.http.get("http://localhost:8081/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
+    refreshData(date){
+      this.http.get("http://localhost:8081/halls/getAvailabileHalls",{params:{'clinic_admin_id' : sessionStorage.getItem('user_id'),
+      'param_name': "a",
+      'param_value' : "-1",
+      'date' : date.toString()}}).subscribe(
         res => {
-          this.clinic_id = res.toString();
-          let params = new HttpParams().set('clinic_id', this.clinic_id);
-          this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
-          .subscribe((res) => {
-          // @ts-ignore
-             this.dataSource.data = res;
-
-          });
-        });
-
-        let params = new HttpParams().set('clinic_id', "1");
-        this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
-        .subscribe((res) => {
-        // @ts-ignore
-           this.dataSource.data = res;
+        //@ts-ignore
+        this.dataSource.data = res;
       });
-
-        this.dataSource.paginator = this.paginator;
     }
 
     AddHall(): void{
@@ -78,17 +75,9 @@ export class AddHallFormComponent implements OnInit{
             res => {
 
               //kada dobijem odgovor da sam uspeo da dodam salu hocu da posaljem upit za uzimanje svih sala da bih u tabeli prikazao
-              let params = new HttpParams().set('clinic_id', this.clinic_id);
-              this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
-              .subscribe((res) => {
-              // @ts-ignore
-              this.dataSource.data = res;
-
-              });
-
-              this._snackBar.open("Hall added successfully!", "Close", {
-                duration: 2000,
-              });
+              let date : String;
+              date = this.today.getDate() + "/" + (this.today.getMonth()+1) + "/" + this.today.getFullYear();
+              this.refreshData(date);
 
             },
           err => {
@@ -164,6 +153,28 @@ export class AddHallFormComponent implements OnInit{
         }
 
       );
+
+    }
+
+    Reserve(element) {
+      console.log(this.search_param)
+    }
+
+    goSearch(){
+      let date : String;
+      date = this.date_value.getDate() + "/" + (this.date_value.getMonth()+1) + "/" + this.date_value.getFullYear();
+      this.http.get("http://localhost:8081/halls/getAvailabileHalls",{params:{'clinic_admin_id' : sessionStorage.getItem('user_id'),
+                                                                              'param_name': this.search_param.toString(),
+                                                                              'param_value' : this.search_value.toString(),
+                                                                              'date' : date.toString()}}).subscribe(
+        res => {
+        //@ts-ignore
+        this.dataSource.data = res;
+        },err => {
+        this._snackBar.open("Could not perform search, check parameter and try again!", "Close", {
+          duration: 2000,});
+        }
+        );
 
     }
 
