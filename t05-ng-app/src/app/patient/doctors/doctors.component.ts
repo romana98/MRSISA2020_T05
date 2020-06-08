@@ -48,6 +48,7 @@ export class DoctorsComponent implements OnInit {
     clinic : '',
     doctor: '',
     patient : ''
+  }
 
   searchModel : searchDoctorModel = {
     name: '',
