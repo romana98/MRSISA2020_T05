@@ -1,5 +1,7 @@
 package com.project.tim05.dto;
 
+import java.util.ArrayList;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -17,7 +19,20 @@ public class HallDTO {
 	@Min(value=0)
     private int number;
 	
-    public HallDTO(){
+	@NotNull
+	private ArrayList<String> times = new ArrayList<String>();
+	
+	
+	
+    public ArrayList<String> getTimes() {
+		return times;
+	}
+
+	public void setTimes(ArrayList<String> times) {
+		this.times = times;
+	}
+
+	public HallDTO(){
     	
     }
 	

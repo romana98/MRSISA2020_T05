@@ -6,6 +6,7 @@ INSERT INTO USERS (email, password, name, surname, enabled, last_password_reset_
 
 
 INSERT INTO CLINICS (name, address, description) VALUES('Clinic', 'Address 1', 'Des');
+INSERT INTO HALLS (name,number,clinic) VALUES ('Hall',2,1);
 
 INSERT INTO APPOINTMENT_TYPES(name,clinic) VALUES ('Appname',1);
 INSERT INTO APPOINTMENT_TYPES(name,clinic) VALUES ('App',1);

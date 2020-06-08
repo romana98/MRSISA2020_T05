@@ -1,5 +1,7 @@
 package com.project.tim05.api;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -95,4 +97,26 @@ public class HallController<T> {
 		}			
 	}
 
+	@GetMapping("/getAvailabileHalls")
+	//@PreAuthorize("hasRole('CLINIC_ADMIN')")
+	public ResponseEntity<Object> getAvailableHalls(@RequestParam String param_name, String param_value, String date, String clinic_admin_id) {
+
+		int clinic_id = cas.getClinicAdmin(Integer.parseInt(clinic_admin_id)).getClinic().getId();
+		
+		//formiranje datuma kakav mi odgovara
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		java.util.Date new_date = null;
+		try {
+			new_date = formatter.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		hs.getAvailableHalls(param_name, param_value , new_date, clinic_id);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(null);
+
+	}
 }

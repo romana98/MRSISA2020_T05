@@ -32,5 +32,9 @@ public class AppointmentService {
 		return ar.findAll();
 	}
 	
+	public Appointment getAppointmentById(int id) {
+		return ar.findById(id).orElse(null);
+	}
+	
 	
 }
