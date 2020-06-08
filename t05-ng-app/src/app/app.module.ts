@@ -60,6 +60,7 @@ import {ActivationLinkComponent} from "./activation-link/activation-link.compone
 import {AddLeaveRequestComponent} from "./add-leave-request/add-leave-request.component";
 import {DialogConfirm, DoctorsComponent} from './patient/doctors/doctors.component';
 import {MatCardModule} from "@angular/material/card";
+import {DialogOverviewLeave, RequestListLeaveComponent} from "./request-list-leave/request-list-leave.component";
 
 
 
@@ -133,8 +134,12 @@ const appRoutes : Routes = [
         component : AddDiagnosisFormComponent
       },
       {
-        path : 'requestTable',
+        path : 'requestPatients',
         component : RequestListPatientsComponent
+      },
+      {
+        path : 'requestLeave',
+        component : RequestListLeaveComponent
       },
     ]
   },
@@ -243,6 +248,7 @@ const appRoutes : Routes = [
     ViewPatientsNurseComponent,
     DialogOverview,
     DialogConfirm,
+    DialogOverviewLeave,
     EditClinicAdministratorComponent,
     ClinicsComponent,
     LoginComponent,
@@ -255,7 +261,8 @@ const appRoutes : Routes = [
     InitialChangePasswordComponent,
     ActivationLinkComponent,
     AddLeaveRequestComponent,
-    DoctorsComponent
+    DoctorsComponent,
+    RequestListLeaveComponent
   ],
   imports: [
     BrowserModule,

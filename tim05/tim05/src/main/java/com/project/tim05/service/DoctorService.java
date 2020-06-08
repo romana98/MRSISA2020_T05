@@ -5,7 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +21,10 @@ import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.model.Authority;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Doctor;
+import com.project.tim05.model.LeaveRequest;
+import com.project.tim05.model.WorkCalendar;
 import com.project.tim05.repository.DoctorRepository;
+import com.project.tim05.repository.WorkCalendarRespository;
 
 @Service
 public class DoctorService {
@@ -28,6 +34,9 @@ public class DoctorService {
 	
 	@Autowired
 	private AuthorityService authService;
+	
+	@Autowired
+	private WorkCalendarRespository wcr;
 	
 	@Autowired
 	private DoctorRepository dr;
@@ -123,6 +132,7 @@ public class DoctorService {
 		}	
 		
 	}
+	
 	//vraca doktore koji pripadaju klinici sa id -> clinic_Id
 	public ArrayList<DoctorDTO> getClinicsDoctors(int clinic_id){
 		try {
@@ -393,6 +403,110 @@ public class DoctorService {
 			return hour + ":" + minute + "0";
 		}
 		return hour + ":" + minute;
+	}
+
+	public ArrayList<Doctor> searchDoctorsByParameters(ArrayList<Doctor> doctors, String parameter, String value) {
+		ArrayList<Doctor> result = new ArrayList<Doctor>();
+		
+		if(value.equals("")) {
+			result = doctors;
+		}else {
+			PreparedStatement st = null;
+			Connection conn = null;
+
+			// provera po kom parametru treba da se radi pretrazivanje
+			try {
+				
+				conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+				if (parameter.equals("name")) {
+					st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
+							"ON d.user_id = c.user_id where name like ?;");
+					st.setString(1, "%" + value + "%");
+				
+				} else if (parameter.equals("surname")){
+					st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
+							"ON d.user_id = c.user_id where surname like ?;");
+					st.setString(1, "%" + value + "%");
+				}
+				else if(parameter.equals("ratefrom")){
+					double ratefrom = Double.parseDouble(value);
+					st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
+							"ON d.user_id = c.user_id where rate >= ?;");
+					st.setDouble(1, ratefrom);
+				}else if(parameter.equals("rateto")) {
+					double rateto = Double.parseDouble(value);
+					st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
+							"ON d.user_id = c.user_id where rate <= ?;");
+					st.setDouble(1, rateto);
+				}
+				
+				ResultSet rs = st.executeQuery();
+				
+				while (rs.next()) {
+					Doctor d = dr.findById(rs.getInt("user_id"));
+					result.add(d);
+				}
+
+				rs.close();
+				st.close();
+				conn.close();
+
+			} catch (Exception e) {
+				return result;
+			}
+		}
+		
+		return result;
+	}
+	
+	public boolean checkIfDoctorExists(Doctor d, ArrayList<Doctor> doctors) {
+		boolean found = false;
+		for(Doctor doctor : doctors) {
+			if(doctor.getId() == d.getId()) {
+				found = true;
+				return found;
+			}
+		}
+		return found;
+	}
+	
+public int addLeave(LeaveRequest l) {
+		int flag = 0;
+		try {
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			java.util.Date start = null;
+			java.util.Date end = null;
+			try {
+				start = formatter.parse(l.getStartDate());
+				end = formatter.parse(l.getEndDate());
+			} catch (ParseException e) {
+				
+				e.printStackTrace();
+			}
+	
+			Calendar start_cal = Calendar.getInstance();
+			start_cal.setTime(start);
+			Calendar end_cal = Calendar.getInstance();
+			end_cal.setTime(end);
+			end_cal.add(Calendar.DATE, 1);
+	
+			java.sql.Date sql = null;
+			for (java.util.Date date = start_cal.getTime(); start_cal.before(end_cal); start_cal.add(Calendar.DATE, 1), date = start_cal.getTime()) {
+				sql = new java.sql.Date(date.getTime());
+				WorkCalendar wc = new WorkCalendar("00:00", "23:59", sql, true);
+				wc.setDoctor(dr.findByEmail(l.getEmail()));
+				wcr.save(wc);    
+			}
+			flag = 1;
+		
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			flag = 0;
+		}
+		
+		return flag;
+		
 	}
 	
 }

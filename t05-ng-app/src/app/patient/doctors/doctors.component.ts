@@ -42,12 +42,12 @@ export class DoctorsComponent implements OnInit {
 
 
   reqModel : sendReqModel = {
-    date : '',
-    time : '',
-    app_type : '',
-    clinic : '',
+    date: '',
+    time: '',
+    app_type: '',
+    clinic: '',
     doctor: '',
-    patient : ''
+    patient: ''
   }
 
   searchModel : searchDoctorModel = {
@@ -108,7 +108,7 @@ export class DoctorsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result.sent === true)
       {
-        
+
         this.reqModel = {
           date : this.label,
           time : req.time,

@@ -45,6 +45,18 @@ public class WorkCalendar {
 		super();
 	}
 
+	public WorkCalendar(String startTime, String endTime, Date date, Boolean leave) {
+		super();
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.date = date;
+		this.leave = leave;
+		this.doctor = doctor;
+		this.nurse = nurse;
+	}
+
+
+
 	public Integer getId() {
 		return id;
 	}

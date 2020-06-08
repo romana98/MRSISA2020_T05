@@ -22,17 +22,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.DoctorDTO;
+import com.project.tim05.dto.LeaveRequestDTO;
 import com.project.tim05.dto.MedicalStaffDTO;
 import com.project.tim05.dto.NurseDTO;
 import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Doctor;
+import com.project.tim05.model.LeaveRequest;
 import com.project.tim05.model.MedicalStaff;
 import com.project.tim05.model.Nurse;
 import com.project.tim05.model.Patient;
+import com.project.tim05.model.User;
 import com.project.tim05.service.DoctorService;
+import com.project.tim05.service.LeaveRequestService;
 import com.project.tim05.service.NurseService;
 import com.project.tim05.service.PatientService;
+import com.project.tim05.service.UserService;
 
 @CrossOrigin(origins = "https://localhost:4200")
 @RequestMapping("/medicalStaff")
@@ -42,15 +47,20 @@ public class MedicalStaffController<T> {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
+	@Autowired
+	private UserService userService;
+	
 	private final DoctorService ds;
 	private final NurseService ns;
 	private final PatientService ps;
+	private final LeaveRequestService lrs;
 	
 	@Autowired
-	public MedicalStaffController(DoctorService ds, NurseService ns, PatientService ps) {
+	public MedicalStaffController(DoctorService ds, NurseService ns, PatientService ps, LeaveRequestService lrs) {
 		this.ds = ds;
 		this.ns = ns;
 		this.ps = ps;
+		this.lrs = lrs;
 	}
 	
 	
@@ -87,6 +97,39 @@ public class MedicalStaffController<T> {
 			return ddto;
 		}
 		
+		
+	}
+	
+	@PostMapping("/addLeave")
+	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
+	public ResponseEntity<T> addLeave(@Valid @RequestBody LeaveRequestDTO l){
+		
+		User existUser = this.userService.findByEmail(l.getEmail());
+		if (existUser != null) {
+			 ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}
+		
+		LeaveRequest lr = new LeaveRequest(l.getStartDate(), l.getEndDate(),l.getEmail(), l.getName(), l.getSurname());
+		
+		Doctor d = ds.getDoctor(lr.getEmail());
+		
+		int flag = 0;
+		if(d != null) {
+			flag = ds.addLeave(lr);
+			
+		}else {
+			flag = ns.addLeave(lr);
+		}
+		
+		int flag1 = lrs.removeLeaveRequest(lr);
+		
+		if(flag1 == 0) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}else if(flag == 0) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
 		
 	}
 	
