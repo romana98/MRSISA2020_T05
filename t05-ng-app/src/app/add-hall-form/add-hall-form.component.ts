@@ -112,13 +112,30 @@ export class AddHallFormComponent implements OnInit{
             this._snackBar.open("Hall deleted successfully.", "Close", {
             duration: 2000,
             });
+          },
+
+          err =>{
+                this._snackBar.open("Hall is reserved for appointment and cant be deleted.", "Close", {
+                duration: 2000,})
           }
 
         );
 
     }
 
+    checkDisable(row){
+
+      if (row.times.length > 0){
+        return "true"
+      }
+      else{
+        return "false"
+      }
+    }
+
     selectionChanged(element){
+      console.log(element.times.length == 0);
+      console.log(element);
       this.expanel.open();
       this.isDisabled = false;
       this.currentlySelected.name = element.name;
