@@ -27,31 +27,31 @@
 
         <label id="search_err" style="color:red;visibility: hidden;">There are no clinics maching search criteria.</label>
 
-        
+
 
     </div>
 
     <div class="mat-elevation-z8" style="width: 800px;float:left;">
 
-        <table mat-table [dataSource]="dataSource" >
+        <table mat-table [dataSource]="dataSource" matSort>
 
             <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef> Name </th>
+              <th mat-header-cell mat-sort-header *matHeaderCellDef> Name </th>
               <td mat-cell *matCellDef="let element"> {{element.name}} </td>
             </ng-container>
 
             <ng-container matColumnDef="address">
-                <th mat-header-cell *matHeaderCellDef> Address </th>
+                <th mat-header-cell mat-sort-header *matHeaderCellDef> Address </th>
                 <td mat-cell *matCellDef="let element"> {{element.address}} </td>
               </ng-container>
 
             <ng-container matColumnDef="avg_rating">
-                <th mat-header-cell *matHeaderCellDef> Average rate </th>
+                <th mat-header-cell mat-sort-header *matHeaderCellDef> Average rate </th>
                 <td mat-cell *matCellDef="let element"> {{element.avg_rating}} </td>
             </ng-container>
 
             <ng-container matColumnDef="price">
-                <th mat-header-cell *matHeaderCellDef> Price </th>
+                <th mat-header-cell mat-sort-header *matHeaderCellDef> Price </th>
                 <td mat-cell *matCellDef="let element"> {{element.price}} </td>
             </ng-container>
 
