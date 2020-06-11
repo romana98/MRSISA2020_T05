@@ -18,6 +18,7 @@ import com.project.tim05.dto.AppointmentTypeDTO;
 import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.Appointment;
+import com.project.tim05.model.WorkCalendar;
 import com.project.tim05.repository.AppointmentRespository;
 
 
@@ -36,7 +37,6 @@ public class AppointmentService {
 		} catch (Exception e) {
 			return flag;
 		}
-		
 		return flag;
 	}
 	
@@ -107,5 +107,9 @@ public class AppointmentService {
 		return new ArrayList<AppointmentDTO>();
 	}
 	
+	
+	public void updateAppointment(Appointment a) {
+		ar.save(a);
+	}
 	
 }

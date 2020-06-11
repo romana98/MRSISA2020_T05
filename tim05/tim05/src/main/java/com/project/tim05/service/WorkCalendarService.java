@@ -17,4 +17,12 @@ public class WorkCalendarService{
 		
 		return 0;
 	}
+	
+	public void removeCalendar(WorkCalendar wc) {
+		wcr.delete(wc);
+	}
+	
+	public void updateCalendar(WorkCalendar wc) {
+		wcr.save(wc);
+	}
 }

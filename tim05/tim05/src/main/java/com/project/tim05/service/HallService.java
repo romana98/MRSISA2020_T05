@@ -494,5 +494,9 @@ public class HallService {
 
 		return res;
 	}
+	
+	public void updateHall(Hall h) {
+		hr.save(h);
+	}
 
 }
