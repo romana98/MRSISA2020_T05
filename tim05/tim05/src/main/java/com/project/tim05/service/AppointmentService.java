@@ -12,13 +12,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tim05.dto.AppointmentDTO;
 import com.project.tim05.dto.AppointmentTypeDTO;
 import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.Appointment;
-import com.project.tim05.model.WorkCalendar;
 import com.project.tim05.repository.AppointmentRespository;
 
 
@@ -48,6 +48,7 @@ public class AppointmentService {
 		return ar.findById(id).orElse(null);
 	}
 	
+	@Transactional
 	public ArrayList<AppointmentDTO> getAppointmentRequests(Date date, int clinic){
 		Connection conn;
 		try {
