@@ -4,6 +4,9 @@ import javax.validation.constraints.*;
 
 public class ClinicDTO {
 	
+	
+	private int id;
+	
 	@NotBlank 
 	@NotNull
 	@Pattern(regexp="([A-Z][a-z]+[ ]*){1,}")
@@ -18,7 +21,10 @@ public class ClinicDTO {
 	@NotNull
 	@Pattern(regexp="([A-Z][a-z]+[ a-z.,0-9]*){1,}")
 	private String description;
+	
+	private double avg_rating;
  
+
 	public ClinicDTO() {
 		super();
 		
@@ -54,6 +60,22 @@ public class ClinicDTO {
 	
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public double getAvg_rating() {
+		return avg_rating;
+	}
+
+	public void setAvg_rating(double avg_rating) {
+		this.avg_rating = avg_rating;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 
