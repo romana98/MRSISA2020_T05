@@ -145,6 +145,31 @@ public class ClinicAdministratorController<T> {
 	public int getClinics(@RequestParam String admin_id) {
 		return cas.getClinicAdmin(Integer.parseInt(admin_id)).getClinic().getId();
 	}
+	
+	@GetMapping("/getClinic")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
+	public ResponseEntity<ClinicDTO> getClinics() {
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		ClinicAdministrator ca = (ClinicAdministrator) currentUser.getPrincipal();
+		String email = ca.getEmail();
+
+		ClinicAdministrator c = cas.getClinicAdmin(email);
+		
+		
+		ClinicDTO cl = new ClinicDTO(c.getClinic().getName(), c.getClinic().getAddress(), c.getClinic().getDescription());
+		
+		
+		if(cl.equals(null))
+		{
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(cl);
+		}
+		else
+		{
+			return ResponseEntity.status(HttpStatus.OK).body(cl);
+		}
+		
+		
+	}
 
 	// api endpoint prima parametar pretrage, njegovu vrednost i id klinike kojoj
 	// pripada admin koji poziva

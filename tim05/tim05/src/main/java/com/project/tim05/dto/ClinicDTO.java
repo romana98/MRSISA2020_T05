@@ -18,7 +18,19 @@ public class ClinicDTO {
 	@NotNull
 	@Pattern(regexp="([A-Z][a-z]+[ a-z.,0-9]*){1,}")
 	private String description;
- 
+	
+	private String api;
+	
+	
+
+	public String getApi() {
+		return api;
+	}
+
+	public void setApi(String api) {
+		this.api = api;
+	}
+
 	public ClinicDTO() {
 		super();
 		
