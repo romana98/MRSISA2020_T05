@@ -76,6 +76,13 @@ public class AppointmentDTO {
 		this.hall_id = hall_id;
 		this.appointmentType_id = appointmentType_id;
 	}
+	
+	public AppointmentDTO(String date, AppointmentTypeDTO type, PatientDTO pat) {
+		this.date = date;
+		this.appointmentType = type;
+		this.patient = pat;
+		
+	}
 
 	public PatientDTO getPatient() {
 		return patient;

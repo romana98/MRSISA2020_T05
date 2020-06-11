@@ -4,12 +4,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,11 +23,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.AppointmentDTO;
 import com.project.tim05.dto.AppointmentRequestDTO;
+import com.project.tim05.dto.WorkCalendarDTO;
 import com.project.tim05.model.Appointment;
 import com.project.tim05.model.AppointmentType;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Hall;
+import com.project.tim05.model.MedicalStaff;
+import com.project.tim05.model.Nurse;
 import com.project.tim05.model.Patient;
 import com.project.tim05.model.WorkCalendar;
 import com.project.tim05.repository.AppointmentRespository;
@@ -34,6 +40,7 @@ import com.project.tim05.service.ClinicAdministratorService;
 import com.project.tim05.service.ClinicService;
 import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.HallService;
+import com.project.tim05.service.NurseService;
 import com.project.tim05.service.PatientService;
 import com.project.tim05.service.WorkCalendarService;
 
@@ -47,6 +54,7 @@ public class AppointmentController {
 
 	private final AppointmentService as;
 	private final DoctorService ds;
+	private final NurseService ns;
 	private final HallService hs;
 	private final AppointmentTypeService ats;
 	private final ClinicService cs;
@@ -56,9 +64,10 @@ public class AppointmentController {
 	private final AppointmentRespository ar;
 	
 	@Autowired
-	public AppointmentController(AppointmentRespository ar,ClinicAdministratorService cas,PatientService ps,WorkCalendarService wcs,AppointmentService as, DoctorService ds, HallService hs, AppointmentTypeService ats,ClinicService cs) {
+	public AppointmentController(AppointmentRespository ar, NurseService ns, ClinicAdministratorService cas,PatientService ps,WorkCalendarService wcs,AppointmentService as, DoctorService ds, HallService hs, AppointmentTypeService ats,ClinicService cs) {
 		super();
 		this.ar = ar;
+		this.ns = ns;
 		this.as = as;
 		this.ds = ds;
 		this.hs = hs;
@@ -257,6 +266,26 @@ public class AppointmentController {
 		
 		
 		return ResponseEntity.status(HttpStatus.OK).body(dtos);
+
+	}
+	
+	
+	@GetMapping("/getDoctorAppointments")
+	@PreAuthorize("hasRole('DOCTOR') || hasRole('NURSE')")
+	public List<AppointmentDTO> getDoctorAppointments() {
+		
+		Authentication current = SecurityContextHolder.getContext().getAuthentication();
+		MedicalStaff currentUser = (MedicalStaff)current.getPrincipal();
+		
+		Doctor d = ds.getDoctor(currentUser.getEmail());
+		Nurse n = ns.getNurse(currentUser.getEmail());
+		
+		if(n != null)
+			return new ArrayList<AppointmentDTO>();
+
+		List<AppointmentDTO> wc = as.getDoctorAppointments(d.getEmail());
+	
+		return wc;
 
 	}
 	

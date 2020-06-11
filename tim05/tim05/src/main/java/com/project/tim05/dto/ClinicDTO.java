@@ -24,6 +24,7 @@ public class ClinicDTO {
 	
 	private double avg_rating;
  
+
 	public ClinicDTO() {
 		super();
 		

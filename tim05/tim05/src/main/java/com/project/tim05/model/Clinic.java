@@ -65,6 +65,13 @@ public class Clinic {
 		this.address = address;
 		this.description = description;
 	}
+	
+	public Clinic(int id, String name, String address, String description) {
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.description = description;
+	}
 
 	public Clinic(Integer id, String name, String address, String description, List<Double> ratings,
 			ClinicCenterAdministrator clinicCenterAdministrator, List<Patient> patients,

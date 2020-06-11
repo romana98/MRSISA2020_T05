@@ -5,11 +5,15 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.project.tim05.dto.ClinicDTO;
 import com.project.tim05.dto.PatientClinicsDTO;
@@ -109,5 +113,34 @@ public class ClinicService {
 		
 		return clinics;
 	}
+
+	public int editClinic(Clinic clinic) {
+		
+		int flag = 0;
+		try {
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+	        
+			String query = "UPDATE clinics set name = ?, address = ?, description = ? WHERE clinic_id = ?;";
+ 	        PreparedStatement ps = conn.prepareStatement(query);
+ 	        ps.setString(1, clinic.getName());
+ 			ps.setString(2, clinic.getAddress());
+ 			ps.setString(3, clinic.getDescription());
+ 			ps.setInt(4, clinic.getId());
+ 			
+ 		
+ 			flag = ps.executeUpdate();
+ 			ps.close();	
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return flag;
+		}
+	
+		return flag;
+	}
+
+
+	
 	
 }

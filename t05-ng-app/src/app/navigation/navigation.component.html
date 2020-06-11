@@ -15,6 +15,7 @@
   <a *ngIf="checkCAdmin()" routerLink="clinicAdmin/addAppointmentType" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Appointment types</button></a>
   <a *ngIf="checkCAdmin()" routerLink="clinicAdmin/addHall" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Halls</button></a>
   <a *ngIf="checkCAdmin()" routerLink="clinicAdmin/addNurse" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Nurses</button></a>
+  <a *ngIf="checkCAdmin()" routerLink="clinicAdmin/editClinic" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Clinic</button></a>
 
   <!--ClinicCenterAdmin-->
   <button *ngIf="checkCCAdmin()" button mat-flat-button color="primary" style="margin-left: 3%;" [matMenuTriggerFor]="menu">Administrators</button>
@@ -39,10 +40,12 @@
 
   <!--Doctor-->
   <a *ngIf="checkDoctor()" routerLink="staff/viewPatients" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Patients</button></a>
+  <a *ngIf="checkDoctor()" routerLink="staff/viewWorkCalendar" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Work Calendar</button></a>
   <a *ngIf="checkDoctor()" routerLink="staff/makeLeaveRequest" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Leave request</button></a>
 
   <!--Nurse-->
   <a *ngIf="checkNurse()" routerLink="staff/viewPatients" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Patients</button></a>
+  <a *ngIf="checkNurse()" routerLink="staff/viewWorkCalendar" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Work Calendar</button></a>
   <a *ngIf="checkNurse()" routerLink="staff/makeLeaveRequest" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Leave request</button></a>
 
 

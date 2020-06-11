@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
@@ -62,9 +62,11 @@ import {AddLeaveRequestComponent} from "./add-leave-request/add-leave-request.co
 import {DialogConfirm, DoctorsComponent} from './patient/doctors/doctors.component';
 import {MatCardModule} from "@angular/material/card";
 import {DialogOverviewLeave, RequestListLeaveComponent} from "./request-list-leave/request-list-leave.component";
-
-
-
+import { EditClinicComponent } from './edit-clinic/edit-clinic.component';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { ViewWorkCalendarComponent } from './view-work-calendar/view-work-calendar.component';
 
 
 const appRoutes : Routes = [
@@ -100,6 +102,10 @@ const appRoutes : Routes = [
         path : 'addNurse',
         component : AddNurseFormComponent
       },
+      {
+        path : 'editClinic',
+        component : EditClinicComponent
+      }
     ]
   },
   {
@@ -212,6 +218,12 @@ const appRoutes : Routes = [
         path : 'makeLeaveRequest',
         component : AddLeaveRequestComponent,
         canActivate : [MedicallStuffGuardService]
+      },
+
+      {
+        path : 'viewWorkCalendar',
+        component : ViewWorkCalendarComponent,
+        canActivate : [MedicallStuffGuardService]
       }
 
 
@@ -268,9 +280,12 @@ const appRoutes : Routes = [
     AddLeaveRequestComponent,
     DoctorsComponent,
     RequestListLeaveComponent,
+    EditClinicComponent,
+    ViewWorkCalendarComponent,
     FirstDialog,
     SecondDialog,
     ViewAllClinicsComponent
+
   ],
   imports: [
     BrowserModule,
@@ -299,7 +314,13 @@ const appRoutes : Routes = [
     MatTabsModule,
     MatToolbarModule,
     MatMenuModule,
-    MatCardModule
+    MatCardModule,
+    LeafletModule,
+    BrowserAnimationsModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    })
 
   ],
   providers: [MatDatepickerModule,
