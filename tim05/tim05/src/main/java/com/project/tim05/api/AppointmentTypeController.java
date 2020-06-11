@@ -98,10 +98,16 @@ public class AppointmentTypeController<T> {
 	
 	@GetMapping("/searchAppointmentTypes")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
-	public ResponseEntity<List<AppointmentTypeDTO>> searchAppointmentTypes(String searchInput){
+	public ResponseEntity<List<AppointmentTypeDTO>> searchAppointmentTypes(String searchInput, String admin_id){
 		ArrayList<AppointmentTypeDTO> search = new ArrayList<AppointmentTypeDTO>();
-		search = ats.search(searchInput);		
-		return ResponseEntity.ok(search);
+		ClinicAdministrator ca = cas.getClinicAdmin(Integer.parseInt(admin_id));
+		search = ats.search(searchInput, ca.getClinic().getId());		
+		if(search == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.OK).body(search);
+		}
 	}
 	
 	/*@GetMapping("/getClinicAppointmenTypes")

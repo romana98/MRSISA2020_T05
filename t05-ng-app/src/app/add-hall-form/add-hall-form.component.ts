@@ -1,9 +1,10 @@
-import {Component, OnInit, ViewChild, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, ViewChild, ChangeDetectorRef, Inject} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { EXPANSION_PANEL_ANIMATION_TIMING, MatExpansionPanel } from '@angular/material/expansion';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-add-hall-form',
@@ -12,13 +13,18 @@ import { EXPANSION_PANEL_ANIMATION_TIMING, MatExpansionPanel } from '@angular/ma
 })
 export class AddHallFormComponent implements OnInit{
 
-    displayedColumns: string[] = ['name', 'number', 'delete'];
+    displayedColumns: string[] = ['name', 'number','available' , 'reserve', 'delete'];
 
     dataSource = new MatTableDataSource();
 
     selectedRowIndex: number = 0;
 
     isDisabled : boolean = true;
+
+    search_param : String = 'a';
+    search_value : String = '';
+    date_value : Date = null;
+    today: Date;
 
     model: hallModel = {
         name: '',
@@ -40,36 +46,29 @@ export class AddHallFormComponent implements OnInit{
     @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
     @ViewChild('expanel') expanel: MatExpansionPanel;
 
-    constructor(private _snackBar: MatSnackBar, private http: HttpClient,private changeDetectorRefs: ChangeDetectorRef){
+    constructor(private _snackBar: MatSnackBar, private http: HttpClient,private changeDetectorRefs: ChangeDetectorRef,public dialog: MatDialog){
 
     }
 
 
     ngOnInit(): void{
-      //vrednost parametra clinic_id treba da se dinamicki popuni tako da se preuzimaju hale tacno odredjene klinike.
+      this.today = new Date();
+      let date : String;
+      date = this.today.getDate() + "/" + (this.today.getMonth()+1) + "/" + this.today.getFullYear();
+      this.refreshData(date);
+      this.dataSource.paginator = this.paginator;
+    }
 
-      let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id'))
-
-      this.http.get("http://localhost:8081/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
+    refreshData(date){
+      this.http.get("http://localhost:8081/halls/getAvailabileHalls",{params:{'clinic_admin_id' : sessionStorage.getItem('user_id'),
+      'param_name': "a",
+      'param_value' : "-1",
+      'date' : date.toString()}}).subscribe(
         res => {
-          this.clinic_id = res.toString();
-          let params = new HttpParams().set('clinic_id', this.clinic_id);
-          this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
-          .subscribe((res) => {
-          // @ts-ignore
-             this.dataSource.data = res;
-
-          });
-        });
-
-        let params = new HttpParams().set('clinic_id', "1");
-        this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
-        .subscribe((res) => {
-        // @ts-ignore
-           this.dataSource.data = res;
+        //@ts-ignore
+        this.dataSource.data = res;
+        console.log(res[0].time);
       });
-
-        this.dataSource.paginator = this.paginator;
     }
 
     AddHall(): void{
@@ -78,17 +77,9 @@ export class AddHallFormComponent implements OnInit{
             res => {
 
               //kada dobijem odgovor da sam uspeo da dodam salu hocu da posaljem upit za uzimanje svih sala da bih u tabeli prikazao
-              let params = new HttpParams().set('clinic_id', this.clinic_id);
-              this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
-              .subscribe((res) => {
-              // @ts-ignore
-              this.dataSource.data = res;
-
-              });
-
-              this._snackBar.open("Hall added successfully!", "Close", {
-                duration: 2000,
-              });
+              let date : String;
+              date = this.today.getDate() + "/" + (this.today.getMonth()+1) + "/" + this.today.getFullYear();
+              this.refreshData(date);
 
             },
           err => {
@@ -123,13 +114,30 @@ export class AddHallFormComponent implements OnInit{
             this._snackBar.open("Hall deleted successfully.", "Close", {
             duration: 2000,
             });
+          },
+
+          err =>{
+                this._snackBar.open("Hall is reserved for appointment and cant be deleted.", "Close", {
+                duration: 2000,})
           }
 
         );
 
     }
 
+    checkDisable(row){
+
+      if (row.times.length > 0){
+        return "true"
+      }
+      else{
+        return "false"
+      }
+    }
+
     selectionChanged(element){
+      console.log(element.times.length == 0);
+      console.log(element);
       this.expanel.open();
       this.isDisabled = false;
       this.currentlySelected.name = element.name;
@@ -167,6 +175,167 @@ export class AddHallFormComponent implements OnInit{
 
     }
 
+    Reserve(element) {
+      const dialogRef = this.dialog.open(FirstDialog, {
+        width: '50%',height: '70%', data : {
+          date: this.today.getDate() + "/" + (this.today.getMonth()+1) + "/" + this.today.getFullYear(),
+          hall_id : element.id.toString()
+        }});
+      dialogRef.afterClosed().subscribe(result => {
+        let date : String;
+        date = this.date_value.getDate() + "/" + (this.date_value.getMonth()+1) + "/" + this.date_value.getFullYear();
+        this.refreshData(date);
+      });
+      
+      }
+      
+
+    goSearch(){
+      this.today = this.date_value
+      console.log(this.today)
+      let date : String;
+      date = this.date_value.getDate() + "/" + (this.date_value.getMonth()+1) + "/" + this.date_value.getFullYear();
+      /*this.http.get("http://localhost:8081/halls/getAvailabileHalls",{params:{'clinic_admin_id' : sessionStorage.getItem('user_id'),
+                                                                              'param_name': this.search_param.toString(),
+                                                                              'param_value' : this.search_value.toString(),
+                                                                              'date' : date.toString()}}).subscribe(
+        res => {
+        //@ts-ignore
+        this.dataSource.data = res;
+        },err => {
+        this._snackBar.open("Could not perform search, check parameter and try again!", "Close", {
+          duration: 2000,});
+        }
+        );*/
+      this.refreshData(date);
+
+    }
+
+}
+
+@Component({
+  selector: 'reserve-first-dialog',
+  templateUrl: './first-dialog.html',
+  styleUrls: ['./add-hall-form.component.css']
+})
+export class FirstDialog {
+  
+  displayedColumns: string[] = ['date', 'time','doctor' , 'patient', 'reserve'];
+
+  dataSource = new MatTableDataSource();
+
+  search_param : String = '';
+
+  constructor(
+    public dialogRef: MatDialogRef<FirstDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+      private http: HttpClient,
+      private _snackBar: MatSnackBar,
+      public dialog: MatDialog) {}
+
+  ngOnInit(): void{
+    this.refreshData();
+
+  }
+
+  refreshData(): void {
+    this.http.get("http://localhost:8081/appointment/getAppointmentRequests",{params:{'clinic_admin_id' : sessionStorage.getItem('user_id'),
+    'date' : this.data.date.toString()}}).subscribe(
+      res => {
+      //@ts-ignore
+      this.dataSource.data = res;
+    });
+  }
+
+  onClick(element) {
+    this.http.get("http://localhost:8081/halls/reserveHall",{params:{
+      hall_id : this.data.hall_id.toString(),
+      appointment_id : element.id.toString(),
+      date : this.data.date.toString(),
+      clinic_admin_id : sessionStorage.getItem('user_id')
+    }}).subscribe(
+      res => {
+      //@ts-ignore
+      this.refreshData();
+      this._snackBar.open("Hall reserved successfully!", "Close", {
+        duration: 2000,})
+    },
+      err => {
+        if (err.status === 409){
+          this._snackBar.open("This hall can't be reserved for that time, you can choose other hall.", "Close", {
+            duration: 2000,})
+        }
+        else{
+          const dialogRef = this.dialog.open(SecondDialog, {
+            width: '50%',height: '50%', data : {
+                appointment_id : element.id.toString(),
+                hall_id : this.data.hall_id.toString(),
+                clinic_admin_id : sessionStorage.getItem('user_id') 
+            }});
+          this._snackBar.open("There is no available halls for this appointment date", "Close", {
+            duration: 2000,})
+        }
+        
+      }
+    );
+    
+  }
+}
+
+@Component({
+  selector: 'reserve-second-dialog',
+  templateUrl: './second-dialog.html',
+  styleUrls: ['./add-hall-form.component.css']
+})
+export class SecondDialog {
+  
+  dialog_data : any = null;
+
+  choosen_doc : number = -1;
+
+  show_doctors : boolean = true;
+
+  constructor(
+    public dialogRef: MatDialogRef<FirstDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: SecondDialogData,
+      private http: HttpClient,
+      private _snackBar: MatSnackBar) {}
+
+  ngOnInit(): void{
+    this.http.get("http://localhost:8081/halls/getFirstTime",{params:{'clinic_admin_id' : sessionStorage.getItem('user_id'),
+    'appointment_id' : this.data.appointment_id.toString(),
+    'hall_id' : this.data.hall_id.toString()}}).subscribe(
+      res => {
+      //@ts-ignore
+      this.dialog_data = res;
+      this.show_doctors = this.dialog_data.doctors.length > 0;
+    });
+  }
+
+  reserve(){
+    this.http.get("http://localhost:8081/halls/reserveNewHall",{params:{'hall_id' : this.data.hall_id.toString(),
+    'appointment_id' : this.data.appointment_id.toString(),
+    'date' : this.dialog_data.date.toString(),
+    'doctor_id' : this.choosen_doc.toString()}}).subscribe(
+      res => {
+      //@ts-ignore
+    });
+    this.dialogRef.close();
+  }
+
+  reject(){
+  }
+}
+
+export interface DialogData{
+    date : String;
+    hall_id : String;
+}
+
+export interface SecondDialogData{
+  appointment_id : String;
+  hall_id : String;
+  clinic_admin_id : String;
 }
 
 export interface hallModel
@@ -183,4 +352,11 @@ export interface editHall {
   name: string;
   number : Number;
   id : number;
+}
+
+export interface reserveModel {
+  hall_id : string;
+  appointment_id : string;
+  date : string;
+  clinic_admin_id : string;
 }

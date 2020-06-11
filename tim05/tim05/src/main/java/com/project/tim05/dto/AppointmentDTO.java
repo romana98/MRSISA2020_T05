@@ -3,6 +3,8 @@ package com.project.tim05.dto;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.project.tim05.model.Patient;
+
 public class AppointmentDTO {
 
 	@NotBlank
@@ -30,7 +32,10 @@ public class AppointmentDTO {
 	private int appointmentType_id;
 	@NotNull
 	private int clinic_id;
-	
+
+	private int id;
+
+	private PatientDTO patient;
 	private ClinicDTO clinic;
 	private HallDTO hall;
 	private DoctorDTO doctor;
@@ -70,6 +75,22 @@ public class AppointmentDTO {
 		this.doctor_id = doctor_id;
 		this.hall_id = hall_id;
 		this.appointmentType_id = appointmentType_id;
+	}
+
+	public PatientDTO getPatient() {
+		return patient;
+	}
+
+	public void setPatient(PatientDTO patient) {
+		this.patient = patient;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public int getClinic_id() {
