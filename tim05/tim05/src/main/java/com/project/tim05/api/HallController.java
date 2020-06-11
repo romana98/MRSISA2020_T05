@@ -38,6 +38,7 @@ import com.project.tim05.service.AppointmentService;
 import com.project.tim05.service.ClinicAdministratorService;
 import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.HallService;
+import com.project.tim05.service.WorkCalendarService;
 import com.project.tim05.service.initializeAndUnproxy;
 
 @CrossOrigin(origins = "https://localhost:4200")
@@ -49,13 +50,15 @@ public class HallController<T> {
 	private final ClinicAdministratorService cas;
 	private final AppointmentService as;
 	private final DoctorService ds;
+	private final WorkCalendarService wcs;
 
 	@Autowired
-	public HallController(DoctorService ds, AppointmentService as, HallService hs, ClinicAdministratorService cas) {
+	public HallController(WorkCalendarService wcs,DoctorService ds, AppointmentService as, HallService hs, ClinicAdministratorService cas) {
 		this.hs = hs;
 		this.cas = cas;
 		this.as = as;
 		this.ds = ds;
+		this.wcs = wcs;
 	}
 
 	@PostMapping("/addHall")
@@ -255,7 +258,7 @@ public class HallController<T> {
 			String doctor_id) {
 
 		// formiranje datuma kakav mi odgovara
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 		java.util.Date new_date = null;
 		try {
 			new_date = formatter.parse(date);
@@ -266,22 +269,41 @@ public class HallController<T> {
 
 		Hall h = hs.getHallbyId(Integer.parseInt(hall_id));
 		Appointment a = as.getAppointmentById(Integer.parseInt(appointment_id));
-		a.setDateTime(new_date);
-		if(Integer.parseInt(doctor_id) != -1) {
+		
+		int app_start = hs.getTimeMinutes(a.getDateTime());
+		int app_end = app_start + a.getDuration();
+		
+		Doctor d = initializeAndUnproxy.initAndUnproxy(a.getDoctor());
+		Set<WorkCalendar> times = initializeAndUnproxy.initAndUnproxy(d.getWorkCalendar());
+		WorkCalendar target_wc = null;
+		for(WorkCalendar wc: times) {
+			int wc_start = Integer.parseInt(wc.getStart_time().split(":")[0])*60 + Integer.parseInt(wc.getStart_time().split(":")[1]);
+			int wc_end = Integer.parseInt(wc.getEnd_time().split(":")[0])*60 + Integer.parseInt(wc.getEnd_time().split(":")[1]);
+			if (wc_start == app_start && wc_end == app_end) {
+				target_wc = wc;
+				break;
+			}
+		}
+		
+		if (Integer.parseInt(doctor_id)!=-1) {
+			target_wc.setDate(new_date);
+			target_wc.setDoctor(ds.getDoctorbyID(Integer.parseInt(doctor_id)));
+			target_wc.setRequest(false);
 			a.setDoctor(ds.getDoctorbyID(Integer.parseInt(doctor_id)));
 		}
 		
-		int clinic_id = initializeAndUnproxy
-				.initAndUnproxy(a.getDoctor().getClinic().getId());
+		a.setHall(h);
+		a.setRequest(false);
+		Set<Appointment> apps = h.getAppointments();
+		apps.add(a);
+		h.setAppointments(apps);
 		
-		int success = hs.reserveHall(h, a, new_date, clinic_id);
-
-		if (success == 0) {
-			return ResponseEntity.status(HttpStatus.OK).body(null);
-
-		} else if (success == 2) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-		}
+		as.updateAppointment(a);
+		hs.updateHall(h);
+		wcs.updateCalendar(target_wc);
+		
+		//prvo nadji doktora kod kog treba da obrises iz wc taj termin pregleda
+		
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 

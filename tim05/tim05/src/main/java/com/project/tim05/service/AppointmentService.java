@@ -22,6 +22,7 @@ import com.project.tim05.model.Appointment;
 import com.project.tim05.model.AppointmentType;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Patient;
+import com.project.tim05.model.WorkCalendar;
 import com.project.tim05.repository.AppointmentRespository;
 import com.project.tim05.repository.AppointmentTypeRespository;
 import com.project.tim05.repository.DoctorRepository;
@@ -52,7 +53,6 @@ public class AppointmentService {
 		} catch (Exception e) {
 			return flag;
 		}
-		
 		return flag;
 	}
 	
@@ -155,5 +155,9 @@ public class AppointmentService {
 		return as;
 	}
 	
+	
+	public void updateAppointment(Appointment a) {
+		ar.save(a);
+	}
 	
 }

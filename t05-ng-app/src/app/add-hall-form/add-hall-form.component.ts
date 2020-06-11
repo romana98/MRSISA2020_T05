@@ -195,18 +195,6 @@ export class AddHallFormComponent implements OnInit{
       console.log(this.today)
       let date : String;
       date = this.date_value.getDate() + "/" + (this.date_value.getMonth()+1) + "/" + this.date_value.getFullYear();
-      /*this.http.get("http://localhost:8081/halls/getAvailabileHalls",{params:{'clinic_admin_id' : sessionStorage.getItem('user_id'),
-                                                                              'param_name': this.search_param.toString(),
-                                                                              'param_value' : this.search_value.toString(),
-                                                                              'date' : date.toString()}}).subscribe(
-        res => {
-        //@ts-ignore
-        this.dataSource.data = res;
-        },err => {
-        this._snackBar.open("Could not perform search, check parameter and try again!", "Close", {
-          duration: 2000,});
-        }
-        );*/
       this.refreshData(date);
 
     }
@@ -272,6 +260,11 @@ export class FirstDialog {
                 hall_id : this.data.hall_id.toString(),
                 clinic_admin_id : sessionStorage.getItem('user_id') 
             }});
+
+          dialogRef.afterClosed().subscribe(result => {
+              this.refreshData();
+            });
+
           this._snackBar.open("There is no available halls for this appointment date", "Close", {
             duration: 2000,})
         }
