@@ -1,5 +1,34 @@
 <div class="row text-center">
   <div class="col-md-4">
+    <div class="col-md-4">
+      <div class="btn-group">
+        <div
+          class="btn btn-primary"
+          mwlCalendarPreviousView
+          [view]="view"
+          [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()"
+        >
+          Previous
+        </div>
+        <div
+          class="btn btn-outline-secondary"
+          mwlCalendarToday
+          [(viewDate)]="viewDate"
+        >
+          Today
+        </div>
+        <div
+          class="btn btn-primary"
+          mwlCalendarNextView
+          [view]="view"
+          [(viewDate)]="viewDate"
+          (viewDateChange)="closeOpenMonthViewDay()"
+        >
+          Next
+        </div>
+      </div>
+    </div>
     <div class="btn-group">
     </div>
   </div>
@@ -27,7 +56,7 @@
         (click)="setView(CalendarView.Day)"
         [class.active]="view === CalendarView.Day"
       >
-        Day
+        Year
       </div>
     </div>
   </div>
@@ -38,7 +67,6 @@
     *ngSwitchCase="CalendarView.Month"
     [viewDate]="viewDate"
     [events]="events"
-    [refresh]="refresh"
     [activeDayIsOpen]="activeDayIsOpen"
     (dayClicked)="dayClicked($event.day)"
   >
@@ -47,15 +75,14 @@
     *ngSwitchCase="CalendarView.Week"
     [viewDate]="viewDate"
     [events]="events"
-    [refresh]="refresh"
   >
   </mwl-calendar-week-view>
-  <mwl-calendar-day-view
+  <angular-calendar-year-view
     *ngSwitchCase="CalendarView.Day"
-    [viewDate]="viewDate"
+    [themecolor]="themecolor"
     [events]="events"
-    [refresh]="refresh"
-  >
-  </mwl-calendar-day-view>
+    [viewDate]="viewDate"
+    >
+  </angular-calendar-year-view>
 </div>
 

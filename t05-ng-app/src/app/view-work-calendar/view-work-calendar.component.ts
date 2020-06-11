@@ -1,19 +1,5 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef,
-} from '@angular/core';
-import {
-  startOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours,
-} from 'date-fns';
-import { Subject } from 'rxjs';
+import {Component, ChangeDetectionStrategy, ViewChild, TemplateRef, OnInit} from '@angular/core';
+import {startOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours} from 'date-fns';
 import {CalendarEvent, CalendarView} from 'angular-calendar';
 
 const colors: any = {
@@ -37,7 +23,7 @@ const colors: any = {
   styleUrls: ['./view-work-calendar.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ViewWorkCalendarComponent {
+export class ViewWorkCalendarComponent implements OnInit {
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
@@ -47,47 +33,47 @@ export class ViewWorkCalendarComponent {
 
   viewDate: Date = new Date();
 
-  refresh: Subject<any> = new Subject();
+  themecolor: any = '#0a5ab3'
 
-  events: CalendarEvent[] = [
-    {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
-      color: colors.red,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-      allDay: true,
-    },
-    {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
-      color: colors.yellow,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      }
-    },
-  ];
-
-  activeDayIsOpen: boolean = true;
 
   constructor() {}
+
+  ngOnInit(){
+
+//Uzmes sve app i work za id ulogovanog doktora
+// iteriras po danima pa po pregledima i dodajes ih u calendar event
+    /*
+    this.events.push(
+      {
+        start: subDays(startOfDay(new Date()), 1),
+        end: addDays(new Date(), 1),
+        title: 'A 3 day event',
+        color: colors.red
+      },
+    );
+
+    */
+
+  }
+
+
+
+  events: any = [
+    {
+      start: new Date(),
+      end: new Date(),
+      title: 'title event 1',
+      color: colors.red,
+    },
+    {
+      start: new Date(),
+      end: new Date(),
+      title: 'title event 2',
+      color: colors.yellow,
+    }
+  ]
+
+  activeDayIsOpen: boolean = true;
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -111,4 +97,11 @@ export class ViewWorkCalendarComponent {
     this.activeDayIsOpen = false;
   }
 
+}
+export interface workModel
+{
+  name: string;
+  address: string | RegExp;
+  description: string | RegExp;
+  api: object;
 }

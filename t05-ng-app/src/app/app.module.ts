@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
@@ -67,6 +67,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ViewWorkCalendarComponent } from './view-work-calendar/view-work-calendar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {AngularCalendarYearViewModule} from "angular-calendar-year-view";
 
 
 
@@ -316,9 +317,11 @@ const appRoutes : Routes = [
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
-    NgbModule
+    NgbModule,
+    AngularCalendarYearViewModule
 
   ],
+  schemas:[CUSTOM_ELEMENTS_SCHEMA],
   providers: [MatDatepickerModule,
     {
       provide: HTTP_INTERCEPTORS, useClass:InterceptorService, multi:true
