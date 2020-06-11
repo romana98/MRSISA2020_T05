@@ -21,6 +21,7 @@ import { AddClinicAdminFromComponent } from './add-clinic-administrator-form/add
 import { EditPatientProfile } from './edit-patient/edit-patient.component';
 import { AddHallFormComponent, FirstDialog, SecondDialog } from './add-hall-form/add-hall-form.component';
 import { EditMedicalStaff } from './edit-medical-staff/edit-medical-staff.component';
+import { ViewAllClinicsComponent} from "./patient/view-all-clinics/view-all-clinics-component";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http"
 import {AddMedicineFromComponent} from "./add-medicine-form/add-medicine-form.component";
 import {AddDiagnosisFormComponent} from "./add-diagnosis-form/add-diagnosis-form.component";
@@ -163,6 +164,10 @@ const appRoutes : Routes = [
       {
         path: 'doctors',
         component : DoctorsComponent
+      },
+      {
+        path: 'viewAllClinics',
+        component:ViewAllClinicsComponent
       }
     ]
   },
@@ -264,7 +269,8 @@ const appRoutes : Routes = [
     DoctorsComponent,
     RequestListLeaveComponent,
     FirstDialog,
-    SecondDialog
+    SecondDialog,
+    ViewAllClinicsComponent
   ],
   imports: [
     BrowserModule,
