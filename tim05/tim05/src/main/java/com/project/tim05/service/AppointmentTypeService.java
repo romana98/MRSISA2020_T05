@@ -120,15 +120,38 @@ public class AppointmentTypeService {
 		return null;	
 	}
 
-	public ArrayList<AppointmentTypeDTO> search(String searchInput) {
+	public ArrayList<AppointmentTypeDTO> search(String searchInput, Integer clinic_id) {
 		ArrayList<AppointmentTypeDTO> search = new ArrayList<AppointmentTypeDTO>();
-		AppointmentTypeDTO dto = new AppointmentTypeDTO();
-		AppointmentType search_result = atr.findByName(searchInput);
-		if(search_result != null) {
-			dto.setName(search_result.getName());
-			search.add(dto);
+		
+		if(searchInput.equals("")) {
+			ArrayList<AppointmentTypeDTO> apts = this.getClinicAppointmentTypes(clinic_id);
+			return apts;
+		}else {
+			PreparedStatement st = null;
+			Connection conn = null;
+			try {
+				conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+				st = conn.prepareStatement("SELECT * FROM appointment_types WHERE clinic = ? and name like ?");
+				st.setInt(1, clinic_id);
+				st.setString(2, "%"+searchInput+"%");
+				
+				ResultSet rs = st.executeQuery();
+	
+				while (rs.next()) {
+					AppointmentTypeDTO dto = new AppointmentTypeDTO();
+					dto.setId(rs.getInt("appointment_type_id"));
+					dto.setName(rs.getString("name"));
+					search.add(dto);
+				}
+	
+				rs.close();
+				st.close();
+				conn.close();
+				return search;
+			}catch(Exception e) {
+				return null;
+			}
 		}
-		return search;
 	}
 	
 	

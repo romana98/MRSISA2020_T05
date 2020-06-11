@@ -150,13 +150,25 @@ export class AddAppointmentTypeComponent implements OnInit {
     }
 
   search() {
-    let params1 = new HttpParams().set('searchInput',this.searchModel.search_input.toString())
-    this.http.get("http://localhost:8081/appointmentType/searchAppointmentTypes", {params:params1}).subscribe(
+    let params = new HttpParams();
+
+    params = params.append('searchInput', this.searchModel.search_input.toString());
+    params = params.append('admin_id',sessionStorage.getItem('user_id').toString());
+    this.http.get("http://localhost:8081/appointmentType/searchAppointmentTypes", {params:params}).subscribe(
       res => {
-        console.log(res);
         // @ts-ignore
         this.dataSource.data = res;
-      });
+        if(this.dataSource.data.length === 0){
+          this._snackBar.open("No results!", "Close", {
+            duration: 2000,
+          });
+        }
+      }, err =>{
+        this._snackBar.open("Error has occurred while searching!", "Close", {
+          duration: 2000,
+        });
+      }
+      );
   }
 }
 

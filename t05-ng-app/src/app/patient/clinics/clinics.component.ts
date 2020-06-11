@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
@@ -42,6 +43,7 @@ export class ClinicsComponent implements OnInit {
     avg_rate_highest : 0
   }
 
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(private _snackBar: MatSnackBar, private http: HttpClient, private router: Router, private r:ActivatedRoute) { }
@@ -64,6 +66,7 @@ export class ClinicsComponent implements OnInit {
     let today = new Date();
     this.tomorrow = new Date(today.setDate(today.getDate() + 1));
 
+    this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.selectedRowIndex  = 1;
 
