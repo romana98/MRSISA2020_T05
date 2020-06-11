@@ -10,14 +10,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.tim05.dto.HallDTO;
 import com.project.tim05.model.Appointment;
+import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Hall;
+import com.project.tim05.model.WorkCalendar;
+import com.project.tim05.repository.AppointmentRespository;
 import com.project.tim05.repository.HallRepository;
+import com.project.tim05.repository.WorkCalendarRespository;
 
 @Service
 public class HallService {
@@ -27,6 +32,12 @@ public class HallService {
 
 	@Autowired
 	private AppointmentService as;
+
+	@Autowired
+	private AppointmentRespository ar;
+
+	@Autowired
+	private WorkCalendarRespository wcr;
 
 	public int addHall(Hall hall) {
 
@@ -146,27 +157,40 @@ public class HallService {
 
 			PreparedStatement st;
 
+			ResultSet rs;
+
+			ArrayList<Hall> lh = new ArrayList<Hall>();
+
 			if (param.equalsIgnoreCase("name")) {
 
 				st = conn.prepareStatement("SELECT * FROM halls WHERE name = ? and clinic = ?");
 				st.setString(1, value);
 				st.setInt(2, clinic_id);
-			} else {
+
+				rs = st.executeQuery();
+				while (rs.next()) {
+					Hall new_hall = new Hall();
+					new_hall.setId(rs.getInt("hall_id"));
+					new_hall.setName(rs.getString("name"));
+					new_hall.setNumber(rs.getInt("number"));
+					lh.add(new_hall);
+				}
+
+			} else if (param.equalsIgnoreCase("number")) {
 
 				st = conn.prepareStatement("SELECT * FROM halls WHERE number = ? and clinic = ?");
 				st.setInt(1, Integer.parseInt(value));
 				st.setInt(2, clinic_id);
 
-			}
+				rs = st.executeQuery();
+				while (rs.next()) {
+					Hall new_hall = new Hall();
+					new_hall.setId(rs.getInt("hall_id"));
+					new_hall.setName(rs.getString("name"));
+					new_hall.setNumber(rs.getInt("number"));
+					lh.add(new_hall);
+				}
 
-			ResultSet rs = st.executeQuery();
-			ArrayList<Hall> lh = new ArrayList<Hall>();
-			while (rs.next()) {
-				Hall new_hall = new Hall();
-				new_hall.setId(rs.getInt("hall_id"));
-				new_hall.setName(rs.getString("name"));
-				new_hall.setNumber(rs.getInt("number"));
-				lh.add(new_hall);
 			}
 
 			if (lh.size() == 0) {
@@ -175,7 +199,7 @@ public class HallService {
 			// uzimanje pregleda koji su zakazani za zadati datum
 
 			st = conn.prepareStatement(
-					"SELECT * FROM public.appointments where date_time between ? and ? and clinic = ? ORDER BY date_time ASC");
+					"SELECT * FROM public.appointments where date_time between ? and ? and clinic = ? and request = false ORDER BY date_time ASC");
 			java.sql.Date sd = new java.sql.Date(date.getTime());
 			st.setDate(1, sd);
 
@@ -210,6 +234,7 @@ public class HallService {
 				hdto.setName(h.getName());
 				hdto.setNumber(h.getNumber());
 				hdto.setTimes(map_of_times.get(h.getId()));
+				hdto.setTime(hdto.getTimes().get(0));
 				dtos.add(hdto);
 			}
 
@@ -218,6 +243,86 @@ public class HallService {
 		}
 
 		return dtos;
+	}
+
+	public String getFirstTime(Appointment ap, Hall h, int clinic_id) {
+		String first_time = "";
+		boolean flag = true;
+		Date date = ap.getDateTime();
+		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+		while (first_time.equalsIgnoreCase("")) {
+			try {
+				Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres",
+						"");
+				PreparedStatement st;
+				st = conn.prepareStatement(
+						"SELECT * FROM public.appointments where date_time between ? and ? and clinic = ? and request = false ORDER BY date_time ASC");
+				java.sql.Date sd = new java.sql.Date(date.getTime());
+				st.setDate(1, sd);
+
+				Calendar c = Calendar.getInstance();
+				c.setTime(date);
+				c.add(Calendar.DATE, 1);
+				date = c.getTime();
+				java.sql.Date sd1 = new java.sql.Date(c.getTimeInMillis());
+				st.setDate(2, sd1);
+
+				st.setInt(3, clinic_id);
+				ResultSet rs;
+
+				rs = st.executeQuery();
+				while (rs.next()) {
+					Appointment new_ap;
+					new_ap = as.getAppointmentById(rs.getInt("appointment_id"));
+					appointments.add(new_ap);
+				}
+				conn.close();
+
+			} catch (Exception e) {
+
+			}
+			if (getFreeTimes(h, appointments).size() == 0) {
+				flag = false;
+				continue;
+			} else {
+				if (flag) {
+					// logika da je isti dan u pitanju
+					int smallest_distance = 2000;
+					String smallest_time = "";
+					int aim_start = getTimeMinutes(ap.getDateTime());
+					int length = ap.getDuration();
+					for (String time : getFreeTimes(h, appointments)) {
+						int start_time = Integer.parseInt(time.split(" -> ")[0].split(":")[0]) * 60
+								+ Integer.parseInt(time.split(" -> ")[0].split(":")[1]);
+						int end_time = Integer.parseInt(time.split(" -> ")[1].split(":")[0]) * 60
+								+ Integer.parseInt(time.split(" -> ")[1].split(":")[1]);
+						if(end_time - start_time >length) {
+							if(aim_start >= end_time) {
+								int current_dis = aim_start - end_time + length;
+								smallest_time = (smallest_distance > current_dis) ? (ap.getDateTime().toString().split(" ")[0] + " " + getMinutesToTime(end_time-length)) : smallest_time;
+								smallest_distance = (smallest_distance > current_dis) ? current_dis: smallest_distance;
+							}
+							else {
+								int current_dis = start_time - aim_start;
+								smallest_time = (smallest_distance > current_dis) ? (ap.getDateTime().toString().split(" ")[0] + " " + getMinutesToTime(start_time)) : smallest_time;
+								smallest_distance = (smallest_distance > current_dis) ? current_dis: smallest_distance;
+
+							}
+						}
+						
+
+					}
+					
+					first_time = smallest_time;
+					
+				} else {
+					first_time = ap.getDateTime().toString().split(" ")[0] + " " +  getFreeTimes(h, appointments).get(0).split(" -> ")[0];
+				}
+			}
+
+		}
+
+		return first_time;
 	}
 
 	// metoda prima listu sala za kliniku i listu pregleda
@@ -243,8 +348,10 @@ public class HallService {
 				int startTime = getTimeMinutes(app.getDateTime());
 				// naleteo sam na pregled u toj sali znaci slobodno vreme je od pocetka do tog
 				// trenutka
-				String free_time = getMinutesToTime(pocetak) + " -> " + getMinutesToTime(startTime);
-				free_times.add(free_time);
+				if (pocetak < startTime) {
+					String free_time = getMinutesToTime(pocetak) + " -> " + getMinutesToTime(startTime);
+					free_times.add(free_time);
+				}
 				// a zatim postavljam za kraj tog pregleda nov pocetak za sledecu iteraciju
 				// petlje
 				pocetak = startTime + app.getDuration();
@@ -257,14 +364,124 @@ public class HallService {
 		return free_times;
 	}
 
+	public int reserveHall(Hall h, Appointment a, Date date, int clinic_id) {
+		Connection conn;
+		try {
+			// conn =
+			// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+			// "xslquaksjvvetl",
+			// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+			PreparedStatement st;
+
+			st = conn.prepareStatement(
+					"SELECT * FROM public.appointments where date_time between ? and ? and clinic = ? and request = false ORDER BY date_time ASC");
+			java.sql.Date sd = new java.sql.Date(date.getTime());
+			st.setDate(1, sd);
+
+			Calendar c = Calendar.getInstance();
+			c.setTime(date);
+			c.add(Calendar.DATE, 1);
+			java.sql.Date sd1 = new java.sql.Date(c.getTimeInMillis());
+			st.setDate(2, sd1);
+
+			st.setInt(3, clinic_id);
+
+			ResultSet rs = st.executeQuery();
+			ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+			while (rs.next()) {
+				Appointment ap;
+				ap = as.getAppointmentById(rs.getInt("appointment_id"));
+				appointments.add(ap);
+			}
+
+			ArrayList<String> free_times = getFreeTimes(h, appointments);
+
+			int pocetak = getTimeMinutes(a.getDateTime());
+			int kraj = pocetak + a.getDuration();
+
+			for (String time : free_times) {
+				int from = Integer.parseInt(time.split(" -> ")[0].split(":")[0]) * 60
+						+ Integer.parseInt(time.split(" -> ")[0].split(":")[1]);
+				int to = Integer.parseInt(time.split(" -> ")[1].split(":")[0]) * 60
+						+ Integer.parseInt(time.split(" -> ")[1].split(":")[1]);
+				if (pocetak >= from && kraj <= to) {
+					a.setHall(h);
+					a.setRequest(false);
+					h.getAppointments().add(a);
+					Doctor d = initializeAndUnproxy.initAndUnproxy(a.getDoctor());
+					Set<WorkCalendar> wc = initializeAndUnproxy.initAndUnproxy(d.getWorkCalendar());
+					hr.save(h);
+					ar.save(a);
+					for (WorkCalendar wece : wc) {
+						if (wece.getDate().toString().split(" ")[0]
+								.equalsIgnoreCase(a.getDateTime().toString().split(" ")[0])) {
+							if (wece.getStart_time()
+									.equalsIgnoreCase(a.getDateTime().toString().split(" ")[1].substring(0, 5))) {
+								wece.setRequest(false);
+								wcr.save(wece);
+								return 0;
+							}
+						}
+					}
+
+				}
+			}
+
+			st = conn.prepareStatement("SELECT * FROM public.halls where clinic = ?");
+
+			st.setInt(1, clinic_id);
+
+			rs = st.executeQuery();
+			while (rs.next()) {
+				Hall hall;
+				hall = hr.findById(rs.getInt("hall_id")).orElse(null);
+				ArrayList<String> all_times = getFreeTimes(hall, appointments);
+				for (String time : all_times) {
+					int from = Integer.parseInt(time.split(" -> ")[0].split(":")[0]) * 60
+							+ Integer.parseInt(time.split(" -> ")[0].split(":")[1]);
+					int to = Integer.parseInt(time.split(" -> ")[1].split(":")[0]) * 60
+							+ Integer.parseInt(time.split(" -> ")[1].split(":")[1]);
+					if (pocetak > from && kraj < to) {
+						a.setHall(h);
+						a.setRequest(false);
+						h.getAppointments().add(a);
+						Doctor d = initializeAndUnproxy.initAndUnproxy(a.getDoctor());
+						Set<WorkCalendar> wc = initializeAndUnproxy.initAndUnproxy(d.getWorkCalendar());
+						hr.save(h);
+						ar.save(a);
+						for (WorkCalendar wece : wc) {
+							if (wece.getDate().toString().split(" ")[0]
+									.equalsIgnoreCase(a.getDateTime().toString().split(" ")[0])) {
+								if (wece.getStart_time()
+										.equalsIgnoreCase(a.getDateTime().toString().split(" ")[1].substring(0, 5))) {
+									wece.setRequest(false);
+									wcr.save(wece);
+									return 2;
+								}
+							}
+						}
+
+					}
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return 1;
+	}
+
 	// metoda prima datum i vraca broj minuta od pocetka dana
 	@SuppressWarnings("deprecation")
-	private int getTimeMinutes(Date d) {
+	public int getTimeMinutes(Date d) {
 		return d.getHours() * 60 + d.getMinutes();
 
 	}
 
-	private String getMinutesToTime(int minutes) {
+	public String getMinutesToTime(int minutes) {
 		int minute = minutes % 60;
 		int hour = minutes / 60;
 		String res = hour + ":" + minute;

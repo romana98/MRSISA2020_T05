@@ -86,7 +86,6 @@ public class DoctorController {
 	@GetMapping("/getAvailableDoctors")
 	public List<DoctorDTO> getAvailableDoctors(@RequestParam String clinic_id, String appointmentType_id, String date ) {
 		
-		//TREBA DA SE PROSLEDJUJE I CLINIC_ID
 		ArrayList<Doctor> doctors = ds.getClinicDoctorsbyAppointmentType(Integer.parseInt(appointmentType_id),Integer.parseInt(clinic_id));	
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");

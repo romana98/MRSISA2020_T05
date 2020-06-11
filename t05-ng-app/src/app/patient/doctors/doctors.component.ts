@@ -24,7 +24,7 @@ export class DoctorsComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
 
-  constructor(private _snackBar: MatSnackBar,private router: ActivatedRoute, private http: HttpClient, public dialog: MatDialog) { }
+  constructor(private _snackBar: MatSnackBar,private router: ActivatedRoute, private http: HttpClient, public dialog: MatDialog, private navigate_router: Router) { }
 
   label : String = '';
   sent: boolean = false;
@@ -122,9 +122,9 @@ export class DoctorsComponent implements OnInit {
         let url = "http://localhost:8081/appointment/sendRequest"
         this.http.post(url, this.reqModel).subscribe(
           res => {
-            let index = this.dataSource.data.indexOf(req);
+            /*let index = this.dataSource.data.indexOf(req);
             this.dataSource.data.splice(index, 1);
-            this.dataSource._updateChangeSubscription()
+            this.dataSource._updateChangeSubscription()*/
             this._snackBar.open("Request for appointment sent!", "Close", {
               duration: 2000,
             });
@@ -138,6 +138,7 @@ export class DoctorsComponent implements OnInit {
           }
         );
       }
+      location.reload();
 
     });
   }

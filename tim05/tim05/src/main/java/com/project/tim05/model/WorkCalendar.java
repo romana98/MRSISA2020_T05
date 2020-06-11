@@ -13,33 +13,36 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="work_calendars")
+@Table(name = "work_calendars")
 public class WorkCalendar {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "work_cal_id", unique=true, nullable = false)
+	@Column(name = "work_cal_id", unique = true, nullable = false)
 	private Integer id;
-	
+
 	@Column(name = "start_time", nullable = false)
 	private String startTime;
-	
+
 	@Column(name = "end_time", nullable = false)
 	private String endTime;
-	
+
 	@Column(name = "date", nullable = false)
 	private Date date;
-	
+
 	@Column(name = "leave", nullable = false)
 	Boolean leave;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="doctor", referencedColumnName="user_id", nullable=true)
+
+	@Column(name = "request", nullable = false)
+	boolean request;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "doctor", referencedColumnName = "user_id", nullable = true)
 	private Doctor doctor;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="nurse", referencedColumnName="user_id", nullable=true)
-	private Nurse nurse;	
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "nurse", referencedColumnName = "user_id", nullable = true)
+	private Nurse nurse;
 
 	public WorkCalendar() {
 		super();
@@ -55,7 +58,13 @@ public class WorkCalendar {
 		this.nurse = nurse;
 	}
 
+	public boolean isRequest() {
+		return request;
+	}
 
+	public void setRequest(boolean request) {
+		this.request = request;
+	}
 
 	public Integer getId() {
 		return id;
@@ -96,8 +105,7 @@ public class WorkCalendar {
 	public void setLeave(Boolean leave) {
 		this.leave = leave;
 	}
-	
-	
+
 	public Doctor getDoctor() {
 		return doctor;
 	}
@@ -113,6 +121,5 @@ public class WorkCalendar {
 	public void setNurse(Nurse nurse) {
 		this.nurse = nurse;
 	}
-	
-	
+
 }

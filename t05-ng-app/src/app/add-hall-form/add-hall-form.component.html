@@ -4,20 +4,16 @@
 <br>
 
 <div >
-  <form #forma="ngForm" (submit)="goSearch()" style="float: left;width: 48%;margin-left: 2%;">
+  <form #forma="ngForm" (submit)="forma.form.valid && goSearch()" style="float: left;width: 48%;margin-left: 2%;">
 
     <mat-form-field appearance="outline" style="width: 250px;">
-      <mat-label>Search...</mat-label>
-      <input matInput  [(ngModel)] = "search_value" #searchvalue="ngModel"  name="search_value"
-             pattern="([A-Z][a-z]+[ ]*){1,}" required>
-      <mat-error *ngIf="searchvalue.invalid && searchvalue.errors?.pattern">
-        Invalid name format! Example: Operation Hall
-      </mat-error>
+      <mat-label>Search</mat-label>
+      <input matInput  [(ngModel)] = "search_value" #searchvalue="ngModel"  name="search_value">
     </mat-form-field>
 
     <mat-form-field appearance="outline" style="width: 250px;margin-left: 2%;">
         <mat-label>Parameter</mat-label>
-        <mat-select [(ngModel)]="search_param" #searchparam="ngModel" name="searchparam"  required >
+        <mat-select [(ngModel)]="search_param" #searchparam="ngModel" name="searchparam" >
           <mat-option value="name" selected>Name</mat-option>
           <mat-option value="number">Number</mat-option>
         </mat-select>
@@ -55,16 +51,16 @@
           <ng-container matColumnDef="available">
             <th mat-header-cell *matHeaderCellDef style="width: 25%;"> Available </th>
             <td mat-cell *matCellDef="let element"> 
-              <mat-select *ngIf="!checkDisable(element)"  style="max-width: 120px;" [(ngModel)]="element.time" #time="ngModel" name = "time" required >
-              <mat-option *ngFor="let a of element.times" [value]="a" >{{a}}</mat-option>
+              <mat-select *ngIf="checkDisable(element)"  style="max-width: 120px;" [placeholder]="element.time">
+                <mat-option *ngFor="let a of element.times" [value]="a">{{a}}</mat-option>
               </mat-select>
-              <label *ngIf="checkDisable(element)" style="color: red;">Busy</label>
+              <label *ngIf="!checkDisable(element)" style="color: red;">Busy</label>
             </td>
           </ng-container>
       
           <ng-container matColumnDef="reserve">
             <th mat-header-cell *matHeaderCellDef style="width:15%;align-content: center;"> Reserve </th>
-            <td mat-cell *matCellDef="let element"> <button mat-button (click)="Reserve(element)" >Reserve</button> </td>
+            <td mat-cell *matCellDef="let element"> <button type="button" mat-button (click)="Reserve(element)" >Reserve</button> </td>
           </ng-container>
      
           <ng-container matColumnDef="delete">

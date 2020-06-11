@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, Inject} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import { FormControl, Validators } from '@angular/forms';
@@ -56,8 +56,7 @@ export class AddPredifinedAppointmentComponent implements OnInit {
 
       });
     console.log(sessionStorage.getItem('token'));
-    let params = new HttpParams().set('admin_id',sessionStorage.getItem('user_id').toString())
-        this.http.get("http://localhost:8081/appointmentType/getAppointmentTypes",{params:params}).subscribe(
+        this.http.get("http://localhost:8081/appointmentType/getAllApointmentTypes").subscribe(
           res => {
         // @ts-ignore
               this.appointmentTypes = res;
@@ -95,6 +94,8 @@ export class AddPredifinedAppointmentComponent implements OnInit {
 }
 
 }
+
+
 
 export interface appointmentModel
 {

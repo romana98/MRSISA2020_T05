@@ -1,0 +1,25 @@
+<h2 mat-dialog-title style="text-align: center">Reserve hall:</h2>
+<div mat-dialog-content>
+    
+<div style="height: 120%;">
+  <h3 style="margin-left: 25%;margin-top: 3%;">First available time for this appointment is:</h3>
+  <h2 style="margin-left: 38%;">{{this.dialog_data.date}}</h2>
+
+  <h3 *ngIf="this.show_doctors" style="margin-left: 20%;margin-top: 5%;">Choosen doctor is not available for that time, choose other:</h3>
+  <form #forma = "ngForm" (submit)="forma.form.valid && reserve()" >
+  <mat-form-field *ngIf="this.show_doctors" appearance="outline" style="width: 250px;margin-left: 30%;">
+    <mat-label>Doctors</mat-label>
+    <mat-select [(ngModel)]="choosen_doc" #choose_doc="ngModel" name="choose_doc" required >
+      <mat-option *ngFor="let a of this.dialog_data.doctors" [value]="a.id">{{a.name}} {{a.surname}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-button [mat-dialog-close]="" type="button" style="float: left;margin-right: 300px;">Cancel</button>
+  <button mat-button type="submit" style="float: right;">Confirm</button>
+  </form>
+
+</div>
+
+</div>
+
+
