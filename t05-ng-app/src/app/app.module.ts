@@ -66,8 +66,6 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ViewWorkCalendarComponent } from './view-work-calendar/view-work-calendar.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {AngularCalendarYearViewModule} from "angular-calendar-year-view";
 
 
 
@@ -319,12 +317,9 @@ const appRoutes : Routes = [
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
-    }),
-    NgbModule,
-    AngularCalendarYearViewModule
+    })
 
   ],
-  schemas:[CUSTOM_ELEMENTS_SCHEMA],
   providers: [MatDatepickerModule,
     {
       provide: HTTP_INTERCEPTORS, useClass:InterceptorService, multi:true

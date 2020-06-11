@@ -56,6 +56,11 @@ public class PatientDTO {
    public PatientDTO() {
 		super();
 	}
+   
+   public PatientDTO(String name, String surname) {
+	   this.name = name;
+	   this.surname = surname;
+   }
 
 	public PatientDTO(String email, String password, String name, String surname, String address, String city, String country,
 			String phone_number, String insurance_number) {

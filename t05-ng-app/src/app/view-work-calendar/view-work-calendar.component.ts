@@ -1,6 +1,10 @@
 import {Component, ChangeDetectionStrategy, ViewChild, TemplateRef, OnInit} from '@angular/core';
 import {startOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours} from 'date-fns';
 import {CalendarEvent, CalendarView} from 'angular-calendar';
+import {clinicModel} from "../edit-clinic/edit-clinic.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {HttpClient} from "@angular/common/http";
+import {Subject} from "rxjs";
 
 const colors: any = {
   red: {
@@ -10,11 +14,7 @@ const colors: any = {
   blue: {
     primary: '#1e90ff',
     secondary: '#D1E8FF',
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
-  },
+  }
 };
 
 @Component({
@@ -33,47 +33,64 @@ export class ViewWorkCalendarComponent implements OnInit {
 
   viewDate: Date = new Date();
 
-  themecolor: any = '#0a5ab3'
+  works:any[];
+  apps:any[];
 
+  constructor(private _snackBar: MatSnackBar, private http: HttpClient) {}
 
-  constructor() {}
+  async ngOnInit(){
 
-  ngOnInit(){
+    // @ts-ignore
+    this.works = await this.http.get("http://localhost:8081/workCalendar/getWorkCalendar").toPromise();
+    // @ts-ignore
+    this.apps = await this.http.get("http://localhost:8081/appointment/getDoctorAppointments").toPromise();
 
-//Uzmes sve app i work za id ulogovanog doktora
-// iteriras po danima pa po pregledima i dodajes ih u calendar event
-    /*
-    this.events.push(
-      {
-        start: subDays(startOfDay(new Date()), 1),
-        end: addDays(new Date(), 1),
-        title: 'A 3 day event',
-        color: colors.red
-      },
-    );
-
-    */
-
+    this.addEvents();
   }
 
+  addEvents()
+  {
+    this.works.forEach(work => {
+      if(work.leave == true)
+      {
+        this.events.push(
+          {
+            start: new Date(work.date),
+            end: new Date(work.date),
+            title: 'On Leave',
+            color: colors.blue,
+            allDay: true
+          },
+        );
+      }
 
+      this.apps.forEach(app => {
+        let w = new Date(work.date);
+        w.setHours(parseInt(work.startTime.split(":")[0]), parseInt(work.startTime.split(":")[1]));
 
-  events: any = [
-    {
-      start: new Date(),
-      end: new Date(),
-      title: 'title event 1',
-      color: colors.red,
-    },
-    {
-      start: new Date(),
-      end: new Date(),
-      title: 'title event 2',
-      color: colors.yellow,
-    }
-  ]
+        let a = new Date(app.date)
 
-  activeDayIsOpen: boolean = true;
+        if(w.getTime() === a.getTime())
+        {
+          this.events.push(
+            {
+              start: subDays(new Date(work.date).setHours(parseInt(work.startTime.split(":")[0]), parseInt(work.startTime.split(":")[1])), 1),
+              end: subDays(new Date(work.date).setHours(parseInt(work.endTime.split(":")[0]), parseInt(work.endTime.split(":")[1])), 1),
+              title: 'Start:' + work.startTime + ', End: ' + work.endTime + ', AppointmentType: ' + app.appointmentType.name + ", Patient: " + app.patient.name + " " + app.patient.surname,
+              color: colors.red
+            },
+          );
+        }
+      })
+    })
+    this.refresh.next();
+  }
+
+  refresh: Subject<any> = new Subject();
+
+  events: CalendarEvent[] = [];
+
+  activeDayIsOpen: boolean = false;
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -98,10 +115,4 @@ export class ViewWorkCalendarComponent implements OnInit {
   }
 
 }
-export interface workModel
-{
-  name: string;
-  address: string | RegExp;
-  description: string | RegExp;
-  api: object;
-}
+

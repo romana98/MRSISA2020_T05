@@ -1,4 +1,4 @@
-<div class="row text-center">
+<div class="row text-center" style="width: 100%">
   <div class="col-md-4">
     <div class="col-md-4">
       <div class="btn-group">
@@ -56,33 +56,35 @@
         (click)="setView(CalendarView.Day)"
         [class.active]="view === CalendarView.Day"
       >
-        Year
+        Day
       </div>
     </div>
   </div>
 </div>
 <br />
-<div [ngSwitch]="view">
+<div  [ngSwitch]="view">
   <mwl-calendar-month-view
     *ngSwitchCase="CalendarView.Month"
     [viewDate]="viewDate"
     [events]="events"
     [activeDayIsOpen]="activeDayIsOpen"
     (dayClicked)="dayClicked($event.day)"
+    [refresh]="refresh"
   >
   </mwl-calendar-month-view>
   <mwl-calendar-week-view
     *ngSwitchCase="CalendarView.Week"
     [viewDate]="viewDate"
     [events]="events"
+    [refresh]="refresh"
   >
   </mwl-calendar-week-view>
-  <angular-calendar-year-view
+  <mwl-calendar-day-view
     *ngSwitchCase="CalendarView.Day"
-    [themecolor]="themecolor"
-    [events]="events"
     [viewDate]="viewDate"
-    >
-  </angular-calendar-year-view>
+    [events]="events"
+    [refresh]="refresh"
+  >
+  </mwl-calendar-day-view>
 </div>
 

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {clinicAdminModel} from "../edit-clinic-administrator/edit-clinic-administrator.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {icon, latLng, LayerGroup, Marker, marker, tileLayer} from 'leaflet';
 
 @Component({
