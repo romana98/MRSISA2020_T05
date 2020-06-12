@@ -3,36 +3,52 @@ package com.project.tim05.dto;
 
 public class PricelistDTO {
 	
-   private AppointmentTypeDTO appointmentType;
+   private int id;
+   private String apt_type;
    private double price;
-
-   public PricelistDTO(AppointmentTypeDTO appointmentType, double price) {
+   private int clinic_id;
+   
+public PricelistDTO(String apt_type, double price, int clinic_id) {
 	super();
-	this.appointmentType = appointmentType;
+	this.apt_type = apt_type;
+	this.price = price;
+	this.clinic_id = clinic_id;
+}
+
+public PricelistDTO() {
+	super();
+}
+
+public String getApt_type() {
+	return apt_type;
+}
+
+public void setApt_type(String apt_type) {
+	this.apt_type = apt_type;
+}
+
+public double getPrice() {
+	return price;
+}
+
+public void setPrice(double price) {
 	this.price = price;
 }
 
-   public PricelistDTO() {
-	super();
+public int getClinic_id() {
+	return clinic_id;
 }
 
-	public AppointmentTypeDTO getAppointmentType() {
-		return appointmentType;
-	}
-	
-	public void setAppointmentType(AppointmentTypeDTO appointmentType) {
-		this.appointmentType = appointmentType;
-	}
-	
-	public double getPrice() {
-		return price;
-	}
-	
-	public void setPrice(double price) {
-		this.price = price;
-	}
-   
-   
-   
+public void setClinic_id(int clinic_id) {
+	this.clinic_id = clinic_id;
+}
+
+public int getId() {
+	return id;
+}
+
+public void setId(int id) {
+	this.id = id;
+}
    
 }
