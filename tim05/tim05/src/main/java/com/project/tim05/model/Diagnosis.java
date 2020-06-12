@@ -26,7 +26,9 @@ public class Diagnosis {
 	@JoinColumn(name="clinic_center_admin", referencedColumnName="user_id", nullable=true)
 	private ClinicCenterAdministrator clinicCenterAdministrator;
    	
-
+	@Version
+	private Long version;
+	
 	public Diagnosis() {
 		super();
 		
