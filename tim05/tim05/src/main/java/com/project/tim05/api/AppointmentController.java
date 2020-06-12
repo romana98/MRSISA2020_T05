@@ -336,6 +336,44 @@ public class AppointmentController<T> {
 
 	}
 	
+	@GetMapping("/getClinicPredefinedAppointments")
+	@PreAuthorize("hasRole('PATIENT')")
+	public List<AppointmentDTO> getClinicPredefinedAppointments(@RequestParam String clinicId) {
+		List<AppointmentDTO> a = as.getClinicPredefinedAppointments(Integer.parseInt(clinicId));
+	
+		return a;
+
+	}
+	
+	@PostMapping("/reservePredefinedAppointment")
+	@PreAuthorize("hasRole('PATIENT')")
+	public ResponseEntity<T> reservePredefinedAppointment(@RequestBody AppointmentDTO a) {
+		
+		Authentication current = SecurityContextHolder.getContext().getAuthentication();
+		Patient currentUser = (Patient)current.getPrincipal();
+		
+
+		int flag = as.reservePredefined(a.getId(), currentUser.getId());
+	
+		if (flag == 0)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		else
+		{
+			String text = "Appointment approved: date and start time:" + a.getDate() + 
+					" appointment_type: " + a.getAppointmentType().getName() + ".";
+			
+				try {
+					es.sendPredefinedAppointmentNotificationPatient(currentUser.getEmail(), text);
+				} catch (Exception e) {
+					e.printStackTrace();
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+				}
+			
+
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
+	}
+	
 	
 
 }

@@ -84,6 +84,15 @@ public class AppointmentDTO {
 		
 	}
 
+	public AppointmentDTO(String date, HallDTO hallDTO, AppointmentTypeDTO appointmentTypeDTO, DoctorDTO doctorDTO,
+			double price) {
+		this.date = date;
+		this.hall = hallDTO;
+		this.appointmentType = appointmentTypeDTO;
+		this.doctor = doctorDTO;
+		this.price = price;
+	}
+
 	public PatientDTO getPatient() {
 		return patient;
 	}

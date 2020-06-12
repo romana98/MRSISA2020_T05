@@ -87,9 +87,20 @@ public class HallController<T> {
 
 	@GetMapping("/getClinicHall")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
+	public ResponseEntity<List<HallDTO>> getHalls(@RequestParam String clinic_id) {
+		List<HallDTO> hss = new ArrayList<HallDTO>();
+		ArrayList<Hall>h = hs.getClinicHalls(Integer.parseInt(clinic_id));
+		for (Hall hall : h) {
+			hss.add(new HallDTO(hall.getId(), hall.getName(), hall.getNumber()));
+		}
+		return ResponseEntity.ok(hss);
+	}
+	
+	/*@GetMapping("/getClinicHall")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	public ResponseEntity<List<Hall>> getHalls(@RequestParam String clinic_id) {
 		return ResponseEntity.ok(hs.getClinicHalls(Integer.parseInt(clinic_id)));
-	}
+	}*/
 
 	@DeleteMapping("/deleteHall")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")

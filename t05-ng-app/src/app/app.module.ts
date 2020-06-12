@@ -68,6 +68,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ViewWorkCalendarComponent } from './view-work-calendar/view-work-calendar.component';
 import { CancelationLinkComponent } from './email/cancelation-link/cancelation-link.component';
+import { ViewPredefinedAppointmentsComponent } from './view-predefined-appointments/view-predefined-appointments.component';
 
 
 const appRoutes : Routes = [
@@ -175,7 +176,12 @@ const appRoutes : Routes = [
       {
         path: 'viewAllClinics',
         component:ViewAllClinicsComponent
+      },
+      {
+        path: 'predefineAppointments',
+        component:ViewPredefinedAppointmentsComponent
       }
+
     ]
   },
   {
@@ -292,7 +298,8 @@ const appRoutes : Routes = [
     FirstDialog,
     SecondDialog,
     CancelationLinkComponent,
-    ViewAllClinicsComponent
+    ViewAllClinicsComponent,
+    ViewPredefinedAppointmentsComponent
 
   ],
   imports: [
