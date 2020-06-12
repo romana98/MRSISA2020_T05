@@ -227,10 +227,9 @@ public class PatientController<T> {
 	
 	@GetMapping("/getClinics")
 	@PreAuthorize("hasRole('PATIENT')")
-	public ResponseEntity<List<PatientClinicsDTO>> getClinics(@RequestParam String date, String appointmentType_id) {
+	public ResponseEntity<List<PatientClinicsDTO>> getClinics(@RequestParam String date, String appointmentType_id, String address_param, String low_rate, String high_rate) {
 
 		ArrayList<Doctor> doctors = ds.getDoctorsbyAppointmentType(Integer.parseInt(appointmentType_id));
-
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		java.util.Date date1 = null;
 		try {
@@ -257,9 +256,12 @@ public class PatientController<T> {
 			}
 		}
 
+		ArrayList<Clinic> filteredClinics = cs.filterClinicsByParams(clinics, address_param, Integer.parseInt(low_rate), Integer.parseInt(high_rate));
+		
+		
 		ArrayList<PatientClinicsDTO> pcdtos = new ArrayList<PatientClinicsDTO>();
 
-		for (Clinic cl : clinics) {
+		for (Clinic cl : filteredClinics) {
 			PatientClinicsDTO pcdto = new PatientClinicsDTO();
 
 			pcdto.setId(cl.getId());

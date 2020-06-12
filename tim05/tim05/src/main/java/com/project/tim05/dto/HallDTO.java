@@ -48,6 +48,12 @@ public class HallDTO {
 		
 	}
     
+	public HallDTO(Integer id2, String name2, int number2) {
+		this.id = id2;
+		this.name = name2;
+		this.number = number2;
+	}
+
 	public int getId() {
 		return id;
 	}

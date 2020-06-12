@@ -3,7 +3,7 @@
 <mat-divider></mat-divider>
 <br>
 
-    <div class="mat-elevation-z8" style="width: 400px;float:left;">
+    <div class="mat-elevation-z8" style="width: 40%;float:left;">
 
       <table mat-table [dataSource]="dataSource" matSort>
 
@@ -31,7 +31,7 @@
 
     </div>
 
-    <div style="float:right; padding-right: 500px">
+    <div style="float:right; padding-right: 100px">
       <h2>Clinic info</h2>
       <br>
       <mat-label>Clinic name: </mat-label>
@@ -42,6 +42,10 @@
       <br>
       <mat-label>Clinic average rating: </mat-label>
       <input matInput [(ngModel)] = "model.avg_rating" name="clinic_avg_rating" readonly [disabled]="this.model.id===-1">
+      <br>
+
+      <button mat-raised-button [disabled]="this.model.id == -1" (click)="goToPredefinedAppointments()">Schedule an Appointment</button>
+      <br>
       <br>
 
       <form  #f="ngForm"  style="padding-left: 25px;" (submit)="search()">

@@ -37,6 +37,7 @@ import com.project.tim05.model.WorkCalendar;
 import com.project.tim05.service.AppointmentService;
 import com.project.tim05.service.ClinicAdministratorService;
 import com.project.tim05.service.DoctorService;
+import com.project.tim05.service.EmailService;
 import com.project.tim05.service.HallService;
 import com.project.tim05.service.WorkCalendarService;
 import com.project.tim05.service.initializeAndUnproxy;
@@ -51,14 +52,16 @@ public class HallController<T> {
 	private final AppointmentService as;
 	private final DoctorService ds;
 	private final WorkCalendarService wcs;
+	private final EmailService es;
 
 	@Autowired
-	public HallController(WorkCalendarService wcs,DoctorService ds, AppointmentService as, HallService hs, ClinicAdministratorService cas) {
+	public HallController(WorkCalendarService wcs, EmailService es, DoctorService ds, AppointmentService as, HallService hs, ClinicAdministratorService cas) {
 		this.hs = hs;
 		this.cas = cas;
 		this.as = as;
 		this.ds = ds;
 		this.wcs = wcs;
+		this.es = es;
 	}
 
 	@PostMapping("/addHall")
@@ -84,9 +87,20 @@ public class HallController<T> {
 
 	@GetMapping("/getClinicHall")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
+	public ResponseEntity<List<HallDTO>> getHalls(@RequestParam String clinic_id) {
+		List<HallDTO> hss = new ArrayList<HallDTO>();
+		ArrayList<Hall>h = hs.getClinicHalls(Integer.parseInt(clinic_id));
+		for (Hall hall : h) {
+			hss.add(new HallDTO(hall.getId(), hall.getName(), hall.getNumber()));
+		}
+		return ResponseEntity.ok(hss);
+	}
+	
+	/*@GetMapping("/getClinicHall")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	public ResponseEntity<List<Hall>> getHalls(@RequestParam String clinic_id) {
 		return ResponseEntity.ok(hs.getClinicHalls(Integer.parseInt(clinic_id)));
-	}
+	}*/
 
 	@DeleteMapping("/deleteHall")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
@@ -242,12 +256,24 @@ public class HallController<T> {
 		int success = hs.reserveHall(h, a, new_date, clinic_id);
 
 		if (success == 0) {
+			String textStart = "Appointment approved: date and start time:" + a.getDateTime().toString() + 
+					" appointment_type: " + a.getAppointmentType().getName() + ".";
+			String text = "?appointment_id=" + a.getId();
+			
+			try {
+			es.sendAppointmentApprovalMail(a.getDoctor().getEmail(), textStart, text);
+			es.sendAppointmentApprovalMail(a.getPatient().getEmail(), textStart, text);
+			}catch (Exception e) {
+				ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			}
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 
 		} else if (success == 2) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		}
-
+		
+		
+		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
 	}
@@ -301,6 +327,18 @@ public class HallController<T> {
 		as.updateAppointment(a);
 		hs.updateHall(h);
 		wcs.updateCalendar(target_wc);
+		
+		String textStart = "Appointment approved: date and start time:" + a.getDateTime().toString() + 
+				" appointment_type: " + a.getAppointmentType().getName() + ".";
+		String text = "?appointment_id=" + a.getId();
+		
+		try {
+		es.sendAppointmentApprovalMail(a.getDoctor().getEmail(), textStart, text);
+		es.sendAppointmentApprovalMail(a.getPatient().getEmail(), textStart, text);
+		
+		}catch (Exception e) {
+			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
 		
 		//prvo nadji doktora kod kog treba da obrises iz wc taj termin pregleda
 		

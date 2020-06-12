@@ -62,8 +62,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
 				// svim korisnicima dopust	i da pristupe putanjama /auth/**
+<<<<<<< HEAD
 				//.authorizeRequests().antMatchers("/auth/**", "/patients/activate", "/registrationRequests/register").permitAll()
 				.authorizeRequests().antMatchers("/**").permitAll()
+=======
+				.authorizeRequests().antMatchers("/auth/**", "/appointment/cancel", "/patients/activate", "/registrationRequests/register").permitAll()
+				//.authorizeRequests().antMatchers("/**").permitAll()
+>>>>>>> refs/remotes/origin/master
 				// za svaki drugi zahtev korisnik mora biti autentifikovan
 				.anyRequest().authenticated().and()
 				// za development svrhe ukljuci konfiguraciju za CORS iz WebConfig klase
@@ -80,7 +85,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		// TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
-		web.ignoring().antMatchers(HttpMethod.POST, "/auth/login", "/patients/activate", "/auth/changePassword", "/registrationRequests/register");
+		web.ignoring().antMatchers(HttpMethod.POST, "/auth/login", "/appointment/cancel", "/patients/activate", "/auth/changePassword", "/registrationRequests/register");
 		web.ignoring().antMatchers(HttpMethod.GET, "/", "/webjars/**", "/*.html", "/favicon.ico", "/**/*.html",
 				"/**/*.css", "/**/*.js");
 		

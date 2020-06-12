@@ -495,6 +495,7 @@ public int addLeave(LeaveRequest l) {
 			for (java.util.Date date = start_cal.getTime(); start_cal.before(end_cal); start_cal.add(Calendar.DATE, 1), date = start_cal.getTime()) {
 				sql = new java.sql.Date(date.getTime());
 				WorkCalendar wc = new WorkCalendar("00:00", "23:59", sql, true);
+				wc.setRequest(false);
 				wc.setDoctor(dr.findByEmail(l.getEmail()));
 				wcr.save(wc);    
 			}
@@ -508,5 +509,9 @@ public int addLeave(LeaveRequest l) {
 		return flag;
 		
 	}
+
+
+
+
 	
 }

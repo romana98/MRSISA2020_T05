@@ -47,6 +47,10 @@ public class AppointmentTypeService {
 		return apps;
 	}
 	
+	public List<AppointmentType> getAptTypes(){
+		return atr.findAll();
+	}
+	
 	public AppointmentType getAppointmentTypebyId(int id) {
 		return atr.findById(id).orElse(null);
 	}

@@ -37,7 +37,7 @@ public class DiagnosisService {
 		return dr.findAll();
 	}
 	
-	@Transactional(readOnly = false)
+	/*@Transactional(readOnly = false)
 	@Modifying
 	public int updateDiagnosis(String a) {
 		//Diagnosis d = dr.getOne(1);
@@ -61,6 +61,6 @@ public class DiagnosisService {
 		//try{Thread.sleep(5000);}catch(InterruptedException e){System.out.println(e);}
 		//dr.save(d);
 		return 0;
-	}
+	}*/
 	
 }

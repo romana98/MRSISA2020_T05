@@ -4,7 +4,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
@@ -121,6 +120,11 @@ export class ViewAllClinicsComponent implements OnInit {
         });
         }
       );
+  }
+
+  goToPredefinedAppointments() {
+    this.router.navigate(['/patient/predefineAppointments'],{queryParams : {'clinicId' : this.model.id,}});
+
   }
 }
 

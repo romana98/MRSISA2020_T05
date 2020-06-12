@@ -10,6 +10,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,17 +22,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.tim05.api.PatientController.activateAccount;
 import com.project.tim05.dto.AppointmentDTO;
 import com.project.tim05.dto.AppointmentRequestDTO;
 import com.project.tim05.dto.WorkCalendarDTO;
 import com.project.tim05.model.Appointment;
 import com.project.tim05.model.AppointmentType;
 import com.project.tim05.model.Clinic;
+import com.project.tim05.model.ClinicAdministrator;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Hall;
 import com.project.tim05.model.MedicalStaff;
 import com.project.tim05.model.Nurse;
 import com.project.tim05.model.Patient;
+import com.project.tim05.model.User;
 import com.project.tim05.model.WorkCalendar;
 import com.project.tim05.repository.AppointmentRespository;
 import com.project.tim05.service.AppointmentService;
@@ -39,6 +43,7 @@ import com.project.tim05.service.AppointmentTypeService;
 import com.project.tim05.service.ClinicAdministratorService;
 import com.project.tim05.service.ClinicService;
 import com.project.tim05.service.DoctorService;
+import com.project.tim05.service.EmailService;
 import com.project.tim05.service.HallService;
 import com.project.tim05.service.NurseService;
 import com.project.tim05.service.PatientService;
@@ -50,7 +55,7 @@ import com.project.tim05.service.WorkCalendarService;
 
 @RequestMapping("/appointment")
 @RestController
-public class AppointmentController {
+public class AppointmentController<T> {
 
 	private final AppointmentService as;
 	private final DoctorService ds;
@@ -61,12 +66,14 @@ public class AppointmentController {
 	private final WorkCalendarService wcs;
 	private final PatientService ps;
 	private final ClinicAdministratorService cas;
+	private final EmailService es;
 	private final AppointmentRespository ar;
 	
 	@Autowired
-	public AppointmentController(AppointmentRespository ar, NurseService ns, ClinicAdministratorService cas,PatientService ps,WorkCalendarService wcs,AppointmentService as, DoctorService ds, HallService hs, AppointmentTypeService ats,ClinicService cs) {
+	public AppointmentController(AppointmentRespository ar, EmailService es, NurseService ns, ClinicAdministratorService cas,PatientService ps,WorkCalendarService wcs,AppointmentService as, DoctorService ds, HallService hs, AppointmentTypeService ats,ClinicService cs) {
 		super();
 		this.ar = ar;
+		this.es = es;
 		this.ns = ns;
 		this.as = as;
 		this.ds = ds;
@@ -156,6 +163,24 @@ public class AppointmentController {
 
 	}
 	
+	@PostMapping("/cancel")
+	public ResponseEntity<T> cancel(@RequestBody String request) {
+
+		
+		int flag = as.cancelAppointment(Integer.parseInt(request));
+
+		if (flag == 0)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		else if(flag == -5)
+		{
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
+
+	}
+	
 	@PostMapping("/sendRequest")
 	@PreAuthorize("hasRole('CLINIC_ADMIN') || hasRole('PATIENT')")
 	public ResponseEntity<String> sendRequest(@RequestBody AppointmentRequestDTO adto){
@@ -241,7 +266,29 @@ public class AppointmentController {
 		if (flag == 0)
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		else
+		{
+			
+			//TODO uzmi listu admina koji pripadaju klinici i salji svima mejl
+			List<String> emails = cas.getClinicAdminsClinic(c.getId());
+			
+			try {
+				String text = "Patient: " + ap.getPatient().getName() + " " + ap.getPatient().getSurname() + 
+						"requested an appointment!";
+				for (String email : emails) {
+					es.sendAppointmentNotificationAdmin(email, text);
+				}
+				
+				
+				
+			} catch (Exception e) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			}
+			
+			
+			
 			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
+			
 
 	}
 	
@@ -287,6 +334,44 @@ public class AppointmentController {
 	
 		return wc;
 
+	}
+	
+	@GetMapping("/getClinicPredefinedAppointments")
+	@PreAuthorize("hasRole('PATIENT')")
+	public List<AppointmentDTO> getClinicPredefinedAppointments(@RequestParam String clinicId) {
+		List<AppointmentDTO> a = as.getClinicPredefinedAppointments(Integer.parseInt(clinicId));
+	
+		return a;
+
+	}
+	
+	@PostMapping("/reservePredefinedAppointment")
+	@PreAuthorize("hasRole('PATIENT')")
+	public ResponseEntity<T> reservePredefinedAppointment(@RequestBody AppointmentDTO a) {
+		
+		Authentication current = SecurityContextHolder.getContext().getAuthentication();
+		Patient currentUser = (Patient)current.getPrincipal();
+		
+
+		int flag = as.reservePredefined(a.getId(), currentUser.getId());
+	
+		if (flag == 0)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		else
+		{
+			String text = "Appointment approved: date and start time:" + a.getDate() + 
+					" appointment_type: " + a.getAppointmentType().getName() + ".";
+			
+				try {
+					es.sendPredefinedAppointmentNotificationPatient(currentUser.getEmail(), text);
+				} catch (Exception e) {
+					e.printStackTrace();
+					return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+				}
+			
+
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
 	}
 	
 	
