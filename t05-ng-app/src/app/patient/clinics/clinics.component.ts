@@ -85,6 +85,9 @@ export class ClinicsComponent implements OnInit {
     let params = new HttpParams();
     params = params.append('date', this.searchModel.date.toString())
     params = params.append('appointmentType_id', this.searchModel.appointmentType.id.toString());
+    params = params.append("address_param", this.searchModel.address.toString());
+    params = params.append("low_rate", this.searchModel.avg_rate_lowest.toString());
+    params = params.append("high_rate", this.searchModel.avg_rate_highest.toString());
     this.http.get("http://localhost:8081/patients/getClinics",{params:params})
     .subscribe((res) => {
       // @ts-ignore
