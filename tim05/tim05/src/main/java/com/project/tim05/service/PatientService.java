@@ -286,10 +286,10 @@ public class PatientService {
 			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres",
 					"");
 
-			String query = "UPDATE users enabled = ? WHERE email = ? and id = ?;";
+			String query = "UPDATE users set enabled = ? WHERE email = ? and user_id = ?;";
 			PreparedStatement ps = connection.prepareStatement(query);
-			ps.setBoolean(2, true);
-			ps.setString(3, email);
+			ps.setBoolean(1, true);
+			ps.setString(2, email);
 			ps.setInt(3, id);
 
 			flag = ps.executeUpdate();

@@ -16,10 +16,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.project.tim05.dto.AppointmentDTO;
+import com.project.tim05.dto.AppointmentTypeDTO;
 import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.dto.PatientDTO;
+import com.project.tim05.model.AppointmentType;
 import com.project.tim05.model.Authority;
 import com.project.tim05.model.ClinicAdministrator;
+import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Patient;
 import com.project.tim05.repository.ClinicAdministratorRespository;
 
@@ -52,7 +56,7 @@ public class ClinicAdministratorService {
 		return 1;		
 	}
 	
-public int editClinicAdministrator(ClinicAdministrator admincl) {
+	public int editClinicAdministrator(ClinicAdministrator admincl) {
 	
 		int flag = 0;
 		try {
@@ -115,6 +119,38 @@ public int editClinicAdministrator(ClinicAdministrator admincl) {
 			System.out.println(e.getMessage());
 			return null;
 		}
+	}
+	
+	public List<String> getClinicAdminsClinic(int clinic_id)
+	{
+		List<String> emails = new ArrayList<String>();
+		try {
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			PreparedStatement st = conn.prepareStatement("SELECT * FROM public.clinic_admins ca LEFT JOIN public.users c ON ca.user_id = c.user_id where clinic = ?;");
+			
+			
+			st.setInt(1, clinic_id);
+			ResultSet rs = st.executeQuery();
+			
+			while(rs.next())
+			{
+				emails.add(rs.getString("email"));
+				
+			}
+			
+			
+			conn.close();
+			rs.close();
+			st.close();		
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return emails;
+		}
+	
+		return emails;
+		
 	}
 	
 	public ClinicAdministrator getClinicAdmin(int id) {

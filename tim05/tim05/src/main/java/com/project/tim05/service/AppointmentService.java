@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -61,7 +62,14 @@ public class AppointmentService {
 	}
 	
 	public Appointment getAppointmentById(int id) {
-		return ar.findById(id).orElse(null);
+		Appointment a = ar.findById(id).orElse(null);
+		if(a != null)
+		{
+			a.setAppointmentType(initializeAndUnproxy.initAndUnproxy(a.getAppointmentType()));
+			a.setDoctor(initializeAndUnproxy.initAndUnproxy(a.getDoctor()));
+			a.setPatient(initializeAndUnproxy.initAndUnproxy(a.getPatient()));
+		}
+		return a;
 	}
 	
 	public ArrayList<AppointmentDTO> getAppointmentRequests(Date date, int clinic){
@@ -137,6 +145,10 @@ public class AppointmentService {
 			{
 				AppointmentType at = atr.findById(rs.getInt("appointment_type")).orElse(null);;
 				Patient p = pr.findById(rs.getInt("patient"));
+				if(p == null)
+				{
+					p = new Patient(); p.setName(""); p.setSurname("");
+				}
 				AppointmentDTO w = new AppointmentDTO(rs.getTimestamp("date_time").toString(), new AppointmentTypeDTO(at.getName()), new PatientDTO(p.getName(), p.getSurname()));
 				as.add(w);
 				
@@ -158,6 +170,73 @@ public class AppointmentService {
 	
 	public void updateAppointment(Appointment a) {
 		ar.save(a);
+	}
+
+	public int cancelAppointment(int appointment_id) {
+		int flag = 0;
+		try {
+			Appointment a = this.getAppointmentById(appointment_id);
+			
+			long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
+			if(Math.abs(a.getDateTime().getTime() - new Date().getTime()) < MILLIS_PER_DAY)
+			{
+				return -5;
+			}
+			
+			
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			PreparedStatement ps = conn.prepareStatement("DELETE from public.appointments where appointment_id = ?");
+			ps.setInt(1, appointment_id);
+			flag = ps.executeUpdate();
+			
+			String time = "";
+					
+			if(a.getDateTime().getMinutes() < 10)
+			{
+				time =Integer.toString(a.getDateTime().getHours()) +":0" +  Integer.toString(a.getDateTime().getMinutes());
+				
+			}
+			else
+			{
+				time =Integer.toString(a.getDateTime().getHours()) +":" +  Integer.toString(a.getDateTime().getMinutes());
+				
+			}
+			
+			
+			ps = conn.prepareStatement("SELECT * from work_calendars where doctor = ? and date = ? and start_time = ?");
+			ps.setInt(1, a.getDoctor().getId());
+			ps.setString(3, time);
+			a.getDateTime().setHours(0); a.getDateTime().setMinutes(0);
+			ps.setTimestamp(2, new Timestamp(a.getDateTime().getTime()));
+			ResultSet rs = ps.executeQuery();
+			
+			if(!rs.next())
+				return 0;
+			
+			ps = conn.prepareStatement("DELETE  from medical_staff_work_calendar where work_calendar_work_cal_id = ?");
+			ps.setInt(1, rs.getInt("work_cal_id"));
+			
+			flag = ps.executeUpdate();
+			
+
+			System.out.println(Integer.toString(a.getDateTime().getHours()) +":" +  Integer.toString(a.getDateTime().getMinutes()));
+			ps = conn.prepareStatement("DELETE  from work_calendars where doctor = ? and date = ? and start_time = ?");
+			ps.setInt(1, a.getDoctor().getId());
+			ps.setString(3, time);
+			ps.setTimestamp(2, new Timestamp(a.getDateTime().getTime()));
+			flag = ps.executeUpdate();
+			conn.close();
+			ps.close();	
+			
+			
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return flag;
+		}
+	
+		return flag;
 	}
 	
 }

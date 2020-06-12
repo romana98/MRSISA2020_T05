@@ -56,7 +56,7 @@ import {ViewClinicCenterAdministratorComponent} from "./view-clinic-center-admin
 import {ViewMedicalStaff} from "./view-medical-staff/view-medical-staff.component";
 import {ViewPatientProfile} from "./view-patient/view-patient.component";
 import { InitialChangePasswordComponent } from './initial-change-password/initial-change-password.component';
-import {ActivationLinkComponent} from "./activation-link/activation-link.component";
+import {ActivationLinkComponent} from "./email/activation-link/activation-link.component";
 import {AddLeaveRequestComponent} from "./add-leave-request/add-leave-request.component";
 import {DialogConfirm, DoctorsComponent} from './patient/doctors/doctors.component';
 import {MatCardModule} from "@angular/material/card";
@@ -66,6 +66,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ViewWorkCalendarComponent } from './view-work-calendar/view-work-calendar.component';
+import { CancelationLinkComponent } from './email/cancelation-link/cancelation-link.component';
 
 
 
@@ -191,6 +192,13 @@ const appRoutes : Routes = [
   },
 
   {
+    path : 'cancelAppointment',
+    component : CancelationLinkComponent,
+    canActivate : [LoginGuardService]
+
+  },
+
+  {
     path:'staff',
     canActivate: [MedicallStuffGuardService],
     children:[
@@ -233,7 +241,6 @@ const appRoutes : Routes = [
     component : InitialChangePasswordComponent,
     canActivate : [LoginGuardService]
   },
-
   {
     path : '**',
     component : NavigationComponent
@@ -281,7 +288,8 @@ const appRoutes : Routes = [
     EditClinicComponent,
     ViewWorkCalendarComponent,
     FirstDialog,
-    SecondDialog
+    SecondDialog,
+    CancelationLinkComponent
 
   ],
   imports: [
