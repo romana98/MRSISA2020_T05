@@ -41,12 +41,24 @@ public class ClinicController<T> {
 	}
 	
 	@GetMapping("/getClinics")
-	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
+	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN') || hasRole('PATIENT')")
 	public List<ClinicDTO> getClinics(){
 		List<ClinicDTO> clsDTO = new ArrayList<ClinicDTO>();
 		List<Clinic> cls = cs.getClinics();
 		for (Clinic clinic : cls) {
-			clsDTO.add(new ClinicDTO(clinic.getName(), clinic.getAddress(), clinic.getDescription()));
+			ClinicDTO dto = new ClinicDTO();
+			dto.setName(clinic.getName());
+			dto.setAddress(clinic.getAddress());
+			double avg = 0.0;
+			double zbir = 0.0;
+			for(double d : clinic.getRatings()) {
+				zbir += d;
+			}
+			avg = zbir/clinic.getRatings().size();
+			dto.setAvg_rating(avg);
+			dto.setDescription(clinic.getDescription());
+			dto.setId(clinic.getId());
+			clsDTO.add(dto);
 		}
 		return clsDTO;
 	}

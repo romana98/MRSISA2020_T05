@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -13,10 +15,14 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.project.tim05.dto.AppointmentDTO;
 import com.project.tim05.dto.HallDTO;
 import com.project.tim05.model.Appointment;
+import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Hall;
 import com.project.tim05.model.WorkCalendar;
@@ -34,10 +40,19 @@ public class HallService {
 	private AppointmentService as;
 
 	@Autowired
+	private ClinicService cs;
+
+	@Autowired
 	private AppointmentRespository ar;
 
 	@Autowired
 	private WorkCalendarRespository wcr;
+
+	@Autowired
+	private DoctorService ds;
+
+	@Autowired
+	private WorkCalendarService wcs;
 
 	public int addHall(Hall hall) {
 
@@ -79,6 +94,7 @@ public class HallService {
 				new_hall.setId(rs.getInt("hall_id"));
 				new_hall.setName(rs.getString("name"));
 				new_hall.setNumber(rs.getInt("number"));
+				new_hall.setClinic(cs.getClinicbyId(id));
 				lh.add(new_hall);
 			}
 			st.close();
@@ -296,27 +312,32 @@ public class HallService {
 								+ Integer.parseInt(time.split(" -> ")[0].split(":")[1]);
 						int end_time = Integer.parseInt(time.split(" -> ")[1].split(":")[0]) * 60
 								+ Integer.parseInt(time.split(" -> ")[1].split(":")[1]);
-						if(end_time - start_time >length) {
-							if(aim_start >= end_time) {
+						if (end_time - start_time > length) {
+							if (aim_start >= end_time) {
 								int current_dis = aim_start - end_time + length;
-								smallest_time = (smallest_distance > current_dis) ? (ap.getDateTime().toString().split(" ")[0] + " " + getMinutesToTime(end_time-length)) : smallest_time;
-								smallest_distance = (smallest_distance > current_dis) ? current_dis: smallest_distance;
-							}
-							else {
+								smallest_time = (smallest_distance > current_dis)
+										? (ap.getDateTime().toString().split(" ")[0] + " "
+												+ getMinutesToTime(end_time - length))
+										: smallest_time;
+								smallest_distance = (smallest_distance > current_dis) ? current_dis : smallest_distance;
+							} else {
 								int current_dis = start_time - aim_start;
-								smallest_time = (smallest_distance > current_dis) ? (ap.getDateTime().toString().split(" ")[0] + " " + getMinutesToTime(start_time)) : smallest_time;
-								smallest_distance = (smallest_distance > current_dis) ? current_dis: smallest_distance;
+								smallest_time = (smallest_distance > current_dis)
+										? (ap.getDateTime().toString().split(" ")[0] + " "
+												+ getMinutesToTime(start_time))
+										: smallest_time;
+								smallest_distance = (smallest_distance > current_dis) ? current_dis : smallest_distance;
 
 							}
 						}
-						
 
 					}
-					
+
 					first_time = smallest_time;
-					
+
 				} else {
-					first_time = ap.getDateTime().toString().split(" ")[0] + " " +  getFreeTimes(h, appointments).get(0).split(" -> ")[0];
+					first_time = ap.getDateTime().toString().split(" ")[0] + " "
+							+ getFreeTimes(h, appointments).get(0).split(" -> ")[0];
 				}
 			}
 
@@ -443,7 +464,7 @@ public class HallService {
 							+ Integer.parseInt(time.split(" -> ")[0].split(":")[1]);
 					int to = Integer.parseInt(time.split(" -> ")[1].split(":")[0]) * 60
 							+ Integer.parseInt(time.split(" -> ")[1].split(":")[1]);
-					if (pocetak > from && kraj < to) {
+					if (pocetak >= from && kraj <= to) {
 						a.setHall(h);
 						a.setRequest(false);
 						h.getAppointments().add(a);
@@ -474,6 +495,168 @@ public class HallService {
 		return 1;
 	}
 
+	@Scheduled(cron = "0 0 0 * * ?")
+	//@Scheduled(cron = "0 * * ? * *")
+	public void dailyReservation() {
+		final Calendar cal = Calendar.getInstance();
+		System.out.println("IM DOING SCHEDULED TASK -----");
+
+		// cal.add(Calendar.DATE, -1);
+		cal.add(Calendar.DATE, 1);
+		Date date = cal.getTime();
+		System.out.println("IM DOING SCHEDULED TASK -----");
+		List<Clinic> clinics = cs.getClinics();
+		for (Clinic c : clinics) {
+			ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+			for (AppointmentDTO a : as.getAppointmentRequests(date, c.getId())) {
+				appointments.add(as.getAppointmentById(a.getId()));
+
+			}
+			ArrayList<Hall> halls = getClinicHalls(c.getId());
+			for (Appointment a : appointments) {
+				for (Hall h : halls) {
+					int reservation_success = reserveHall(h, a, date, c.getId());
+					
+					if (reservation_success == 0) {
+						System.out.println("Reserved");
+						break;
+					} else if (reservation_success == 1) {
+						String time = getFirstTime(a, h, c.getId());
+						int app_start = Integer.parseInt(time.substring(11, 16).split(":")[0]) * 60
+								+ Integer.parseInt(time.substring(11, 16).split(":")[1]);
+						int app_end = app_start + a.getDuration();
+						int dr_start = Integer.parseInt(a.getDoctor().getWorkStart().split(":")[0]) * 60
+								+ Integer.parseInt(a.getDoctor().getWorkStart().split(":")[1]);
+						int dr_end = Integer.parseInt(a.getDoctor().getWorkEnd().split(":")[0]) * 60
+								+ Integer.parseInt(a.getDoctor().getWorkEnd().split(":")[1]);
+
+						Set<WorkCalendar> wcs1 = initializeAndUnproxy.initAndUnproxy(a.getDoctor().getWorkCalendar());
+
+						boolean busy = false;
+
+						if ((app_start < dr_start || app_start > dr_end) || (app_end < dr_start || app_end > dr_end)) {
+							busy = true;
+						}
+
+						for (WorkCalendar wc : wcs1) {
+							if (time.substring(0, 10).equalsIgnoreCase(wc.getDate().toString().substring(0, 10))) {
+								int wc_start = Integer.parseInt(wc.getStart_time().split(":")[0]) * 60
+										+ Integer.parseInt(wc.getStart_time().split(":")[1]);
+								int wc_end = Integer.parseInt(wc.getEnd_time().split(":")[0]) * 60
+										+ Integer.parseInt(wc.getEnd_time().split(":")[1]);
+								if ((app_start > wc_start && app_start < wc_end)
+										|| (app_end > wc_start && app_end < wc_end)
+										|| (app_start == wc_start && app_end == wc_end)) {
+									busy = true;
+								}
+							}
+						}
+						Doctor new_d = a.getDoctor();
+						Doctor doc2 = null;
+						if (busy) {
+							ArrayList<Doctor> doctors = ds.getClinicDoctorsbyAppointmentType(a.getAppointmentType().getId(), c.getId());
+							for (Doctor d : doctors) {
+								boolean available = true;
+								int dr1_start = Integer.parseInt(d.getWorkStart().split(":")[0]) * 60
+										+ Integer.parseInt(d.getWorkStart().split(":")[1]);
+								int dr1_end = Integer.parseInt(d.getWorkEnd().split(":")[0]) * 60
+										+ Integer.parseInt(d.getWorkEnd().split(":")[1]);
+								if ((app_start < dr1_start || app_start > dr1_end) || (app_end < dr1_start || app_end > dr1_end)) {
+									available = false;
+								}
+								Set<WorkCalendar> work_times = initializeAndUnproxy.initAndUnproxy(d.getWorkCalendar());
+								for (WorkCalendar wc : work_times) {
+									if (time.substring(0, 10)
+											.equalsIgnoreCase(wc.getDate().toString().substring(0, 10))) {
+										int wc_start = Integer.parseInt(wc.getStart_time().split(":")[0]) * 60
+												+ Integer.parseInt(wc.getStart_time().split(":")[1]);
+										int wc_end = Integer.parseInt(wc.getEnd_time().split(":")[0]) * 60
+												+ Integer.parseInt(wc.getEnd_time().split(":")[1]);
+										if ((app_start > wc_start && app_start < wc_end)
+												|| (app_end > wc_start && app_end < wc_end)
+												|| (app_start == wc_start && app_end == wc_end)) {
+											available = false;
+										}
+									}
+								}
+
+								if (available) {
+									doc2 = d;
+									break;
+								}
+							}
+						}
+						app_start = getTimeMinutes(a.getDateTime());
+						app_end = app_start + 30;
+						WorkCalendar target_wc = null;
+						Set<WorkCalendar> times = new_d.getWorkCalendar();
+						for (WorkCalendar wc1 : times) {
+							int wc_start = Integer.parseInt(wc1.getStart_time().split(":")[0]) * 60
+									+ Integer.parseInt(wc1.getStart_time().split(":")[1]);
+							int wc_end = Integer.parseInt(wc1.getEnd_time().split(":")[0]) * 60
+									+ Integer.parseInt(wc1.getEnd_time().split(":")[1]);
+							if (wc_start == app_start && wc_end == app_end) {
+								target_wc = wc1;
+								break;
+							}
+						}
+						if(doc2 != null) {
+							new_d = doc2;
+						}
+						else {
+							if(busy) {
+								break;
+							}
+						}
+
+						SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+						SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+						java.util.Date new_date = null;
+						java.util.Date new_date_full = null;
+
+						try {
+							new_date = formatter.parse(time);
+							new_date_full = formatter2.parse(time);
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+						System.out.println("here goes the shit");
+
+						target_wc.setDate(new_date);
+						target_wc.setDoctor(new_d);
+						target_wc.setRequest(false);
+						app_start = Integer.parseInt(time.substring(11, 16).split(":")[0]) * 60
+								+ Integer.parseInt(time.substring(11, 16).split(":")[1]);
+						app_end = app_start + a.getDuration();
+						target_wc.setStart_time(getMinutesToTime(app_start));
+						target_wc.setEnd_time(getMinutesToTime(app_end));
+						a.setDoctor(new_d);
+
+						a.setHall(h);
+						a.setRequest(false);
+						a.setDateTime(new_date_full);
+						Set<Appointment> apps = h.getAppointments();
+						apps.add(a);
+						h.setAppointments(apps);
+
+						as.updateAppointment(a);
+						updateHall(h);
+						wcs.updateCalendar(target_wc);
+
+						System.out.println("Reserved 1");
+
+						break;
+					} else {
+						continue;
+					}
+				}
+			}
+		}
+
+	}
+
 	// metoda prima datum i vraca broj minuta od pocetka dana
 	@SuppressWarnings("deprecation")
 	public int getTimeMinutes(Date d) {
@@ -494,7 +677,7 @@ public class HallService {
 
 		return res;
 	}
-	
+
 	public void updateHall(Hall h) {
 		hr.save(h);
 	}

@@ -67,7 +67,6 @@ export class AddHallFormComponent implements OnInit{
         res => {
         //@ts-ignore
         this.dataSource.data = res;
-        console.log(res[0].time);
       });
     }
 

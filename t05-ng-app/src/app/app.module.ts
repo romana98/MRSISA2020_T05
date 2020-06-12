@@ -21,6 +21,7 @@ import { AddClinicAdminFromComponent } from './add-clinic-administrator-form/add
 import { EditPatientProfile } from './edit-patient/edit-patient.component';
 import { AddHallFormComponent, FirstDialog, SecondDialog } from './add-hall-form/add-hall-form.component';
 import { EditMedicalStaff } from './edit-medical-staff/edit-medical-staff.component';
+import { ViewAllClinicsComponent} from "./patient/view-all-clinics/view-all-clinics-component";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http"
 import {AddMedicineFromComponent} from "./add-medicine-form/add-medicine-form.component";
 import {AddDiagnosisFormComponent} from "./add-diagnosis-form/add-diagnosis-form.component";
@@ -67,9 +68,6 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ViewWorkCalendarComponent } from './view-work-calendar/view-work-calendar.component';
 import { CancelationLinkComponent } from './email/cancelation-link/cancelation-link.component';
-
-
-
 
 
 const appRoutes : Routes = [
@@ -173,6 +171,10 @@ const appRoutes : Routes = [
       {
         path: 'doctors',
         component : DoctorsComponent
+      },
+      {
+        path: 'viewAllClinics',
+        component:ViewAllClinicsComponent
       }
     ]
   },
@@ -289,7 +291,8 @@ const appRoutes : Routes = [
     ViewWorkCalendarComponent,
     FirstDialog,
     SecondDialog,
-    CancelationLinkComponent
+    CancelationLinkComponent,
+    ViewAllClinicsComponent
 
   ],
   imports: [

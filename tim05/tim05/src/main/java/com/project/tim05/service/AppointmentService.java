@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tim05.dto.AppointmentDTO;
 import com.project.tim05.dto.AppointmentTypeDTO;
@@ -72,6 +73,7 @@ public class AppointmentService {
 		return a;
 	}
 	
+	@Transactional
 	public ArrayList<AppointmentDTO> getAppointmentRequests(Date date, int clinic){
 		Connection conn;
 		try {

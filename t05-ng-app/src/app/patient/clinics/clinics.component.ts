@@ -14,6 +14,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class ClinicsComponent implements OnInit {
 
+
+
   displayedColumns: string[] = ['name', 'address', 'avg_rating', 'price'];
 
   dataSource = new MatTableDataSource();
@@ -97,10 +99,10 @@ export class ClinicsComponent implements OnInit {
   }
 
   findDoctors(row){
-    console.log(this.searchModel.appointmentType);
-    this.router.navigate(['/patient/doctors'],{queryParams : {'clinic_id' : row.id, 'clinic': row.name,
-                                                              'clinic_addr': row.address, 'appointment_type_id': this.searchModel.appointmentType.id,
-        'appointment_type_name': this.searchModel.appointmentType.name, 'date' : this.searchModel.date.toString()}});
+        console.log(this.searchModel.appointmentType);
+        this.router.navigate(['/patient/doctors'],{queryParams : {'clinic_id' : row.id, 'clinic': row.name,
+            'clinic_addr': row.address, 'appointment_type_id': this.searchModel.appointmentType.id,
+            'appointment_type_name': this.searchModel.appointmentType.name, 'date' : this.searchModel.date.toString()}});
   }
 
 }

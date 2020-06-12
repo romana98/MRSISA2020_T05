@@ -14,7 +14,6 @@ export class EditClinicComponent implements OnInit {
     name: '',
     address: '',
     description: '',
-    api: null,
   }
 
   options = {
@@ -127,5 +126,4 @@ export interface clinicModel
   name: string;
   address: string | RegExp;
   description: string | RegExp;
-  api: object;
 }
