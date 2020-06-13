@@ -1,11 +1,9 @@
 import {Component, ChangeDetectionStrategy, ViewChild, TemplateRef, OnInit} from '@angular/core';
-import {startOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours} from 'date-fns';
+import {subDays, isSameDay, isSameMonth} from 'date-fns';
 import {CalendarEvent, CalendarView} from 'angular-calendar';
-import {clinicModel} from "../edit-clinic/edit-clinic.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {HttpClient} from "@angular/common/http";
 import {Subject} from "rxjs";
-import {patientModel} from "../view-patient-profile/view-patient-profile.component";
 import {Router} from "@angular/router";
 
 const colors: any = {

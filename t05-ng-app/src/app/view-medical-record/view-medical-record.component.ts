@@ -44,8 +44,10 @@ export class ViewMedicalRecordComponent implements OnInit {
 
     this.http.get(url1).subscribe(
       res => {
+
         // @ts-ignore
         this.dataSource.data = res;
+
         this.dataSource.data.forEach(data =>{
           // @ts-ignore
           this.dataSource1.data.push(data.diagnosis)

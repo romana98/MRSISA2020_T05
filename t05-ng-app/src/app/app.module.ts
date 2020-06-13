@@ -75,6 +75,8 @@ import { ViewPatientProfileComponent } from './view-patient-profile/view-patient
 import { CurrentAppointmentComponent } from './current-appointment/current-appointment.component';
 import { ViewMedicalRecordComponent } from './view-medical-record/view-medical-record.component';
 import { EditMedicalRecordComponent } from './edit-medical-record/edit-medical-record.component';
+import { ReportCalendarComponent } from './report-calendar/report-calendar.component';
+import { ReportBasicComponent } from './report-basic/report-basic.component';
 
 
 const appRoutes : Routes = [
@@ -117,6 +119,15 @@ const appRoutes : Routes = [
       {
         path : 'editClinic',
         component : EditClinicComponent
+      },
+      {
+        path : 'basicReports',
+        component : ReportBasicComponent
+      }
+      ,
+      {
+        path : 'calendarReports',
+        component : ReportCalendarComponent
       }
     ]
   },
@@ -339,7 +350,9 @@ const appRoutes : Routes = [
     AddPricelistComponent,
     ViewAppointmentsComponent,
     ViewMedicalRecordComponent,
-    EditMedicalRecordComponent
+    EditMedicalRecordComponent,
+    ReportCalendarComponent,
+    ReportBasicComponent
 
   ],
   imports: [

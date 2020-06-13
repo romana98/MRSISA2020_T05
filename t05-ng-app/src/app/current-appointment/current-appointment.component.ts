@@ -97,10 +97,6 @@ export class CurrentAppointmentComponent implements OnInit {
           res => {
 
             for (let i = 0; i < this.dataSource.data.length; i++) {
-             // @ts-ignore
-              console.log(this.dataSource.data[i].selected)
-              // @ts-ignore
-              console.log(this.dataSource.data[i].selected === false)
               // @ts-ignore
               if(this.dataSource.data[i].selected === false)
               {
@@ -114,7 +110,7 @@ export class CurrentAppointmentComponent implements OnInit {
 
             }
             this.dataSource.data.push({name: "", description: "", id: this.modelApp.id});
-            console.log(this.dataSource.data)
+
             //sacuvaj recepte
             this.http.post(url2, this.dataSource.data).subscribe(
               res => {
