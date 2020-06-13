@@ -23,6 +23,7 @@ import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.dto.WorkCalendarDTO;
 import com.project.tim05.model.Appointment;
 import com.project.tim05.model.AppointmentType;
+import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Hall;
 import com.project.tim05.model.Patient;
@@ -155,9 +156,13 @@ public class AppointmentService {
 				Patient p = pr.findById(rs.getInt("patient"));
 				if(p == null)
 				{
-					p = new Patient(); p.setName(""); p.setSurname("");
+					p = new Patient(); p.setName(""); p.setSurname(""); p.setId(0); p.setEmail(""); p.setPassword(""); p.setInsurance_number("");
 				}
 				AppointmentDTO w = new AppointmentDTO(rs.getTimestamp("date_time").toString(), new AppointmentTypeDTO(at.getName()), new PatientDTO(p.getName(), p.getSurname()));
+				w.setId(rs.getInt("appointment_id"));
+				w.getPatient().setInsurance_number(p.getInsurance_number());
+				w.getPatient().setPassword(Integer.toString(p.getId()));;
+				w.getPatient().setEmail(p.getEmail());
 				as.add(w);
 				
 			}
@@ -285,13 +290,56 @@ public class AppointmentService {
 	public int reservePredefined(int appId, Integer patientId) {
 		int flag = 0;
 		
+		Appointment a = this.getAppointmentById(appId);
+		
+		if(a.getPatient() != null)
+		{
+			return 0;
+		}
+		Clinic c = initializeAndUnproxy.initAndUnproxy(a.getClinic());
+		
+		
+		
 		try {
-			
 			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
 			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
-			PreparedStatement ps = conn.prepareStatement("UPDATE appointments set patient = ? where appointment_id = ?");
+			
+			PreparedStatement ps = conn.prepareStatement("SELECT * from patients_clinics where patient_user_id = ? and clinics_clinic_id = ?");
+			ps.setInt(1, patientId);
+			ps.setInt(2, c.getId());
+			ResultSet rs = ps.executeQuery();
+			
+			if(!rs.next())
+			{
+				 ps = conn.prepareStatement("INSERT INTO patients_clinics (patient_user_id, clinics_clinic_id) VALUES (?, ?) ");
+				ps.setInt(1, patientId);
+				ps.setInt(2, c.getId());
+				flag = ps.executeUpdate();
+				
+			}
+			
+			ps = conn.prepareStatement("UPDATE appointments set patient = ? where appointment_id = ?");
 			ps.setInt(1, patientId);
 			ps.setInt(2, appId);
+			flag = ps.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			flag = 0;
+		}
+		
+		return flag;
+	}
+
+	public int setAppointment(AppointmentDTO ap) {
+		int flag = 0;
+		try {
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			PreparedStatement ps = conn.prepareStatement("UPDATE appointments set description = ?, diagnosis = ?, finished = true where appointment_id = ?");
+			ps.setString(1, ap.getDescription());
+			ps.setInt(2, Integer.parseInt(ap.getTime()));
+			ps.setInt(3, ap.getId());
 			flag = ps.executeUpdate();
 			
 		} catch (Exception e) {

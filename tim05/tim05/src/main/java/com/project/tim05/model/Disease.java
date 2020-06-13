@@ -14,16 +14,9 @@ public class Disease {
 	@Column(name = "name", nullable = false)
 	private String name;
   
-	@Column(name = "value", nullable = false)
+	@Column(name = "value")
 	private String value;
    
-	@Column(name = "description", nullable = false)
-	private String description;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="appointment", referencedColumnName="appointment_id", nullable=true)
-	private Appointment appointment;
-
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="medical_record", referencedColumnName="medical_record_id", nullable=true)
 	private MedicalRecord medicalRecord;
@@ -34,13 +27,19 @@ public class Disease {
 		super();
 		
 	}
+	
+	public Disease(String name, MedicalRecord mr) {
+		super();
+		this.name = name;
+		this.medicalRecord = mr;
+		
+	}
 
-	public Disease(Integer id, String name, String value, String description) {
+	public Disease(Integer id, String name, String value) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.value = value;
-		this.description = description;
 	}
 
 	public String getName() {
@@ -59,28 +58,12 @@ public class Disease {
 		this.value = value;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Appointment getAppointment() {
-		return appointment;
-	}
-
-	public void setAppointment(Appointment appointment) {
-		this.appointment = appointment;
 	}
 
 	public MedicalRecord getMedicalRecord() {

@@ -11,39 +11,41 @@ public class Medicine {
 	@Column(name = "medicine_id", unique=true, nullable = false)
 	private Integer id;
 	
-	@Column(name = "name", nullable = false)
+	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 	
 	@Column(name = "description", nullable = false)
 	private String description;
-
-	@Column(name = "authenticated", nullable = false)
-	private boolean authenticated;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="appointment", referencedColumnName="appointment_id", nullable=true)
-	private Appointment appointment;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="clinic_center_admin", referencedColumnName="user_id", nullable=true)
-	private ClinicCenterAdministrator clinicCenterAdministrator;
-   
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="nurse", referencedColumnName="user_id", nullable=true)
-	private Nurse nurse;
-   
+	@OneToOne(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
+	@JoinColumn(name="appointment_medicine")
+	private AppointmentMedicine appointmentMedicine;
 	
 		
 	public Medicine() {
 		super();
 	}
+	
+	
 
-	public Medicine(String name, String description, boolean authenticated) {
+	
+	public Medicine(String name, String description) {
 		super();
 		this.name = name;
 		this.description = description;
-		this.authenticated = authenticated;
 	}
+
+
+
+
+	public Medicine(Integer id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+
+
+
 
 	public String getName() {
 		return name;
@@ -53,21 +55,35 @@ public class Medicine {
 		this.name = name;
 	}
 
+	
+	
+
 	public String getDescription() {
 		return description;
 	}
+
+
+
 
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public boolean isAuthenticated() {
-		return authenticated;
+
+
+	public AppointmentMedicine getAppointmentMedicine() {
+		return appointmentMedicine;
 	}
 
-	public void setAuthenticated(boolean authenticated) {
-		this.authenticated = authenticated;
+
+
+
+	public void setAppointmentMedicine(AppointmentMedicine appointmentMedicine) {
+		this.appointmentMedicine = appointmentMedicine;
 	}
+
+
+
 
 	public Integer getId() {
 		return id;
@@ -77,31 +93,5 @@ public class Medicine {
 		this.id = id;
 	}
 
-	public Appointment getAppointment() {
-		return appointment;
-	}
-
-	public void setAppointment(Appointment appointment) {
-		this.appointment = appointment;
-	}
-
-	public Nurse getNurse() {
-		return nurse;
-	}
-
-	public void setNurse(Nurse nurse) {
-		this.nurse = nurse;
-	}
-
-	public ClinicCenterAdministrator getClinicCenterAdministrator() {
-		return clinicCenterAdministrator;
-	}
-
-	public void setClinicCenterAdministrator(ClinicCenterAdministrator clinicCenterAdministrator) {
-		this.clinicCenterAdministrator = clinicCenterAdministrator;
-	}
-	
-	
-	
 	
 }

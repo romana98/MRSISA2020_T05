@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -509,5 +510,76 @@ public int addLeave(LeaveRequest l) {
 		return flag;
 		
 	}
+
+	public String canStartAppointment(Integer doctor_id, Integer patient_id) {
+		String s = "f";
+		try {
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			String query = "SELECT * FROM appointments where doctor = ? and patient = ?";
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, doctor_id);
+			ps.setInt(2, patient_id);
+		
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				java.util.Date time = new java.util.Date();
+				if(rs.getTimestamp("date_time").getDay() == time.getDay() && rs.getTimestamp("date_time").getMonth() == time.getMonth() && rs.getTimestamp("date_time").getYear() == time.getYear())
+				{
+					
+					if((rs.getTimestamp("date_time").getTime() < time.getTime()) && (time.getTime() < (rs.getTimestamp("date_time").getTime() + TimeUnit.MINUTES.toMillis(rs.getInt("duration")))))
+					{
+						s = Integer.toString(rs.getInt("appointment_id"));
+					
+					}
+					
+				}
+				
+			}
+			connection.close();
+			ps.close();
+			rs.close();
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return s;
+}
+	
+	public String canStartAppointmentCalendar(Integer doctor_id, Integer patient_id, Integer app_id) {
+		String s = "0";
+		try {
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			String query = "SELECT * FROM appointments where doctor = ? and patient = ? and appointment_id = ?";
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setInt(1, doctor_id);
+			ps.setInt(2, patient_id);
+			ps.setInt(3, app_id);
+		
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				java.util.Date time = new java.util.Date();
+				if(rs.getTimestamp("date_time").getDay() == time.getDay() && rs.getTimestamp("date_time").getMonth() == time.getMonth() && rs.getTimestamp("date_time").getYear() == time.getYear())
+				{
+					
+					if((rs.getTimestamp("date_time").getTime() < time.getTime()) && (time.getTime() < (rs.getTimestamp("date_time").getTime() + TimeUnit.MINUTES.toMillis(rs.getInt("duration")))))
+					{
+						s = Integer.toString(rs.getInt("appointment_id"));
+					
+					}
+					
+				}
+				
+			}
+			connection.close();
+			ps.close();
+			rs.close();
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return s;
+}
 	
 }

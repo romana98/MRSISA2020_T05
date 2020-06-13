@@ -23,6 +23,8 @@ public class AppointmentDTO {
 	private boolean finished;
 	@NotNull
 	private boolean predefined;
+	
+	private String description;
 
 	@NotNull
 	private int doctor_id;
@@ -228,5 +230,14 @@ public class AppointmentDTO {
 	public void setTime(String time) {
 		this.time = time;
 	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 
 }

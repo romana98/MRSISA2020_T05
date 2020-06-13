@@ -24,12 +24,6 @@ public class ClinicCenterAdministrator extends User {
 	private Set<Clinic> clinics = new HashSet<Clinic>();
 	
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinicCenterAdministrator")
-	private Set<Diagnosis> diagnosises = new HashSet<Diagnosis>();
-	
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinicCenterAdministrator")
-	private Set<Medicine> medicines = new HashSet<Medicine>();
-	
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="clinicCenterAdministrator")
 	private Set<RegistrationRequest> registrationRequests = new HashSet<RegistrationRequest>();
   
 	
@@ -48,18 +42,6 @@ public class ClinicCenterAdministrator extends User {
 	}
 	public void setClinics(Set<Clinic> clinics) {
 		this.clinics = clinics;
-	}
-	public Set<Diagnosis> getDiagnosises() {
-		return diagnosises;
-	}
-	public void setDiagnosises(Set<Diagnosis> diagnosises) {
-		this.diagnosises = diagnosises;
-	}
-	public Set<Medicine> getMedicines() {
-		return medicines;
-	}
-	public void setMedicines(Set<Medicine> medicines) {
-		this.medicines = medicines;
 	}
 	public Set<RegistrationRequest> getRegistrationRequests() {
 		return registrationRequests;

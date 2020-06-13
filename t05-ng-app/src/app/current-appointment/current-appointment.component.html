@@ -1,0 +1,95 @@
+<br>
+<h1 style="margin-left: 30px;">Appointment: {{patient}}, {{insurance}}</h1>
+<mat-divider></mat-divider>
+<br>
+
+<div>
+  <form name="form" #f="ngForm" (submit)="finishAppointment()" style="padding-left: 25px;float : left">
+    <div style="float: left; width: 50%">
+      <span style="float: left">
+    <mat-form-field appearance="outline" style=" width: 250px;">
+      <mat-label>Description</mat-label>
+      <textarea rows="6" matInput  [(ngModel)] = "modelApp.description" #description="ngModel" name="input_description"
+                required style=" resize: none"> </textarea>
+    </mat-form-field>
+
+    <br>
+
+   <mat-form-field appearance="outline" style=" width: 250px;">
+    <mat-label>Diagnosis</mat-label>
+    <mat-select  [(ngModel)] = "modelApp.time" name="input_diagnosis" #diagnosis="ngModel" required>
+      <mat-option *ngFor="let d of diagnosises" [value]="d.id"> {{d.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+    </span>
+      <span style="float: left">
+    <mat-form-field appearance="outline" style="padding-left: 25px;  width: 250px;">
+      <mat-label>Blood type</mat-label>
+      <input matInput  [(ngModel)] = "modelDis[0].value" #bloodType="ngModel" name="input_bloodType"
+             required>
+    </mat-form-field>
+        <br>
+     <mat-form-field appearance="outline" style=" padding-left: 25px; width: 250px;">
+      <mat-label>Height</mat-label>
+      <input matInput  [(ngModel)] = "modelDis[1].value" #height="ngModel" name="input_height"
+             required>
+    </mat-form-field>
+        <br>
+
+         </span>
+      <span style="float: left">
+    <mat-form-field appearance="outline" style=" padding-left: 25px; width: 250px;">
+    <mat-label>Weight</mat-label>
+      <input matInput  [(ngModel)] = "modelDis[2].value" #weight="ngModel" name="input_weight"
+             required>
+    </mat-form-field>
+        <br>
+
+    <mat-form-field appearance="outline" style=" padding-left: 25px; width: 250px;">
+    <mat-label>Allergy</mat-label>
+      <input matInput  [(ngModel)] = "modelDis[3].value" #allergy="ngModel" name="input_allergy"
+             required>
+    </mat-form-field>
+  </span>
+    </div>
+    <div class="mat-elevation-z8" style="width: 50%;float:right; margin-top: 2%;">
+
+      <table mat-table [dataSource]="dataSource" >
+
+        <ng-container matColumnDef="name" style="width: 300px;">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description" style="width: 300px;">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="check">
+          <th mat-header-cell *matHeaderCellDef> Check </th>
+          <td mat-cell *matCellDef="let element"  style="width: 150px;">
+
+          <button mat-button type="button" *ngIf="!element.selected" (click)="element.selected=true">Add</button>
+          <button mat-button type="button" *ngIf="element.selected" (click)="element.selected=false">Remove</button></td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
+
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
+
+    </div>
+
+    <div style="float: right">
+      <br>
+      <br>
+    <button style="right: 300px" mat-raised-button >Finish appointment</button>
+    <button style="right: 150px" mat-raised-button >Make new appointment</button>
+
+    </div>
+  </form>
+</div>

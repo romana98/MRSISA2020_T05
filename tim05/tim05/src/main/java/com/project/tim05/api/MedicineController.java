@@ -35,12 +35,12 @@ public class MedicineController<T> {
 	}
 	
 	@GetMapping("/getMedicines")
-	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
+	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN') ||hasRole('DOCTOR')")
 	public List<MedicineDTO> getMedicines(){
 		List<MedicineDTO> mDTO = new ArrayList<MedicineDTO>();
 		List<Medicine> meds = ms.getMedicines();
 		for (Medicine m : meds) {
-			mDTO.add(new MedicineDTO(m.getName(), m.getDescription(), m.isAuthenticated()));
+			mDTO.add(new MedicineDTO(m.getId(), m.getName(), m.getDescription()));
 		}
 		return mDTO;
 	}
@@ -48,7 +48,7 @@ public class MedicineController<T> {
 	@PostMapping("/addMedicine")
 	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
 	public ResponseEntity<T> addMedicine(@Valid @RequestBody MedicineDTO m) {
-		int flag = ms.addMedicine(new Medicine(m.getName(), m.getDescription(), m.isAuthenticated()));
+		int flag = ms.addMedicine(new Medicine(m.getName(), m.getDescription()));
 		
 		if(flag == 0)
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);

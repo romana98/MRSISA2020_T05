@@ -12,8 +12,7 @@ export class AddMedicineFromComponent implements OnInit{
 
   model: medicineModel = {
     name: '',
-    description: '',
-    authenticated: false
+    description: ''
   }
   buttonType: string;
 
@@ -71,5 +70,4 @@ export interface medicineModel
 {
   name: string | RegExp;
   description: string;
-  authenticated: boolean;
 }

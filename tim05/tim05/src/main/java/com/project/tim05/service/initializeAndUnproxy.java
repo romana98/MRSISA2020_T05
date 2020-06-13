@@ -8,8 +8,7 @@ public class initializeAndUnproxy {
 	@SuppressWarnings("unchecked")
 	public static <T> T initAndUnproxy(T entity) {
 	    if (entity == null) {
-	        throw new 
-	           NullPointerException("Entity passed for initialization is null");
+	        return null;
 	    }
 
 	    Hibernate.initialize(entity);

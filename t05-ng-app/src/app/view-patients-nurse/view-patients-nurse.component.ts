@@ -4,6 +4,7 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -19,7 +20,7 @@ export class ViewPatientsNurseComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private _snackBar: MatSnackBar, private http: HttpClient) {
+  constructor(private _snackBar: MatSnackBar, private http: HttpClient, private router: Router) {
   }
 
   cities : any[];
@@ -110,6 +111,10 @@ export class ViewPatientsNurseComponent implements OnInit {
 
   }
 
+  patientProfile(row: any) {
+    this.router.navigate(['/staff/viewPatient'],{queryParams : {'email' : row.email}});
+
+  }
 }
 
 export interface searchModel{

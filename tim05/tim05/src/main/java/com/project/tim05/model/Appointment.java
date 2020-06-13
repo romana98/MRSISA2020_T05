@@ -31,6 +31,9 @@ public class Appointment {
 	
 	@Column(name = "predefined", nullable = false)
 	private boolean predefined;
+	
+	@Column(name = "description", length = 10485760)
+	private String description;
 		
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="appointment_type", referencedColumnName="appointment_type_id", nullable=true)
@@ -61,20 +64,18 @@ public class Appointment {
 	private Patient patient;
 	
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="appointment")
-	private Set<Medicine> medicines = new HashSet<Medicine>();
+	private Set<AppointmentMedicine> medicines = new HashSet<AppointmentMedicine>();
    
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="appointment")
-	private Set<Diagnosis> diagnosises = new HashSet<Diagnosis>();
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="diagnosis", referencedColumnName="diagnosis_id", nullable=true)
+	private Diagnosis diagnosis;
    
-	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="appointment")
-	private Set<Disease> diseases = new HashSet<Disease>();
-	
 	public Appointment() {
 		super();
 	}
 	public Appointment(Integer id, Date dateTime, int duration, double price, boolean request, boolean predefined,
-			Clinic clinic, Hall hall, Doctor doctor, AppointmentType appointmentType, Set<Medicine> medicines,
-			Set<Diagnosis> diagnosises, Set<Disease> diseases) {
+			Clinic clinic, Hall hall, Doctor doctor, AppointmentType appointmentType, Set<AppointmentMedicine> medicines,
+			Diagnosis diagnosises) {
 		super();
 		this.id = id;
 		this.dateTime = dateTime;
@@ -88,8 +89,7 @@ public class Appointment {
 		this.doctor = doctor;
 		this.appointmentType = appointmentType;
 		this.medicines = medicines;
-		this.diagnosises = diagnosises;
-		this.diseases = diseases;
+		this.diagnosis = diagnosises;
 	}
 	
 	
@@ -153,23 +153,18 @@ public class Appointment {
 	public void setAppointmentType(AppointmentType appointmentType) {
 		this.appointmentType = appointmentType;
 	}
-	public Set<Medicine> getMedicines() {
+	public Set<AppointmentMedicine> getMedicines() {
 		return medicines;
 	}
-	public void setMedicines(Set<Medicine> medicines) {
+	public void setMedicines(Set<AppointmentMedicine> medicines) {
 		this.medicines = medicines;
 	}
-	public Set<Diagnosis> getDiagnosises() {
-		return diagnosises;
+	
+	public Diagnosis getDiagnosis() {
+		return diagnosis;
 	}
-	public void setDiagnosises(Set<Diagnosis> diagnosises) {
-		this.diagnosises = diagnosises;
-	}
-	public Set<Disease> getDiseases() {
-		return diseases;
-	}
-	public void setDiseases(Set<Disease> diseases) {
-		this.diseases = diseases;
+	public void setDiagnosis(Diagnosis diagnosis) {
+		this.diagnosis = diagnosis;
 	}
 	public Integer getId() {
 		return id;
@@ -195,6 +190,13 @@ public class Appointment {
 	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 	
 	 
 }

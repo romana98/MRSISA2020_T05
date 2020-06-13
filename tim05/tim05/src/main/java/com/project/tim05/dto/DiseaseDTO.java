@@ -12,12 +12,21 @@ public class DiseaseDTO {
 		super();
 	}
     
+    
+	public DiseaseDTO(String name, String value) {
+		super();
+		this.name = name;
+		this.value = value;
+	}
+
+
 	public DiseaseDTO(String name, String value, String description) {
 		super();
 		this.name = name;
 		this.value = value;
 		this.description = description;
 	}
+	
 	
 	public String getName() {
 		return name;

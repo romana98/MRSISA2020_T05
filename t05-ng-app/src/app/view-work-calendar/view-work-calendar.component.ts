@@ -5,6 +5,8 @@ import {clinicModel} from "../edit-clinic/edit-clinic.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {HttpClient} from "@angular/common/http";
 import {Subject} from "rxjs";
+import {patientModel} from "../view-patient-profile/view-patient-profile.component";
+import {Router} from "@angular/router";
 
 const colors: any = {
   red: {
@@ -36,7 +38,7 @@ export class ViewWorkCalendarComponent implements OnInit {
   works:any[];
   apps:any[];
 
-  constructor(private _snackBar: MatSnackBar, private http: HttpClient) {}
+  constructor(private _snackBar: MatSnackBar, private http: HttpClient,private router: Router) {}
 
   async ngOnInit(){
 
@@ -67,7 +69,7 @@ export class ViewWorkCalendarComponent implements OnInit {
       this.apps.forEach(app => {
         let w = new Date(work.date);
         w.setHours(parseInt(work.startTime.split(":")[0]), parseInt(work.startTime.split(":")[1]));
-
+        console.log(app)
         let a = new Date(app.date)
 
         if(w.getTime() === a.getTime())
@@ -77,7 +79,15 @@ export class ViewWorkCalendarComponent implements OnInit {
               start: subDays(new Date(work.date).setHours(parseInt(work.startTime.split(":")[0]), parseInt(work.startTime.split(":")[1])), 1),
               end: subDays(new Date(work.date).setHours(parseInt(work.endTime.split(":")[0]), parseInt(work.endTime.split(":")[1])), 1),
               title: 'Start:' + work.startTime + ', End: ' + work.endTime + ', AppointmentType: ' + app.appointmentType.name + ", Patient: " + app.patient.name + " " + app.patient.surname,
-              color: colors.red
+              color: colors.red,
+              meta: {
+                id: app.id,
+                name: app.patient.name,
+                surname: app.patient.surname,
+                email: app.patient.email,
+                p_id: app.patient.password,
+                insurance_number: app.patient.insurance_number
+              }
             },
           );
         }
@@ -112,6 +122,28 @@ export class ViewWorkCalendarComponent implements OnInit {
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
+  }
+
+  handleEvent(action: string, event: CalendarEvent): void {
+    let url = "http://localhost:8081/patients/canStartApp";
+
+    console.log(event)
+    this.http.get(url, {params:{p_id: event.meta.p_id, a_id:event.meta.id}}).subscribe(
+      res => {
+        if(res === 1)
+        {
+          this.router.navigate(['/staff/currentAppointment'],{queryParams : {'patient': event.meta.name + ' ' + event.meta.name,
+              'insurance': event.meta.insurance_number, 'email': event.meta.email, 'appId' : event.meta.id}});
+
+        }
+        else
+        {
+          this._snackBar.open("Appointment not in session!", "Close", {
+            duration: 2000,
+          });
+        }
+      }
+    )
   }
 
 }

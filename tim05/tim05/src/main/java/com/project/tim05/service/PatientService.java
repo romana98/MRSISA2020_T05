@@ -14,9 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.tim05.dto.DiseaseDTO;
+import com.project.tim05.dto.MedicineDTO;
 import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.Authority;
 import com.project.tim05.model.Clinic;
+import com.project.tim05.model.Disease;
 import com.project.tim05.model.MedicalRecord;
 import com.project.tim05.model.Patient;
 import com.project.tim05.repository.PatientRepository;
@@ -199,7 +202,13 @@ public class PatientService {
 			patient.setAuthorities(auth);
 			patient.setPassword(patient.getPassword());
 			patient.setLastPasswordResetDate(new Timestamp(date.getTime()));
-			patient.setMedicalRecord(new MedicalRecord());
+			
+			MedicalRecord mr = new MedicalRecord();
+			mr.getDiseases().add(new Disease("Blood type", mr));
+			mr.getDiseases().add(new Disease("Height", mr));
+			mr.getDiseases().add(new Disease("Weight", mr));
+			mr.getDiseases().add(new Disease("Alergy", mr));
+			patient.setMedicalRecord(mr);
 
 			patient.getClinics().add(cs.getClinicbyId(1));
 
@@ -302,6 +311,106 @@ public class PatientService {
 			return flag;
 		}
 
+		return flag;
+	}
+
+	public List<DiseaseDTO> getDisease(String email) {
+		List<DiseaseDTO> dtos = new ArrayList<DiseaseDTO>();
+		try {
+			Patient p = pa.findByEmail(email);
+			p.setMedicalRecord(initializeAndUnproxy.initAndUnproxy(p.getMedicalRecord()));
+			// Connection conn =
+			// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+			// "xslquaksjvvetl",
+			// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+			PreparedStatement st = conn
+					.prepareStatement("SELECT * FROM diseases WHERE medical_record = ?");
+			st.setInt(1, p.getMedicalRecord().getId());
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+				dtos.add(new DiseaseDTO(rs.getString("name"), rs.getString("value")));
+			}
+
+			rs.close();
+			st.close();
+			conn.close();
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		
+		
+		return dtos;
+	}
+
+	public int setDisease(List<DiseaseDTO> ds, String email) {
+		int flag = 0;
+		ds.remove(4);
+		for (DiseaseDTO d : ds) {
+			try {
+				Patient p = pa.findByEmail(email);
+				p.setMedicalRecord(initializeAndUnproxy.initAndUnproxy(p.getMedicalRecord()));
+				// Connection conn =
+				// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+				// "xslquaksjvvetl",
+				// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+				Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+				String query = "UPDATE diseases set value = ? WHERE name = ? and medical_record = ?;";
+				PreparedStatement ps = conn.prepareStatement(query);
+				ps.setString(1, d.getValue());
+				ps.setString(2, d.getName());
+				ps.setInt(3, p.getMedicalRecord().getId());
+
+				flag = ps.executeUpdate();
+				ps.close();
+
+				conn.close();
+				
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+			
+		}
+		
+		return flag;
+	}
+
+	public int setMedicine(List<MedicineDTO> ms) {
+		
+		int flag = 0;
+		int appId = ms.get(ms.size()-1).getId();
+		ms.remove(ms.size()-1);
+		for (MedicineDTO d : ms) {
+			try {
+				// Connection conn =
+				// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+				// "xslquaksjvvetl",
+				// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+				Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+				String query = "INSERT INTO appointment_medicines (appointment, medicine_medicine_id) VALUES (?, ?)";
+				PreparedStatement ps = conn.prepareStatement(query);
+				ps.setInt(1, appId);
+				ps.setInt(2, d.getId());
+
+				flag = ps.executeUpdate();
+				ps.close();
+
+				conn.close();
+				
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			
+			
+		}
+		
 		return flag;
 	}
 

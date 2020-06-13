@@ -1,5 +1,8 @@
 package com.project.tim05.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 
@@ -18,14 +21,8 @@ public class Diagnosis {
 	@Column(name = "description", nullable = false)
 	private String description;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="appointment", referencedColumnName="appointment_id", nullable=true)
-	private Appointment appointment;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="clinic_center_admin", referencedColumnName="user_id", nullable=true)
-	private ClinicCenterAdministrator clinicCenterAdministrator;
-   	
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="diagnosis")
+	private Set<Appointment> diagnosises = new HashSet<Appointment>();
 
 	public Diagnosis() {
 		super();
@@ -69,23 +66,15 @@ public class Diagnosis {
 		this.id = id;
 	}
 
-	public Appointment getAppointment() {
-		return appointment;
+	public Set<Appointment> getDiagnosises() {
+		return diagnosises;
 	}
 
-	public void setAppointment(Appointment appointment) {
-		this.appointment = appointment;
+	public void setDiagnosises(Set<Appointment> diagnosises) {
+		this.diagnosises = diagnosises;
 	}
 
-	public ClinicCenterAdministrator getClinicCenterAdministrator() {
-		return clinicCenterAdministrator;
-	}
+	
 
-	public void setClinicCenterAdministrator(ClinicCenterAdministrator clinicCenterAdministrator) {
-		this.clinicCenterAdministrator = clinicCenterAdministrator;
-	}
-	
-	
-	
 
 }

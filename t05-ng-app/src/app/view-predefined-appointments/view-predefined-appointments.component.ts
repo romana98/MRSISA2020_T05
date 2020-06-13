@@ -47,7 +47,7 @@ export class ViewPredefinedAppointmentsComponent implements OnInit {
 
   Reserve(req) {
     let url = "http://localhost:8081/appointment/reservePredefinedAppointment"
-    this.http.post(url, req.id).subscribe(
+    this.http.post(url, req).subscribe(
       res => {
         let index = this.dataSource.data.indexOf(req);
         this.dataSource.data.splice(index, 1);

@@ -35,12 +35,12 @@ public class DiagnosisContoller<T> {
 	}
 	
 	@GetMapping("/getDiagnosises")
-	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN')")
+	@PreAuthorize("hasRole('CLINIC_CENTER_ADMIN') || hasRole('DOCTOR')")
 	public List<DiagnosisDTO> getDiagnosis(){
 		List<DiagnosisDTO> dDTO = new ArrayList<DiagnosisDTO>();
 		List<Diagnosis> diags = ds.getDiagnosises();
 		for (Diagnosis d : diags) {
-			dDTO.add(new DiagnosisDTO(d.getName(), d.getDescription()));
+			dDTO.add(new DiagnosisDTO(d.getId(), d.getName(), d.getDescription()));
 		}
 		return dDTO;
 	}

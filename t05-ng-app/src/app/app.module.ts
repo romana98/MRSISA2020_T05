@@ -69,6 +69,8 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { ViewWorkCalendarComponent } from './view-work-calendar/view-work-calendar.component';
 import { CancelationLinkComponent } from './email/cancelation-link/cancelation-link.component';
 import { ViewPredefinedAppointmentsComponent } from './view-predefined-appointments/view-predefined-appointments.component';
+import { ViewPatientProfileComponent } from './view-patient-profile/view-patient-profile.component';
+import { CurrentAppointmentComponent } from './current-appointment/current-appointment.component';
 
 
 const appRoutes : Routes = [
@@ -229,6 +231,12 @@ const appRoutes : Routes = [
       },
 
       {
+        path : 'viewPatient',
+        component : ViewPatientProfileComponent,
+        canActivate : [MedicallStuffGuardService]
+      },
+
+      {
         path : 'makeLeaveRequest',
         component : AddLeaveRequestComponent,
         canActivate : [MedicallStuffGuardService]
@@ -237,6 +245,11 @@ const appRoutes : Routes = [
       {
         path : 'viewWorkCalendar',
         component : ViewWorkCalendarComponent,
+        canActivate : [MedicallStuffGuardService]
+      },
+      {
+        path : 'currentAppointment',
+        component : CurrentAppointmentComponent,
         canActivate : [MedicallStuffGuardService]
       }
 
@@ -299,7 +312,9 @@ const appRoutes : Routes = [
     SecondDialog,
     CancelationLinkComponent,
     ViewAllClinicsComponent,
-    ViewPredefinedAppointmentsComponent
+    ViewPredefinedAppointmentsComponent,
+    ViewPatientProfileComponent,
+    CurrentAppointmentComponent
 
   ],
   imports: [

@@ -1,0 +1,74 @@
+<br>
+<h1 style="margin-left: 30px;">View patient profile: </h1>
+<mat-divider></mat-divider>
+<br>
+
+<div >
+  <form  #f="ngForm"style="padding-left: 25px;">
+
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Name</mat-label>
+      <input matInput  [(ngModel)] = "model.name" #name="ngModel"  name="input_name"
+             [disabled]="true" >
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
+      <mat-label>Surname</mat-label>
+      <input matInput  [(ngModel)] = "model.surname" #surname="ngModel" name="input_surname"
+             [disabled]="true">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Email</mat-label>
+      <input matInput
+             [(ngModel)] = "model.email" name="input_email"
+             #email="ngModel" [disabled]="true">
+    </mat-form-field>
+
+
+    <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
+      <mat-label>Address</mat-label>
+      <input matInput  [(ngModel)] = "model.address" #address="ngModel"  name="input_address"
+             [disabled]="true">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>City</mat-label>
+      <input matInput  [(ngModel)] = "model.city" #city="ngModel" name="input_city"
+             [disabled]="true">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style=" padding-left: 25px; width: 250px;">
+      <mat-label>Country</mat-label>
+      <input matInput  [(ngModel)] = "model.country" #country="ngModel"  name="input_country"
+             [disabled]="true">
+    </mat-form-field>
+
+    <br>
+
+    <mat-form-field appearance="outline" style="width: 250px;">
+      <mat-label>Phone number</mat-label>
+      <input matInput  [(ngModel)] = "model.phone_number" #phone_number="ngModel" name="input_phone_number"
+             [disabled]="true">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="padding-left: 25px;  width: 250px;">
+      <mat-label>Insurance number</mat-label>
+      <input matInput  [(ngModel)] = "model.insurance_number" #insurance_number="ngModel" name="input_insurance_number"
+             [disabled]="true">
+    </mat-form-field>
+
+    <br>
+    <br>
+
+    <button type="button" mat-raised-button (click)="goToMedicalRecord()">Medical Record</button>
+
+    <button style="left: 150px" type="button" mat-raised-button (click)="startAppointment()" [disabled]="model.password === 'f'" >Start appointment</button>
+
+
+  </form>
+</div>

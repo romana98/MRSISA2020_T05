@@ -19,17 +19,17 @@ public class Nurse extends MedicalStaff {
 	private Clinic clinic;
 	
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="nurse")
-	private Set<Medicine> medicines = new HashSet<Medicine>();
+	private Set<AppointmentMedicine> medicines = new HashSet<AppointmentMedicine>();
    
 	public Nurse() {
 		super();
 	}
 
-	public Set<Medicine> getMedicines() {
+	public Set<AppointmentMedicine> getMedicines() {
 		return medicines;
 	}
 
-	public void setMedicines(Set<Medicine> medicines) {
+	public void setMedicines(Set<AppointmentMedicine> medicines) {
 		this.medicines = medicines;
 	}
 

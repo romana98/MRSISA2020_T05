@@ -331,6 +331,7 @@ public class AppointmentController<T> {
 			return new ArrayList<AppointmentDTO>();
 
 		List<AppointmentDTO> wc = as.getDoctorAppointments(d.getEmail());
+		
 	
 		return wc;
 
@@ -340,8 +341,20 @@ public class AppointmentController<T> {
 	@PreAuthorize("hasRole('PATIENT')")
 	public List<AppointmentDTO> getClinicPredefinedAppointments(@RequestParam String clinicId) {
 		List<AppointmentDTO> a = as.getClinicPredefinedAppointments(Integer.parseInt(clinicId));
+		
 	
 		return a;
+
+	}
+	
+	@GetMapping("/getAppointmentByID")
+	@PreAuthorize("hasRole('PATIENT')")
+	public AppointmentDTO getAppointmentByID(@RequestParam String appId) {
+		Appointment a = as.getAppointmentById(Integer.parseInt(appId));
+		AppointmentDTO adto = new AppointmentDTO();
+		adto.setDescription(a.getDescription());
+		//TODO DODAJ LISTU LEKOVA I DIAGNOSIS
+		return adto;
 
 	}
 	

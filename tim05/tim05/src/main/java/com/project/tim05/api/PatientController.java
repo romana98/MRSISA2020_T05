@@ -23,14 +23,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.tim05.dto.AppointmentDTO;
+import com.project.tim05.dto.AppointmentTypeDTO;
+import com.project.tim05.dto.DiseaseDTO;
 import com.project.tim05.dto.DoctorDTO;
+import com.project.tim05.dto.MedicineDTO;
 import com.project.tim05.dto.PatientClinicsDTO;
 import com.project.tim05.dto.PatientDTO;
+import com.project.tim05.model.Appointment;
 import com.project.tim05.model.Clinic;
+import com.project.tim05.model.Disease;
 import com.project.tim05.model.Doctor;
+import com.project.tim05.model.Medicine;
 import com.project.tim05.model.Patient;
 import com.project.tim05.model.RegistrationRequest;
 import com.project.tim05.model.User;
+import com.project.tim05.service.AppointmentService;
 import com.project.tim05.service.ClinicService;
 import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.EmailService;
@@ -51,15 +59,17 @@ public class PatientController<T> {
 	private AuthenticationManager authenticationManager;
 
 	private final PatientService ps;
+	private final AppointmentService as;
 	private final RegistrationRequestService rrs;
 	private final EmailService es;
 	private final ClinicService cs;
 	private final DoctorService ds;
 
 	@Autowired
-	public PatientController(DoctorService ds, PatientService ps, RegistrationRequestService rrs, EmailService es,
+	public PatientController(DoctorService ds, AppointmentService as, PatientService ps, RegistrationRequestService rrs, EmailService es,
 			ClinicService cs) {
 		this.ps = ps;
+		this.as = as;
 		this.rrs = rrs;
 		this.es = es;
 		this.cs = cs;
@@ -71,6 +81,87 @@ public class PatientController<T> {
 	public List<Patient> getPatients() {
 		return ps.getPatients();
 	}
+	
+	@GetMapping("/getDisease")
+	@PreAuthorize("hasRole('DOCTOR')")
+	public List<DiseaseDTO> getDisease(@RequestParam String email) {
+		return ps.getDisease(email);
+	}
+	
+	@PostMapping("/setMedicine")
+	@PreAuthorize("hasRole('DOCTOR')")
+	public ResponseEntity<T> setMedicine(@RequestBody List<MedicineDTO> ms) {
+		 int flag = ps.setMedicine(ms);
+		
+		if (flag == 0) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
+	}
+	
+	@PostMapping("/setDisease")
+	@PreAuthorize("hasRole('DOCTOR')")
+	public ResponseEntity<T> setDisease(@RequestBody List<DiseaseDTO> ds) {
+		DiseaseDTO d = ds.get(4);
+		 int flag = ps.setDisease(ds, d.getName());
+		
+		if (flag == 0) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
+	}
+	
+	@PostMapping("/setAppointment")
+	@PreAuthorize("hasRole('DOCTOR')")
+	public ResponseEntity<T> setAppointment(@RequestBody AppointmentDTO ap) {
+	
+		 int flag = as.setAppointment(ap);
+		
+		if (flag == 0) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		} else {
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
+	}
+	
+	@GetMapping("/getPatientDoctor")
+	@PreAuthorize("hasRole('DOCTOR')")
+	public ResponseEntity<PatientDTO> getPatient(@RequestParam String email) {
+		Authentication current = SecurityContextHolder.getContext().getAuthentication();
+		Doctor currentUser = (Doctor) current.getPrincipal();
+		
+		
+		Patient p = ps.getPatient(email);
+		if(p == null)
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		else {
+			PatientDTO pdto = new PatientDTO();
+			pdto.setAddress(p.getAddress());
+			pdto.setCity(p.getCity());
+			pdto.setCountry(p.getCountry());
+			pdto.setEmail(p.getEmail());
+			pdto.setInsurance_number(p.getInsurance_number());
+			pdto.setName(p.getName());
+			pdto.setPhone_number(p.getPhone_number());
+			pdto.setSurname(p.getSurname());
+			
+			pdto.setPassword(ds.canStartAppointment(currentUser.getId(), p.getId()));
+			return ResponseEntity.status(HttpStatus.OK).body(pdto);
+		} 
+	}
+	
+	@GetMapping("/canStartApp")
+	@PreAuthorize("hasRole('DOCTOR')")
+	public ResponseEntity<String> canStartApp(@RequestParam String p_id, String a_id) {
+		Authentication current = SecurityContextHolder.getContext().getAuthentication();
+		Doctor currentUser = (Doctor) current.getPrincipal();
+			String s = ds.canStartAppointmentCalendar(currentUser.getId(), Integer.parseInt(p_id), Integer.parseInt(a_id));
+			return ResponseEntity.status(HttpStatus.OK).body(s);
+	}
+	
+	
 
 	@PostMapping("/editPatient")
 	@PreAuthorize("hasRole('PATIENT')")

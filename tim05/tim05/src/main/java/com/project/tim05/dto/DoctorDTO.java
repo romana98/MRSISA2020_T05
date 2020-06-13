@@ -14,7 +14,6 @@ public class DoctorDTO extends MedicalStaffDTO {
 	@NotNull
 	private int clinic_id;
 
-	@NotNull
 	private int id;
 	
 	private String name;

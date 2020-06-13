@@ -14,6 +14,8 @@ public class DiagnosisDTO {
 	@Pattern(regexp="([A-Z][a-z]+[ a-z.,0-9]*){1,}")
 	private String description;
 	
+	int id;
+	
    
 	public DiagnosisDTO() {
 		super();
@@ -24,6 +26,15 @@ public class DiagnosisDTO {
 			this.name = name;
 			this.description = description;
 		}
+	
+	
+	
+	public DiagnosisDTO(int id, String name, String description) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.id = id;
+	}
 	
 	public String getName() {
 		return name;
@@ -36,6 +47,12 @@ public class DiagnosisDTO {
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
    
 	
