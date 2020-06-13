@@ -140,6 +140,96 @@ public class ClinicService {
 		return flag;
 	}
 
+	public ArrayList<Clinic> filterClinicsByParams(ArrayList<Clinic> clinics, String address_param, int low_rate,
+			int high_rate) {
+		if(address_param.equals("") && low_rate == 0 && high_rate == 0) {
+			return clinics;
+		}else if(address_param.equals("") && (low_rate != 0 || high_rate != 0)) {
+			ArrayList<Clinic> result = new ArrayList<Clinic>();
+			ArrayList<Clinic> find = (ArrayList<Clinic>) cr.findAll();
+			for(Clinic c : clinics) {
+				for(Clinic c2 : find) {
+					if(c.getId() == c2.getId()) {
+						double avg = 0.0;
+						double zbir = 0.0;
+						for(double rating : c.getRatings()) {
+							zbir+=rating;
+						}
+						avg = zbir/c.getRatings().size();
+						if(low_rate != 0 && high_rate == 0) {
+							if(avg >= low_rate) {
+								result.add(c);
+								break;
+							}
+						}else if(low_rate == 0 && high_rate != 0) {
+							if(avg <= high_rate) {
+								result.add(c);
+								break;
+							}
+						}else {
+							if(avg >= low_rate && avg <= high_rate) {
+								result.add(c);
+								break;
+							}
+						}
+					}
+				}
+			}
+			return result;
+		}else {
+			ArrayList<Clinic> result = new ArrayList<Clinic>();
+			
+			try {
+				//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+				Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+		        
+				String query = "SELECT * from clinics where address like ?;";
+	 	        PreparedStatement ps = conn.prepareStatement(query);
+	 	        ps.setString(1, "%"+address_param+"%");
+	 			
+	 		
+	 	       ResultSet rs = ps.executeQuery();
+				
+				while(rs.next()) {
+					for(Clinic c : clinics) {
+						if(rs.getInt("clinic_id") == c.getId()) {
+							double zbir = 0;
+							double avg = 0.0;
+							for(double d : c.getRatings()) {
+								zbir += d;
+							}
+							avg = zbir/c.getRatings().size();
+							if(low_rate != 0 && high_rate == 0) {
+								if(avg >= low_rate) {
+									result.add(c);
+									break;
+								}
+							}else if(low_rate == 0 && high_rate != 0) {
+								if(avg <= high_rate) {
+									result.add(c);
+									break;
+								}
+							}else {
+								if(avg >= low_rate && avg <= high_rate) {
+									result.add(c);
+									break;
+								}
+							}
+						}
+					}
+				}
+				rs.close();
+				ps.close();		
+				conn.close();
+				return result;
+				
+			} catch (SQLException e) {
+				System.out.println(e.getMessage());
+				return result;
+			}
+		}
+	}
+
 
 	
 	

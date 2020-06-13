@@ -77,18 +77,21 @@
 
             <mat-form-field style="width: 40%;">
             <mat-label>Clinic Address</mat-label>
-            <input matInput>
+            <input matInput [(ngModel)] = "searchModel.address" name="address_input"
+                   #address="ngModel">
             </mat-form-field>
 
             <div style="display: block;">
                 <mat-form-field style="width: 40%;">
                     <mat-label>Lowest rate</mat-label>
-                    <input matInput type="number" min="1">
+                    <input matInput type="number" min="1" [(ngModel)] = "searchModel.avg_rate_lowest" name="lowest_avg_input"
+                           #avg_rate_lowest="ngModel">
                 </mat-form-field>
 
                 <mat-form-field style="padding-left: 20px ;width: 40%;">
                     <mat-label>Highest rate</mat-label>
-                    <input matInput type="number" min="1">
+                    <input matInput type="number" min="1" max="5" [(ngModel)] = "searchModel.avg_rate_highest" name="highest_avg_input"
+                           #avg_rate_highest="ngModel">
                 </mat-form-field>
             </div>
         </mat-expansion-panel>

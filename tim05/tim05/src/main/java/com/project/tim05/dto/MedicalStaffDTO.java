@@ -38,6 +38,17 @@ public class MedicalStaffDTO {
 		super();
 	}
 
+	
+	
+	public MedicalStaffDTO(@NotBlank @NotNull @Pattern(regexp = "[A-Z][a-z]*") String name,
+			@NotBlank @NotNull @Pattern(regexp = "[A-Z][a-z]*") String surname) {
+		super();
+		this.name = name;
+		this.surname = surname;
+	}
+
+
+
 	public MedicalStaffDTO(String name, String surname, String email, String password, String workStart, String workEnd) {
 		super();
 		this.name = name;

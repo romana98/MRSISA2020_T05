@@ -55,4 +55,11 @@ public class DiagnosisContoller<T> {
 		else
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
+	
+	/*@GetMapping("/Diagnosises")
+	public String updateDiagnosis(){
+		ds.updateDiagnosis("baba");
+		return "done";
+	}*/
+	
 }

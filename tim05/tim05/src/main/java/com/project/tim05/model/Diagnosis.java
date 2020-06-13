@@ -22,8 +22,16 @@ public class Diagnosis {
 	private String description;
 	
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="diagnosis")
-	private Set<Appointment> diagnosises = new HashSet<Appointment>();
+	private Set<Appointment> appointments = new HashSet<Appointment>();
 
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="clinic_center_admin", referencedColumnName="user_id", nullable=true)
+	private ClinicCenterAdministrator clinicCenterAdministrator;
+   	
+	@Version
+	private Long version;
+	
 	public Diagnosis() {
 		super();
 		
@@ -67,11 +75,11 @@ public class Diagnosis {
 	}
 
 	public Set<Appointment> getDiagnosises() {
-		return diagnosises;
+		return appointments;
 	}
 
 	public void setDiagnosises(Set<Appointment> diagnosises) {
-		this.diagnosises = diagnosises;
+		this.appointments = diagnosises;
 	}
 
 	

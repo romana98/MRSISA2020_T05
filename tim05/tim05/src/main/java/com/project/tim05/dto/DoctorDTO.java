@@ -15,10 +15,10 @@ public class DoctorDTO extends MedicalStaffDTO {
 	private int clinic_id;
 
 	private int id;
-	
-	private String name;
-	
-	private String surname;
+
+	// private String name;
+
+	// private String surname;
 
 	private String AppointmentTypeName;
 
@@ -33,8 +33,11 @@ public class DoctorDTO extends MedicalStaffDTO {
 	}
 
 	public DoctorDTO(String name, String surname) {
-		this.name = name;
-		this.surname = surname;
+		super(name, surname);
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public List<String> getAvailable_times() {
@@ -61,26 +64,18 @@ public class DoctorDTO extends MedicalStaffDTO {
 		AppointmentTypeName = appointmentTypeName;
 	}
 
-	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getSurname() {
-		return surname;
-	}
-
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-
-	public int getId() {
-		return id;
-	}
+	/*
+	 * public String getName() { return super.getName(); }
+	 * 
+	 * public void setName(String name) { super.setName(super.getName()); }
+	 * 
+	 * public String getSurname() { return super.getSurname(); }
+	 * 
+	 * public void setSurname(String surname) {
+	 * super.setSurname(super.getSurname()); }
+	 * 
+	 * public int getId() { return id; }
+	 */
 
 	public void setId(int id) {
 		this.id = id;

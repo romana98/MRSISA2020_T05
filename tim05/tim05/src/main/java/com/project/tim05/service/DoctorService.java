@@ -13,12 +13,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.tim05.dto.DoctorDTO;
+import com.project.tim05.model.Appointment;
 import com.project.tim05.model.Authority;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Doctor;
@@ -325,6 +327,9 @@ public class DoctorService {
 		HashMap<Integer,Integer> appointment_times = new HashMap<Integer,Integer>();
 		
 		while(rs.next()) {
+			if(rs.getBoolean("leave")==true) {
+				return new ArrayList<String>();
+			}
 			String start_time = rs.getString("start_time");
 			String end_time = rs.getString("end_time");
 			int length = timeToMinutes(end_time) -  timeToMinutes(start_time);
@@ -497,7 +502,9 @@ public int addLeave(LeaveRequest l) {
 				sql = new java.sql.Date(date.getTime());
 				WorkCalendar wc = new WorkCalendar("00:00", "23:59", sql, true);
 				wc.setRequest(false);
-				wc.setDoctor(dr.findByEmail(l.getEmail()));
+				Doctor d = dr.findByEmail(l.getEmail());
+				wc.setDoctor(d);
+				d.getWorkCalendar().add(wc);
 				wcr.save(wc);    
 			}
 			flag = 1;

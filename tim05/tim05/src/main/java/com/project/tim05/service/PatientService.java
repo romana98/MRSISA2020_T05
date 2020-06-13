@@ -16,12 +16,24 @@ import org.springframework.stereotype.Service;
 
 import com.project.tim05.dto.DiseaseDTO;
 import com.project.tim05.dto.MedicineDTO;
+import com.project.tim05.dto.AppointmentDTO;
+import com.project.tim05.dto.AppointmentTypeDTO;
+import com.project.tim05.dto.DoctorDTO;
+import com.project.tim05.dto.HallDTO;
 import com.project.tim05.dto.PatientDTO;
+import com.project.tim05.model.Appointment;
+import com.project.tim05.model.AppointmentType;
 import com.project.tim05.model.Authority;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Disease;
+import com.project.tim05.model.Doctor;
+import com.project.tim05.model.Hall;
 import com.project.tim05.model.MedicalRecord;
 import com.project.tim05.model.Patient;
+import com.project.tim05.repository.AppointmentRespository;
+import com.project.tim05.repository.AppointmentTypeRespository;
+import com.project.tim05.repository.DoctorRepository;
+import com.project.tim05.repository.HallRepository;
 import com.project.tim05.repository.PatientRepository;
 
 @Service
@@ -38,6 +50,18 @@ public class PatientService {
 
 	@Autowired
 	private PatientRepository pa;
+	
+	@Autowired
+	private AppointmentRespository ar;
+	
+	@Autowired
+	private DoctorRepository dr;
+	
+	@Autowired
+	private HallRepository hr;
+	
+	@Autowired
+	private AppointmentTypeRespository atr;
 
 	public int editPatient(Patient patient) {
 		int flag = 0;
@@ -314,6 +338,7 @@ public class PatientService {
 		return flag;
 	}
 
+
 	public List<DiseaseDTO> getDisease(String email) {
 		List<DiseaseDTO> dtos = new ArrayList<DiseaseDTO>();
 		try {
@@ -412,6 +437,34 @@ public class PatientService {
 		}
 		
 		return flag;
+	}
+	public ArrayList<AppointmentDTO> getIncomingAppointments(Patient p) {
+		ArrayList<AppointmentDTO> result = new ArrayList<AppointmentDTO>();
+		for(Appointment a : p.getAppointments()) {
+			if(a.isFinished() == false) {
+				AppointmentDTO dto = new AppointmentDTO();
+				AppointmentType at = initializeAndUnproxy.initAndUnproxy(a.getAppointmentType());
+				Doctor d = initializeAndUnproxy.initAndUnproxy(a.getDoctor());
+				Hall h = initializeAndUnproxy.initAndUnproxy(a.getHall());
+				dto.setDate(a.getDateTime().toString().split(" ")[0]);
+				dto.setTime(a.getDateTime().toString().split(" ")[1].split("\\.")[0].substring(0,5));
+				dto.setDuration(a.getDuration());
+				dto.setPrice(a.getPrice());
+				DoctorDTO ddto = new DoctorDTO();
+				ddto.setName(d.getName());
+				ddto.setSurname(d.getSurname());
+				dto.setDoctor(ddto);
+				HallDTO hdto = new HallDTO();
+				hdto.setName(h.getName());
+				hdto.setNumber(h.getNumber());
+				dto.setHall(hdto);
+				AppointmentTypeDTO atdto = new AppointmentTypeDTO();
+				atdto.setName(at.getName());
+				dto.setAppointmentType(atdto);
+				result.add(dto);
+			}
+		}
+		return result;
 	}
 
 }

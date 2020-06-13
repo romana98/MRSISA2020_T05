@@ -96,13 +96,30 @@ public class AppointmentController<T> {
 		Hall hall = hs.getHallbyId(adto.getHall_id());
 		AppointmentType at = ats.getAppointmentTypebyId(adto.getAppointmentType_id());
 		Clinic c = cs.getClinicbyId(adto.getClinic_id()) ;
-
+	
 		if (dr == null || hall == null || at == null) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
+		
+		//provera da li je doktor zauzet
+		
+		int dr_start = Integer.parseInt(dr.getWorkStart().split(":")[0]) * 60
+				+ Integer.parseInt(dr.getWorkStart().split(":")[1]);
+		int dr_end = Integer.parseInt(dr.getWorkEnd().split(":")[0]) * 60
+				+ Integer.parseInt(dr.getWorkEnd().split(":")[1]);
+
+		int app_start = Integer.parseInt(adto.getTime().split(":")[0])*60 + Integer.parseInt(adto.getTime().split(":")[1]);
+		int app_end = app_start + adto.getDuration();
+		
+		
+		if ((app_start < dr_start || app_start > dr_end) || (app_end < dr_start || app_end > dr_end)) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}		
 
 		SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formatter3 = new SimpleDateFormat("yyyy-MM-dd");
+
 
 		Date date = null;
 		Date wc_date = null;
@@ -112,6 +129,36 @@ public class AppointmentController<T> {
 		} catch (ParseException e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
+		
+		for(WorkCalendar wc : dr.getWorkCalendar()) {
+			try {
+				if(formatter3.parse(wc.getDate().toString().split(" ")[0]).getTime()!=wc_date.getTime()) {
+					continue;
+				} 
+				else {
+					if(wc.getLeave()==true) {
+						return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+					}
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			int wc_start = Integer.parseInt(wc.getStart_time().split(":")[0]) * 60
+					+ Integer.parseInt(wc.getStart_time().split(":")[1]);
+			int wc_end = Integer.parseInt(wc.getEnd_time().split(":")[0]) * 60
+					+ Integer.parseInt(wc.getEnd_time().split(":")[1]);
+			if ((app_start >= wc_start && app_start <= wc_end) || (app_end >= wc_start && app_end <= wc_end)
+					|| (app_start == wc_start && app_end == wc_end)) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			}
+		}
+		
+		
+		
+		
+		
+		
 
 		ap.setDateTime(date);
 		ap.setDuration(adto.getDuration());
@@ -122,6 +169,11 @@ public class AppointmentController<T> {
 		ap.setAppointmentType(at);
 		ap.setHall(hall);
 		ap.setClinic(c);
+		
+		if(!hs.predefinedHallAvailable(hall, ap, wc_date, c.getId())) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+
+		}
 
 		int flag = as.addAppointment(ap);
 		//TODO u doktoru treba da se doda appointment
@@ -149,6 +201,8 @@ public class AppointmentController<T> {
 		wc.setDoctor(dr);
 		wc.setLeave(false);
 		wc.setRequest(false);
+		
+		dr.getWorkCalendar().add(wc);
 		
 		wcs.addCalendar(wc);
 		
