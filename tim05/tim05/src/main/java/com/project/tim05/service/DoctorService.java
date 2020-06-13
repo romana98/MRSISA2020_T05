@@ -12,12 +12,14 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.tim05.dto.DoctorDTO;
+import com.project.tim05.model.Appointment;
 import com.project.tim05.model.Authority;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Doctor;
@@ -315,7 +317,7 @@ public class DoctorService {
 		
 		Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
         //iz baze uzimam sve termine pregleda za datum Day i doctora koji je prosledjen
-        String query = "SELECT * from public.work_calendars where date = ? and doctor = ?";
+        String query = "SELECT * from public.work_calendars where date = ? and doctor = ? and leave = false";
         PreparedStatement ps = connection.prepareStatement(query);
 		ps.setDate(1, day);
 		ps.setInt(2, dr.getId());
@@ -509,9 +511,5 @@ public int addLeave(LeaveRequest l) {
 		return flag;
 		
 	}
-
-
-
-
 	
 }

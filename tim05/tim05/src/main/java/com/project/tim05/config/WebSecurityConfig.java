@@ -62,13 +62,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
 
 				// svim korisnicima dopust	i da pristupe putanjama /auth/**
-<<<<<<< HEAD
 				//.authorizeRequests().antMatchers("/auth/**", "/patients/activate", "/registrationRequests/register").permitAll()
 				.authorizeRequests().antMatchers("/**").permitAll()
-=======
-				.authorizeRequests().antMatchers("/auth/**", "/appointment/cancel", "/patients/activate", "/registrationRequests/register").permitAll()
+
+				//.authorizeRequests().antMatchers("/auth/**", "/appointment/cancel", "/patients/activate", "/registrationRequests/register").permitAll()
 				//.authorizeRequests().antMatchers("/**").permitAll()
->>>>>>> refs/remotes/origin/master
+
 				// za svaki drugi zahtev korisnik mora biti autentifikovan
 				.anyRequest().authenticated().and()
 				// za development svrhe ukljuci konfiguraciju za CORS iz WebConfig klase

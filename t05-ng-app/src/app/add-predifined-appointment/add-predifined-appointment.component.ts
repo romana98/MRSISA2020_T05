@@ -75,7 +75,10 @@ export class AddPredifinedAppointmentComponent implements OnInit {
             this._snackBar.open("Appointment added successfully", "Close", {
               duration: 2000,
       });
-    });
+    },err=>{
+      this._snackBar.open("Failed to add apointment, hall or doctor are busy.", "Close", {
+        duration: 2000,
+    })});
 
   }
 
