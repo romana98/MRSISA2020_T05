@@ -63,8 +63,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 				// svim korisnicima dopust	i da pristupe putanjama /auth/**
 				//.authorizeRequests().antMatchers("/auth/**", "/patients/activate", "/registrationRequests/register").permitAll()
+
 				.authorizeRequests().antMatchers("/**").permitAll()
 
+				//.authorizeRequests().antMatchers("/auth/**", "/appointment/cancel", "/patients/activate", "/registrationRequests/register").permitAll()
+				//.authorizeRequests().antMatchers("/**").permitAll()
+				
 				//.authorizeRequests().antMatchers("/auth/**", "/appointment/cancel", "/patients/activate", "/registrationRequests/register").permitAll()
 				//.authorizeRequests().antMatchers("/**").permitAll()
 

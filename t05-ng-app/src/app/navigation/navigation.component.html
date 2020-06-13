@@ -8,6 +8,9 @@
   <!--Patient-->
   <a *ngIf="checkPatient()" routerLink="/patient/clinics" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Make appointment</button></a>
   <a *ngIf="checkPatient()" routerLink="/patient/viewAllClinics" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Clinics</button></a>
+  <a *ngIf="checkPatient()" routerLink="/patient/viewIncomingAppointments" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Incoming appointments</button></a>
+
+
 
   <!--Clinic Admin-->
   <a *ngIf="checkCAdmin()" routerLink="clinicAdmin/addDoctor" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Doctors</button></a>

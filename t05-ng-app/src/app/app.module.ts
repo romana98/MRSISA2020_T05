@@ -57,6 +57,7 @@ import {ViewClinicCenterAdministratorComponent} from "./view-clinic-center-admin
 import {ViewMedicalStaff} from "./view-medical-staff/view-medical-staff.component";
 import {ViewPatientProfile} from "./view-patient/view-patient.component";
 import {AddPricelistComponent} from "./add-pricelist/add-pricelist.component";
+import {ViewAppointmentsComponent} from "./patient/view-appointments/view-appointments.component";
 import { InitialChangePasswordComponent } from './initial-change-password/initial-change-password.component';
 import {ActivationLinkComponent} from "./email/activation-link/activation-link.component";
 import {AddLeaveRequestComponent} from "./add-leave-request/add-leave-request.component";
@@ -185,6 +186,10 @@ const appRoutes : Routes = [
       {
         path: 'predefineAppointments',
         component:ViewPredefinedAppointmentsComponent
+      },
+      {
+        path: 'viewIncomingAppointments',
+        component:ViewAppointmentsComponent
       }
 
     ]
@@ -305,7 +310,8 @@ const appRoutes : Routes = [
     CancelationLinkComponent,
     ViewAllClinicsComponent,
     ViewPredefinedAppointmentsComponent,
-    AddPricelistComponent
+    AddPricelistComponent,
+    ViewAppointmentsComponent
 
   ],
   imports: [

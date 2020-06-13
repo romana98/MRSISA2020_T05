@@ -17,9 +17,9 @@ public class DoctorDTO extends MedicalStaffDTO {
 	
 	private int id;
 	
-	private String name;
+	//private String name;
 	
-	private String surname;
+	//private String surname;
 
 	private String AppointmentTypeName;
 
@@ -34,8 +34,7 @@ public class DoctorDTO extends MedicalStaffDTO {
 	}
 
 	public DoctorDTO(String name, String surname) {
-		this.name = name;
-		this.surname = surname;
+		super(name, surname);
 	}
 
 	public List<String> getAvailable_times() {
@@ -64,19 +63,19 @@ public class DoctorDTO extends MedicalStaffDTO {
 
 	
 	public String getName() {
-		return name;
+		return super.getName();
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		super.setName(super.getName());
 	}
 
 	public String getSurname() {
-		return surname;
+		return super.getSurname();
 	}
 
 	public void setSurname(String surname) {
-		this.surname = surname;
+		super.setSurname(super.getSurname());
 	}
 
 	public int getId() {
