@@ -446,7 +446,19 @@ public class PatientController<T> {
 		
 		return ResponseEntity.status(HttpStatus.OK).body(dtos);
 		
+	}
 	
+	//id = id klinike ili doktora, u zavisnosti od param
+	//apt_id = id appointmenta
+	@PostMapping("/rate")
+	@PreAuthorize("hasRole('PATIENT')")
+	public ResponseEntity<T> rate(@RequestBody String param, int rate, int id, int apt_id){
+		int flag = ps.rate(param, id, rate, apt_id);
+		if(flag == 0) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
 	}
 
 }

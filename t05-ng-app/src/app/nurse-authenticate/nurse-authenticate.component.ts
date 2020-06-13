@@ -69,6 +69,9 @@ export class NurseAuthenticateComponent implements OnInit {
           console.log(res);
           // @ts-ignore
           this.dataSource.data = res;
+          if(this.dataSource.data.length === 0){
+            this.r.navigate(['/staff/viewFinishedAppointments']);
+          }
         }, (err) => {
           this._snackBar.open("Something went wrong!", "Close", {
             duration: 2000,

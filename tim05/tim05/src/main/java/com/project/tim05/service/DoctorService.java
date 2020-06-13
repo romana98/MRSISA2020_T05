@@ -434,32 +434,41 @@ public class DoctorService {
 					st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
 							"ON d.user_id = c.user_id where name like ?;");
 					st.setString(1, "%" + value + "%");
+					ResultSet rs = st.executeQuery();
+					
+					while (rs.next()) {
+						Doctor d = dr.findById(rs.getInt("user_id"));
+						result.add(d);
+					}
+					rs.close();
 				
 				} else if (parameter.equals("surname")){
 					st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
 							"ON d.user_id = c.user_id where surname like ?;");
 					st.setString(1, "%" + value + "%");
+					ResultSet rs = st.executeQuery();
+					
+					while (rs.next()) {
+						Doctor d = dr.findById(rs.getInt("user_id"));
+						result.add(d);
+					}
+					rs.close();
 				}
 				else if(parameter.equals("ratefrom")){
 					double ratefrom = Double.parseDouble(value);
-					st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
-							"ON d.user_id = c.user_id where rate >= ?;");
-					st.setDouble(1, ratefrom);
+					st = conn.prepareStatement("SELECT * FROM ratings_doctor;");
+					ResultSet rs = st.executeQuery();
+					while(rs.next()) {
+						
+					}
+					
 				}else if(parameter.equals("rateto")) {
 					double rateto = Double.parseDouble(value);
 					st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
-							"ON d.user_id = c.user_id where rate <= ?;");
+							"ON d.user_id = c.user_id where avg_rating <= ?;");
 					st.setDouble(1, rateto);
 				}
-				
-				ResultSet rs = st.executeQuery();
-				
-				while (rs.next()) {
-					Doctor d = dr.findById(rs.getInt("user_id"));
-					result.add(d);
-				}
 
-				rs.close();
 				st.close();
 				conn.close();
 

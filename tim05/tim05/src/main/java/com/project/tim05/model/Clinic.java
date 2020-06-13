@@ -43,7 +43,7 @@ public class Clinic {
 	private String description;
 	
 	@ElementCollection
-	@CollectionTable(name="Ratings", joinColumns=@JoinColumn(name="clinic_id"))
+	@CollectionTable(name="Ratings_Clinic", joinColumns=@JoinColumn(name="clinic_id"))
 	@Column(name="ratings")
 	private List<Double> ratings = new ArrayList<Double>();
   

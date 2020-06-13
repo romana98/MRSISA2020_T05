@@ -32,6 +32,7 @@ import com.project.tim05.model.MedicalRecord;
 import com.project.tim05.model.Patient;
 import com.project.tim05.repository.AppointmentRespository;
 import com.project.tim05.repository.AppointmentTypeRespository;
+import com.project.tim05.repository.ClinicRespository;
 import com.project.tim05.repository.DoctorRepository;
 import com.project.tim05.repository.HallRepository;
 import com.project.tim05.repository.PatientRepository;
@@ -62,6 +63,9 @@ public class PatientService {
 	
 	@Autowired
 	private AppointmentTypeRespository atr;
+	
+	@Autowired
+	private ClinicRespository cr;
 
 	public int editPatient(Patient patient) {
 		int flag = 0;
@@ -465,6 +469,81 @@ public class PatientService {
 			}
 		}
 		return result;
+	}
+
+	public int rate(String param, int id, double rate, int apt_id) {
+		int flag = 0;
+		if(param.equals("clinic")) {
+			try {
+				// Connection conn =
+				// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+				// "xslquaksjvvetl",
+				// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+				Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+				String query = "INSERT INTO ratings_clinic (clinic_id, ratings) VALUES (?, ?)";
+				PreparedStatement ps = conn.prepareStatement(query);
+				ps.setInt(1, id);
+				ps.setDouble(2, rate);
+
+				flag = ps.executeUpdate();
+				ps.close();
+
+				conn.close();
+				
+				Connection conn2 = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+				String query2 = "UPDATE appointments set ratedClinic = true where appointment_id = ?;";
+				PreparedStatement ps2 = conn2.prepareStatement(query2);
+				ps2.setInt(1, apt_id);
+
+				flag = ps2.executeUpdate();
+				ps2.close();
+
+				conn2.close();
+				
+				return flag;
+				
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				return 0;
+			}
+		}else {
+			try {
+				// Connection conn =
+				// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+				// "xslquaksjvvetl",
+				// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+				Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+				String query = "INSERT INTO ratings_doctor (user_id, ratings) VALUES (?, ?)";
+				PreparedStatement ps = conn.prepareStatement(query);
+				ps.setInt(1, id);
+				ps.setDouble(2, rate);
+
+				flag = ps.executeUpdate();
+				ps.close();
+
+				conn.close();
+				
+				Connection conn2 = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+				String query2 = "UPDATE appointments set ratedDoctor = true where appointment_id = ?;";
+				PreparedStatement ps2 = conn2.prepareStatement(query2);
+				ps2.setInt(1, apt_id);
+
+				flag = ps2.executeUpdate();
+				ps2.close();
+
+				conn2.close();
+				
+				return flag;
+				
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				return 0;
+			}
+		}
 	}
 
 }
