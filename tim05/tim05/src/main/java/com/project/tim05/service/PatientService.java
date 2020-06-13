@@ -419,7 +419,7 @@ public class PatientService {
 				// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
 				Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 
-				String query = "INSERT INTO appointment_medicines (appointment, medicine_medicine_id) VALUES (?, ?)";
+				String query = "INSERT INTO appointment_medicines (appointment, medicine_medicine_id, authenticated) VALUES (?, ?, false)";
 				PreparedStatement ps = conn.prepareStatement(query);
 				ps.setInt(1, appId);
 				ps.setInt(2, d.getId());
