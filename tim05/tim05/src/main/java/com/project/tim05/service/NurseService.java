@@ -1,30 +1,41 @@
 package com.project.tim05.service;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.project.tim05.dto.LeaveRequestDTO;
+import com.project.tim05.dto.AppointmentDTO;
+import com.project.tim05.dto.AppointmentMedicineDTO;
+import com.project.tim05.dto.AppointmentTypeDTO;
+import com.project.tim05.dto.DoctorDTO;
+import com.project.tim05.dto.HallDTO;
+import com.project.tim05.dto.MedicineDTO;
+import com.project.tim05.model.Appointment;
+import com.project.tim05.model.AppointmentMedicine;
+import com.project.tim05.model.AppointmentType;
 import com.project.tim05.model.Authority;
 import com.project.tim05.model.Clinic;
+import com.project.tim05.model.Doctor;
+import com.project.tim05.model.Hall;
 import com.project.tim05.model.LeaveRequest;
+import com.project.tim05.model.Medicine;
 import com.project.tim05.model.Nurse;
 import com.project.tim05.model.WorkCalendar;
+import com.project.tim05.repository.AppointmentMedicineRespository;
+import com.project.tim05.repository.AppointmentRespository;
 import com.project.tim05.repository.NurseRepository;
 import com.project.tim05.repository.WorkCalendarRespository;
-import com.project.tim05.service.initializeAndUnproxy;
 
 @Service
 public class NurseService {
@@ -40,6 +51,12 @@ public class NurseService {
 	
 	@Autowired
 	private AuthorityService authService;
+	
+	@Autowired
+	private AppointmentRespository ar;
+	
+	@Autowired
+	private AppointmentMedicineRespository amr;
 	
 	public int editProfile(Nurse nurse) {
 		int flag = 0;
@@ -147,6 +164,139 @@ public class NurseService {
 		}
 		return flag;
 	}
-	
 
+	public ArrayList<AppointmentDTO> getFinishedAppointments(Nurse current) {
+		ArrayList<AppointmentDTO> result = new ArrayList<AppointmentDTO>();
+		try {
+			// Connection conn =
+			// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+			// "xslquaksjvvetl",
+			// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			Clinic c = initializeAndUnproxy.initAndUnproxy(current.getClinic());
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+			PreparedStatement st = conn
+					.prepareStatement("SELECT * FROM appointments WHERE clinic = ? and finished = true");
+			st.setInt(1, c.getId());
+			ResultSet rs = st.executeQuery();
+
+			while (rs.next()) {
+				int id = rs.getInt("appointment_id");
+				Appointment aptt = ar.findById(id).orElse(null);
+				Appointment apt = initializeAndUnproxy.initAndUnproxy(aptt);
+				boolean auth = checkAppointmentMedicines(apt.getId());
+				
+				if(auth == true) {
+					AppointmentDTO dto = new AppointmentDTO();
+					AppointmentType at = initializeAndUnproxy.initAndUnproxy(apt.getAppointmentType());
+					Doctor d = initializeAndUnproxy.initAndUnproxy(apt.getDoctor());
+					Hall h = initializeAndUnproxy.initAndUnproxy(apt.getHall());
+					dto.setId(at.getId());
+					dto.setDate(apt.getDateTime().toString().split(" ")[0]);
+					dto.setTime(apt.getDateTime().toString().split(" ")[1].split("\\.")[0].substring(0,5));
+					dto.setDuration(apt.getDuration());
+					dto.setPrice(apt.getPrice());
+					DoctorDTO ddto = new DoctorDTO();
+					ddto.setName(d.getName());
+					ddto.setSurname(d.getSurname());
+					dto.setDoctor(ddto);
+					HallDTO hdto = new HallDTO();
+					hdto.setName(h.getName());
+					hdto.setNumber(h.getNumber());
+					dto.setHall(hdto);
+					AppointmentTypeDTO atdto = new AppointmentTypeDTO();
+					atdto.setName(at.getName());
+					dto.setAppointmentType(atdto);
+					result.add(dto);
+				}
+			}
+
+			rs.close();
+			st.close();
+			conn.close();
+
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+			return null;
+		}
+
+		return result;
+	}
+	
+	public boolean checkAppointmentMedicines(int apt_id) {
+		boolean found = false;
+		
+		try {
+			Connection conn2 = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+			PreparedStatement st2 = conn2
+					.prepareStatement("SELECT * FROM appointment_medicines WHERE appointment = ? and authenticated = false");
+			st2.setInt(1, apt_id);
+			ResultSet rs2 = st2.executeQuery();
+			while(rs2.next()) {
+				found = true; //nasao neovjeren medicine
+				break;
+			}
+			rs2.close();
+			st2.close();
+			conn2.close();
+			return found;
+		}catch(Exception e) {
+			return false;
+		}
+	}
+
+	public ArrayList<AppointmentMedicineDTO> getUnauthenticatedMedicines(int apt_id) {
+		ArrayList<AppointmentMedicineDTO> result = new ArrayList<AppointmentMedicineDTO>();
+		
+		try {
+			Connection conn2 = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+			PreparedStatement st2 = conn2
+					.prepareStatement("SELECT * FROM appointment_medicines WHERE appointment = ? and authenticated = false");
+			st2.setInt(1, apt_id);
+			ResultSet rs2 = st2.executeQuery();
+			while(rs2.next()) {
+				AppointmentMedicineDTO dto = new AppointmentMedicineDTO();
+				System.out.println(rs2.getInt("medicine_id"));
+				AppointmentMedicine am = amr.findById(rs2.getInt("medicine_id")).orElse(null);
+				am.setMedicine(initializeAndUnproxy.initAndUnproxy(am.getMedicine()));
+				dto.setId(am.getId());
+				MedicineDTO med = new MedicineDTO();
+				med.setName(am.getMedicine().getName());
+				med.setDescription(am.getMedicine().getDescription());
+				dto.setMedicine(med);
+				result.add(dto);
+			}
+			rs2.close();
+			st2.close();
+			conn2.close();
+			return result;
+		}catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public int authenticate(int apt_medic_id, Integer nurse_id) {
+		int flag = 0;
+		try {
+			//Connection connection = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+	        String query = "UPDATE appointment_medicines set nurse = ?, authenticated = true WHERE medicine_id = ?;";
+		    PreparedStatement ps = connection.prepareStatement(query);
+		    ps.setInt(1, nurse_id);
+		    ps.setInt(2, apt_medic_id);
+			flag = ps.executeUpdate();
+				
+			ps.close();
+			connection.close();
+			return flag;
+			
+		} catch (SQLException e) {
+			return 0;
+		}
+	}
+	
 }

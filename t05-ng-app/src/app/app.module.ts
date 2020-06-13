@@ -17,6 +17,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { AddDoctorFormComponent } from './add-doctor-form/add-doctor-form.component';
 import { AddClinicCenterAdminFromComponent } from './add-clinic-center-administrator-form/add-clinic-center-administrator-form.component';
 import { AddClinicFromComponent } from './add-clinic-form/add-clinic-form.component';
+import {NurseAuthenticateComponent} from "./nurse-authenticate/nurse-authenticate.component";
 import { AddClinicAdminFromComponent } from './add-clinic-administrator-form/add-clinic-administrator-form.component';
 import { EditPatientProfile } from './edit-patient/edit-patient.component';
 import { AddHallFormComponent, FirstDialog, SecondDialog } from './add-hall-form/add-hall-form.component';
@@ -61,6 +62,7 @@ import {ViewAppointmentsComponent} from "./patient/view-appointments/view-appoin
 import { InitialChangePasswordComponent } from './initial-change-password/initial-change-password.component';
 import {ActivationLinkComponent} from "./email/activation-link/activation-link.component";
 import {AddLeaveRequestComponent} from "./add-leave-request/add-leave-request.component";
+import {NurseFinishedAppointmentsComponent} from "./nurse-finished-appointments/nurse-finished-appointments.component";
 import {DialogConfirm, DoctorsComponent} from './patient/doctors/doctors.component';
 import {MatCardModule} from "@angular/material/card";
 import {DialogOverviewLeave, RequestListLeaveComponent} from "./request-list-leave/request-list-leave.component";
@@ -217,11 +219,18 @@ const appRoutes : Routes = [
     canActivate : [LoginGuardService]
 
   },
-
   {
     path:'staff',
     canActivate: [MedicallStuffGuardService],
     children:[
+      {
+        path: 'authenticateMedicine',
+        component: NurseAuthenticateComponent
+      },
+      {
+        path: 'viewFinishedAppointments',
+        component:NurseFinishedAppointmentsComponent
+      },
       {
         path: 'editProfile',
         component : EditMedicalStaff,
@@ -326,7 +335,9 @@ const appRoutes : Routes = [
     ViewPatientProfileComponent,
     CurrentAppointmentComponent,
     AddPricelistComponent,
-    ViewAppointmentsComponent
+    ViewAppointmentsComponent,
+    NurseFinishedAppointmentsComponent,
+    NurseAuthenticateComponent
 
   ],
   imports: [

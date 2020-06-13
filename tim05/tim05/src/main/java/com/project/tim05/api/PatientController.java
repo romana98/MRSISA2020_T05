@@ -346,9 +346,12 @@ public class PatientController<T> {
 				}
 			}
 		}
-
-		ArrayList<Clinic> filteredClinics = cs.filterClinicsByParams(clinics, address_param, Integer.parseInt(low_rate), Integer.parseInt(high_rate));
-		
+		ArrayList<Clinic> filteredClinics = new ArrayList<Clinic>();
+		if(address_param != null && low_rate != null && high_rate != null) {
+			filteredClinics = cs.filterClinicsByParams(clinics, address_param, Integer.parseInt(low_rate), Integer.parseInt(high_rate));
+		}else {
+			filteredClinics = clinics;
+		}		
 		
 		ArrayList<PatientClinicsDTO> pcdtos = new ArrayList<PatientClinicsDTO>();
 

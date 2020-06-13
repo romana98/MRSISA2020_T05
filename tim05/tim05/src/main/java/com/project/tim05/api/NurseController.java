@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.tim05.dto.AppointmentDTO;
+import com.project.tim05.dto.AppointmentMedicineDTO;
 import com.project.tim05.dto.NurseDTO;
 import com.project.tim05.dto.PatientDTO;
 import com.project.tim05.model.ClinicAdministrator;
@@ -33,7 +36,7 @@ import com.project.tim05.service.RegistrationRequestService;
 @CrossOrigin(origins = "https://localhost:4200")
 @RequestMapping("/nurse")
 @RestController
-public class NurseController {
+public class NurseController<T> {
 	
 	private final NurseService ns;
 	private final ClinicAdministratorService cas;
@@ -49,6 +52,20 @@ public class NurseController {
 	}
 	
 
+	@GetMapping("/getFinishedAppointments") //vratice samo one koji imaju neovjerene medicines i koji su finished
+	@PreAuthorize("hasRole('NURSE')")
+	public ResponseEntity<List<AppointmentDTO>> getFinishedAppointments(){
+		ArrayList<AppointmentDTO> dtos = new ArrayList<AppointmentDTO>();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Nurse current = (Nurse) authentication.getPrincipal();
+		dtos = ns.getFinishedAppointments(current);
+		if(dtos == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(dtos);
+		}
+	}
+	
 	
 	@GetMapping("/getPatients")
 	@PreAuthorize("hasRole('NURSE')")
@@ -98,8 +115,33 @@ public class NurseController {
 		}else {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		}
+	}
 	
+	@GetMapping("/getUnauthenticatedMedicines")
+	@PreAuthorize("hasRole('NURSE')")
+	public ResponseEntity<ArrayList<AppointmentMedicineDTO>> getUnauthenticatedMedicines(@RequestParam String apt_id){
+		ArrayList<AppointmentMedicineDTO> result = new ArrayList<AppointmentMedicineDTO>();
 		
+		result = ns.getUnauthenticatedMedicines(Integer.parseInt(apt_id));
+		
+		if(result == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		}
+	}
+	
+	@PostMapping("/authenticateReceipt")
+	@PreAuthorize("hasRole('NURSE')")
+	public ResponseEntity<T> authenticate(@RequestBody int apt_medic_id){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Nurse  ms = (Nurse) authentication.getPrincipal();
+		int flag = ns.authenticate(apt_medic_id, ms.getId());
+		if(flag == 0) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
 	}
 
 }
