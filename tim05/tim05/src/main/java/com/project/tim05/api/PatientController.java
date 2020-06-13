@@ -88,6 +88,15 @@ public class PatientController<T> {
 		return ps.getDisease(email);
 	}
 	
+	@GetMapping("/getDiseasePatient")
+	@PreAuthorize("hasRole('PATIENT')")
+	public List<DiseaseDTO> getDiseasePatient() {
+		Authentication current = SecurityContextHolder.getContext().getAuthentication();
+		Patient currentUser = (Patient) current.getPrincipal();
+		
+		return ps.getDisease(currentUser.getEmail());
+	}
+	
 	@PostMapping("/setMedicine")
 	@PreAuthorize("hasRole('DOCTOR')")
 	public ResponseEntity<T> setMedicine(@RequestBody List<MedicineDTO> ms) {

@@ -73,6 +73,8 @@ import { CancelationLinkComponent } from './email/cancelation-link/cancelation-l
 import { ViewPredefinedAppointmentsComponent } from './view-predefined-appointments/view-predefined-appointments.component';
 import { ViewPatientProfileComponent } from './view-patient-profile/view-patient-profile.component';
 import { CurrentAppointmentComponent } from './current-appointment/current-appointment.component';
+import { ViewMedicalRecordComponent } from './view-medical-record/view-medical-record.component';
+import { EditMedicalRecordComponent } from './edit-medical-record/edit-medical-record.component';
 
 
 const appRoutes : Routes = [
@@ -192,6 +194,10 @@ const appRoutes : Routes = [
       {
         path: 'viewIncomingAppointments',
         component:ViewAppointmentsComponent
+      },
+      {
+        path: 'viewMedicalRecord',
+        component:ViewMedicalRecordComponent
       }
 
     ]
@@ -326,7 +332,9 @@ const appRoutes : Routes = [
     ViewPatientProfileComponent,
     CurrentAppointmentComponent,
     AddPricelistComponent,
-    ViewAppointmentsComponent
+    ViewAppointmentsComponent,
+    ViewMedicalRecordComponent,
+    EditMedicalRecordComponent
 
   ],
   imports: [

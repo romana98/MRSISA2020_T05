@@ -401,15 +401,15 @@ public class AppointmentController<T> {
 
 	}
 	
-	@GetMapping("/getAppointmentByID")
+	@GetMapping("/getFinishedAppointments")
 	@PreAuthorize("hasRole('PATIENT')")
-	public AppointmentDTO getAppointmentByID(@RequestParam String appId) {
-		Appointment a = as.getAppointmentById(Integer.parseInt(appId));
-		AppointmentDTO adto = new AppointmentDTO();
-		adto.setDescription(a.getDescription());
-		//TODO DODAJ LISTU LEKOVA I DIAGNOSIS
-		return adto;
-
+	public List<AppointmentDTO> getFinishedAppointments() {
+		Authentication current = SecurityContextHolder.getContext().getAuthentication();
+		Patient currentUser = (Patient)current.getPrincipal();
+				
+		List<AppointmentDTO> a = as.getAppointments(currentUser.getId());
+		
+		return a;
 	}
 	
 	@PostMapping("/reservePredefinedAppointment")
