@@ -21,8 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.tim05.dto.AppointmentTypeDTO;
 import com.project.tim05.dto.PricelistDTO;
+import com.project.tim05.model.AppointmentType;
 import com.project.tim05.model.ClinicAdministrator;
+import com.project.tim05.model.Pricelist;
 import com.project.tim05.repository.PricelistRepository;
+import com.project.tim05.service.AppointmentTypeService;
 import com.project.tim05.service.PricelistService;
 
 @CrossOrigin(origins = "https://localhost:4200")
@@ -33,11 +36,13 @@ public class PricelistController<T> {
 
 	private final PricelistService ps;
 	private final PricelistRepository pr;
+	private final AppointmentTypeService ats;
 	
 	@Autowired
-	public PricelistController(PricelistRepository pr, PricelistService ps) {
+	public PricelistController(AppointmentTypeService ats,PricelistRepository pr, PricelistService ps) {
 		this.ps = ps;
 		this.pr = pr;
+		this.ats= ats;
 	}
 	
 	@GetMapping("/getAptTypes")
@@ -107,5 +112,22 @@ public class PricelistController<T> {
 		return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 	
+	@GetMapping("/getAptypePrice")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
+	public ResponseEntity<Double> getAppointmentTypePrice(@RequestParam String appointment_type_id, String clinic_id){
+		
+		AppointmentType at = ats.getAppointmentTypebyId(Integer.parseInt(appointment_type_id));
+		
+		ArrayList<PricelistDTO> pcs = ps.getPricelists(Integer.parseInt(clinic_id));
+		for(PricelistDTO p : pcs) {
+			if(p.getApt_type().equalsIgnoreCase(at.getName())) {
+				return ResponseEntity.status(HttpStatus.OK).body(p.getPrice());
+
+			}
+		}
+		
+		
+		return ResponseEntity.status(HttpStatus.OK).body(Double.parseDouble("100"));
+	}
 	
 }

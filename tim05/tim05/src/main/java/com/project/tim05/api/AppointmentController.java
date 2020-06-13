@@ -116,7 +116,34 @@ public class AppointmentController<T> {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}		
 
+		SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formatter3 = new SimpleDateFormat("yyyy-MM-dd");
+
+
+		Date date = null;
+		Date wc_date = null;
+		try {
+			date = formatter1.parse(adto.getDate() + " " + adto.getTime());
+			wc_date = formatter2.parse(adto.getDate());
+		} catch (ParseException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+		
 		for(WorkCalendar wc : dr.getWorkCalendar()) {
+			try {
+				if(formatter3.parse(wc.getDate().toString().split(" ")[0]).getTime()!=wc_date.getTime()) {
+					continue;
+				} 
+				else {
+					if(wc.getLeave()==true) {
+						return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+					}
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			int wc_start = Integer.parseInt(wc.getStart_time().split(":")[0]) * 60
 					+ Integer.parseInt(wc.getStart_time().split(":")[1]);
 			int wc_end = Integer.parseInt(wc.getEnd_time().split(":")[0]) * 60
@@ -129,17 +156,7 @@ public class AppointmentController<T> {
 		
 		
 		
-		SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-		SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
-
-		Date date = null;
-		Date wc_date = null;
-		try {
-			date = formatter1.parse(adto.getDate() + " " + adto.getTime());
-			wc_date = formatter2.parse(adto.getDate());
-		} catch (ParseException e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-		}
+		
 		
 		
 

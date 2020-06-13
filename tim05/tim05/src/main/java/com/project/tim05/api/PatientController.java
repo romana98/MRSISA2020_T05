@@ -247,7 +247,7 @@ public class PatientController<T> {
 
 		for (Doctor dr : doctors) {
 			if (ds.getAvailableTime(sd, dr).size() > 0) {
-
+				
 				doctors_filtered.add(dr);
 
 				if (!clinics.contains(dr.getClinic())) {

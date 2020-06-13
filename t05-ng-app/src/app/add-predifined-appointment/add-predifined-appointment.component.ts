@@ -60,7 +60,7 @@ export class AddPredifinedAppointmentComponent implements OnInit {
           res => {
         // @ts-ignore
               this.appointmentTypes = res;
-
+              
         });
 
 
@@ -90,8 +90,19 @@ export class AddPredifinedAppointmentComponent implements OnInit {
     this.http.get(url,{params:params}).subscribe(
       res => {
             this.doctors = res;
+            console.log(res);
       });
-
+    let url2 = "http://localhost:8081/pricelist/getAptypePrice";
+    let params2 = new HttpParams();
+    params2 = params2.append('clinic_id', this.model.clinic_id.toString());
+    params2 = params2.append('appointment_type_id',this.model.appointmentType_id.toString());
+      this.http.get(url2,{params:params2}).subscribe(
+        res => {
+          //@ts-ignore
+          this.model.price = res;
+          console.log(res);
+        });
+  
 
 
 }
