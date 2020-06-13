@@ -65,9 +65,9 @@
     <br>
     <br>
 
-    <button type="button" mat-raised-button (click)="goToMedicalRecord()">Medical Record</button>
+    <button type="button" [disabled]="seeMedical.name ==='nope'" mat-raised-button (click)="goToMedicalRecord()">Medical Record</button>
 
-    <button style="left: 150px" type="button" mat-raised-button (click)="startAppointment()" [disabled]="model.password === 'f'" >Start appointment</button>
+    <button [hidden]="isHidden" style="left: 150px" type="button" mat-raised-button (click)="startAppointment()" [disabled]="model.password === 'f'" >Start appointment</button>
 
 
   </form>

@@ -42,6 +42,7 @@ public class AppointmentDTO {
 	private HallDTO hall;
 	private DoctorDTO doctor;
 	private AppointmentTypeDTO appointmentType;
+	private DiagnosisDTO diagnosis;
 
 	public AppointmentDTO() {
 		super();
@@ -101,6 +102,16 @@ public class AppointmentDTO {
 
 	public void setPatient(PatientDTO patient) {
 		this.patient = patient;
+	}
+	
+	
+
+	public DiagnosisDTO getDiagnosis() {
+		return diagnosis;
+	}
+
+	public void setDiagnosis(DiagnosisDTO diagnosis) {
+		this.diagnosis = diagnosis;
 	}
 
 	public int getId() {

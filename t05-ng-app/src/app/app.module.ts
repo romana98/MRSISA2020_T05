@@ -74,6 +74,8 @@ import { ViewPredefinedAppointmentsComponent } from './view-predefined-appointme
 import { ViewPatientProfileComponent } from './view-patient-profile/view-patient-profile.component';
 import { CurrentAppointmentComponent } from './current-appointment/current-appointment.component';
 import { AddAnotherAppointmentComponent } from './add-another-appointment/add-another-appointment.component';
+import { ViewMedicalRecordComponent } from './view-medical-record/view-medical-record.component';
+import { EditMedicalRecordComponent } from './edit-medical-record/edit-medical-record.component';
 
 
 const appRoutes : Routes = [
@@ -193,6 +195,10 @@ const appRoutes : Routes = [
       {
         path: 'viewIncomingAppointments',
         component:ViewAppointmentsComponent
+      },
+      {
+        path: 'viewMedicalRecord',
+        component:ViewMedicalRecordComponent
       }
 
     ]
@@ -267,6 +273,11 @@ const appRoutes : Routes = [
         path : 'addAnotherAppointment',
         component : AddAnotherAppointmentComponent,
         canActivate : [MedicallStuffGuardService]
+      },
+      {
+        path : 'patientMedicalRecord',
+        component : EditMedicalRecordComponent,
+        canActivate : [MedicallStuffGuardService]
       }
 
     ]
@@ -332,7 +343,9 @@ const appRoutes : Routes = [
     CurrentAppointmentComponent,
     AddPricelistComponent,
     ViewAppointmentsComponent,
-    AddAnotherAppointmentComponent
+    AddAnotherAppointmentComponent,
+    ViewMedicalRecordComponent,
+    EditMedicalRecordComponent
 
   ],
   imports: [

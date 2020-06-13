@@ -36,6 +36,11 @@ public class DoctorDTO extends MedicalStaffDTO {
 		super(name, surname);
 	}
 
+	public DoctorDTO(Integer id2, String name, String surname) {
+		super(name, surname);
+		this.id = id2;
+	}
+
 	public int getId() {
 		return id;
 	}

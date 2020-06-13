@@ -271,15 +271,12 @@ export class FirstDialog {
             duration: 2000,})
         }
         else{
-          if(err === 0){
-            
-          }
           const dialogRef = this.dialog.open(SecondDialog, {
             width: '50%',height: '50%', data : {
                 appointment_id : element.id.toString(),
                 hall_id : this.data.hall_id.toString(),
                 clinic_admin_id : sessionStorage.getItem('user_id'),
-                type : 0
+                type : err
             }});
 
           dialogRef.afterClosed().subscribe(result => {
@@ -318,7 +315,7 @@ export class SecondDialog {
       private _snackBar: MatSnackBar) {}
 
   ngOnInit(): void{
-    this.operation = (this.data.type == 1);
+    this.operation = (this.data.type === 1);
     this.http.get("http://localhost:8081/halls/getFirstTime",{params:{'clinic_admin_id' : sessionStorage.getItem('user_id'),
     'appointment_id' : this.data.appointment_id.toString(),
     'hall_id' : this.data.hall_id.toString()}}).subscribe(

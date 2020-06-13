@@ -76,6 +76,8 @@ export class CurrentAppointmentComponent implements OnInit {
       }
     )
 
+    this.dataSource.paginator = this.paginator;
+
 
   }
 

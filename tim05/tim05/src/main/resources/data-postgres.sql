@@ -17,8 +17,10 @@ INSERT INTO MEDICAL_RECORDS (medical_record_id) VALUES (1);
 
 INSERT INTO CLINIC_CENTER_ADMINS(user_id) VALUES (2);
 INSERT INTO CLINIC_ADMINS(user_id, clinic) VALUES (1, 1);
-INSERT INTO MEDICAL_STAFF(work_end,work_start,user_id) VALUES('18:00','12:00',3);
-INSERT INTO MEDICAL_STAFF(work_end,work_start,user_id) VALUES('18:00','12:00',4);
+
+INSERT INTO MEDICAL_STAFF(work_end,work_start,user_id) VALUES('20:00','12:00',3);
+INSERT INTO MEDICAL_STAFF(work_end,work_start,user_id) VALUES('20:00','12:00',4);
+
 INSERT INTO DOCTORS(user_id,active,appointment_type,clinic,clinic_admin,rate) VALUES (3, true , 1,1,1, 0);
 
 INSERT INTO PATIENTS(address,city,country,insurance_number,phone_number,user_id,medical_record) VALUES ('Wada','Novi Sad','Srbija','1234444','123-123-123',5,1);
