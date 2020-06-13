@@ -242,10 +242,28 @@ export class FirstDialog {
       clinic_admin_id : sessionStorage.getItem('user_id')
     }}).subscribe(
       res => {
-      //@ts-ignore
-      this.refreshData();
-      this._snackBar.open("Hall reserved successfully!", "Close", {
-        duration: 2000,})
+      if(res === 0){
+          //@ts-ignore
+          this.refreshData();
+          this._snackBar.open("Hall reserved successfully!", "Close", {
+            duration: 2000,})
+      }
+      else{
+        //@ts-ignore
+        const dialogRef = this.dialog.open(SecondDialog, {
+          width: '50%',height: '50%', data : {
+              appointment_id : element.id.toString(),
+              hall_id : this.data.hall_id.toString(),
+              clinic_admin_id : sessionStorage.getItem('user_id'),
+              //u pitanju je operacija
+              type : 1
+          }});
+
+        dialogRef.afterClosed().subscribe(result => {
+            this.refreshData();
+          });
+      }
+      
     },
       err => {
         if (err.status === 409){
@@ -253,11 +271,15 @@ export class FirstDialog {
             duration: 2000,})
         }
         else{
+          if(err === 0){
+            
+          }
           const dialogRef = this.dialog.open(SecondDialog, {
             width: '50%',height: '50%', data : {
                 appointment_id : element.id.toString(),
                 hall_id : this.data.hall_id.toString(),
-                clinic_admin_id : sessionStorage.getItem('user_id') 
+                clinic_admin_id : sessionStorage.getItem('user_id'),
+                type : 0
             }});
 
           dialogRef.afterClosed().subscribe(result => {
@@ -287,6 +309,8 @@ export class SecondDialog {
 
   show_doctors : boolean = true;
 
+  operation : boolean;
+
   constructor(
     public dialogRef: MatDialogRef<FirstDialog>,
     @Inject(MAT_DIALOG_DATA) public data: SecondDialogData,
@@ -294,6 +318,7 @@ export class SecondDialog {
       private _snackBar: MatSnackBar) {}
 
   ngOnInit(): void{
+    this.operation = (this.data.type == 1);
     this.http.get("http://localhost:8081/halls/getFirstTime",{params:{'clinic_admin_id' : sessionStorage.getItem('user_id'),
     'appointment_id' : this.data.appointment_id.toString(),
     'hall_id' : this.data.hall_id.toString()}}).subscribe(
@@ -328,6 +353,7 @@ export interface SecondDialogData{
   appointment_id : String;
   hall_id : String;
   clinic_admin_id : String;
+  type : number;
 }
 
 export interface hallModel

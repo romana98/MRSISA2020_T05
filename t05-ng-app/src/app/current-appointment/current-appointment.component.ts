@@ -119,8 +119,8 @@ export class CurrentAppointmentComponent implements OnInit {
                 this._snackBar.open("Successfully finished appointment!", "Close", {
                   duration: 2000,
                 });
-
-                let booleanPromise = this.r.navigate(["../viewPatients"], {relativeTo: this.router});
+                console.log(this.modelApp.id);
+                let booleanPromise = this.r.navigate(["../addAnotherAppointment"], { queryParams: { app_id: this.modelApp.id } , relativeTo: this.router });
 
 
               },

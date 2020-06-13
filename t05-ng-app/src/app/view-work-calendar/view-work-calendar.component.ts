@@ -74,8 +74,12 @@ export class ViewWorkCalendarComponent implements OnInit {
 
         if(w.getTime() === a.getTime())
         {
+          console.log(new Date(work.date));
+          console.log(new Date(work.date).setHours(parseInt(work.startTime.split(":")[0]), parseInt(work.startTime.split(":")[1])));
+          console.log(subDays(new Date(work.date).setHours(parseInt(work.startTime.split(":")[0]), parseInt(work.startTime.split(":")[1])), 1));
           this.events.push(
             {
+              
               start: subDays(new Date(work.date).setHours(parseInt(work.startTime.split(":")[0]), parseInt(work.startTime.split(":")[1])), 1),
               end: subDays(new Date(work.date).setHours(parseInt(work.endTime.split(":")[0]), parseInt(work.endTime.split(":")[1])), 1),
               title: 'Start:' + work.startTime + ', End: ' + work.endTime + ', AppointmentType: ' + app.appointmentType.name + ", Patient: " + app.patient.name + " " + app.patient.surname,

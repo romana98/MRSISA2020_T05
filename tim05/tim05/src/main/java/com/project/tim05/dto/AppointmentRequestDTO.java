@@ -12,22 +12,55 @@ public class AppointmentRequestDTO {
 	@NotNull
 	private String time;
 
-	@NotBlank
-	@NotNull
+	private String duration;
+	
 	private String app_type;
-	@NotBlank
-	@NotNull
+	
 	private String doctor;
-	@NotBlank
-	@NotNull
+	
 	private String clinic;
-	@NotBlank
-	@NotNull
+	
 	private String patient;
+	
+	private String app_id;
+	
+	private String type;
 
 	public AppointmentRequestDTO() {
 		super();
+		this.type = "app";
 	}
+
+
+	public String getDuration() {
+		return duration;
+	}
+
+
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
+
+
+	public String getApp_id() {
+		return app_id;
+	}
+
+
+	public void setApp_id(String app_id) {
+		this.app_id = app_id;
+	}
+
+
+	public String getType() {
+		return type;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 
 	public String getDate() {
 		return date;

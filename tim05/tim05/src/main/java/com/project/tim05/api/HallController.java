@@ -266,15 +266,23 @@ public class HallController<T> {
 			}catch (Exception e) {
 				ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 			}
-			return ResponseEntity.status(HttpStatus.OK).body(null);
+			if(a.isOperation()) {
+				return ResponseEntity.status(HttpStatus.OK).body(1);
+			}
+			else {
+				return ResponseEntity.status(HttpStatus.OK).body(0);
+			}
+			
 
 		} else if (success == 2) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		}
 		
+		if(a.isOperation()) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(1);
+		}
 		
-		
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(0);
 
 	}
 	

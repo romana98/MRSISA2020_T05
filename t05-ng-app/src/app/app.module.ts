@@ -73,6 +73,7 @@ import { CancelationLinkComponent } from './email/cancelation-link/cancelation-l
 import { ViewPredefinedAppointmentsComponent } from './view-predefined-appointments/view-predefined-appointments.component';
 import { ViewPatientProfileComponent } from './view-patient-profile/view-patient-profile.component';
 import { CurrentAppointmentComponent } from './current-appointment/current-appointment.component';
+import { AddAnotherAppointmentComponent } from './add-another-appointment/add-another-appointment.component';
 
 
 const appRoutes : Routes = [
@@ -261,8 +262,12 @@ const appRoutes : Routes = [
         path : 'currentAppointment',
         component : CurrentAppointmentComponent,
         canActivate : [MedicallStuffGuardService]
+      },
+      {
+        path : 'addAnotherAppointment',
+        component : AddAnotherAppointmentComponent,
+        canActivate : [MedicallStuffGuardService]
       }
-
 
     ]
   },
@@ -326,7 +331,8 @@ const appRoutes : Routes = [
     ViewPatientProfileComponent,
     CurrentAppointmentComponent,
     AddPricelistComponent,
-    ViewAppointmentsComponent
+    ViewAppointmentsComponent,
+    AddAnotherAppointmentComponent
 
   ],
   imports: [

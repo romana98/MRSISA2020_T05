@@ -34,6 +34,9 @@ public class Appointment {
 	
 	@Column(name = "description", length = 10485760)
 	private String description;
+	
+	@Column(name = "operation", nullable = false)
+	private boolean operation;
 		
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="appointment_type", referencedColumnName="appointment_type_id", nullable=true)
@@ -65,6 +68,10 @@ public class Appointment {
 	
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY, mappedBy="appointment")
 	private Set<AppointmentMedicine> medicines = new HashSet<AppointmentMedicine>();
+	
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinColumn(name="doctors", referencedColumnName="doctors_id", nullable=true)
+	private Set<Clinic> doctors = new HashSet<Clinic>();
    
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="diagnosis", referencedColumnName="diagnosis_id", nullable=true)
@@ -72,6 +79,7 @@ public class Appointment {
    
 	public Appointment() {
 		super();
+		this.operation = false;
 	}
 	public Appointment(Integer id, Date dateTime, int duration, double price, boolean request, boolean predefined,
 			Clinic clinic, Hall hall, Doctor doctor, AppointmentType appointmentType, Set<AppointmentMedicine> medicines,
@@ -93,6 +101,14 @@ public class Appointment {
 	}
 	
 	
+	
+	
+	public boolean isOperation() {
+		return operation;
+	}
+	public void setOperation(boolean operation) {
+		this.operation = operation;
+	}
 	public boolean isPredefined() {
 		return predefined;
 	}

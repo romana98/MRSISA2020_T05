@@ -1,9 +1,19 @@
 package com.project.tim05.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -35,7 +45,10 @@ public class Doctor extends MedicalStaff {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "appointment_type", referencedColumnName = "appointment_type_id", nullable = true)
 	private AppointmentType appointmentType;
-
+	
+	@ManyToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
+	private List<Appointment> appointments_many = new ArrayList<Appointment>();
+	
 	public Doctor() {
 		super();
 		this.active = true;

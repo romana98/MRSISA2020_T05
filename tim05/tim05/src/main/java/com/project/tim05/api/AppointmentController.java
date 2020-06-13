@@ -217,6 +217,139 @@ public class AppointmentController<T> {
 
 	}
 	
+	@PostMapping("/addAnotherAppointment")
+	@PreAuthorize("hasRole('DOCTOR')")
+	public ResponseEntity<String> addAnotherAppointment(@RequestBody AppointmentRequestDTO adto) {
+		Appointment ap = new Appointment();
+		Appointment old_ap = as.getAppointmentById(Integer.parseInt(adto.getApp_id()));
+		Doctor dr = old_ap.getDoctor();
+		AppointmentType at = dr.getAppointmentType();
+		Clinic c = dr.getClinic();
+	
+		if (dr == null || at == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+		
+		//provera da li je doktor zauzet
+		
+		int dr_start = Integer.parseInt(dr.getWorkStart().split(":")[0]) * 60
+				+ Integer.parseInt(dr.getWorkStart().split(":")[1]);
+		int dr_end = Integer.parseInt(dr.getWorkEnd().split(":")[0]) * 60
+				+ Integer.parseInt(dr.getWorkEnd().split(":")[1]);
+
+		int app_start = Integer.parseInt(adto.getTime().split(":")[0])*60 + Integer.parseInt(adto.getTime().split(":")[1]);
+		int app_end = app_start + Integer.parseInt(adto.getDuration());
+		
+		
+		if ((app_start < dr_start || app_start > dr_end) || (app_end < dr_start || app_end > dr_end)) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}		
+
+		SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formatter3 = new SimpleDateFormat("yyyy-MM-dd");
+
+
+		Date date = null;
+		Date wc_date = null;
+		try {
+			date = formatter1.parse(adto.getDate() + " " + adto.getTime());
+			wc_date = formatter2.parse(adto.getDate());
+		} catch (ParseException e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}
+		
+		for(WorkCalendar wc : dr.getWorkCalendar()) {
+			try {
+				if(formatter3.parse(wc.getDate().toString().split(" ")[0]).getTime()!=wc_date.getTime()) {
+					continue;
+				} 
+				else {
+					if(wc.getLeave()==true) {
+						return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+					}
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			int wc_start = Integer.parseInt(wc.getStart_time().split(":")[0]) * 60
+					+ Integer.parseInt(wc.getStart_time().split(":")[1]);
+			int wc_end = Integer.parseInt(wc.getEnd_time().split(":")[0]) * 60
+					+ Integer.parseInt(wc.getEnd_time().split(":")[1]);
+			if ((app_start >= wc_start && app_start <= wc_end) || (app_end >= wc_start && app_end <= wc_end)
+					|| (app_start == wc_start && app_end == wc_end)) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			}
+		}
+		
+		
+		
+		
+		
+		
+
+		ap.setDateTime(date);
+		ap.setDuration(Integer.parseInt(adto.getDuration()));
+		ap.setPrice(old_ap.getPrice());
+		ap.setRequest(true);
+		ap.setPredefined(false);
+		ap.setDoctor(dr);
+		ap.setAppointmentType(at);
+		ap.setClinic(c);
+		
+
+		int flag = as.addAppointment(ap);
+		//TODO u doktoru treba da se doda appointment
+		
+
+		WorkCalendar wc = new WorkCalendar();
+		wc.setDate(wc_date);
+		wc.setStart_time(adto.getTime());
+		
+		
+		//racunanje minuta od pocetka dana
+		String[] res = wc.getStart_time().split(":");
+		int start_minutes = Integer.parseInt(res[0])*60 + Integer.parseInt(res[1]);
+		//racunanje krajnjeg broja minuta od pocetka dana
+		int end_minutes = start_minutes + Integer.parseInt(adto.getDuration());
+		//transliranje krajnjeg broja minuta nazad u oblik "hh:mm"
+		//uzima se broj minuta i ostatak pri deljenju sa 60 predstavlja broj minuta koji je preko punog sata
+		//a sati se dobijaju tako sto se uzme broj minuta i bez ostatka se podeli sa 60, tako dobijamo sati:minuti
+		int end_minute = end_minutes%60;
+		int end_hour = end_minutes/60;
+		
+		dr.getAppointments().add(ap);
+		
+		String end_h = String.valueOf(end_hour);
+		String end_m = String.valueOf(end_minute);
+		if(end_hour < 10) {
+			end_h = "0" + end_hour;
+		}
+		if(end_minute < 10) {
+			end_m = "0" + end_minute;
+		}
+		
+		wc.setEnd_time(end_h + ":" + end_m);
+		wc.setDoctor(dr);
+		wc.setLeave(false);
+		wc.setRequest(false);
+		
+		dr.getWorkCalendar().add(wc);
+		
+		wcs.addCalendar(wc);
+		
+		for(Appointment a : dr.getAppointments()) {
+			System.out.println(a.getAppointmentType().getName());
+		}
+
+		if (flag == 0)
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		else
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+
+	}
+	
 	@PostMapping("/cancel")
 	public ResponseEntity<T> cancel(@RequestBody String request) {
 
@@ -257,7 +390,9 @@ public class AppointmentController<T> {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
 		
-		
+		if(adto.getType().equalsIgnoreCase("opp")) {
+			ap.setOperation(true);
+		}
 		
 
 		ap.setDateTime(date);

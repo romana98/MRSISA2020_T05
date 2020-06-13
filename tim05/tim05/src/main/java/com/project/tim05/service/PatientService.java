@@ -411,6 +411,9 @@ public class PatientService {
 		int flag = 0;
 		int appId = ms.get(ms.size()-1).getId();
 		ms.remove(ms.size()-1);
+		if(ms.isEmpty()) {
+			flag = 1;
+		}
 		for (MedicineDTO d : ms) {
 			try {
 				// Connection conn =
