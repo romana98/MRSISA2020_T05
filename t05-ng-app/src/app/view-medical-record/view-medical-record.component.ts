@@ -24,6 +24,9 @@ export class ViewMedicalRecordComponent implements OnInit {
 
   modelDis: any[];
 
+  selected_radio:any;
+  rate:number = 0;
+
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatPaginator, {static: true}) paginator1: MatPaginator;
 
@@ -62,5 +65,9 @@ export class ViewMedicalRecordComponent implements OnInit {
 
   Select(row: any) {
     this.selected = row.description;
+  }
+
+  rating() {
+
   }
 }

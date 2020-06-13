@@ -79,6 +79,7 @@ import { ViewMedicalRecordComponent } from './view-medical-record/view-medical-r
 import { EditMedicalRecordComponent } from './edit-medical-record/edit-medical-record.component';
 import { ReportCalendarComponent } from './report-calendar/report-calendar.component';
 import { ReportBasicComponent } from './report-basic/report-basic.component';
+import {MatRadioModule} from "@angular/material/radio";
 
 
 const appRoutes : Routes = [
@@ -399,7 +400,8 @@ const appRoutes : Routes = [
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
-    })
+    }),
+    MatRadioModule
 
   ],
   providers: [MatDatepickerModule,

@@ -119,5 +119,23 @@
     </mat-form-field>
     </span>
     </div>
+  <div style="float: right; width: 50%">
+    <br> <br>
+    <mat-radio-group  [(ngModel)]="selected_radio"  aria-label="Rate">Rate: &nbsp;&nbsp;
+      <mat-radio-button [value]="1">Clinic &nbsp;</mat-radio-button>
+      <mat-radio-button [value]="2">Doctor &nbsp;</mat-radio-button>
+    </mat-radio-group>
+
+    <mat-form-field appearance="outline" style="padding-right: 25px;width: 260px;">
+      <mat-label>Rate</mat-label>
+      <input  [(ngModel)] = "rate" name="input_rate"
+              matInput type="number" min = "0" max="5">
+    </mat-form-field>
+
+    <button type="button" mat-raised-button (click)="rating()" [disabled]="selected == ''" >Save selected description</button>
+
+
+
+  </div>
 
 </div>
