@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.tim05.dto.AppointmentDTO;
 import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.dto.PatientClinicsDTO;
 import com.project.tim05.dto.PatientDTO;
@@ -302,6 +303,22 @@ public class PatientController<T> {
 		pdto.setSurname(p.getSurname());
 		return pdto;
 
+	}
+	
+	@GetMapping("/getIncomingAppointments")
+	@PreAuthorize("hasRole('PATIENT')")
+	public ResponseEntity<ArrayList<AppointmentDTO>> getIncomingAppointments(){
+		
+		Authentication current = SecurityContextHolder.getContext().getAuthentication();
+		Patient currentUser = (Patient) current.getPrincipal();
+
+		Patient p = ps.getPatient(currentUser.getEmail());
+	
+		ArrayList<AppointmentDTO> dtos = ps.getIncomingAppointments(p);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(dtos);
+		
+	
 	}
 
 }

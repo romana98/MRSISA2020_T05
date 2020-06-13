@@ -20,3 +20,4 @@
 [0610/213438.907:ERROR:crash_report_database_win.cc(428)] unexpected header
 [0610/213647.369:ERROR:crash_report_database_win.cc(428)] unexpected header
 [0610/215945.213:ERROR:crash_report_database_win.cc(428)] unexpected header
+[0613/013844.402:WARNING:minidump_to_upload_parameters.cc(36)] duplicate key guid, discarding value be6b03d8-d7c1-48f1-9a60-67058b4ff3b7
