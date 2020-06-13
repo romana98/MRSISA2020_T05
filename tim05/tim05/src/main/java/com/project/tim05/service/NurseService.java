@@ -4,9 +4,11 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -16,13 +18,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.project.tim05.dto.DiseaseDTO;
 import com.project.tim05.dto.LeaveRequestDTO;
 import com.project.tim05.model.Authority;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.LeaveRequest;
 import com.project.tim05.model.Nurse;
+import com.project.tim05.model.Patient;
 import com.project.tim05.model.WorkCalendar;
 import com.project.tim05.repository.NurseRepository;
+import com.project.tim05.repository.PatientRepository;
 import com.project.tim05.repository.WorkCalendarRespository;
 import com.project.tim05.service.initializeAndUnproxy;
 
@@ -34,6 +39,9 @@ public class NurseService {
 	
 	@Autowired
 	private NurseRepository nr;
+	
+	@Autowired
+	private PatientRepository pr;
 	
 	@Autowired
 	private WorkCalendarRespository wcr;
@@ -146,6 +154,60 @@ public class NurseService {
 			flag = 0;
 		}
 		return flag;
+	}
+
+	public String canAccess(String email, int id) {
+		String s = "nope";
+		try {
+			Patient p = pr.findByEmail(email);
+			p.setMedicalRecord(initializeAndUnproxy.initAndUnproxy(p.getMedicalRecord()));
+			// Connection conn =
+			// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+			// "xslquaksjvvetl",
+			// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+			PreparedStatement st = conn
+					.prepareStatement("SELECT * FROM appointment_medicines WHERE nurse = ?");
+			st.setInt(1, id);
+			ResultSet rs = st.executeQuery();
+			List<Integer> app_ids = new ArrayList<Integer>();
+			
+			while(rs.next())
+				app_ids.add(rs.getInt("appointment"));
+			
+			if(app_ids.isEmpty())
+				return s;
+			
+			st = conn
+					.prepareStatement("SELECT * FROM appointments WHERE patient = ?");
+			st.setInt(1, p.getId());
+			rs = st.executeQuery();
+			List<Integer> aps = new ArrayList<Integer>();
+			
+			while(rs.next())
+				app_ids.add(rs.getInt("appointment"));
+			
+			if(app_ids.isEmpty())
+				return s;
+			
+			for (Integer a_i : app_ids) {
+				for (Integer a : aps) {
+					if(a_i == a)
+						return s = "yep";
+				}
+			}
+				
+
+			rs.close();
+			st.close();
+			conn.close();
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return s;
 	}
 	
 

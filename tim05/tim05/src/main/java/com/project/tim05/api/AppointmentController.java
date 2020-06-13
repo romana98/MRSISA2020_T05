@@ -401,6 +401,32 @@ public class AppointmentController<T> {
 
 	}
 	
+	@GetMapping("/saveDescription")
+	@PreAuthorize("hasRole('DOCTOR')")
+	public ResponseEntity<T> saveDescription(@RequestParam String appId, String desc) {
+		Authentication current = SecurityContextHolder.getContext().getAuthentication();
+		Doctor currentUser = (Doctor)current.getPrincipal();
+				
+		
+		int flag = as.saveDescription(Integer.parseInt(appId), desc, currentUser.getId());
+		
+		if (flag == 0)
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		else
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		
+	}
+	
+	@GetMapping("/getFinishedAppointmentsMed")
+	@PreAuthorize("hasRole('DOCTOR') || hasRole('NURSE')")
+	public List<AppointmentDTO> getFinishedAppointmentsMed(@RequestParam String email) {
+				
+		Patient p = ps.getPatient(email);
+		List<AppointmentDTO> a = as.getAppointments(p.getId());
+		
+		return a;
+	}
+	
 	@GetMapping("/getFinishedAppointments")
 	@PreAuthorize("hasRole('PATIENT')")
 	public List<AppointmentDTO> getFinishedAppointments() {

@@ -25,8 +25,10 @@ import com.project.tim05.model.Authority;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.LeaveRequest;
+import com.project.tim05.model.Patient;
 import com.project.tim05.model.WorkCalendar;
 import com.project.tim05.repository.DoctorRepository;
+import com.project.tim05.repository.PatientRepository;
 import com.project.tim05.repository.WorkCalendarRespository;
 
 @Service
@@ -43,6 +45,9 @@ public class DoctorService {
 	
 	@Autowired
 	private DoctorRepository dr;
+	
+	@Autowired
+	private PatientRepository pr;
 	
 	public int addDoctor(Doctor doctor) {
 		int flag = 0;
@@ -588,5 +593,36 @@ public int addLeave(LeaveRequest l) {
 		}
 		return s;
 }
+
+	public String canAccess(String email, Integer id) {
+		String s = "nope";
+		try {
+			Patient p = pr.findByEmail(email);
+			p.setMedicalRecord(initializeAndUnproxy.initAndUnproxy(p.getMedicalRecord()));
+			// Connection conn =
+			// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+			// "xslquaksjvvetl",
+			// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+			PreparedStatement st = conn
+					.prepareStatement("SELECT * FROM appointments WHERE doctor = ? and patient = ? ");
+			st.setInt(1, id);
+			st.setInt(2, p.getId());
+			ResultSet rs = st.executeQuery();
+			
+			
+			if(rs.next())
+				return s = "yep";
+			rs.close();
+			st.close();
+			conn.close();
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return s;
+	}
 	
 }

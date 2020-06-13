@@ -35,7 +35,7 @@ export class ViewMedicalRecordComponent implements OnInit {
     let url = "http://localhost:8081/patients/getDiseasePatient";
     let url1 = "http://localhost:8081/appointment/getFinishedAppointments";
 
-    this.http.get(url, {params:{email: this.router.snapshot.queryParamMap.get('email')}}).subscribe(
+    this.http.get(url).subscribe(
       res => {
         // @ts-ignore
         this.modelDis = res;
@@ -59,7 +59,6 @@ export class ViewMedicalRecordComponent implements OnInit {
   }
 
   Select(row: any) {
-    console.log(row)
     this.selected = row.description;
   }
 }

@@ -34,6 +34,7 @@ import com.project.tim05.model.Appointment;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Disease;
 import com.project.tim05.model.Doctor;
+import com.project.tim05.model.MedicalStaff;
 import com.project.tim05.model.Medicine;
 import com.project.tim05.model.Patient;
 import com.project.tim05.model.RegistrationRequest;
@@ -42,6 +43,7 @@ import com.project.tim05.service.AppointmentService;
 import com.project.tim05.service.ClinicService;
 import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.EmailService;
+import com.project.tim05.service.NurseService;
 import com.project.tim05.service.PatientService;
 import com.project.tim05.service.RegistrationRequestService;
 import com.project.tim05.service.UserService;
@@ -64,9 +66,10 @@ public class PatientController<T> {
 	private final EmailService es;
 	private final ClinicService cs;
 	private final DoctorService ds;
+	private final NurseService ns;
 
 	@Autowired
-	public PatientController(DoctorService ds, AppointmentService as, PatientService ps, RegistrationRequestService rrs, EmailService es,
+	public PatientController(DoctorService ds, NurseService ns, AppointmentService as, PatientService ps, RegistrationRequestService rrs, EmailService es,
 			ClinicService cs) {
 		this.ps = ps;
 		this.as = as;
@@ -74,6 +77,7 @@ public class PatientController<T> {
 		this.es = es;
 		this.cs = cs;
 		this.ds = ds;
+		this.ns = ns;
 	}
 
 	@GetMapping("/getPatients")
@@ -83,7 +87,7 @@ public class PatientController<T> {
 	}
 	
 	@GetMapping("/getDisease")
-	@PreAuthorize("hasRole('DOCTOR')")
+	@PreAuthorize("hasRole('DOCTOR') || hasRole('NURSE')")
 	public List<DiseaseDTO> getDisease(@RequestParam String email) {
 		return ps.getDisease(email);
 	}
@@ -107,6 +111,24 @@ public class PatientController<T> {
 		} else {
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 		}
+	}
+	
+	@GetMapping("/canAccessMedicalRecord")
+	@PreAuthorize("hasRole('DOCTOR') || hasRole('NURSE')")
+	public ResponseEntity<DiseaseDTO> canAccessMedicalRecord(@RequestParam String email) {
+		Authentication current = SecurityContextHolder.getContext().getAuthentication();
+		MedicalStaff currentUser = (MedicalStaff) current.getPrincipal();
+		
+		String s = "nope";
+		
+		if(currentUser.getClass() == Doctor.class)
+			s = ds.canAccess(email, currentUser.getId());
+		else
+		{
+			s = ns.canAccess(email, currentUser.getId());
+		}
+		
+		return ResponseEntity.status(HttpStatus.OK).body(new DiseaseDTO(s));
 	}
 	
 	@PostMapping("/setDisease")
@@ -136,10 +158,10 @@ public class PatientController<T> {
 	}
 	
 	@GetMapping("/getPatientDoctor")
-	@PreAuthorize("hasRole('DOCTOR')")
+	@PreAuthorize("hasRole('DOCTOR') || hasRole('NURSE')")
 	public ResponseEntity<PatientDTO> getPatient(@RequestParam String email) {
 		Authentication current = SecurityContextHolder.getContext().getAuthentication();
-		Doctor currentUser = (Doctor) current.getPrincipal();
+		MedicalStaff currentUser = (MedicalStaff) current.getPrincipal();
 		
 		
 		Patient p = ps.getPatient(email);
@@ -156,7 +178,11 @@ public class PatientController<T> {
 			pdto.setPhone_number(p.getPhone_number());
 			pdto.setSurname(p.getSurname());
 			
-			pdto.setPassword(ds.canStartAppointment(currentUser.getId(), p.getId()));
+			
+			if(currentUser.getClass() == Doctor.class)
+				pdto.setPassword(ds.canStartAppointment(currentUser.getId(), p.getId()));
+			else
+				pdto.setPassword("f");
 			return ResponseEntity.status(HttpStatus.OK).body(pdto);
 		} 
 	}

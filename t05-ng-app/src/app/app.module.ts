@@ -267,6 +267,11 @@ const appRoutes : Routes = [
         path : 'currentAppointment',
         component : CurrentAppointmentComponent,
         canActivate : [MedicallStuffGuardService]
+      },
+      {
+        path : 'patientMedicalRecord',
+        component : EditMedicalRecordComponent,
+        canActivate : [MedicallStuffGuardService]
       }
 
 

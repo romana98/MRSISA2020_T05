@@ -373,7 +373,7 @@ public class AppointmentService {
 				Hall h = hr.findById(rs.getInt("hall")).orElse(null);
 				Doctor d = dr.findById(rs.getInt("doctor"));
 				Diagnosis dd = ddr.findById(rs.getInt("diagnosis")).orElse(null);
-				AppointmentDTO w = new AppointmentDTO(rs.getTimestamp("date_time").toString(), new HallDTO(h.getName(), h.getNumber()), new AppointmentTypeDTO(at.getName()), new DoctorDTO(d.getName(), d.getSurname()), rs.getDouble("price"));
+				AppointmentDTO w = new AppointmentDTO(rs.getTimestamp("date_time").toString(), new HallDTO(h.getName(), h.getNumber()), new AppointmentTypeDTO(at.getName()), new DoctorDTO(d.getId(), d.getName(), d.getSurname()), rs.getDouble("price"));
 				w.setId(rs.getInt("appointment_id"));
 				w.setDuration(rs.getInt("duration"));
 				DiagnosisDTO ddDTO = new DiagnosisDTO(dd.getName(), dd.getDescription());
@@ -395,6 +395,26 @@ public class AppointmentService {
 		}
 	
 		return as;
+	}
+
+	public int saveDescription(Integer appId, String desc, Integer id) {
+		
+		int flag = 0;
+		try {
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			PreparedStatement ps = conn.prepareStatement("UPDATE appointments set description = ? where appointment_id = ? and doctor = ?");
+			ps.setString(1, desc);
+			ps.setInt(2, appId);
+			ps.setInt(3, id);
+			flag = ps.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			flag = 0;
+		}
+		
+		return flag;
 	}
 	
 }
