@@ -28,6 +28,11 @@ public class DiseaseDTO {
 	}
 	
 	
+	public DiseaseDTO(String s) {
+		this.name = s;
+	}
+
+
 	public String getName() {
 		return name;
 	}

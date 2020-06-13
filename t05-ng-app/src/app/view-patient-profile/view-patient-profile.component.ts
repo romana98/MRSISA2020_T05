@@ -22,21 +22,32 @@ export class ViewPatientProfileComponent implements OnInit {
     password: '',
   }
 
+  seeMedical:any;
+
+  isHidden:boolean = sessionStorage.getItem('role')===('ROLE_NURSE');
+
   constructor(private _snackBar: MatSnackBar, private http: HttpClient,
               private router: Router, private r:ActivatedRoute) { }
 
   ngOnInit(): void {
 
     let url = "http://localhost:8081/patients/getPatientDoctor";
+    let url1 = "http://localhost:8081/patients/canAccessMedicalRecord";
 
     this.http.get(url, {params:{email: this.r.snapshot.queryParamMap.get('email')}}).subscribe(
       res => {
         this.model = <patientModel>res;
+        this.http.get(url1, {params:{email: this.r.snapshot.queryParamMap.get('email')}}).subscribe(
+          res => {
+            this.seeMedical = res;
+          }
+        )
       }
     )
   }
 
   goToMedicalRecord() {
+    this.router.navigate(['/staff/patientMedicalRecord'],{queryParams : {'email': this.model.email}});
 
   }
 

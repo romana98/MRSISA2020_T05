@@ -24,6 +24,8 @@ import com.project.tim05.dto.MedicineDTO;
 import com.project.tim05.model.Appointment;
 import com.project.tim05.model.AppointmentMedicine;
 import com.project.tim05.model.AppointmentType;
+import com.project.tim05.dto.DiseaseDTO;
+import com.project.tim05.dto.LeaveRequestDTO;
 import com.project.tim05.model.Authority;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Doctor;
@@ -31,10 +33,12 @@ import com.project.tim05.model.Hall;
 import com.project.tim05.model.LeaveRequest;
 import com.project.tim05.model.Medicine;
 import com.project.tim05.model.Nurse;
+import com.project.tim05.model.Patient;
 import com.project.tim05.model.WorkCalendar;
 import com.project.tim05.repository.AppointmentMedicineRespository;
 import com.project.tim05.repository.AppointmentRespository;
 import com.project.tim05.repository.NurseRepository;
+import com.project.tim05.repository.PatientRepository;
 import com.project.tim05.repository.WorkCalendarRespository;
 
 @Service
@@ -45,6 +49,9 @@ public class NurseService {
 	
 	@Autowired
 	private NurseRepository nr;
+	
+	@Autowired
+	private PatientRepository pr;
 	
 	@Autowired
 	private WorkCalendarRespository wcr;
@@ -164,14 +171,65 @@ public class NurseService {
 		}
 		return flag;
 	}
-
-	public ArrayList<AppointmentDTO> getFinishedAppointments(Nurse current) {
-		ArrayList<AppointmentDTO> result = new ArrayList<AppointmentDTO>();
+	
+	public String canAccess(String email, int id) {
+		String s = "nope";
 		try {
+			Patient p = pr.findByEmail(email);
+			p.setMedicalRecord(initializeAndUnproxy.initAndUnproxy(p.getMedicalRecord()));
 			// Connection conn =
 			// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
 			// "xslquaksjvvetl",
 			// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+			PreparedStatement st = conn
+					.prepareStatement("SELECT * FROM appointment_medicines WHERE nurse = ?");
+			st.setInt(1, id);
+			ResultSet rs = st.executeQuery();
+			List<Integer> app_ids = new ArrayList<Integer>();
+			
+			while(rs.next())
+				app_ids.add(rs.getInt("appointment"));
+			
+			if(app_ids.isEmpty())
+				return s;
+			
+			st = conn
+					.prepareStatement("SELECT * FROM appointments WHERE patient = ?");
+			st.setInt(1, p.getId());
+			rs = st.executeQuery();
+			List<Integer> aps = new ArrayList<Integer>();
+			
+			while(rs.next())
+				app_ids.add(rs.getInt("appointment"));
+			
+			if(app_ids.isEmpty())
+				return s;
+			
+			for (Integer a_i : app_ids) {
+				for (Integer a : aps) {
+					if(a_i == a)
+						return s = "yep";
+				}
+			}
+				
+
+			rs.close();
+			st.close();
+			conn.close();
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return s;
+	}
+
+
+	public ArrayList<AppointmentDTO> getFinishedAppointments(Nurse current) {
+		ArrayList<AppointmentDTO> result = new ArrayList<AppointmentDTO>();
+		try {
 			Clinic c = initializeAndUnproxy.initAndUnproxy(current.getClinic());
 			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 
@@ -214,13 +272,12 @@ public class NurseService {
 			rs.close();
 			st.close();
 			conn.close();
-
-		} catch (SQLException e) {
-
-			System.out.println(e.getMessage());
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
-
 		return result;
 	}
 	

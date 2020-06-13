@@ -14,6 +14,8 @@ public class DiagnosisDTO {
 	@Pattern(regexp="([A-Z][a-z]+[ a-z.,0-9]*){1,}")
 	private String description;
 	
+	private String date;
+	
 	int id;
 	
    
@@ -54,6 +56,14 @@ public class DiagnosisDTO {
 	public void setId(int id) {
 		this.id = id;
 	}
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
+	
+	
    
 	
 }

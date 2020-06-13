@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tim05.dto.AppointmentDTO;
 import com.project.tim05.dto.AppointmentTypeDTO;
+import com.project.tim05.dto.DiagnosisDTO;
 import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.dto.HallDTO;
 import com.project.tim05.dto.PatientDTO;
@@ -24,12 +25,14 @@ import com.project.tim05.dto.WorkCalendarDTO;
 import com.project.tim05.model.Appointment;
 import com.project.tim05.model.AppointmentType;
 import com.project.tim05.model.Clinic;
+import com.project.tim05.model.Diagnosis;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Hall;
 import com.project.tim05.model.Patient;
 import com.project.tim05.model.WorkCalendar;
 import com.project.tim05.repository.AppointmentRespository;
 import com.project.tim05.repository.AppointmentTypeRespository;
+import com.project.tim05.repository.DiagnosisRespository;
 import com.project.tim05.repository.DoctorRepository;
 import com.project.tim05.repository.HallRepository;
 import com.project.tim05.repository.PatientRepository;
@@ -49,6 +52,9 @@ public class AppointmentService {
 	
 	@Autowired
 	private PatientRepository pr;
+	
+	@Autowired
+	private DiagnosisRespository ddr;
 	
 	@Autowired
 	private HallRepository hr;
@@ -340,6 +346,67 @@ public class AppointmentService {
 			ps.setString(1, ap.getDescription());
 			ps.setInt(2, Integer.parseInt(ap.getTime()));
 			ps.setInt(3, ap.getId());
+			flag = ps.executeUpdate();
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			flag = 0;
+		}
+		
+		return flag;
+	}
+
+	public List<AppointmentDTO> getAppointments(int id) {
+		
+		List<AppointmentDTO> as = new ArrayList<AppointmentDTO>();
+		try {
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+	        
+			PreparedStatement st = conn.prepareStatement("SELECT * from public.appointments where finished = true and patient = ?");
+			st.setInt(1, id);
+			ResultSet rs = st.executeQuery();
+			
+			while(rs.next())
+			{
+				AppointmentType at = atr.findById(rs.getInt("appointment_type")).orElse(null);
+				Hall h = hr.findById(rs.getInt("hall")).orElse(null);
+				Doctor d = dr.findById(rs.getInt("doctor"));
+				Diagnosis dd = ddr.findById(rs.getInt("diagnosis")).orElse(null);
+				AppointmentDTO w = new AppointmentDTO(rs.getTimestamp("date_time").toString(), new HallDTO(h.getName(), h.getNumber()), new AppointmentTypeDTO(at.getName()), new DoctorDTO(d.getId(), d.getName(), d.getSurname()), rs.getDouble("price"));
+				w.setId(rs.getInt("appointment_id"));
+				w.setDuration(rs.getInt("duration"));
+				DiagnosisDTO ddDTO = new DiagnosisDTO(dd.getName(), dd.getDescription());
+				ddDTO.setDate(w.getDate());
+				w.setDiagnosis(ddDTO);
+				w.setDescription(rs.getString("description"));
+				as.add(w);
+				
+			}
+			
+			
+			conn.close();
+			rs.close();
+			st.close();		
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return as;
+		}
+	
+		return as;
+	}
+
+	public int saveDescription(Integer appId, String desc, Integer id) {
+		
+		int flag = 0;
+		try {
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			PreparedStatement ps = conn.prepareStatement("UPDATE appointments set description = ? where appointment_id = ? and doctor = ?");
+			ps.setString(1, desc);
+			ps.setInt(2, appId);
+			ps.setInt(3, id);
 			flag = ps.executeUpdate();
 			
 		} catch (Exception e) {
