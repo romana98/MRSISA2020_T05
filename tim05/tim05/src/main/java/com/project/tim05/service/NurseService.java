@@ -196,15 +196,15 @@ public class NurseService {
 				return s;
 			
 			st = conn
-					.prepareStatement("SELECT * FROM appointments WHERE patient = ?");
+					.prepareStatement("SELECT * FROM appointments WHERE patient = ? and finished = true");
 			st.setInt(1, p.getId());
 			rs = st.executeQuery();
 			List<Integer> aps = new ArrayList<Integer>();
 			
 			while(rs.next())
-				app_ids.add(rs.getInt("appointment"));
+				aps.add(rs.getInt("appointment_id"));
 			
-			if(app_ids.isEmpty())
+			if(aps.isEmpty())
 				return s;
 			
 			for (Integer a_i : app_ids) {

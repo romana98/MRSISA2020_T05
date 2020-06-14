@@ -118,7 +118,7 @@ export class CurrentAppointmentComponent implements OnInit {
                   duration: 2000,
                 });
                 console.log(this.modelApp.id);
-                let booleanPromise = this.r.navigate(["../addAnotherAppointment"], { queryParams: { app_id: this.modelApp.id } , relativeTo: this.router });
+                let booleanPromise = this.r.navigate(["../addAnotherAppointment"], { queryParams: { app_id: this.modelApp.id, name: this.patient } , relativeTo: this.router });
 
 
               },

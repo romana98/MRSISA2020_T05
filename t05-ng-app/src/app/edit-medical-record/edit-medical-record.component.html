@@ -118,7 +118,7 @@
                required style=" resize: none"> </textarea>
     </mat-form-field>
     </span>
-    <button [hidden]="isHidden" style="left: 150px" type="button" mat-raised-button (click)="save()" [disabled]="selected == ''" >Save selected description</button>
+    <button [hidden]="isHidden" style="left: 150px" type="button" mat-raised-button (click)="save()" [disabled]="isDisabled" >Save selected description</button>
 
   </div>
 

@@ -95,7 +95,19 @@ export class ViewMedicalRecordComponent implements OnInit {
         this._snackBar.open("Successfully rated!", "Close", {
           duration: 2000,
         });
-        this.refreshData();
+
+        console.log(this.selected_radio)
+
+        if(this.selected_radio == 1){
+        // @ts-ignore
+        this.dataSource.data[this.selected_row].ratedClinic = !this.ratedClinic;
+        this.ratedClinic = !this.ratedClinic;
+        }else{
+        // @ts-ignore
+        this.dataSource.data[this.selected_row].ratedDoctor = !this.ratedDoctor;
+          this.ratedDoctor = !this.ratedDoctor;}
+        this.dataSource._updateChangeSubscription()
+        //this.refreshData();
       }, err =>{
         this._snackBar.open("Something went wrong!", "Close", {
           duration: 2000,

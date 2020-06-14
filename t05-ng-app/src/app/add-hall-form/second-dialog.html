@@ -1,6 +1,6 @@
 <h2 mat-dialog-title style="text-align: center">Reserve hall:</h2>
 <div mat-dialog-content style="height: 80%;">
-    
+
 <div ></div>
   <div *ngIf="!this.operation">
     <h3 style="margin-left: 25%;margin-top: 3%;">First available time for this appointment is:</h3>
@@ -16,7 +16,7 @@
       </mat-form-field>
       </form>
     </div>
-    
+
   </div>
 
 
@@ -33,36 +33,36 @@
         </mat-select>
       </mat-form-field>
       </form>
-    
+
       <div class="mat-elevation-z8" style="width: 90%;margin-left: 2%; margin-top: 2%;">
 
         <table mat-table [dataSource]="dataSource" >
-  
+
           <ng-container matColumnDef="name" style="width: 300px;">
             <th mat-header-cell *matHeaderCellDef> Name </th>
             <td mat-cell *matCellDef="let element"> {{element.name}} </td>
           </ng-container>
-  
+
           <ng-container matColumnDef="description" style="width: 300px;">
             <th mat-header-cell *matHeaderCellDef> Description </th>
             <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
           </ng-container>
-  
+
           <ng-container matColumnDef="check">
             <th mat-header-cell *matHeaderCellDef> Check </th>
             <td mat-cell *matCellDef="let element"  style="width: 150px;">
-  
+
             <button mat-button type="button" *ngIf="!element.selected" (click)="element.selected=true">Add</button>
             <button mat-button type="button" *ngIf="element.selected" (click)="element.selected=false">Remove</button></td>
           </ng-container>
-  
+
           <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" [hidden]="choose_doc.value === row.id"></tr>
+
         </table>
-  
+
         <mat-paginator [pageSizeOptions]="[5]" showFirstLastButtons></mat-paginator>
-  
+
       </div>
 
   </div>
@@ -103,7 +103,7 @@
 <br>
 
   <button mat-button [mat-dialog-close]="" type="button" style="float: left;margin-right: 300px;">Cancel</button>
-  <button mat-button (click)="reserve()" style="float: right;">Confirm</button>  
+  <button mat-button (click)="reserve()" style="float: right;">Confirm</button>
 
 </div>
 

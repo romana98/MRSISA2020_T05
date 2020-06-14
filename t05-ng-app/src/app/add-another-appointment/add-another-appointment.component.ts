@@ -26,7 +26,7 @@ export class AddAnotherAppointmentComponent implements OnInit {
     type : '',
     app_id : ''
   }
-  
+
   durControl : FormControl = new FormControl(10, [Validators.max(60), Validators.min(10)])
 
   constructor(private http:HttpClient,private _snackBar:MatSnackBar,private router: ActivatedRoute, private r: Router) { }
@@ -34,6 +34,8 @@ export class AddAnotherAppointmentComponent implements OnInit {
   ngOnInit(): void {
     this.today = new Date();
     this.passModel.app_id = this.router.snapshot.queryParamMap.get('app_id');
+    this.patient_name = this.router.snapshot.queryParamMap.get('name').split(" ")[0];
+    this.patient_surname = this.router.snapshot.queryParamMap.get('name').split(" ")[1];
   }
 
   addAppointment(){
@@ -43,7 +45,7 @@ export class AddAnotherAppointmentComponent implements OnInit {
     this.http.post(url,this.passModel).subscribe(
       res => {
         //poziv kako bismo nakon dodavanja appointmenta dobili novije podatke u tabel
-        let booleanPromise = this.r.navigate(["../viewPatients"]);
+        let booleanPromise = this.r.navigate(["../viewPatients"], {relativeTo: this.router});
         this._snackBar.open("Appointment added successfully.", "Close", {
           duration: 2000,
         });
@@ -56,6 +58,9 @@ export class AddAnotherAppointmentComponent implements OnInit {
       });
   }
 
+  skip() {
+    let booleanPromise = this.r.navigate(["../viewPatients"], {relativeTo: this.router});
+  }
 }
 
 export interface DataModel{
