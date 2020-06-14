@@ -14,6 +14,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tim05.dto.AppointmentDTO;
 import com.project.tim05.dto.AppointmentMedicineDTO;
@@ -41,6 +42,7 @@ import com.project.tim05.repository.NurseRepository;
 import com.project.tim05.repository.PatientRepository;
 import com.project.tim05.repository.WorkCalendarRespository;
 
+@Transactional(readOnly = false)
 @Service
 public class NurseService {
 	
@@ -335,7 +337,7 @@ public class NurseService {
 			return null;
 		}
 	}
-
+	@Transactional(readOnly=false)
 	public int authenticate(int apt_medic_id, Integer nurse_id) {
 		int flag = 0;
 		try {

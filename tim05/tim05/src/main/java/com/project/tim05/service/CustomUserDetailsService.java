@@ -12,12 +12,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tim05.model.User;
 import com.project.tim05.repository.UserRepository;
 
 // Ovaj servis je namerno izdvojen kao poseban u ovom primeru.
 // U opstem slucaju UserServiceImpl klasa bi mogla da implementira UserDetailService interfejs.
+@Transactional(readOnly = false)
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 

@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,10 +14,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tim05.dto.BasicReportDTO;
 import com.project.tim05.dto.DoctorDTO;
-import com.project.tim05.model.Appointment;
 import com.project.tim05.model.Authority;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.ClinicAdministrator;
@@ -27,6 +26,7 @@ import com.project.tim05.repository.AppointmentRespository;
 import com.project.tim05.repository.ClinicAdministratorRespository;
 import com.project.tim05.repository.DoctorRepository;
 
+@Transactional(readOnly = false)
 @Service
 public class ClinicAdministratorService {
 	

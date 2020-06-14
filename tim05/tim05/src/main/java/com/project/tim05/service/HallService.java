@@ -14,10 +14,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import org.hibernate.LockMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tim05.dto.AppointmentDTO;
@@ -464,8 +468,14 @@ public class HallService {
 
 		return 1;
 	}
+	@Transactional(readOnly = false)
 	//DATE SLUZI SAMO DA BI UZEO WORK CALENDARE ZA DATUM ZAKAZIVANJA
 	public int reserveHall(Hall h, Appointment a, Date date, int clinic_id) {
+		/*EntityManagerFactory factory = 
+				  Persistence.createEntityManagerFactory("factory");
+		EntityManager em = factory.createEntityManager();
+		em.find(Appointment.class, a.getId(),LockMode.OPTIMISTIC_FORCE_INCREMENT);
+		em.lock(per_a, LockMode.OPTIMISTIC_FORCE_INCREMENT);*/
 		Connection conn;
 		try {
 			// conn =
@@ -517,6 +527,7 @@ public class HallService {
 					Set<WorkCalendar> wc = initializeAndUnproxy.initAndUnproxy(d.getWorkCalendar());
 					hr.save(h);
 					ar.save(a);
+					ar.flush();
 					for (WorkCalendar wece : wc) {
 						if (wece.getDate().getDay() == a.getDateTime().getDay()) {
 							System.out.println(a.getDateTime().toString());
@@ -574,7 +585,6 @@ public class HallService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 		return 1;
 	}
 	

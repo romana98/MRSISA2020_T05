@@ -13,6 +13,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.project.tim05.dto.ClinicDTO;
@@ -20,6 +21,7 @@ import com.project.tim05.dto.PatientClinicsDTO;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.repository.ClinicRespository;
 
+@Transactional(readOnly = false)
 @Service
 public class ClinicService {
 

@@ -301,7 +301,7 @@ public class AppointmentService {
 	public int reservePredefined(int appId, Integer patientId) {
 		int flag = 0;
 		
-		Appointment a = this.getAppointmentById(appId);
+		Appointment a = ar.findById(appId).orElse(null);
 		
 		if(a.getPatient() != null)
 		{

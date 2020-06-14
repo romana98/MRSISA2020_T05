@@ -17,6 +17,7 @@ import com.project.tim05.model.User;
 import com.project.tim05.repository.RegistrationRequestRepository;
 import com.project.tim05.repository.UserRepository;
 
+@Transactional(readOnly = false)
 @Service
 public class RegistrationRequestService {
 	

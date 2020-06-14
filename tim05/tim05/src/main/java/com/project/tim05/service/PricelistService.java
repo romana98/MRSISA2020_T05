@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tim05.dto.AppointmentTypeDTO;
 import com.project.tim05.dto.PricelistDTO;
@@ -17,6 +18,7 @@ import com.project.tim05.model.AppointmentType;
 import com.project.tim05.model.Pricelist;
 import com.project.tim05.repository.PricelistRepository;
 
+@Transactional(readOnly = false)
 @Service
 public class PricelistService {
 

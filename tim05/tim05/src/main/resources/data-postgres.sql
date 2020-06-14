@@ -1,8 +1,8 @@
 INSERT INTO USERS (email, password, name, surname, enabled, last_password_reset_date) VALUES ('cadmin@example.com', '$2y$12$mqtpfiMpMZ9m/n0N8gDWE./ThGjArCwkPJLFxO07D1IESbvzJSEQ6', 'Admin', 'Admin', true, '2019-10-01 18:57:58.508-07');
 INSERT INTO USERS (email, password, name, surname, enabled, last_password_reset_date) VALUES ('ccadmin@example.com', '$2y$12$mqtpfiMpMZ9m/n0N8gDWE./ThGjArCwkPJLFxO07D1IESbvzJSEQ6', 'Admin', 'Admin', true, '2019-10-01 18:57:58.508-07');
 INSERT INTO USERS (email, password, name, surname, enabled, last_password_reset_date) VALUES ('doctor@example.com', '$2y$12$mqtpfiMpMZ9m/n0N8gDWE./ThGjArCwkPJLFxO07D1IESbvzJSEQ6', 'Doctor', 'First', true, '2019-10-01 18:57:58.508-07');
-INSERT INTO USERS (email, password, name, surname, enabled, last_password_reset_date) VALUES ('nurse@example.com', '$2y$12$mqtpfiMpMZ9m/n0N8gDWE./ThGjArCwkPJLFxO07D1IESbvzJSEQ6', 'Admin', 'Admin', true, '2019-10-01 18:57:58.508-07');
-INSERT INTO USERS (email, password, name, surname, enabled, last_password_reset_date) VALUES ('patient@example.com', '$2y$12$mqtpfiMpMZ9m/n0N8gDWE./ThGjArCwkPJLFxO07D1IESbvzJSEQ6', 'Admin', 'Admin', true, '2019-10-01 18:57:58.508-07');
+INSERT INTO USERS (email, password, name, surname, enabled, last_password_reset_date) VALUES ('nurse@example.com', '$2y$12$mqtpfiMpMZ9m/n0N8gDWE./ThGjArCwkPJLFxO07D1IESbvzJSEQ6', 'First', 'Nurse', true, '2019-10-01 18:57:58.508-07');
+INSERT INTO USERS (email, password, name, surname, enabled, last_password_reset_date) VALUES ('patient@example.com', '$2y$12$mqtpfiMpMZ9m/n0N8gDWE./ThGjArCwkPJLFxO07D1IESbvzJSEQ6', 'First', 'Patient', true, '2019-10-01 18:57:58.508-07');
 INSERT INTO USERS (email, password, name, surname, enabled, last_password_reset_date) VALUES ('doctore@example.com', '$2y$12$mqtpfiMpMZ9m/n0N8gDWE./ThGjArCwkPJLFxO07D1IESbvzJSEQ6', 'Doctor', 'Second', true, '2019-10-01 18:57:58.508-07');
 
 
@@ -10,6 +10,8 @@ INSERT INTO CLINICS (name, address, description) VALUES('Clinic', 'Address 1', '
 INSERT INTO HALLS (name,number,clinic) VALUES ('Hall',2,1);
 
 INSERT INTO DIAGNOSISES(name,description) VALUES('Dajagnoza','opis');
+INSERT INTO MEDICINES(name,description) VALUES('Dajagnoza','opis');
+
 
 INSERT INTO APPOINTMENT_TYPES(name,clinic) VALUES ('Appname',1);
 INSERT INTO APPOINTMENT_TYPES(name,clinic) VALUES ('App',1);

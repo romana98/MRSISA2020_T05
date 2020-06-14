@@ -20,6 +20,7 @@ import com.project.tim05.repository.DoctorRepository;
 import com.project.tim05.repository.LeaveRequestRespository;
 import com.project.tim05.repository.NurseRepository;
 
+@Transactional(readOnly = false)
 @Service
 public class LeaveRequestService {
 

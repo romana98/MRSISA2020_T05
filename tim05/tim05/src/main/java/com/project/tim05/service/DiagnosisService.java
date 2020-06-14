@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.project.tim05.model.Diagnosis;
 import com.project.tim05.repository.DiagnosisRespository;
 
+@Transactional(readOnly = false)
 @Service
 public class DiagnosisService {
 

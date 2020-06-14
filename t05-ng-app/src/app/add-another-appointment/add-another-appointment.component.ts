@@ -24,7 +24,8 @@ export class AddAnotherAppointmentComponent implements OnInit {
     time : '',
     duration : '',
     type : '',
-    app_id : ''
+    app_id : '',
+    patient :''
   }
 
   durControl : FormControl = new FormControl(10, [Validators.max(60), Validators.min(10)])
@@ -42,6 +43,7 @@ export class AddAnotherAppointmentComponent implements OnInit {
     let url = "http://localhost:8081/appointment/addAnotherAppointment";
     this.passModel.duration = this.durControl.value;
     this.passModel.date = this.passModel.date_field.getDate() + "/" + (this.passModel.date_field.getMonth()+1) + "/" + this.passModel.date_field.getFullYear();
+    this.passModel.patient = this.router.snapshot.queryParamMap.get('email')
     this.http.post(url,this.passModel).subscribe(
       res => {
         //poziv kako bismo nakon dodavanja appointmenta dobili novije podatke u tabel
@@ -69,5 +71,6 @@ export interface DataModel{
   time : String,
   duration : String,
   type : String,
-  app_id : String
+  app_id : String,
+  patient : String,
 }

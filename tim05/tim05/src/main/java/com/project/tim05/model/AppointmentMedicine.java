@@ -1,6 +1,5 @@
 package com.project.tim05.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,7 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+
+import org.springframework.data.annotation.Version;
 
 @Entity
 @Table(name="appointment_medicines")
@@ -38,7 +38,8 @@ public class AppointmentMedicine {
 	@JoinColumn(name="nurse", referencedColumnName="user_id", nullable=true)
 	private Nurse nurse;
 	
-	
+	@Version
+	private Long version;
 	
 
 	public AppointmentMedicine() {

@@ -13,6 +13,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tim05.dto.DiseaseDTO;
 import com.project.tim05.dto.MedicineDTO;
@@ -38,6 +39,7 @@ import com.project.tim05.repository.HallRepository;
 import com.project.tim05.repository.MedicalRecordRepository;
 import com.project.tim05.repository.PatientRepository;
 
+@Transactional(readOnly = false)
 @Service
 public class PatientService {
 

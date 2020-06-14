@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tim05.dto.WorkCalendarDTO;
 import com.project.tim05.model.Clinic;
@@ -20,6 +21,8 @@ import com.project.tim05.model.WorkCalendar;
 import com.project.tim05.repository.DoctorRepository;
 import com.project.tim05.repository.NurseRepository;
 import com.project.tim05.repository.WorkCalendarRespository;
+@Transactional(readOnly = false)
+
 @Service
 public class WorkCalendarService{
 	

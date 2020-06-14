@@ -694,6 +694,7 @@ public int addLeave(LeaveRequest l) {
 		Doctor dr = this.dr.findById(old_ap.getDoctor().getId()).orElse(null);
 		AppointmentType at = dr.getAppointmentType();
 		Clinic c = dr.getClinic();
+		Patient p = pr.findByEmail(adto.getPatient());
 	
 		if (dr == null || at == null) {
 			return 1;
@@ -766,6 +767,7 @@ public int addLeave(LeaveRequest l) {
 		ap.setDoctor(dr);
 		ap.setAppointmentType(at);
 		ap.setClinic(c);
+		ap.setPatient(p);
 		
 
 		int flag = as.addAppointment(ap);

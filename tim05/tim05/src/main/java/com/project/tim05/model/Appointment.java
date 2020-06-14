@@ -82,6 +82,9 @@ public class Appointment {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "diagnosis", referencedColumnName = "diagnosis_id", nullable = true)
 	private Diagnosis diagnosis;
+	
+	@Version
+	private Long version;
 
 	public Appointment() {
 		super();

@@ -356,13 +356,6 @@ public class HallController<T> {
 		}
 
 		Hall h = hs.getHallbyId(Integer.parseInt(hall_id));
-		h.setClinic(null);
-		try {
-			Thread.sleep(10000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		Appointment a = as.getAppointmentById(Integer.parseInt(appointment_id));
 
 		int success = hs.tryReserve(h, a, new_date, clinic_id);
@@ -398,7 +391,6 @@ public class HallController<T> {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(0);
 
 	}
-
 	@GetMapping("/reserveNewHall")
 	// @PreAuthorize("hasRole('CLINIC_ADMIN')")
 	public ResponseEntity<Object> reserveNewHall(@RequestParam String hall_id, String appointment_id, String date,
@@ -424,7 +416,7 @@ public class HallController<T> {
 		int app_start = hs.getTimeMinutes(a.getDateTime());
 		int app_end = app_start + a.getDuration();
 
-		Doctor d = initializeAndUnproxy.initAndUnproxy(a.getDoctor());
+		Doctor d = ds.getDoctorbyID(a.getDoctor().getId());
 		Set<WorkCalendar> times = initializeAndUnproxy.initAndUnproxy(d.getWorkCalendar());
 		WorkCalendar target_wc = null;
 		for (WorkCalendar wc : times) {

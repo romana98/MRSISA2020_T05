@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tim05.model.Medicine;
 import com.project.tim05.repository.MedicineRepository;
 
+@Transactional(readOnly = false)
 @Service
 public class MedicineService {
 	

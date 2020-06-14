@@ -11,10 +11,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tim05.model.ClinicCenterAdministrator;
 import com.project.tim05.repository.ClinicCenterAdministratorRespository;;
 
+@Transactional(readOnly = false)
 @Service
 public class ClinicCenterAdministratorService {
 	

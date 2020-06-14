@@ -13,10 +13,12 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tim05.model.User;
 import com.project.tim05.repository.UserRepository;
 
+@Transactional(readOnly = false)
 @Service
 public class UserService {
 	
