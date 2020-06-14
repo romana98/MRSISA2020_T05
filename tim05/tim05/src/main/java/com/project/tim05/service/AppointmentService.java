@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tim05.dto.AppointmentDTO;
 import com.project.tim05.dto.AppointmentTypeDTO;
+import com.project.tim05.dto.ClinicDTO;
 import com.project.tim05.dto.DiagnosisDTO;
 import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.dto.HallDTO;
@@ -25,6 +26,7 @@ import com.project.tim05.dto.WorkCalendarDTO;
 import com.project.tim05.model.Appointment;
 import com.project.tim05.model.AppointmentType;
 import com.project.tim05.model.Clinic;
+import com.project.tim05.model.ClinicAdministrator;
 import com.project.tim05.model.Diagnosis;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Hall;
@@ -32,6 +34,7 @@ import com.project.tim05.model.Patient;
 import com.project.tim05.model.WorkCalendar;
 import com.project.tim05.repository.AppointmentRespository;
 import com.project.tim05.repository.AppointmentTypeRespository;
+import com.project.tim05.repository.ClinicAdministratorRespository;
 import com.project.tim05.repository.DiagnosisRespository;
 import com.project.tim05.repository.DoctorRepository;
 import com.project.tim05.repository.HallRepository;
@@ -55,6 +58,9 @@ public class AppointmentService {
 	
 	@Autowired
 	private DiagnosisRespository ddr;
+
+	@Autowired
+	private ClinicAdministratorRespository car;
 	
 	@Autowired
 	private HallRepository hr;
@@ -380,6 +386,12 @@ public class AppointmentService {
 				ddDTO.setDate(w.getDate());
 				w.setDiagnosis(ddDTO);
 				w.setDescription(rs.getString("description"));
+				ClinicDTO dto = new ClinicDTO();
+				dto.setId(rs.getInt("clinic"));
+				w.setClinic(dto);
+				w.setDoctor_id(d.getId());
+				w.setRatedClinic(rs.getBoolean("rated_clinic"));
+				w.setRatedDoctor(rs.getBoolean("rated_doctor"));
 				as.add(w);
 				
 			}
@@ -415,6 +427,55 @@ public class AppointmentService {
 		}
 		
 		return flag;
+	}
+
+	public List<AppointmentDTO> getReportAppointments(Integer id) {
+		List<AppointmentDTO> as = new ArrayList<AppointmentDTO>();
+		try {
+			ClinicAdministrator ca = car.findById(id).orElse(null);
+			if(ca == null)
+				return as;
+			
+			ca.setClinic(initializeAndUnproxy.initAndUnproxy(ca.getClinic()));
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+			PreparedStatement st = conn.prepareStatement("SELECT * from public.appointments where finished = true and clinic = ?");
+			st.setInt(1, ca.getClinic().getId());
+			ResultSet rs = st.executeQuery();
+			
+			while(rs.next())
+			{
+				AppointmentType at = atr.findById(rs.getInt("appointment_type")).orElse(null);;
+				Patient p = pr.findById(rs.getInt("patient"));
+				if(p == null)
+				{
+					p = new Patient(); p.setName(""); p.setSurname("");;
+				}
+				AppointmentDTO w = new AppointmentDTO();
+				w.setDate(rs.getTimestamp("date_time").toString());
+				w.setPatient(new PatientDTO(p.getName(), p.getSurname()));
+				
+				Doctor d = dr.findById(rs.getInt("doctor"));
+				w.setDoctor(new DoctorDTO(d.getName(), d.getSurname()));
+				w.setDuration(rs.getInt("duration"));
+				w.setPrice(rs.getDouble("price"));
+				
+				as.add(w);
+				
+			}
+			
+			
+			conn.close();
+			rs.close();
+			st.close();		
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return as;
+		}
+	
+		return as;
 	}
 	
 }

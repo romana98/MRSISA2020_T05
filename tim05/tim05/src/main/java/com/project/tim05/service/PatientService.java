@@ -32,8 +32,10 @@ import com.project.tim05.model.MedicalRecord;
 import com.project.tim05.model.Patient;
 import com.project.tim05.repository.AppointmentRespository;
 import com.project.tim05.repository.AppointmentTypeRespository;
+import com.project.tim05.repository.ClinicRespository;
 import com.project.tim05.repository.DoctorRepository;
 import com.project.tim05.repository.HallRepository;
+import com.project.tim05.repository.MedicalRecordRepository;
 import com.project.tim05.repository.PatientRepository;
 
 @Service
@@ -62,6 +64,12 @@ public class PatientService {
 	
 	@Autowired
 	private AppointmentTypeRespository atr;
+	
+	@Autowired
+	private MedicalRecordRepository mrp;
+	
+	@Autowired
+	private ClinicRespository cr;
 
 	public int editPatient(Patient patient) {
 		int flag = 0;
@@ -232,13 +240,17 @@ public class PatientService {
 			mr.getDiseases().add(new Disease("Height", mr));
 			mr.getDiseases().add(new Disease("Weight", mr));
 			mr.getDiseases().add(new Disease("Alergy", mr));
+			mrp.save(mr);
+			
+			
 			patient.setMedicalRecord(mr);
-
-			patient.getClinics().add(cs.getClinicbyId(1));
+			
+			
 
 			pa.save(patient);
 
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 
 			return 0;
 		}
@@ -422,7 +434,7 @@ public class PatientService {
 				// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
 				Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 
-				String query = "INSERT INTO appointment_medicines (appointment, medicine_medicine_id) VALUES (?, ?)";
+				String query = "INSERT INTO appointment_medicines (appointment, medicine_medicine_id, authenticated) VALUES (?, ?, false)";
 				PreparedStatement ps = conn.prepareStatement(query);
 				ps.setInt(1, appId);
 				ps.setInt(2, d.getId());
@@ -468,6 +480,67 @@ public class PatientService {
 			}
 		}
 		return result;
+	}
+
+	public int rate(String param, int id, double rate, int apt_id) {
+		int flag = 0;
+		if(param.equals("clinic")) {
+			try {
+				// Connection conn =
+				// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+				// "xslquaksjvvetl",
+				// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+				Clinic c = initializeAndUnproxy.initAndUnproxy(cr.findById(id).orElse(null));
+				c.getRatings().add(rate);
+				cr.save(c);
+				
+				
+				
+				Connection conn2 = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+				String query2 = "UPDATE appointments set rated_clinic = true where appointment_id = ?;";
+				PreparedStatement ps2 = conn2.prepareStatement(query2);
+				ps2.setInt(1, apt_id);
+
+				flag = ps2.executeUpdate();
+				ps2.close();
+
+				conn2.close();
+				
+				return flag;
+				
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				return 0;
+			}
+		}else {
+			try {
+				// Connection conn =
+				// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+				// "xslquaksjvvetl",
+				// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+				Doctor d = initializeAndUnproxy.initAndUnproxy(dr.findById(id));
+				d.getRatings().add(rate);
+				dr.save(d);
+				
+				Connection conn2 = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+				String query2 = "UPDATE appointments set rated_doctor = true where appointment_id = ?;";
+				PreparedStatement ps2 = conn2.prepareStatement(query2);
+				ps2.setInt(1, apt_id);
+
+				flag = ps2.executeUpdate();
+				ps2.close();
+
+				conn2.close();
+				
+				return flag;
+				
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				return 0;
+			}
+		}
 	}
 
 }

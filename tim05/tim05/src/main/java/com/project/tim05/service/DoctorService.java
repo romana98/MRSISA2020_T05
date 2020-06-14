@@ -77,7 +77,7 @@ public class DoctorService {
 	        
 	        if(doctor.getPassword().length()!=0) {
 				doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
-	        	String query = "UPDATE users set password = ?, name = ?, surname = ? WHERE email = ? and active = TRUE;";
+	        	String query = "UPDATE users set password = ?, name = ?, surname = ? WHERE email = ?";
 		        PreparedStatement ps = connection.prepareStatement(query);
 				ps.setString(1, doctor.getPassword());
 				ps.setString(2, doctor.getName());
@@ -89,7 +89,7 @@ public class DoctorService {
 				connection.close();
 				return flag;
 	        }else {
-	        	String query = "UPDATE users set name = ?, surname = ? WHERE email = ? and active = TRUE;";
+	        	String query = "UPDATE users set name = ?, surname = ? WHERE email = ?";
 		        PreparedStatement ps = connection.prepareStatement(query);
 				ps.setString(1, doctor.getName());
 				ps.setString(2, doctor.getSurname());
@@ -102,6 +102,7 @@ public class DoctorService {
 	        }
 			
 		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 			return flag;
 		}	
 	}
@@ -223,16 +224,16 @@ public class DoctorService {
 
 			if (param.equals("name")) {
 				st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
-						"ON d.user_id = c.user_id where clinic = ? and name like ?;");
+						"ON d.user_id = c.user_id where clinic = ? and name like ? and d.active = true;");
 			
 			} else if (param.equals("surname")){
 				st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
-						"ON d.user_id = c.user_id where clinic = ? and surname like ?;");
+						"ON d.user_id = c.user_id where clinic = ? and surname like ?  and d.active = true;");
 			
 			}
 			else {
 				st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
-						"ON d.user_id = c.user_id where clinic = ? and email like ?;");
+						"ON d.user_id = c.user_id where clinic = ? and email like ?  and d.active = true;");
 			}
 			
 			st.setInt(1, clinic_id);
@@ -432,34 +433,57 @@ public class DoctorService {
 
 				if (parameter.equals("name")) {
 					st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
-							"ON d.user_id = c.user_id where name like ?;");
+							"ON d.user_id = c.user_id where name like ? and d.active=true;");
 					st.setString(1, "%" + value + "%");
+					ResultSet rs = st.executeQuery();
+					
+					while (rs.next()) {
+						Doctor d = dr.findById(rs.getInt("user_id"));
+						result.add(d);
+					}
+					rs.close();
 				
 				} else if (parameter.equals("surname")){
 					st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
-							"ON d.user_id = c.user_id where surname like ?;");
+							"ON d.user_id = c.user_id where surname like ? and d.active=true;");
 					st.setString(1, "%" + value + "%");
+					ResultSet rs = st.executeQuery();
+					
+					while (rs.next()) {
+						Doctor d = dr.findById(rs.getInt("user_id"));
+						result.add(d);
+					}
+					rs.close();
 				}
 				else if(parameter.equals("ratefrom")){
 					double ratefrom = Double.parseDouble(value);
-					st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
-							"ON d.user_id = c.user_id where rate >= ?;");
-					st.setDouble(1, ratefrom);
+					st = conn.prepareStatement("SELECT * FROM public.doctors where active = true;");
+					ResultSet rs = st.executeQuery();
+					while(rs.next()) {
+						int id = rs.getInt("user_id");
+						Doctor d = initializeAndUnproxy.initAndUnproxy(dr.findById(id));
+						double avg = d.getRate();
+						if(avg >= ratefrom) {
+							result.add(d);
+						}
+					}
+					rs.close();
+					
 				}else if(parameter.equals("rateto")) {
 					double rateto = Double.parseDouble(value);
-					st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
-							"ON d.user_id = c.user_id where rate <= ?;");
-					st.setDouble(1, rateto);
-				}
-				
-				ResultSet rs = st.executeQuery();
-				
-				while (rs.next()) {
-					Doctor d = dr.findById(rs.getInt("user_id"));
-					result.add(d);
+					st = conn.prepareStatement("SELECT * FROM public.doctors where active = true;");
+					ResultSet rs = st.executeQuery();
+					while(rs.next()) {
+						int id = rs.getInt("user_id");
+						Doctor d = initializeAndUnproxy.initAndUnproxy(dr.findById(id));
+						double avg = d.getRate();
+						if(avg <= rateto) {
+							result.add(d);
+						}
+					}
+					rs.close();
 				}
 
-				rs.close();
 				st.close();
 				conn.close();
 

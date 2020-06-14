@@ -40,6 +40,7 @@ export class ViewPatientProfileComponent implements OnInit {
         this.http.get(url1, {params:{email: this.r.snapshot.queryParamMap.get('email')}}).subscribe(
           res => {
             this.seeMedical = res;
+            console.log(this.seeMedical)
           }
         )
       }

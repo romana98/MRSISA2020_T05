@@ -43,7 +43,7 @@ public class Clinic {
 	private String description;
 	
 	@ElementCollection
-	@CollectionTable(name="Ratings", joinColumns=@JoinColumn(name="clinic_id"))
+	@CollectionTable(name="Ratings_Clinic", joinColumns=@JoinColumn(name="clinic_id"))
 	@Column(name="ratings")
 	private List<Double> ratings = new ArrayList<Double>();
   
@@ -236,7 +236,19 @@ public class Clinic {
 	}
 	
 	
-
+	public double getAverageRating() {
+		double zbir = 0.0;
+		double average = 0.0;
+		if(this.ratings.size() == 0) {
+			return 0.0;
+		}else {
+			for(Double s : this.ratings) {
+				zbir+=s;
+			}
+			average = zbir/this.ratings.size();
+			return average;
+		}
+	}
 	
 
 }

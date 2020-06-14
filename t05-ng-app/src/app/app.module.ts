@@ -17,6 +17,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { AddDoctorFormComponent } from './add-doctor-form/add-doctor-form.component';
 import { AddClinicCenterAdminFromComponent } from './add-clinic-center-administrator-form/add-clinic-center-administrator-form.component';
 import { AddClinicFromComponent } from './add-clinic-form/add-clinic-form.component';
+import {NurseAuthenticateComponent} from "./nurse-authenticate/nurse-authenticate.component";
 import { AddClinicAdminFromComponent } from './add-clinic-administrator-form/add-clinic-administrator-form.component';
 import { EditPatientProfile } from './edit-patient/edit-patient.component';
 import { AddHallFormComponent, FirstDialog, SecondDialog } from './add-hall-form/add-hall-form.component';
@@ -61,6 +62,7 @@ import {ViewAppointmentsComponent} from "./patient/view-appointments/view-appoin
 import { InitialChangePasswordComponent } from './initial-change-password/initial-change-password.component';
 import {ActivationLinkComponent} from "./email/activation-link/activation-link.component";
 import {AddLeaveRequestComponent} from "./add-leave-request/add-leave-request.component";
+import {NurseFinishedAppointmentsComponent} from "./nurse-finished-appointments/nurse-finished-appointments.component";
 import {DialogConfirm, DoctorsComponent} from './patient/doctors/doctors.component';
 import {MatCardModule} from "@angular/material/card";
 import {DialogOverviewLeave, RequestListLeaveComponent} from "./request-list-leave/request-list-leave.component";
@@ -76,6 +78,9 @@ import { CurrentAppointmentComponent } from './current-appointment/current-appoi
 import { AddAnotherAppointmentComponent } from './add-another-appointment/add-another-appointment.component';
 import { ViewMedicalRecordComponent } from './view-medical-record/view-medical-record.component';
 import { EditMedicalRecordComponent } from './edit-medical-record/edit-medical-record.component';
+import { ReportCalendarComponent } from './report-calendar/report-calendar.component';
+import { ReportBasicComponent } from './report-basic/report-basic.component';
+import {MatRadioModule} from "@angular/material/radio";
 
 
 const appRoutes : Routes = [
@@ -118,6 +123,15 @@ const appRoutes : Routes = [
       {
         path : 'editClinic',
         component : EditClinicComponent
+      },
+      {
+        path : 'basicReports',
+        component : ReportBasicComponent
+      }
+      ,
+      {
+        path : 'calendarReports',
+        component : ReportCalendarComponent
       }
     ]
   },
@@ -224,11 +238,18 @@ const appRoutes : Routes = [
     canActivate : [LoginGuardService]
 
   },
-
   {
     path:'staff',
     canActivate: [MedicallStuffGuardService],
     children:[
+      {
+        path: 'authenticateMedicine',
+        component: NurseAuthenticateComponent
+      },
+      {
+        path: 'viewFinishedAppointments',
+        component:NurseFinishedAppointmentsComponent
+      },
       {
         path: 'editProfile',
         component : EditMedicalStaff,
@@ -344,8 +365,12 @@ const appRoutes : Routes = [
     AddPricelistComponent,
     ViewAppointmentsComponent,
     AddAnotherAppointmentComponent,
+    NurseFinishedAppointmentsComponent,
+    NurseAuthenticateComponent,
     ViewMedicalRecordComponent,
-    EditMedicalRecordComponent
+    EditMedicalRecordComponent,
+    ReportCalendarComponent,
+    ReportBasicComponent
 
   ],
   imports: [
@@ -381,7 +406,8 @@ const appRoutes : Routes = [
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
-    })
+    }),
+    MatRadioModule
 
   ],
   providers: [MatDatepickerModule,

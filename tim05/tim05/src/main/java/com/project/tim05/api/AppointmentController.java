@@ -526,6 +526,21 @@ public class AppointmentController<T> {
 
 	}
 	
+	@GetMapping("/getReportAppointments")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
+	public List<AppointmentDTO> getReportAppointments() {
+		
+		Authentication current = SecurityContextHolder.getContext().getAuthentication();
+		ClinicAdministrator currentUser = (ClinicAdministrator)current.getPrincipal();
+		
+		List<AppointmentDTO> wc = as.getReportAppointments(currentUser.getId());
+		
+	
+		return wc;
+
+	}
+	
+	
 	@GetMapping("/getClinicPredefinedAppointments")
 	@PreAuthorize("hasRole('PATIENT')")
 	public List<AppointmentDTO> getClinicPredefinedAppointments(@RequestParam String clinicId) {

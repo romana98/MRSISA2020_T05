@@ -24,6 +24,14 @@ export class ViewMedicalRecordComponent implements OnInit {
 
   modelDis: any[];
 
+  selected_radio:any;
+  rate:number = 0;
+  ratedDoctor:boolean = false;
+  ratedClinic:boolean = false;
+  selected_row:number = -1;
+
+  elements: any[];
+
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatPaginator, {static: true}) paginator1: MatPaginator;
 
@@ -44,8 +52,11 @@ export class ViewMedicalRecordComponent implements OnInit {
 
     this.http.get(url1).subscribe(
       res => {
+
         // @ts-ignore
         this.dataSource.data = res;
+        // @ts-ignore
+        this.elements = res;
         this.dataSource.data.forEach(data =>{
           // @ts-ignore
           this.dataSource1.data.push(data.diagnosis)
@@ -59,6 +70,74 @@ export class ViewMedicalRecordComponent implements OnInit {
   }
 
   Select(row: any) {
+    this.ratedClinic = row.ratedClinic;
+    this.ratedDoctor = row.ratedDoctor;
     this.selected = row.description;
+    this.model.apt_id = row.id;
+    this.selected_row = this.dataSource.data.indexOf(row);
+
   }
+
+
+  model:rateModel = {
+    param: 0,
+    rate: 0,
+    apt_id: 0
+  }
+
+  rating() {
+    this.model.param = this.selected_radio;
+    this.model.rate = this.rate;
+
+    console.log(this.model);
+    this.http.post("http://localhost:8081/patients/rate", this.model).subscribe(
+      res => {
+        this._snackBar.open("Successfully rated!", "Close", {
+          duration: 2000,
+        });
+        this.refreshData();
+      }, err =>{
+        this._snackBar.open("Something went wrong!", "Close", {
+          duration: 2000,
+        });
+      }
+    )
+
+  }
+
+  refreshData(){
+    let url = "http://localhost:8081/patients/getDiseasePatient";
+    let url1 = "http://localhost:8081/appointment/getFinishedAppointments";
+    this.selected = "";
+    this.http.get(url).subscribe(
+      res => {
+        // @ts-ignore
+        this.modelDis = res;
+      }
+    )
+
+    this.http.get(url1).subscribe(
+      res => {
+
+        // @ts-ignore
+        this.dataSource.data = res;
+        // @ts-ignore
+        this.elements = res;
+        this.dataSource.data.forEach(data =>{
+          // @ts-ignore
+          this.dataSource1.data.push(data.diagnosis)
+        })
+        this.dataSource1._updateChangeSubscription()
+      }
+    )
+
+    this.dataSource.paginator = this.paginator;
+    this.dataSource1.paginator = this.paginator1;
+  }
+}
+
+export interface rateModel{
+  param: number,
+  rate: number,
+  apt_id: number
 }

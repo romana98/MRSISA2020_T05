@@ -24,7 +24,7 @@ public class AppointmentMedicine {
 	private Integer id;
 	
 	@Column(name = "authenticated", nullable = true)
-	private boolean authenticated;
+	private boolean authenticated = false;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="appointment", referencedColumnName="appointment_id", nullable=true)

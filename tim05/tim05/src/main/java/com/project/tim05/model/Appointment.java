@@ -39,6 +39,59 @@ public class Appointment {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "appointment_type", referencedColumnName = "appointment_type_id", nullable = true)
+	
+	@Column(name = "ratedClinic", nullable = false)
+	private boolean ratedClinic;
+	
+	@Column(name = "ratedDoctor", nullable = false)
+	private boolean ratedDoctor;
+	
+	public boolean isRatedClinic() {
+		return ratedClinic;
+	}
+	public void setRatedClinic(boolean ratedClinic) {
+		this.ratedClinic = ratedClinic;
+	}
+	public boolean isRatedDoctor() {
+		return ratedDoctor;
+	}
+	public void setRatedDoctor(boolean ratedDoctor) {
+		this.ratedDoctor = ratedDoctor;
+	}
+	public ClinicAdministrator getClinicAdministrator() {
+		return clinicAdministrator;
+	}
+	public void setClinicAdministrator(ClinicAdministrator clinicAdministrator) {
+		this.clinicAdministrator = clinicAdministrator;
+	}
+	public Appointment(Integer id, Date dateTime, int duration, double price, boolean request, boolean finished,
+			boolean predefined, String description, boolean ratedClinic, boolean ratedDoctor,
+			AppointmentType appointmentType, Clinic clinic, Hall hall, Doctor doctor,
+			ClinicAdministrator clinicAdministrator, MedicalRecord medicalRecord, Patient patient,
+			Set<AppointmentMedicine> medicines, Diagnosis diagnosis) {
+		super();
+		this.id = id;
+		this.dateTime = dateTime;
+		this.duration = duration;
+		this.price = price;
+		this.request = request;
+		this.finished = finished;
+		this.predefined = predefined;
+		this.description = description;
+		this.ratedClinic = ratedClinic;
+		this.ratedDoctor = ratedDoctor;
+		this.appointmentType = appointmentType;
+		this.clinic = clinic;
+		this.hall = hall;
+		this.doctor = doctor;
+		this.clinicAdministrator = clinicAdministrator;
+		this.medicalRecord = medicalRecord;
+		this.patient = patient;
+		this.medicines = medicines;
+		this.diagnosis = diagnosis;
+	}
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="appointment_type", referencedColumnName="appointment_type_id", nullable=true)
 	private AppointmentType appointmentType;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -79,6 +132,8 @@ public class Appointment {
 	public Appointment() {
 		super();
 		this.operation = false;
+		this.ratedDoctor = false;
+		this.ratedClinic = false;
 	}
 
 	public Appointment(Integer id, Date dateTime, int duration, double price, boolean request, boolean predefined,
@@ -98,6 +153,8 @@ public class Appointment {
 		this.appointmentType = appointmentType;
 		this.medicines = medicines;
 		this.diagnosis = diagnosises;
+		this.ratedClinic = false;
+		this.ratedDoctor = false;
 	}
 
 	public Set<Doctor> getDoctors() {

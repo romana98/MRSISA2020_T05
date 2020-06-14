@@ -25,8 +25,10 @@ public class Doctor extends MedicalStaff {
 
 	private static final long serialVersionUID = 1L;
 
-	@Column(name = "rate")
-	private double rate;
+	@ElementCollection
+	@CollectionTable(name="Ratings_Doctor", joinColumns=@JoinColumn(name="user_id"))
+	@Column(name="ratings")
+	private List<Double> ratings = new ArrayList<Double>();
 
 	@Column(name = "active")
 	private boolean active;
@@ -52,16 +54,35 @@ public class Doctor extends MedicalStaff {
 	public Doctor() {
 		super();
 		this.active = true;
-		this.rate = 0;
+		this.ratings = new ArrayList<Double>();
 	}
-
+	
+	//vraca avg rate
 	public double getRate() {
+		
+		double rate = 0.0;
+		double zbir = 0.0;
+		if(this.ratings.size() == 0) {
+			return 0.0;
+		}
+		for(Double d : this.ratings) {
+			zbir+=d;
+		}
+		rate = zbir/this.ratings.size();
 		return rate;
 	}
 
-	public void setRate(double rate) {
-		this.rate = rate;
+	public List<Double> getRatings() {
+		return ratings;
 	}
+
+
+
+	public void setRatings(List<Double> ratings) {
+		this.ratings = ratings;
+	}
+
+
 
 	public void addAppointment(Appointment ap, WorkCalendar wc) {
 		this.appointments.add(ap);

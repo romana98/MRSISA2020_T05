@@ -21,7 +21,11 @@
   <a *ngIf="checkCAdmin()" routerLink="clinicAdmin/addNurse" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Nurses</button></a>
   <a *ngIf="checkCAdmin()" routerLink="clinicAdmin/editClinic" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Clinic</button></a>
   <a *ngIf="checkCAdmin()" routerLink="clinicAdmin/pricelistInfo" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Pricelist</button></a>
-
+  <button *ngIf="checkCAdmin()" button mat-flat-button color="primary" style="margin-left: 3%;" [matMenuTriggerFor]="menu4">Reports</button>
+  <mat-menu #menu4="matMenu">
+    <a *ngIf="checkCAdmin()" routerLink="clinicAdmin/basicReports" style="margin-left: 3%;" ><button mat-flat-button >Basic</button></a>
+    <a *ngIf="checkCAdmin()" routerLink="clinicAdmin/calendarReports" style="margin-left: 3%;" ><button mat-flat-button  >Calendar</button></a>
+  </mat-menu>
 
   <!--ClinicCenterAdmin-->
   <button *ngIf="checkCCAdmin()" button mat-flat-button color="primary" style="margin-left: 3%;" [matMenuTriggerFor]="menu">Administrators</button>
@@ -29,12 +33,7 @@
     <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/addClinicAdministrator" style="margin-left: 3%;" ><button mat-flat-button >Clinic Adminstrator</button></a>
     <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/addClinicCenterAdministrator" style="margin-left: 3%;" ><button mat-flat-button  >Clinic Center Adminstrator</button></a>
   </mat-menu>
-
-  <button *ngIf="checkCCAdmin()" button mat-flat-button color="primary" style="margin-left: 3%;" [matMenuTriggerFor]="menu1">Clinics</button>
-  <mat-menu #menu1="matMenu">
-    <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/addClinic" style="margin-left: 3%;" ><button mat-flat-button >Add clinic</button></a>
-    <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/viewClinics" style="margin-left: 3%;" ><button mat-flat-button  >View clinics</button></a>
-  </mat-menu>
+  <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/addClinic" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Clinic</button></a>
 
   <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/addMedicine" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Medicine</button></a>
   <a *ngIf="checkCCAdmin()" routerLink="clinicCenterAdmin/addDiagnosis" style="margin-left: 3%;" ><button mat-flat-button color="primary" >Diagnosis</button></a>
@@ -53,7 +52,7 @@
   <a *ngIf="checkNurse()" routerLink="staff/viewPatients" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Patients</button></a>
   <a *ngIf="checkNurse()" routerLink="staff/viewWorkCalendar" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Work Calendar</button></a>
   <a *ngIf="checkNurse()" routerLink="staff/makeLeaveRequest" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Leave request</button></a>
-
+  <a *ngIf="checkNurse()" routerLink="staff/viewFinishedAppointments" style="margin-left: 5%;" ><button mat-flat-button color="primary" >Finished appointments</button></a>
 
   <!--Kod svakog proverava koji je user jer svako ima da edituje svoj profil-->
   <span class="example-spacer"> </span>

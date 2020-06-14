@@ -48,7 +48,7 @@ export class AuthenticationService {
             this.router.navigate(['staff/viewPatients']);
           }
           else if (sessionStorage.getItem('role') === "ROLE_PATIENT"){
-            this.router.navigate(['/patient/clinics']);
+            this.router.navigate(['/patient/viewMedicalRecord']);
           }
           status = 200;
           console.log(200);

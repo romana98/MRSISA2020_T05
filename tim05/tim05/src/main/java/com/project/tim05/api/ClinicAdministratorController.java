@@ -1,5 +1,6 @@
 package com.project.tim05.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.tim05.dto.BasicReportDTO;
 import com.project.tim05.dto.ClinicAdministratorDTO;
 import com.project.tim05.dto.ClinicDTO;
 import com.project.tim05.dto.DoctorDTO;
@@ -183,6 +185,48 @@ public class ClinicAdministratorController<T> {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(dtos);
 		}
 		return ResponseEntity.ok(dtos);
+	}
+	
+	@GetMapping("/getClinicAvgRate")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
+	public ResponseEntity<BasicReportDTO> getClinicInfo(){
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		ClinicAdministrator ca = (ClinicAdministrator) currentUser.getPrincipal();
+		Clinic clinic = ca.getClinic();
+		BasicReportDTO info = cas.getClinicInfo(clinic);
+		if(info == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(info);
+		}
+	}
+	
+	@GetMapping("/getDoctorInfo")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
+	public ResponseEntity<ArrayList<DoctorDTO>> getDoctorInfo(){
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		ClinicAdministrator ca = (ClinicAdministrator) currentUser.getPrincipal();
+		Clinic clinic = ca.getClinic();
+		BasicReportDTO info = cas.getDoctorInfo(clinic);
+		if(info == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(info.getDoctors());
+		}
+	}
+	
+	@PostMapping("/getIncome")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
+	public ResponseEntity<Double> getIncome(@RequestBody BasicReportDTO dto){
+		Authentication currentUser = SecurityContextHolder.getContext().getAuthentication();
+		ClinicAdministrator ca = (ClinicAdministrator) currentUser.getPrincipal();
+		Clinic clinic = ca.getClinic();
+		BasicReportDTO info = cas.getIncomes(clinic, dto);
+		if(info == null) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+		}else {
+			return ResponseEntity.status(HttpStatus.OK).body(info.getIncome());
+		}
 	}
 
 }
