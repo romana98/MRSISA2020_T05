@@ -161,6 +161,7 @@ public class DoctorService {
 				drdto.setSurname(dr1.getSurname());
 				drdto.setEmail(dr1.getEmail());
 				drdto.setAppointmentTypeName(dr1.getAppointmentType().getName());
+				drdto.setAverage_rate(dr1.getRate());
 				doctors.add(drdto);
 			}
 			connection.close();
