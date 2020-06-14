@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,10 +18,12 @@ import org.springframework.stereotype.Service;
 
 import com.project.tim05.dto.BasicReportDTO;
 import com.project.tim05.dto.DoctorDTO;
+import com.project.tim05.model.Appointment;
 import com.project.tim05.model.Authority;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.ClinicAdministrator;
 import com.project.tim05.model.Doctor;
+import com.project.tim05.repository.AppointmentRespository;
 import com.project.tim05.repository.ClinicAdministratorRespository;
 import com.project.tim05.repository.DoctorRepository;
 
@@ -37,6 +41,9 @@ public class ClinicAdministratorService {
 	
 	@Autowired
 	private DoctorRepository dr;
+	
+	@Autowired
+	private AppointmentRespository ar;
 	
 	public int addClinicAdministrator(ClinicAdministrator admincl) {
 		
@@ -156,37 +163,17 @@ public class ClinicAdministratorService {
 		return car.findById(id).orElse(null);
 	}
 
-	public BasicReportDTO getClinicReport(Clinic clinic, BasicReportDTO dto) {
+	public BasicReportDTO getClinicInfo(Clinic clinic) {
 		BasicReportDTO report = new BasicReportDTO();
 		//AVG RATE clinic
 		report.setClinicAverageRate(clinic.getAverageRating());
-		
-		try {
-			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
-			PreparedStatement st = conn.prepareStatement("Select * from appointments where clinic = ? and date_time >= ? and date_time <= ?");
-			st.setInt(1, clinic.getId());
-			st.setTimestamp(2, new Timestamp(dto.getFrom().getTime()));
-			st.setTimestamp(3, new Timestamp(dto.getTo().getTime()));
+		report.setClinic_name(clinic.getName());
+		return report;
+	}
+
+	public BasicReportDTO getDoctorInfo(Clinic clinic) {
+		BasicReportDTO report = new BasicReportDTO();
 			
-			ResultSet rs = st.executeQuery();
-			double income = 0.0;
-			while(rs.next())
-			{
-				income += rs.getDouble("price");
-			}
-			//INCOME clinic
-			report.setIncome(income);
-			
-			conn.close();
-			rs.close();
-			st.close();		
-			
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			return null;
-		}
-		
 		try {
 			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
 			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
@@ -210,13 +197,56 @@ public class ClinicAdministratorService {
 			conn.close();
 			rs.close();
 			st.close();		
+			return report;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+	}
+
+	public BasicReportDTO getIncomes(Clinic clinic, BasicReportDTO dto) {
+		BasicReportDTO report = new BasicReportDTO();
+		
+		try {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			Date from = null;
+			Date to = null;
+			try {
+				String new_from = "";
+				new_from += dto.getFrom().substring(0,10) + " " + dto.getFrom().substring(11,19);
+				String new_to = "";
+				new_to += dto.getTo().substring(0,10) + " " + dto.getTo().substring(11,19);
+				from = formatter.parse(new_from);
+				to = formatter.parse(new_to);
+			}catch(Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			PreparedStatement st = conn.prepareStatement("Select * from appointments where clinic = ? and date_time >= ? and date_time <= ?;");
+			st.setInt(1, clinic.getId());
+			st.setTimestamp(2, new Timestamp(from.getTime()));
+			st.setTimestamp(3, new Timestamp(to.getTime()));
+			
+			ResultSet rs = st.executeQuery();
+			double income = 0.0;
+			while(rs.next())
+			{
+				income += rs.getDouble("price");
+			}
+			//INCOME clinic
+			report.setIncome(income);
+			
+			conn.close();
+			rs.close();
+			st.close();
+			return report;
 			
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			return null;
 		}
-		
-		return report;
 	}
 
 	

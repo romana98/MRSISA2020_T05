@@ -9,12 +9,12 @@
       <span style="float: left">
     <mat-form-field appearance="outline" style="padding-left: 25px;  width: 250px;">
       <mat-label>Clinic</mat-label>
-      <input matInput [disabled]="true" [(ngModel)] = "model.clinic.name" #clinic="ngModel"  name="input_clinic"
+      <input matInput [disabled]="true" [(ngModel)] = "reportRes.clinic_name" name="input_clinic"
              required>
     </mat-form-field>
      <mat-form-field appearance="outline" style=" padding-left: 25px; width: 250px;">
       <mat-label>Average rate</mat-label>
-      <input matInput [disabled]="true" [(ngModel)] = "model.clinicAverageRate" #avg_rate="ngModel" name="input_avg_rate"
+      <input matInput [disabled]="true" [(ngModel)] = "reportRes.clinicAverageRate" name="input_avg_rate"
              required>
     </mat-form-field>
         <br>
@@ -23,7 +23,7 @@
     <span style="float: left">
     <mat-form-field appearance="outline" style=" padding-left: 25px; width: 250px;">
     <mat-label>From</mat-label>
-      <input [(ngModel)] = "model.from" name="input_from"
+      <input [(ngModel)] = "sendModel.from" name="input_from"
              #from="ngModel" matInput [matDatepicker]="picker" readonly required>
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker ></mat-datepicker>
@@ -31,7 +31,7 @@
 
     <mat-form-field appearance="outline" style=" padding-left: 25px; width: 250px;">
     <mat-label>To</mat-label>
-      <input [(ngModel)] = "model.to" name="input_to"
+      <input [(ngModel)] = "sendModel.to" name="input_to"
              #to="ngModel" matInput [matDatepicker]="picker1" readonly required>
       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1 ></mat-datepicker>
@@ -46,7 +46,7 @@
 
     <mat-form-field appearance="outline" style=" padding-left: 25px; width: 250px;">
       <mat-label>Income</mat-label>
-     <input matInput [disabled]="true" [(ngModel)] = "model.income"  #income="ngModel" name="input_income"
+     <input matInput [disabled]="true" [(ngModel)] = "incomeClinic"  name="input_income"
                required>
     </mat-form-field>
     </span>
@@ -76,7 +76,7 @@
 
     <ng-container matColumnDef="avg_rate" style="width: 300px;">
       <th mat-header-cell *matHeaderCellDef> Average </th>
-      <td mat-cell *matCellDef="let element"> {{element.avg_rate}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.average_rate}} </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr>

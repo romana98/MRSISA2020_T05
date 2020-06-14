@@ -15,23 +15,16 @@ export class ReportBasicComponent implements OnInit {
 
   displayedColumns = ['email', 'name', 'surname', 'avg_rate']
 
-  model: ReportModel = {
-    clinic:null,
-    doctors: [],
-    clinicAverageRate: null,
-    from: null,
-    to: null,
-    income: null
+  reportRes : any = null; //name i avg rate klinike
+  doctors = []; // lekari, imaju name surname email i avg rate
+  incomeClinic : number = -1; //income za kliniku
+
+
+  sendModel : ReportModel = {
+    from: '',
+    to: ''
   }
 
-  modelReceived: ReportModel = {
-    clinic:null,
-    doctors: [],
-    clinicAverageRate: null,
-    from: null,
-    to: null,
-    income: null
-  }
   dataSource = new MatTableDataSource();
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -41,41 +34,37 @@ export class ReportBasicComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.post("http://localhost:8081/clinicAdministrator/getClinicReport", this.model).subscribe(
-      res => {
-        
+    this.http.get("http://localhost:8081/clinicAdministrator/getClinicAvgRate").subscribe(
+      res =>{
+        console.log(res);
         // @ts-ignore
-        this.dataSource.data = res.doctors;
+        this.reportRes = res;
+      }
+    )
+    this.http.get("http://localhost:8081/clinicAdministrator/getDoctorInfo").subscribe(
+      res=>{
+        console.log(res);
         // @ts-ignore
-        this.model.clinic = res.clinic;
+        this.doctors = res;
         // @ts-ignore
-        this.model.doctors = res.doctors;
-        // @ts-ignore
-        this.model.clinicAverageRate = res.clinicAverageRate;
-        // @ts-ignore
-        this.model.from = res.from;
-        // @ts-ignore
-        this.model.to = res.to;
-        // @ts-ignore
-        this.model.income = res.income;
-
-        console.log(res)
-
+        this.dataSource.data = res;
       }
     )
   }
 
   report() {
-
+    this.http.post("http://localhost:8081/clinicAdministrator/getIncome", this.sendModel).subscribe(
+      res => {
+        console.log(res);
+        // @ts-ignore
+        this.incomeClinic = res;
+      }
+    )
   }
 
 }
 
 export interface ReportModel{
-  clinic:any,
-  doctors:any[],
-  clinicAverageRate:number,
-  from: Date,
-  to: Date,
-  income: number
+  from: string,
+  to: string
 }
