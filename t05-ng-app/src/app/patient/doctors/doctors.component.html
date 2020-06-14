@@ -4,24 +4,25 @@
 <br>
 <div>
   <div>
-    <mat-form-field appearance="outline" style="width: 250px;">
+    <mat-form-field appearance="outline" style="padding-left:25px; width: 250px;">
       <mat-label>Doctor's name: </mat-label>
       <input matInput [(ngModel)] = searchModel.name name="doctor_name" #name="ngModel"/>
     </mat-form-field>
-    <mat-form-field appearance="outline" style="width: 250px;">
+    <mat-form-field appearance="outline" style="padding-left:25px; width: 250px;">
       <mat-label>Doctor's surname: </mat-label>
       <input matInput [(ngModel)] = searchModel.surname name="doctor_surname" #surname="ngModel"/>
     </mat-form-field>
-    <mat-form-field appearance="outline" style="width: 250px;">
+    <br>
+    <mat-form-field appearance="outline" style="padding-left:25px; width: 250px;">
       <mat-label>Rate from: </mat-label>
       <input matInput [(ngModel)] = searchModel.rateFrom name="doctor_rfrom" #rateFrom="ngModel"/>
     </mat-form-field>
-    <mat-form-field appearance="outline" style="width: 250px;">
+    <mat-form-field appearance="outline" style="padding-left:25px; width: 250px;">
       <mat-label>Rate to: </mat-label>
       <input matInput [(ngModel)] = searchModel.rateTo name="doctor_rto" #rateTo="ngModel"/>
     </mat-form-field>
 
-    <button mat-raised-button style="width: 120px" (click)="search()" >Search...</button>
+    <button mat-raised-button style="left:25px; width: 120px" (click)="search()" >Search...</button>
 
     <br>
 
