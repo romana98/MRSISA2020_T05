@@ -12,15 +12,22 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.project.tim05.dto.AppointmentRequestDTO;
 import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.model.Appointment;
+import com.project.tim05.model.AppointmentType;
 import com.project.tim05.model.Authority;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Doctor;
@@ -32,6 +39,7 @@ import com.project.tim05.repository.PatientRepository;
 import com.project.tim05.repository.WorkCalendarRespository;
 
 @Service
+@Transactional(readOnly = false)
 public class DoctorService {
 
 	@Autowired
@@ -48,6 +56,30 @@ public class DoctorService {
 	
 	@Autowired
 	private PatientRepository pr;
+	
+	@Autowired
+	private DoctorService ds;
+	
+	@Autowired
+	private ClinicService cs;
+	
+	@Autowired 
+	private AppointmentTypeService ats;
+	
+	@Autowired
+	private PatientService ps;
+	
+	@Autowired
+	private WorkCalendarService wcs;
+	
+	@Autowired
+	private AppointmentService as;
+	
+	@Autowired
+	private ClinicAdministratorService cas;
+	
+	@Autowired
+	private EmailService es;
 	
 	public int addDoctor(Doctor doctor) {
 		int flag = 0;
@@ -141,7 +173,7 @@ public class DoctorService {
 		}	
 		
 	}
-	
+	//@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	//vraca doktore koji pripadaju klinici sa id -> clinic_Id
 	public ArrayList<DoctorDTO> getClinicsDoctors(int clinic_id){
 		try {
@@ -206,6 +238,10 @@ public class DoctorService {
 		Doctor d = dr.findByEmail(email);
 		Clinic c = initializeAndUnproxy.initAndUnproxy(d.getClinic());
 		return c;
+	}
+	
+	public void save(Doctor d) {
+		dr.save(d);
 	}
 	
 	public List<DoctorDTO> searchDoctors(String param, String value, int clinic_id){
@@ -278,6 +314,7 @@ public class DoctorService {
 			
 			while(rs.next()) {
 				Doctor dr1 = dr.findById(rs.getInt("user_id"));
+				
 				dr1.setAppointmentType(initializeAndUnproxy.initAndUnproxy(dr1.getAppointmentType()));
 				doctors.add(dr1);
 			}
@@ -647,6 +684,263 @@ public int addLeave(LeaveRequest l) {
 			e.printStackTrace();
 		}
 		return s;
+	}
+	
+	public int addAnotherApp(AppointmentRequestDTO adto) {
+		Appointment ap = new Appointment();
+		Appointment old_ap = as.getAppointmentById(Integer.parseInt(adto.getApp_id()));
+		Doctor dr = this.dr.findById(old_ap.getDoctor().getId()).orElse(null);
+		AppointmentType at = dr.getAppointmentType();
+		Clinic c = dr.getClinic();
+	
+		if (dr == null || at == null) {
+			return 1;
+		}
+		
+		//provera da li je doktor zauzet
+		
+		int dr_start = Integer.parseInt(dr.getWorkStart().split(":")[0]) * 60
+				+ Integer.parseInt(dr.getWorkStart().split(":")[1]);
+		int dr_end = Integer.parseInt(dr.getWorkEnd().split(":")[0]) * 60
+				+ Integer.parseInt(dr.getWorkEnd().split(":")[1]);
+
+		int app_start = Integer.parseInt(adto.getTime().split(":")[0])*60 + Integer.parseInt(adto.getTime().split(":")[1]);
+		int app_end = app_start + Integer.parseInt(adto.getDuration());
+		
+		
+		if ((app_start < dr_start || app_start > dr_end) || (app_end < dr_start || app_end > dr_end)) {
+			return 1;
+		}		
+
+		SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat formatter3 = new SimpleDateFormat("yyyy-MM-dd");
+
+
+		java.util.Date date = null;
+		java.util.Date wc_date = null;
+		try {
+			date = formatter1.parse(adto.getDate() + " " + adto.getTime());
+			wc_date = formatter2.parse(adto.getDate());
+		} catch (ParseException e) {
+			return 1;
+		}
+		
+		for(WorkCalendar wc : dr.getWorkCalendar()) {
+			try {
+				if(formatter3.parse(wc.getDate().toString().split(" ")[0]).getTime()!=wc_date.getTime()) {
+					continue;
+				} 
+				else {
+					if(wc.getLeave()==true) {
+						return 1;
+					}
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			int wc_start = Integer.parseInt(wc.getStart_time().split(":")[0]) * 60
+					+ Integer.parseInt(wc.getStart_time().split(":")[1]);
+			int wc_end = Integer.parseInt(wc.getEnd_time().split(":")[0]) * 60
+					+ Integer.parseInt(wc.getEnd_time().split(":")[1]);
+			if ((app_start >= wc_start && app_start <= wc_end) || (app_end >= wc_start && app_end <= wc_end)
+					|| (app_start == wc_start && app_end == wc_end)) {
+				return 1;
+			}
+		}
+		
+		
+		
+		
+		
+		
+
+		ap.setDateTime(date);
+		ap.setDuration(Integer.parseInt(adto.getDuration()));
+		ap.setPrice(old_ap.getPrice());
+		ap.setRequest(true);
+		ap.setPredefined(false);
+		ap.setDoctor(dr);
+		ap.setAppointmentType(at);
+		ap.setClinic(c);
+		
+
+		int flag = as.addAppointment(ap);
+		//TODO u doktoru treba da se doda appointment
+		
+
+		WorkCalendar wc = new WorkCalendar();
+		wc.setDate(wc_date);
+		wc.setStart_time(adto.getTime());
+		
+		
+		//racunanje minuta od pocetka dana
+		String[] res = wc.getStart_time().split(":");
+		int start_minutes = Integer.parseInt(res[0])*60 + Integer.parseInt(res[1]);
+		//racunanje krajnjeg broja minuta od pocetka dana
+		int end_minutes = start_minutes + Integer.parseInt(adto.getDuration());
+		//transliranje krajnjeg broja minuta nazad u oblik "hh:mm"
+		//uzima se broj minuta i ostatak pri deljenju sa 60 predstavlja broj minuta koji je preko punog sata
+		//a sati se dobijaju tako sto se uzme broj minuta i bez ostatka se podeli sa 60, tako dobijamo sati:minuti
+		int end_minute = end_minutes%60;
+		int end_hour = end_minutes/60;
+		
+		dr.getAppointments().add(ap);
+		
+		String end_h = String.valueOf(end_hour);
+		String end_m = String.valueOf(end_minute);
+		if(end_hour < 10) {
+			end_h = "0" + end_hour;
+		}
+		if(end_minute < 10) {
+			end_m = "0" + end_minute;
+		}
+		
+		wc.setEnd_time(end_h + ":" + end_m);
+		wc.setDoctor(dr);
+		wc.setLeave(false);
+		wc.setRequest(false);
+		
+		dr.getWorkCalendar().add(wc);
+		
+		wcs.addCalendar(wc);
+		
+		for(Appointment a : dr.getAppointments()) {
+			System.out.println(a.getAppointmentType().getName());
+		}
+
+		if (flag == 0)
+			return 1;
+		else
+			return 0;
+	}
+	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public int sendRequest(AppointmentRequestDTO adto) {
+		Appointment ap = new Appointment();
+		Clinic c = cs.getClinicbyId(Integer.parseInt(adto.getClinic()));
+		Doctor d =dr.findById(Integer.parseInt(adto.getDoctor()));
+		Patient p = ps.getPatientById(Integer.parseInt(adto.getPatient()));
+		AppointmentType at = ats.getAppointmentTypebyId(Integer.parseInt(adto.getApp_type()));
+		
+		SimpleDateFormat formatter1 = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		SimpleDateFormat formatter2 = new SimpleDateFormat("dd/MM/yyyy");
+		
+		java.util.Date wc_date = null;
+		java.util.Date date = null;
+		try {
+			date = formatter1.parse(adto.getDate() + " " + adto.getTime());
+			wc_date = formatter2.parse(adto.getDate());
+		} catch (ParseException e) {
+			return 1;
+		}
+		
+		java.sql.Date dt = new java.sql.Date(date.getTime());
+		
+		List<String> available_times = ds.getAvailableTime(dt, d);
+		System.out.println(available_times.toString());
+		if(!available_times.contains(adto.getTime())) {
+			return 1;
+
+		}
+		
+		if(adto.getType().equalsIgnoreCase("opp")) {
+			ap.setOperation(true);
+		}
+		
+		
+
+		ap.setDateTime(date);
+		ap.setDuration(30);
+		ap.setPrice(0);
+		ap.setRequest(true);
+		ap.setPredefined(false);
+		ap.setDoctor(d);
+		ap.setAppointmentType(at);
+		ap.setClinic(c);
+		ap.setPatient(p);
+		
+		WorkCalendar wc = new WorkCalendar();
+		wc.setDate(wc_date);
+		wc.setStart_time(adto.getTime());
+		
+		//racunanje minuta od pocetka dana
+		String[] res = wc.getStart_time().split(":");
+		int start_minutes = Integer.parseInt(res[0])*60 + Integer.parseInt(res[1]);
+		//racunanje krajnjeg broja minuta od pocetka dana
+		int end_minutes = start_minutes + 30;
+		//transliranje krajnjeg broja minuta nazad u oblik "hh:mm"
+		//uzima se broj minuta i ostatak pri deljenju sa 60 predstavlja broj minuta koji je preko punog sata
+		//a sati se dobijaju tako sto se uzme broj minuta i bez ostatka se podeli sa 60, tako dobijamo sati:minuti
+		int end_minute = end_minutes%60;
+		int end_hour = end_minutes/60;
+		
+		
+		
+		Set<Appointment> a = d.getAppointments();
+		a.add(ap);
+		d.setAppointments(a);
+		
+		System.out.println(d.getAppointments());
+		
+		String end_h = String.valueOf(end_hour);
+		String end_m = String.valueOf(end_minute);
+		if(end_hour < 10) {
+			end_h = "0" + end_hour;
+		}
+		if(end_minute < 10) {
+			end_m = "0" + end_minute;
+		}
+
+		wc.setEnd_time(end_h + ":" + end_m);
+		wc.setDoctor(d);
+		wc.setLeave(false);
+		wc.setRequest(true);
+		
+		wcs.addCalendar(wc);
+		
+		d.getWorkCalendar().add(wc);
+		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		//EntityManagerFactory emf = EntityManagerFactory();
+		//EntityManager em = emf.createEntityManager()
+		//dr.saveAndFlush(d);
+		
+		int flag = as.addAppointment(ap);
+		//TODO u doktoru treba da se doda appointment
+		
+
+		if (flag == 0)
+			return 1;
+		else
+		{
+			
+			//TODO uzmi listu admina koji pripadaju klinici i salji svima mejl
+			List<String> emails = cas.getClinicAdminsClinic(c.getId());
+			
+			try {
+				String text = "Patient: " + ap.getPatient().getName() + " " + ap.getPatient().getSurname() + 
+						"requested an appointment!";
+				for (String email : emails) {
+					es.sendAppointmentNotificationAdmin(email, text);
+				}
+				
+				
+				
+			} catch (Exception e) {
+				return 1;
+			}
+			
+			
+			
+			return 0;
+		}
 	}
 	
 }

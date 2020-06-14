@@ -22,7 +22,6 @@ import com.project.tim05.dto.DiagnosisDTO;
 import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.dto.HallDTO;
 import com.project.tim05.dto.PatientDTO;
-import com.project.tim05.dto.WorkCalendarDTO;
 import com.project.tim05.model.Appointment;
 import com.project.tim05.model.AppointmentType;
 import com.project.tim05.model.Clinic;
@@ -31,7 +30,6 @@ import com.project.tim05.model.Diagnosis;
 import com.project.tim05.model.Doctor;
 import com.project.tim05.model.Hall;
 import com.project.tim05.model.Patient;
-import com.project.tim05.model.WorkCalendar;
 import com.project.tim05.repository.AppointmentRespository;
 import com.project.tim05.repository.AppointmentTypeRespository;
 import com.project.tim05.repository.ClinicAdministratorRespository;
@@ -40,7 +38,7 @@ import com.project.tim05.repository.DoctorRepository;
 import com.project.tim05.repository.HallRepository;
 import com.project.tim05.repository.PatientRepository;
 
-
+@Transactional(readOnly = false)
 @Service
 public class AppointmentService {
 	
@@ -69,6 +67,7 @@ public class AppointmentService {
 		int flag = 0;
 		try {
 			ar.save(appointment);
+			ar.flush();
 			flag = 1;
 			
 		} catch (Exception e) {

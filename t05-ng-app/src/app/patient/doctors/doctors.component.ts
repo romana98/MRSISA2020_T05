@@ -138,8 +138,8 @@ export class DoctorsComponent implements OnInit {
           }
         );
       }
-      //location.reload();
-      this.ngOnInit()
+      location.reload();
+  
 
     });
   }

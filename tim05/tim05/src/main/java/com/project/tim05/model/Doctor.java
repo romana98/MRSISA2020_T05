@@ -19,6 +19,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.data.annotation.Version;
 
 @Entity
 @Table(name = "doctors")
@@ -52,6 +53,9 @@ public class Doctor extends MedicalStaff {
 	
 	@ManyToMany(cascade={CascadeType.ALL}, fetch=FetchType.LAZY)
 	private List<Appointment> appointments_many = new ArrayList<Appointment>();
+	
+	@Version
+	private Long version;
 	
 	public Doctor() {
 		super();
