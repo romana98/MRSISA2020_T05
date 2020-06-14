@@ -236,7 +236,19 @@ public class Clinic {
 	}
 	
 	
-
+	public double getAverageRating() {
+		double zbir = 0.0;
+		double average = 0.0;
+		if(this.ratings.size() == 0) {
+			return 0.0;
+		}else {
+			for(Double s : this.ratings) {
+				zbir+=s;
+			}
+			average = zbir/this.ratings.size();
+			return average;
+		}
+	}
 	
 
 }
