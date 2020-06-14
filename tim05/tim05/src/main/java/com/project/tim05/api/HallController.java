@@ -356,6 +356,13 @@ public class HallController<T> {
 		}
 
 		Hall h = hs.getHallbyId(Integer.parseInt(hall_id));
+		h.setClinic(null);
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		Appointment a = as.getAppointmentById(Integer.parseInt(appointment_id));
 
 		int success = hs.tryReserve(h, a, new_date, clinic_id);

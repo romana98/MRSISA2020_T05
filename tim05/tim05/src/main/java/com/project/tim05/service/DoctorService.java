@@ -686,6 +686,7 @@ public int addLeave(LeaveRequest l) {
 		return s;
 	}
 	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public int addAnotherApp(AppointmentRequestDTO adto) {
 		Appointment ap = new Appointment();
 		Appointment old_ap = as.getAppointmentById(Integer.parseInt(adto.getApp_id()));
@@ -902,12 +903,12 @@ public int addLeave(LeaveRequest l) {
 		
 		d.getWorkCalendar().add(wc);
 		
-		try {
+		/*try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
+		}*/
 		//EntityManagerFactory emf = EntityManagerFactory();
 		//EntityManager em = emf.createEntityManager()
 		//dr.saveAndFlush(d);

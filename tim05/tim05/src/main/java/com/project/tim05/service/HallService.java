@@ -17,6 +17,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tim05.dto.AppointmentDTO;
@@ -30,6 +31,7 @@ import com.project.tim05.repository.AppointmentRespository;
 import com.project.tim05.repository.HallRepository;
 import com.project.tim05.repository.WorkCalendarRespository;
 
+@Transactional(readOnly = false)
 @Service
 public class HallService {
 

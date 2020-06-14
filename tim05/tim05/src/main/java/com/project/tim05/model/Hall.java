@@ -31,6 +31,7 @@ public class Hall {
 	@OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY, mappedBy = "hall")
 	private Set<Appointment> appointments = new HashSet<Appointment>();
 
+
 	public Hall() {
 		super();
 	}

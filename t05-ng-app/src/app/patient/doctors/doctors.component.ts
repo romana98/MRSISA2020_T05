@@ -71,6 +71,7 @@ export class DoctorsComponent implements OnInit {
     .subscribe((res) => {
       // @ts-ignore
       this.dataSource.data = res;
+      this.dataSource._updateChangeSubscription();
     });
 
     this.dataSource.paginator = this.paginator;
@@ -138,7 +139,7 @@ export class DoctorsComponent implements OnInit {
           }
         );
       }
-      location.reload();
+      this.ngOnInit();
   
 
     });
