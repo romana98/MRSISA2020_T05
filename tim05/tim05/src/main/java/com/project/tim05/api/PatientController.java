@@ -38,6 +38,7 @@ import com.project.tim05.model.Doctor;
 import com.project.tim05.model.MedicalStaff;
 import com.project.tim05.model.Medicine;
 import com.project.tim05.model.Patient;
+import com.project.tim05.model.Pricelist;
 import com.project.tim05.model.RegistrationRequest;
 import com.project.tim05.model.User;
 import com.project.tim05.repository.AppointmentRespository;
@@ -401,8 +402,12 @@ public class PatientController<T> {
 			pcdto.setId(cl.getId());
 			pcdto.setName(cl.getName());
 			pcdto.setAddress(cl.getAddress());
-			pcdto.setAvg_rating(0);
-			pcdto.setPrice(0);
+			pcdto.setAvg_rating(cl.getAverageRating());
+			for(Pricelist p : cl.getPricelist()) {
+				if(p.getClinic().getId() == cl.getId() && p.getAppointmentType().getId() == Integer.parseInt(appointmentType_id)) {
+					pcdto.setPrice((int) p.getPrice());
+				}
+			}
 
 			pcdtos.add(pcdto);
 		}
