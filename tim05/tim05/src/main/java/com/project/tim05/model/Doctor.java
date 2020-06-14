@@ -51,6 +51,9 @@ public class Doctor extends MedicalStaff {
 		
 		double rate = 0.0;
 		double zbir = 0.0;
+		if(this.ratings.size() == 0) {
+			return 0.0;
+		}
 		for(Double d : this.ratings) {
 			zbir+=d;
 		}
