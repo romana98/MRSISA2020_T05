@@ -196,15 +196,15 @@ public class NurseService {
 				return s;
 			
 			st = conn
-					.prepareStatement("SELECT * FROM appointments WHERE patient = ?");
+					.prepareStatement("SELECT * FROM appointments WHERE patient = ? and finished = true");
 			st.setInt(1, p.getId());
 			rs = st.executeQuery();
 			List<Integer> aps = new ArrayList<Integer>();
 			
 			while(rs.next())
-				app_ids.add(rs.getInt("appointment"));
+				aps.add(rs.getInt("appointment_id"));
 			
-			if(app_ids.isEmpty())
+			if(aps.isEmpty())
 				return s;
 			
 			for (Integer a_i : app_ids) {
@@ -249,7 +249,7 @@ public class NurseService {
 					AppointmentType at = initializeAndUnproxy.initAndUnproxy(apt.getAppointmentType());
 					Doctor d = initializeAndUnproxy.initAndUnproxy(apt.getDoctor());
 					Hall h = initializeAndUnproxy.initAndUnproxy(apt.getHall());
-					dto.setId(at.getId());
+					dto.setId(id);
 					dto.setDate(apt.getDateTime().toString().split(" ")[0]);
 					dto.setTime(apt.getDateTime().toString().split(" ")[1].split("\\.")[0].substring(0,5));
 					dto.setDuration(apt.getDuration());

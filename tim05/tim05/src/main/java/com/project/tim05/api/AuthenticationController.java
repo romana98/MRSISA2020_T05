@@ -58,6 +58,8 @@ public class AuthenticationController {
 							authenticationRequest.getPassword()));
 		} catch (DisabledException e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 		}
 		
 

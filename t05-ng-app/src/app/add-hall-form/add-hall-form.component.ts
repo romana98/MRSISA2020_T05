@@ -60,14 +60,17 @@ export class AddHallFormComponent implements OnInit{
     }
 
     refreshData(date){
+
       this.http.get("http://localhost:8081/halls/getAvailabileHalls",{params:{'clinic_admin_id' : sessionStorage.getItem('user_id'),
-      'param_name': "a",
-      'param_value' : "-1",
+          // @ts-ignore
+      'param_name': this.search_param, 'param_value' : this.search_value  == "" ? "-1" : this.search_value,
       'date' : date.toString()}}).subscribe(
         res => {
         //@ts-ignore
         this.dataSource.data = res;
-      });
+        this.dataSource._updateChangeSubscription();
+
+        });
     }
 
     AddHall(): void{
@@ -76,6 +79,7 @@ export class AddHallFormComponent implements OnInit{
             res => {
 
               //kada dobijem odgovor da sam uspeo da dodam salu hocu da posaljem upit za uzimanje svih sala da bih u tabeli prikazao
+
               let date : String;
               date = this.today.getDate() + "/" + (this.today.getMonth()+1) + "/" + this.today.getFullYear();
               this.refreshData(date);
@@ -153,13 +157,22 @@ export class AddHallFormComponent implements OnInit{
       this.http.get("http://localhost:8081/halls/editHall", {params:params}).subscribe(
         res =>{
 
-          let params = new HttpParams().set('clinic_id', this.clinic_id);
-          this.http.get("http://localhost:8081/halls/getClinicHall",{params:params})
+          console.log(this.clinic_id)
+          /* this.http.get("http://localhost:8081/halls/getClinicHall",{params:{'clinic_id': this.clinic_id}})
           .subscribe((res) => {
             // @ts-ignore
             this.dataSource.data = res;
             this.dataSource._updateChangeSubscription();
-          });
+          });*/
+          let date;
+          if(this.date_value === null){
+            date = this.today.getDate() + "/" + (this.today.getMonth()+1) + "/" + this.today.getFullYear();
+          }
+          else{
+            date = this.date_value.getDate() + "/" + (this.date_value.getMonth()+1) + "/" + this.date_value.getFullYear();
+
+          }
+          this.refreshData(date);
 
           this._snackBar.open("Hall changed successfully.", "Close", {
           duration: 2000,
@@ -191,8 +204,7 @@ export class AddHallFormComponent implements OnInit{
 
 
     goSearch(){
-      this.today = this.date_value
-      console.log(this.today)
+      this.today = new Date();
       let date : String;
       date = this.date_value.getDate() + "/" + (this.date_value.getMonth()+1) + "/" + this.date_value.getFullYear();
       this.refreshData(date);

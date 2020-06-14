@@ -56,6 +56,7 @@ import {EditClinicCenterAdministratorComponent} from "./edit-clinic-center-admin
 import {ViewClinicAdministratorComponent} from "./view-clinic-administrator/view-clinic-administrator.component";
 import {ViewClinicCenterAdministratorComponent} from "./view-clinic-center-administrator/view-clinic-center-administrator.component";
 import {ViewMedicalStaff} from "./view-medical-staff/view-medical-staff.component";
+import {NotFoundComponent} from "./404-Not-Found/not-found.component";
 import {ViewPatientProfile} from "./view-patient/view-patient.component";
 import {AddPricelistComponent} from "./add-pricelist/add-pricelist.component";
 import {ViewAppointmentsComponent} from "./patient/view-appointments/view-appointments.component";
@@ -311,7 +312,7 @@ const appRoutes : Routes = [
   },
   {
     path : '**',
-    component : NavigationComponent
+    component : NotFoundComponent
   }
 
 
@@ -370,7 +371,8 @@ const appRoutes : Routes = [
     ViewMedicalRecordComponent,
     EditMedicalRecordComponent,
     ReportCalendarComponent,
-    ReportBasicComponent
+    ReportBasicComponent,
+    NotFoundComponent
 
   ],
   imports: [

@@ -3,7 +3,7 @@
     <mat-tab-group style="margin-left: auto; margin-right : auto;width: 50%;padding-top: 2%" appearance="outline">
         <mat-tab label="Login">
         <div>
-            <form  #f="ngForm" (submit)="f.form.valid && loginAuth()" style="display: inline-block;margin-right: auto;margin-left: auto; padding-top: 5%; padding-bottom: 5% ;width: 37%">
+            <form  #f="ngForm" (submit)="f.form.valid && loginAuth(f)" style="display: inline-block;margin-right: auto;margin-left: auto; padding-top: 5%; padding-bottom: 5% ;width: 37%">
 
                 <mat-error id="validation" style="display: none;padding-left:86%; width: 180%">
                   Email or password are incorrect.

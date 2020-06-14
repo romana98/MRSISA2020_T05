@@ -588,7 +588,7 @@ public int addLeave(LeaveRequest l) {
 		String s = "f";
 		try {
 			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
-			String query = "SELECT * FROM appointments where doctor = ? and patient = ?";
+			String query = "SELECT * FROM appointments where doctor = ? and patient = ? and finished = false";
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setInt(1, doctor_id);
 			ps.setInt(2, patient_id);
@@ -623,7 +623,7 @@ public int addLeave(LeaveRequest l) {
 		String s = "0";
 		try {
 			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
-			String query = "SELECT * FROM appointments where doctor = ? and patient = ? and appointment_id = ?";
+			String query = "SELECT * FROM appointments where doctor = ? and patient = ? and appointment_id = ? and finished = false";
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setInt(1, doctor_id);
 			ps.setInt(2, patient_id);
@@ -667,7 +667,7 @@ public int addLeave(LeaveRequest l) {
 			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 
 			PreparedStatement st = conn
-					.prepareStatement("SELECT * FROM appointments WHERE doctor = ? and patient = ? ");
+					.prepareStatement("SELECT * FROM appointments WHERE doctor = ? and patient = ? and finished = true");
 			st.setInt(1, id);
 			st.setInt(2, p.getId());
 			ResultSet rs = st.executeQuery();

@@ -50,17 +50,22 @@ export class LoginComponent implements OnInit {
     this.status = false;
   }
 
-  loginAuth(){
+  loginAuth(f){
     console.log(this.status);
     this.authservice.authenticate(this.myModel).then( num => {
-      if(num === 409)
-      {
+      if (num === 409) {
 
-        let booleanPromise = this.router.navigate(['../initialPasswordChange', {email: this.myModel.email}], { skipLocationChange: true, relativeTo: this.r });
+        let booleanPromise = this.router.navigate(['../initialPasswordChange', {email: this.myModel.email}], {
+          skipLocationChange: true,
+          relativeTo: this.r
+        });
 
       }
-       this.status = (num === 401);
-      document.getElementById('validation').style.display = 'block'}
+        this.status = (num === 401);
+        console.log(this.status);
+        document.getElementById('validation').style.display = 'block'
+
+    }
     );
     /*console.log(newStatus);
     this.status = newStatus;*/

@@ -49,13 +49,7 @@ public class ClinicController<T> {
 			ClinicDTO dto = new ClinicDTO();
 			dto.setName(clinic.getName());
 			dto.setAddress(clinic.getAddress());
-			double avg = 0.0;
-			double zbir = 0.0;
-			for(double d : clinic.getRatings()) {
-				zbir += d;
-			}
-			avg = zbir/clinic.getRatings().size();
-			dto.setAvg_rating(avg);
+			dto.setAvg_rating(clinic.getAverageRating());
 			dto.setDescription(clinic.getDescription());
 			dto.setId(clinic.getId());
 			clsDTO.add(dto);
