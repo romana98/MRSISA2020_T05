@@ -43,7 +43,7 @@ export class ReportBasicComponent implements OnInit {
   ngOnInit(): void {
     this.http.post("http://localhost:8081/clinicAdministrator/getClinicReport", this.model).subscribe(
       res => {
-        
+
         // @ts-ignore
         this.dataSource.data = res.doctors;
         // @ts-ignore
