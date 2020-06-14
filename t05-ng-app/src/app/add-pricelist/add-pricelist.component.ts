@@ -96,6 +96,9 @@ export class AddPricelistComponent implements OnInit {
   }
 
   refreshData(){
+    this.model.id = null;
+    this.model.price = 0;
+    this.model.apt_type = " ";
     this.http.get("http://localhost:8081/pricelist/getAptTypes").subscribe(
       res => {
         this.apt_types = res;

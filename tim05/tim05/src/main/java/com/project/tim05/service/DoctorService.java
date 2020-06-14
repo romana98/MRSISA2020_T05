@@ -77,7 +77,7 @@ public class DoctorService {
 	        
 	        if(doctor.getPassword().length()!=0) {
 				doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
-	        	String query = "UPDATE users set password = ?, name = ?, surname = ? WHERE email = ? and active = TRUE;";
+	        	String query = "UPDATE users set password = ?, name = ?, surname = ? WHERE email = ?";
 		        PreparedStatement ps = connection.prepareStatement(query);
 				ps.setString(1, doctor.getPassword());
 				ps.setString(2, doctor.getName());
@@ -89,7 +89,7 @@ public class DoctorService {
 				connection.close();
 				return flag;
 	        }else {
-	        	String query = "UPDATE users set name = ?, surname = ? WHERE email = ? and active = TRUE;";
+	        	String query = "UPDATE users set name = ?, surname = ? WHERE email = ?";
 		        PreparedStatement ps = connection.prepareStatement(query);
 				ps.setString(1, doctor.getName());
 				ps.setString(2, doctor.getSurname());
@@ -102,6 +102,7 @@ public class DoctorService {
 	        }
 			
 		} catch (SQLException e) {
+			System.out.println(e.getMessage());
 			return flag;
 		}	
 	}
@@ -223,16 +224,16 @@ public class DoctorService {
 
 			if (param.equals("name")) {
 				st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
-						"ON d.user_id = c.user_id where clinic = ? and name like ?;");
+						"ON d.user_id = c.user_id where clinic = ? and name like ? and d.active = true;");
 			
 			} else if (param.equals("surname")){
 				st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
-						"ON d.user_id = c.user_id where clinic = ? and surname like ?;");
+						"ON d.user_id = c.user_id where clinic = ? and surname like ?  and d.active = true;");
 			
 			}
 			else {
 				st = conn.prepareStatement("SELECT * FROM public.doctors d LEFT JOIN public.users c \r\n" + 
-						"ON d.user_id = c.user_id where clinic = ? and email like ?;");
+						"ON d.user_id = c.user_id where clinic = ? and email like ?  and d.active = true;");
 			}
 			
 			st.setInt(1, clinic_id);

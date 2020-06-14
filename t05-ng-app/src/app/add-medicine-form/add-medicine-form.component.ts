@@ -60,7 +60,7 @@ export class AddMedicineFromComponent implements OnInit{
     }
     if(buttonType==="Leave"){
       this.AddMedicine();
-      this.router.navigateByUrl('/');
+      this.router.navigateByUrl('/clinicCenterAdmin/addClinicCenterAdministrator');
     }
 
   }

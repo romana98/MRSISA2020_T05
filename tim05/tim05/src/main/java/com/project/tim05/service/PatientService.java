@@ -35,6 +35,7 @@ import com.project.tim05.repository.AppointmentTypeRespository;
 import com.project.tim05.repository.ClinicRespository;
 import com.project.tim05.repository.DoctorRepository;
 import com.project.tim05.repository.HallRepository;
+import com.project.tim05.repository.MedicalRecordRepository;
 import com.project.tim05.repository.PatientRepository;
 
 @Service
@@ -63,6 +64,9 @@ public class PatientService {
 	
 	@Autowired
 	private AppointmentTypeRespository atr;
+	
+	@Autowired
+	private MedicalRecordRepository mrp;
 	
 	@Autowired
 	private ClinicRespository cr;
@@ -236,13 +240,17 @@ public class PatientService {
 			mr.getDiseases().add(new Disease("Height", mr));
 			mr.getDiseases().add(new Disease("Weight", mr));
 			mr.getDiseases().add(new Disease("Alergy", mr));
+			mrp.save(mr);
+			
+			
 			patient.setMedicalRecord(mr);
-
-			patient.getClinics().add(cs.getClinicbyId(1));
+			
+			
 
 			pa.save(patient);
 
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 
 			return 0;
 		}

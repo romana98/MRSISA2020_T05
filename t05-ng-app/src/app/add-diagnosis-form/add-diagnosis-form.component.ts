@@ -60,7 +60,7 @@ export class AddDiagnosisFormComponent implements OnInit{
     }
     if(buttonType==="Leave"){
       this.AddDiagnosis();
-      this.router.navigateByUrl('/');
+      this.router.navigateByUrl('/clinicCenterAdmin/addClinicCenterAdministrator');
     }
 
   }

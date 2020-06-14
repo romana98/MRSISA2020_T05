@@ -57,17 +57,36 @@ public class LeaveRequestService {
 			Date start_ls = new java.sql.Date(start_l.getTime());
 			Date end_ls = new java.sql.Date(end_l.getTime());
 			
+			r = true;
 			while(rs.next())
 			{
-				r = false;
 				
-				Date start = rs.getDate("start_date");
-				Date end = rs.getDate("end_date");
 				
-				if(start.before(end_ls))
-				{ r = true; }
-				else if(end.before(start_ls)) 
-				{ r = true; }
+				Date start = null;
+				Date end = null;
+				try {
+					java.util.Date temp = formatter.parse(rs.getString("start_date"));
+					start = new java.sql.Date(temp.getTime());
+					temp =  formatter.parse(rs.getString("end_date"));
+					end = new java.sql.Date(temp.getTime());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				
+				
+				if(start.after(start_ls) && start.before(end_ls))
+					r = false;
+				if(end.after(start_ls) && end.before(end_ls))
+					r = false;
+				
+				if(start.after(start_ls) && end.before(end_ls))
+					r = false;
+				
+				if(start.before(end_ls) && end.after(end_ls))
+					r = false;
+				
+				if(start.equals(start_ls) && end.equals(end_ls))
+					r = false;
 				
 				
 			}
