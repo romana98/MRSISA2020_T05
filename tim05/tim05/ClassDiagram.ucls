@@ -1,0 +1,835 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.2.4" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="com.project.tim05.model.Doctor" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/Doctor.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="376" width="313" x="1605" y="1606"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="com.project.tim05.model.AppointmentType" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/AppointmentType.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="340" width="267" x="599" y="2022"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="com.project.tim05.model.ClinicCenterAdministrator" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/ClinicCenterAdministrator.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="196" width="355" x="390" y="3558"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="com.project.tim05.model.RegistrationRequest" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/RegistrationRequest.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="682" width="489" x="390" y="2728"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="com.project.tim05.model.MedicalRecord" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/MedicalRecord.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="268" width="316" x="1471" y="5490"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="com.project.tim05.model.User" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/User.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="628" width="350" x="1374" y="-37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="com.project.tim05.model.Appointment" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/Appointment.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="1114" width="1199" x="929" y="4336"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="com.project.tim05.model.AppointmentMedicine" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/AppointmentMedicine.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="304" width="224" x="-11" y="3920"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="com.project.tim05.model.Authority" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/Authority.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="232" width="153" x="50" y="631"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="com.project.tim05.model.Hall" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/Hall.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="376" width="267" x="959" y="3920"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="com.project.tim05.model.Nurse" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/Nurse.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="178" width="298" x="-11" y="3558"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="com.project.tim05.model.MedicalStaff" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/MedicalStaff.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="285" width="278" x="1374" y="631"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="com.project.tim05.model.LeaveRequest" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/LeaveRequest.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="430" width="301" x="306" y="-37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="com.project.tim05.model.ClinicAdministrator" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/ClinicAdministrator.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="268" width="327" x="1268" y="3558"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="com.project.tim05.model.Patient" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/Patient.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="610" width="413" x="1673" y="956"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="com.project.tim05.model.Diagnosis" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/Diagnosis.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="340" width="258" x="-419" y="2728"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="com.project.tim05.model.WorkCalendar" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/WorkCalendar.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="502" width="270" x="868" y="956"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="com.project.tim05.model.Disease" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/Disease.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="322" width="250" x="639" y="4336"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="com.project.tim05.model.Clinic" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/Clinic.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="790" width="1020" x="919" y="2728"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="com.project.tim05.model.Pricelist" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/Pricelist.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="286" width="278" x="599" y="2402"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="com.project.tim05.model.Medicine" project="tim05" 
+    file="/tim05/src/main/java/com/project/tim05/model/Medicine.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="322" width="328" x="-379" y="3558"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <association id="22">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="23" name="workCalendar"/>      
+      <multiplicity id="24" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="25">    
+    <bendpoint x="338" y="2728"/>    
+    <bendpoint x="275" y="2402"/>    
+    <bendpoint x="254" y="2022"/>    
+    <bendpoint x="233" y="1606"/>    
+    <bendpoint x="233" y="956"/>    
+    <bendpoint x="233" y="631"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <association id="26">    
+    <bendpoint x="2074" y="3920"/>    
+    <bendpoint x="2074" y="3558"/>    
+    <bendpoint x="2074" y="2728"/>    
+    <bendpoint x="2053" y="2402"/>    
+    <bendpoint x="2053" y="2022"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="27" name="doctor"/>      
+      <multiplicity id="28" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="29">    
+    <bendpoint x="275" y="1606"/>    
+    <bendpoint x="275" y="2022"/>    
+    <bendpoint x="254" y="2402"/>    
+    <bendpoint x="254" y="2728"/>    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="30" name="nurse"/>      
+      <multiplicity id="31" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="32">    
+    <bendpoint x="1990" y="2022"/>    
+    <bendpoint x="2011" y="2402"/>    
+    <bendpoint x="2011" y="2728"/>    
+    <bendpoint x="2011" y="3558"/>    
+    <bendpoint x="2011" y="3920"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="33" name="appointments"/>      
+      <multiplicity id="34" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="35">    
+    <bendpoint x="2095" y="3920"/>    
+    <bendpoint x="2095" y="3558"/>    
+    <bendpoint x="2095" y="2728"/>    
+    <bendpoint x="2095" y="2402"/>    
+    <bendpoint x="2074" y="2022"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="36" name="doctors"/>      
+      <multiplicity id="37" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="38">    
+    <bendpoint x="1682" y="631"/>    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <association id="39">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="40" name="clinicAdministrator"/>      
+      <multiplicity id="41" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="42">    
+    <bendpoint x="-410" y="3920"/>    
+    <bendpoint x="-410" y="3558"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="43" name="diagnosis"/>      
+      <multiplicity id="44" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="16" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="45">    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="46" name="medicalRecord"/>      
+      <multiplicity id="47" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="48">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="49" name="appointments"/>      
+      <multiplicity id="50" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="51">    
+    <bendpoint x="949" y="3558"/>    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="52" name="halls"/>      
+      <multiplicity id="53" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="54">    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="55" name="diseases"/>      
+      <multiplicity id="56" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="57">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="58" name="clinicCenterAdministrator"/>      
+      <multiplicity id="59" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="60">    
+    <bendpoint x="-431" y="3558"/>    
+    <bendpoint x="-431" y="3920"/>    
+    <end type="SOURCE" refId="16" navigable="false">      
+      <attribute id="61" name="appointments"/>      
+      <multiplicity id="62" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="63">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="64" name="appointment"/>      
+      <multiplicity id="65" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="66">    
+    <bendpoint x="1927" y="2022"/>    
+    <bendpoint x="1948" y="2402"/>    
+    <bendpoint x="1969" y="2728"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="67" name="clinicAdministrator"/>      
+      <multiplicity id="68" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="69">    
+    <bendpoint x="359" y="3920"/>    
+    <bendpoint x="359" y="3558"/>    
+    <bendpoint x="359" y="2728"/>    
+    <bendpoint x="359" y="2402"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="70" name="appointmentType"/>      
+      <multiplicity id="71" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="72">    
+    <bendpoint x="907" y="2402"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="73" name="clinic"/>      
+      <multiplicity id="74" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="75">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="76" name="nurse"/>      
+      <multiplicity id="77" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="78">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="79" name="medicines"/>      
+      <multiplicity id="80" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="81">    
+    <bendpoint x="1261" y="2022"/>    
+    <bendpoint x="1261" y="2402"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="82" name="clinic"/>      
+      <multiplicity id="83" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="84">    
+    <bendpoint x="1277" y="3920"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="85" name="clinicAdministrator"/>      
+      <multiplicity id="86" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="87">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="88" name="registrationRequests"/>      
+      <multiplicity id="89" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="90">    
+    <bendpoint x="1948" y="1606"/>    
+    <bendpoint x="1948" y="2022"/>    
+    <bendpoint x="1927" y="2402"/>    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="91" name="clinics"/>      
+      <multiplicity id="92" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="93">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="94" name="hall"/>      
+      <multiplicity id="95" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="96">    
+    <bendpoint x="1990" y="2402"/>    
+    <bendpoint x="2032" y="2022"/>    
+    <bendpoint x="2032" y="1606"/>    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="97" name="patients"/>      
+      <multiplicity id="98" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="99">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="100" name="priceList"/>      
+      <multiplicity id="101" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="102">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="103" name="medicines"/>      
+      <multiplicity id="104" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="105">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <association id="106">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="107" name="appointments"/>      
+      <multiplicity id="108" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="109">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="110" name="appointmentType"/>      
+      <multiplicity id="111" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="112">    
+    <end type="SOURCE" refId="12" navigable="false">      
+      <attribute id="113" name="patients"/>      
+      <multiplicity id="114" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="115">    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="116" name="doctor"/>      
+      <multiplicity id="117" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="118">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="119" name="clinicAdmin"/>      
+      <multiplicity id="120" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="121">    
+    <end type="SOURCE" refId="8" navigable="false">      
+      <attribute id="122" name="medicine"/>      
+      <multiplicity id="123" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="124">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="125" name="medicalRecord"/>      
+      <multiplicity id="126" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="127">    
+    <bendpoint x="296" y="2402"/>    
+    <bendpoint x="296" y="2728"/>    
+    <bendpoint x="317" y="3558"/>    
+    <bendpoint x="317" y="3920"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="128" name="doctors"/>      
+      <multiplicity id="129" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="130">    
+    <bendpoint x="212" y="2728"/>    
+    <bendpoint x="212" y="2402"/>    
+    <bendpoint x="212" y="2022"/>    
+    <bendpoint x="212" y="1606"/>    
+    <bendpoint x="254" y="956"/>    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="12"/>  
+  </generalization>  
+  <association id="131">    
+    <bendpoint x="1990" y="2728"/>    
+    <bendpoint x="1969" y="2402"/>    
+    <bendpoint x="1969" y="2022"/>    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="132" name="doctors"/>      
+      <multiplicity id="133" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="134">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="135" name="authorities"/>      
+      <multiplicity id="136" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="137">    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="138" name="clinic"/>      
+      <multiplicity id="139" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="140">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="141" name="nurses"/>      
+      <multiplicity id="142" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="143">    
+    <bendpoint x="317" y="2402"/>    
+    <bendpoint x="317" y="2728"/>    
+    <bendpoint x="338" y="3558"/>    
+    <bendpoint x="338" y="3920"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="144" name="appointments"/>      
+      <multiplicity id="145" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="146">    
+    <bendpoint x="254" y="1606"/>    
+    <bendpoint x="233" y="2022"/>    
+    <bendpoint x="233" y="2402"/>    
+    <bendpoint x="233" y="2728"/>    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="147" name="nurse"/>      
+      <multiplicity id="148" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="149">    
+    <bendpoint x="2179" y="4336"/>    
+    <bendpoint x="2179" y="3920"/>    
+    <bendpoint x="2179" y="3558"/>    
+    <bendpoint x="2179" y="2728"/>    
+    <bendpoint x="2179" y="2402"/>    
+    <bendpoint x="2179" y="2022"/>    
+    <bendpoint x="2179" y="1606"/>    
+    <end type="SOURCE" refId="5" navigable="false">      
+      <attribute id="150" name="patient"/>      
+      <multiplicity id="151" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="152">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="153" name="clinic"/>      
+      <multiplicity id="154" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="155">    
+    <bendpoint x="2011" y="2022"/>    
+    <bendpoint x="2032" y="2402"/>    
+    <bendpoint x="2053" y="2728"/>    
+    <bendpoint x="2053" y="3558"/>    
+    <bendpoint x="2053" y="3920"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="156" name="appointments_many"/>      
+      <multiplicity id="157" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="158">    
+    <bendpoint x="928" y="3920"/>    
+    <bendpoint x="928" y="3558"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="159" name="clinic"/>      
+      <multiplicity id="160" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="161">    
+    <bendpoint x="2032" y="2728"/>    
+    <bendpoint x="2074" y="2402"/>    
+    <bendpoint x="2095" y="2022"/>    
+    <bendpoint x="2116" y="1606"/>    
+    <bendpoint x="2116" y="956"/>    
+    <bendpoint x="2116" y="631"/>    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <association id="162">    
+    <bendpoint x="2095" y="1606"/>    
+    <bendpoint x="2116" y="2022"/>    
+    <bendpoint x="2116" y="2402"/>    
+    <bendpoint x="2116" y="2728"/>    
+    <bendpoint x="2116" y="3558"/>    
+    <bendpoint x="2116" y="3920"/>    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="163" name="appointments"/>      
+      <multiplicity id="164" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="165">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="166" name="doctor"/>      
+      <multiplicity id="167" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="168">    
+    <bendpoint x="1256" y="3920"/>    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="169" name="appointments"/>      
+      <multiplicity id="170" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="171">    
+    <bendpoint x="928" y="2402"/>    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="172" name="appointmentTypes"/>      
+      <multiplicity id="173" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="174">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="175" name="appointmentMedicine"/>      
+      <multiplicity id="176" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="177">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="178" name="halls"/>      
+      <multiplicity id="179" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="180">    
+    <bendpoint x="1498" y="956"/>    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="12"/>  
+  </generalization>  
+  <association id="181">    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="182" name="appointmentType"/>      
+      <multiplicity id="183" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="184">    
+    <bendpoint x="907" y="3558"/>    
+    <bendpoint x="907" y="3920"/>    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="185" name="appointments"/>      
+      <multiplicity id="186" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="187">    
+    <bendpoint x="2137" y="3920"/>    
+    <bendpoint x="2137" y="3558"/>    
+    <bendpoint x="2137" y="2728"/>    
+    <bendpoint x="2137" y="2402"/>    
+    <bendpoint x="2137" y="2022"/>    
+    <bendpoint x="2137" y="1606"/>    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="188" name="patient"/>      
+      <multiplicity id="189" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="190">    
+    <end type="SOURCE" refId="16" navigable="false">      
+      <attribute id="191" name="clinicCenterAdministrator"/>      
+      <multiplicity id="192" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="193">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="194" name="clinics"/>      
+      <multiplicity id="195" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="196">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="197" name="clinicCenterAdministrator"/>      
+      <multiplicity id="198" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="199">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="200" name="clinic"/>      
+      <multiplicity id="201" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="202">    
+    <bendpoint x="2158" y="1606"/>    
+    <bendpoint x="2158" y="2022"/>    
+    <bendpoint x="2158" y="2402"/>    
+    <bendpoint x="2158" y="2728"/>    
+    <bendpoint x="2158" y="3558"/>    
+    <bendpoint x="2158" y="3920"/>    
+    <bendpoint x="2158" y="4336"/>    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="203" name="medicalRecord"/>      
+      <multiplicity id="204" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="205">    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="206" name="pricelist"/>      
+      <multiplicity id="207" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="208">    
+    <bendpoint x="970" y="3558"/>    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="209" name="clinic"/>      
+      <multiplicity id="210" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="211">    
+    <bendpoint x="1282" y="2402"/>    
+    <bendpoint x="1282" y="2022"/>    
+    <end type="SOURCE" refId="19" navigable="false">      
+      <attribute id="212" name="doctors"/>      
+      <multiplicity id="213" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>
