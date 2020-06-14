@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.project.tim05.dto.AppointmentDTO;
 import com.project.tim05.dto.AppointmentTypeDTO;
+import com.project.tim05.dto.ClinicDTO;
 import com.project.tim05.dto.DiagnosisDTO;
 import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.dto.HallDTO;
@@ -385,6 +386,12 @@ public class AppointmentService {
 				ddDTO.setDate(w.getDate());
 				w.setDiagnosis(ddDTO);
 				w.setDescription(rs.getString("description"));
+				ClinicDTO dto = new ClinicDTO();
+				dto.setId(rs.getInt("clinic"));
+				w.setClinic(dto);
+				w.setDoctor_id(d.getId());
+				w.setRatedClinic(rs.getBoolean("rated_clinic"));
+				w.setRatedDoctor(rs.getBoolean("rated_doctor"));
 				as.add(w);
 				
 			}

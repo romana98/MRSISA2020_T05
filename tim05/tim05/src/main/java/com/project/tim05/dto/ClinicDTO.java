@@ -23,6 +23,7 @@ public class ClinicDTO {
 	private String description;
 	
 	private double avg_rating;
+	
  
 
 	public ClinicDTO() {

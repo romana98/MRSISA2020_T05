@@ -487,21 +487,15 @@ public class PatientService {
 				// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
 				// "xslquaksjvvetl",
 				// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-				Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
-
-				String query = "INSERT INTO ratings_clinic (clinic_id, ratings) VALUES (?, ?)";
-				PreparedStatement ps = conn.prepareStatement(query);
-				ps.setInt(1, id);
-				ps.setDouble(2, rate);
-
-				flag = ps.executeUpdate();
-				ps.close();
-
-				conn.close();
+				Clinic c = initializeAndUnproxy.initAndUnproxy(cr.findById(id).orElse(null));
+				c.getRatings().add(rate);
+				cr.save(c);
+				
+				
 				
 				Connection conn2 = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 
-				String query2 = "UPDATE appointments set ratedClinic = true where appointment_id = ?;";
+				String query2 = "UPDATE appointments set rated_clinic = true where appointment_id = ?;";
 				PreparedStatement ps2 = conn2.prepareStatement(query2);
 				ps2.setInt(1, apt_id);
 
@@ -522,21 +516,13 @@ public class PatientService {
 				// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
 				// "xslquaksjvvetl",
 				// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-				Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
-
-				String query = "INSERT INTO ratings_doctor (user_id, ratings) VALUES (?, ?)";
-				PreparedStatement ps = conn.prepareStatement(query);
-				ps.setInt(1, id);
-				ps.setDouble(2, rate);
-
-				flag = ps.executeUpdate();
-				ps.close();
-
-				conn.close();
+				Doctor d = initializeAndUnproxy.initAndUnproxy(dr.findById(id));
+				d.getRatings().add(rate);
+				dr.save(d);
 				
 				Connection conn2 = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 
-				String query2 = "UPDATE appointments set ratedDoctor = true where appointment_id = ?;";
+				String query2 = "UPDATE appointments set rated_doctor = true where appointment_id = ?;";
 				PreparedStatement ps2 = conn2.prepareStatement(query2);
 				ps2.setInt(1, apt_id);
 
