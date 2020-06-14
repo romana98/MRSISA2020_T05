@@ -158,6 +158,7 @@ export class AddHallFormComponent implements OnInit{
           .subscribe((res) => {
             // @ts-ignore
             this.dataSource.data = res;
+            this.dataSource._updateChangeSubscription();
           });
 
           this._snackBar.open("Hall changed successfully.", "Close", {
@@ -185,9 +186,9 @@ export class AddHallFormComponent implements OnInit{
         date = this.date_value.getDate() + "/" + (this.date_value.getMonth()+1) + "/" + this.date_value.getFullYear();
         this.refreshData(date);
       });
-      
+
       }
-      
+
 
     goSearch(){
       this.today = this.date_value
@@ -206,7 +207,7 @@ export class AddHallFormComponent implements OnInit{
   styleUrls: ['./add-hall-form.component.css']
 })
 export class FirstDialog {
-  
+
   displayedColumns: string[] = ['date', 'time','doctor' , 'patient', 'reserve'];
 
   dataSource = new MatTableDataSource();
@@ -264,7 +265,7 @@ export class FirstDialog {
             this.refreshData();
           });
       }
-      
+
     },
       err => {
         if (err.status === 409){
@@ -302,10 +303,10 @@ export class FirstDialog {
           this._snackBar.open("There is no available halls for this appointment date", "Close", {
             duration: 2000,})
         }
-        
+
       }
     );
-    
+
   }
 }
 
@@ -315,7 +316,7 @@ export class FirstDialog {
   styleUrls: ['./add-hall-form.component.css']
 })
 export class SecondDialog {
-  
+
   dialog_data : any = null;
 
   choosen_doc : number = -1;
@@ -364,7 +365,7 @@ export class SecondDialog {
         obj['selected'] = false;
         return obj;
       })
-      
+
     });
       this.dataSource.paginator = this.paginator;
   }
@@ -392,7 +393,7 @@ export class SecondDialog {
        }*/
        this.reserveOperation.appointment_id =this.data.appointment_id.toString();
        this.reserveOperation.date = this.dialog_data.date.toString();
-       this.reserveOperation.doctor_id = this.choosen_doc.toString(); 
+       this.reserveOperation.doctor_id = this.choosen_doc.toString();
        this.reserveOperation.hall_id = this.data.hall_id.toString();
        this.reserveOperation.ids = ids;
        this.http.post("http://localhost:8081/halls/reserveOperationHall", this.reserveOperation).subscribe(
@@ -402,7 +403,7 @@ export class SecondDialog {
     }
     else{
 
-      
+
       this.http.get("http://localhost:8081/halls/reserveNewHall",{params:{'hall_id' : this.data.hall_id.toString(),
       'appointment_id' : this.data.appointment_id.toString(),
       'date' : this.dialog_data.date.toString(),
@@ -410,9 +411,9 @@ export class SecondDialog {
         res => {
         //@ts-ignore
       });
-    } 
+    }
     this.dialogRef.close();
-    
+
   }
 
 }

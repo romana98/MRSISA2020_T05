@@ -37,7 +37,7 @@ export class ReportBasicComponent implements OnInit {
 
     this.http.get("http://localhost:8081/clinicAdministrator/getClinicAvgRate").subscribe(
       res =>{
-        
+
         // @ts-ignore
         this.reportRes = res;
       }

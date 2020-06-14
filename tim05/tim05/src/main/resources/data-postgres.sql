@@ -23,10 +23,8 @@ INSERT INTO MEDICAL_STAFF(work_end,work_start,user_id) VALUES('20:00','12:00',4)
 INSERT INTO MEDICAL_STAFF(work_end,work_start,user_id) VALUES('20:00','11:00',6);
 
 
-INSERT INTO DOCTORS(user_id,active,appointment_type,clinic,clinic_admin,rate) VALUES (3, true , 1,1,1, 0);
-INSERT INTO DOCTORS(user_id,active,appointment_type,clinic,clinic_admin,rate) VALUES (6, true , 1,1,1, 0);
-
 INSERT INTO DOCTORS(user_id,active,appointment_type,clinic,clinic_admin) VALUES (3, true , 1,1,1);
+INSERT INTO DOCTORS(user_id,active,appointment_type,clinic,clinic_admin) VALUES (6, true , 1,1,1);
 
 INSERT INTO MEDICAL_RECORDS (medical_record_id) VALUES (1);
 
