@@ -27,6 +27,8 @@ Pokretanje aplikativnog servera podrazumeva kompajliranje Java koda i njegovo po
 Dva glavna koraka ove naredbe su kompajliranje frontend i backend koda, a međukoraci su preuzimanje modula od kojih zavise, kopiranje izgrađenog frontend koda (html/js/css) u direktorijum odakle se servira statički sadržaj bekend servera; potom kompajliranje Java koda bekenda i izgradnja .jar arhive. Svi ovi koraci su dirigovani sadržajem pom.xml fajlova u direktorijumima root, frontend i klinika.
 
 - Pozicionirati se u <tt>t05-ng-app</tt> i pokrenuti:
-> npm install
+> npm install, a nakon toga ng serve
 
 - Adresa:  http://localhost:8081
+
+- Deployovana verzija se nalazi na deploy branchu.
