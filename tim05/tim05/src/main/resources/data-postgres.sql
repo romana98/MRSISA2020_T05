@@ -50,8 +50,5 @@ INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (2, 3);
 INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (3, 4);
 INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (4, 5);
 INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (5, 1);
-<<<<<<< HEAD
 INSERT INTO USER_AUTHORITY (user_id, authority_id) VALUES (6, 4);
 
-=======
->>>>>>> refs/remotes/origin/master
