@@ -249,7 +249,7 @@ public class NurseService {
 					AppointmentType at = initializeAndUnproxy.initAndUnproxy(apt.getAppointmentType());
 					Doctor d = initializeAndUnproxy.initAndUnproxy(apt.getDoctor());
 					Hall h = initializeAndUnproxy.initAndUnproxy(apt.getHall());
-					dto.setId(at.getId());
+					dto.setId(id);
 					dto.setDate(apt.getDateTime().toString().split(" ")[0]);
 					dto.setTime(apt.getDateTime().toString().split(" ")[1].split("\\.")[0].substring(0,5));
 					dto.setDuration(apt.getDuration());
