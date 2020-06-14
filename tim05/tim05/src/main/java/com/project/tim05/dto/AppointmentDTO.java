@@ -34,6 +34,25 @@ public class AppointmentDTO {
 	private int appointmentType_id;
 	@NotNull
 	private int clinic_id;
+	
+	private boolean ratedDoctor;
+	private boolean ratedClinic;
+
+	public boolean isRatedDoctor() {
+		return ratedDoctor;
+	}
+
+	public void setRatedDoctor(boolean ratedDoctor) {
+		this.ratedDoctor = ratedDoctor;
+	}
+
+	public boolean isRatedClinic() {
+		return ratedClinic;
+	}
+
+	public void setRatedClinic(boolean ratedClinic) {
+		this.ratedClinic = ratedClinic;
+	}
 
 	private int id;
 
@@ -249,6 +268,8 @@ public class AppointmentDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	
 	
 
 }

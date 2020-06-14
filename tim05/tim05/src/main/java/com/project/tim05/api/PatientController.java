@@ -30,6 +30,7 @@ import com.project.tim05.dto.DoctorDTO;
 import com.project.tim05.dto.MedicineDTO;
 import com.project.tim05.dto.PatientClinicsDTO;
 import com.project.tim05.dto.PatientDTO;
+import com.project.tim05.dto.RatingDTO;
 import com.project.tim05.model.Appointment;
 import com.project.tim05.model.Clinic;
 import com.project.tim05.model.Disease;
@@ -39,6 +40,7 @@ import com.project.tim05.model.Medicine;
 import com.project.tim05.model.Patient;
 import com.project.tim05.model.RegistrationRequest;
 import com.project.tim05.model.User;
+import com.project.tim05.repository.AppointmentRespository;
 import com.project.tim05.service.AppointmentService;
 import com.project.tim05.service.ClinicService;
 import com.project.tim05.service.DoctorService;
@@ -47,6 +49,7 @@ import com.project.tim05.service.NurseService;
 import com.project.tim05.service.PatientService;
 import com.project.tim05.service.RegistrationRequestService;
 import com.project.tim05.service.UserService;
+import com.project.tim05.service.initializeAndUnproxy;
 
 @CrossOrigin(origins = "https://localhost:4200")
 
@@ -67,10 +70,11 @@ public class PatientController<T> {
 	private final ClinicService cs;
 	private final DoctorService ds;
 	private final NurseService ns;
+	private final AppointmentRespository ar;
 
 	@Autowired
 	public PatientController(DoctorService ds, NurseService ns, AppointmentService as, PatientService ps, RegistrationRequestService rrs, EmailService es,
-			ClinicService cs) {
+			ClinicService cs, AppointmentRespository ar) {
 		this.ps = ps;
 		this.as = as;
 		this.rrs = rrs;
@@ -78,6 +82,7 @@ public class PatientController<T> {
 		this.cs = cs;
 		this.ds = ds;
 		this.ns = ns;
+		this.ar = ar;
 	}
 
 	@GetMapping("/getPatients")
@@ -452,12 +457,27 @@ public class PatientController<T> {
 	//apt_id = id appointmenta
 	@PostMapping("/rate")
 	@PreAuthorize("hasRole('PATIENT')")
-	public ResponseEntity<T> rate(@RequestBody String param, int rate, int id, int apt_id){
-		int flag = ps.rate(param, id, rate, apt_id);
-		if(flag == 0) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+	public ResponseEntity<T> rate(@RequestBody RatingDTO dto){
+		if(dto.getParam() == 1) {
+			Appointment a = ar.findById(dto.getApt_id()).orElse(null); 
+			Clinic c = initializeAndUnproxy.initAndUnproxy(a.getClinic());
+			
+			int flag = ps.rate("clinic", c.getId(), dto.getRate(), dto.getApt_id());
+			if(flag == 0) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			}else {
+				return ResponseEntity.status(HttpStatus.OK).body(null);
+			}
 		}else {
-			return ResponseEntity.status(HttpStatus.OK).body(null);
+			Appointment a = ar.findById(dto.getApt_id()).orElse(null); 
+			Doctor d = initializeAndUnproxy.initAndUnproxy(a.getDoctor());
+			
+			int flag = ps.rate("doctor", d.getId(), dto.getRate(), dto.getApt_id());
+			if(flag == 0) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			}else {
+				return ResponseEntity.status(HttpStatus.OK).body(null);
+			}
 		}
 	}
 
