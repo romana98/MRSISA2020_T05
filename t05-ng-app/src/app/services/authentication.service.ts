@@ -24,7 +24,7 @@ export class AuthenticationService {
   authenticate(model):Promise<number> {
     let status = 0;
     let promise  =  new Promise<number>((resolve,reject) => {
-      this.httpClient.post('http://localhost:8081/auth/login',model).toPromise().then(
+      this.httpClient.post('https://eclinic05.herokuapp.com/auth/login',model).toPromise().then(
         res => {
           let tokenStr= 'Bearer ' + res['accessToken'];
           sessionStorage.setItem('token', tokenStr);
