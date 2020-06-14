@@ -88,6 +88,7 @@ export class ViewAllClinicsComponent implements OnInit {
         this.dataSource2.paginator = this.paginator;
         // @ts-ignore
         this.dataSource2.data = res;
+        console.log(this.dataSource2.data);
       }
     );
 
