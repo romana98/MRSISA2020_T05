@@ -65,8 +65,7 @@ export class EditMedicalRecordComponent implements OnInit {
   }
 
   Select(row: any) {
-    console.log(sessionStorage.getItem('id')===row.doctor.id)
-    this.isDisabled = sessionStorage.getItem('id')===row.doctor.id;
+    this.isDisabled = sessionStorage.getItem('user_id')!=row.doctor.id;
     this.selected = row.description;
     this.selectedRowId = this.dataSource.data.indexOf(row);
   }

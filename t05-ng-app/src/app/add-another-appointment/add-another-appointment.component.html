@@ -10,7 +10,7 @@
     <input matInput  [(ngModel)] = "patient_name" #surname="ngModel" name="input_surname"
                [disabled]="true">
     </mat-form-field>
-    
+
     <mat-form-field appearance="outline" style="padding-left: 25px; width: 250px;">
     <mat-label>Surname</mat-label>
     <input matInput  [(ngModel)] = "patient_surname" #surname="ngModel" name="input_surname"
@@ -44,7 +44,7 @@
       <span matSuffix>min</span>
     </mat-form-field>
 
-    
+
 
     <mat-form-field appearance="outline" style="padding-left: 25px;width: 260px;">
       <mat-label>Type</mat-label>
@@ -59,7 +59,9 @@
 
     <br>
     <br>
-    <button mat-raised-button >Add appointment</button>
+    <button style="width: 150px" mat-raised-button >Add appointment</button>
+    <button  type=button style="left: 100px; width: 150px" mat-raised-button (click)="skip()">Skip</button>
+
 
 
 
