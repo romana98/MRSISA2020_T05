@@ -26,7 +26,7 @@ export class ActivationLinkComponent implements OnInit {
       this.model.id = params['id'];
       this.model.email = params['email'];
 
-      let url = "http://localhost:8081/patients/activate"
+      let url = "https://eclinic05.herokuapp.com/patients/activate"
       this.http.post(url,this.model).subscribe(
         res => {
           this._snackBar.open("Your account is successfully activated!", "Close", {

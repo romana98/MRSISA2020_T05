@@ -40,7 +40,7 @@ export class ReportCalendarComponent implements OnInit {
   async ngOnInit(){
 
      // @ts-ignore
-    this.apps = await this.http.get("http://localhost:8081/appointment/getReportAppointments").toPromise();
+    this.apps = await this.http.get("https://eclinic05.herokuapp.com/appointment/getReportAppointments").toPromise();
 
     this.addEvents();
   }

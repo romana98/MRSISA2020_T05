@@ -31,8 +31,8 @@ export class ViewPatientProfileComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let url = "http://localhost:8081/patients/getPatientDoctor";
-    let url1 = "http://localhost:8081/patients/canAccessMedicalRecord";
+    let url = "https://eclinic05.herokuapp.com/patients/getPatientDoctor";
+    let url1 = "https://eclinic05.herokuapp.com/patients/canAccessMedicalRecord";
 
     this.http.get(url, {params:{email: this.r.snapshot.queryParamMap.get('email')}}).subscribe(
       res => {

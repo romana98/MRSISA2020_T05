@@ -32,7 +32,7 @@ export class EditClinicComponent implements OnInit {
   async ngOnInit() {
 
     // @ts-ignore
-    this.model = await this.http.get("http://localhost:8081/clinicAdministrator/getClinic").toPromise();
+    this.model = await this.http.get("https://eclinic05.herokuapp.com/clinicAdministrator/getClinic").toPromise();
 
 
     // @ts-ignore
@@ -73,7 +73,7 @@ export class EditClinicComponent implements OnInit {
 
 
   EditClinic() {
-    let url = "http://localhost:8081/clinic/editClinic"
+    let url = "https://eclinic05.herokuapp.com/clinic/editClinic"
     this.http.post(url, this.model).subscribe(
       res => {
         this._snackBar.open("Clinic edited successfully!", "Close", {

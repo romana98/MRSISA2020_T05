@@ -21,8 +21,8 @@ import com.project.tim05.model.Diagnosis;
 import com.project.tim05.service.DiagnosisService;
 
 
-@CrossOrigin(origins = "https://localhost:4200")
-
+//@CrossOrigin(origins = "https://localhost:4200")
+@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
 @RequestMapping("/diagnosis")
 @RestController
 public class DiagnosisContoller<T> {

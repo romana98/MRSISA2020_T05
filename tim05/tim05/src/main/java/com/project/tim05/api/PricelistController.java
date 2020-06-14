@@ -28,8 +28,8 @@ import com.project.tim05.repository.PricelistRepository;
 import com.project.tim05.service.AppointmentTypeService;
 import com.project.tim05.service.PricelistService;
 
-@CrossOrigin(origins = "https://localhost:4200")
-
+//@CrossOrigin(origins = "https://localhost:4200")
+@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
 @RequestMapping("/pricelist")
 @RestController
 public class PricelistController<T> {

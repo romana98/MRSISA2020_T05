@@ -36,7 +36,7 @@ export class ViewPredefinedAppointmentsComponent implements OnInit {
   ngOnInit(): void {
     let params = new HttpParams();
     params = params.append('clinicId', this.router.snapshot.queryParamMap.get('clinicId'));
-    this.http.get("http://localhost:8081/appointment/getClinicPredefinedAppointments",{params:params})
+    this.http.get("https://eclinic05.herokuapp.com/appointment/getClinicPredefinedAppointments",{params:params})
       .subscribe((res) => {
         // @ts-ignore
         this.dataSource.data = res;
@@ -46,7 +46,7 @@ export class ViewPredefinedAppointmentsComponent implements OnInit {
   }
 
   Reserve(req) {
-    let url = "http://localhost:8081/appointment/reservePredefinedAppointment"
+    let url = "https://eclinic05.herokuapp.com/appointment/reservePredefinedAppointment"
     this.http.post(url, req).subscribe(
       res => {
         let index = this.dataSource.data.indexOf(req);

@@ -45,14 +45,14 @@ export class ViewPatientsNurseComponent implements OnInit {
 
 
 
-    this.http.get("http://localhost:8081/medicalStaff/getPatients")
+    this.http.get("https://eclinic05.herokuapp.com/medicalStaff/getPatients")
       .subscribe((res) => {
         // @ts-ignore
         this.dataSource.data = res;
       });
 
     let params = new HttpParams().set('user_id', sessionStorage.getItem('user_id').toString())
-    this.http.get("http://localhost:8081/medicalStaff/getCities", {params:params}).subscribe(
+    this.http.get("https://eclinic05.herokuapp.com/medicalStaff/getCities", {params:params}).subscribe(
       res => {
         // @ts-ignore
         this.cities = res;
@@ -70,14 +70,14 @@ export class ViewPatientsNurseComponent implements OnInit {
     params = params.append('value',this.model.value);
     params = params.append('admin_id' , sessionStorage.getItem('user_id').toString());
     params = params.append('filter' , this.filterModel.filter)
-    this.http.get("http://localhost:8081/medicalStaff/filterPatients", {params:params})
+    this.http.get("https://eclinic05.herokuapp.com/medicalStaff/filterPatients", {params:params})
       .subscribe((res) => {
         // @ts-ignore
         this.dataSource.data = res;
         document.getElementById("errorMsg").style.display = "none";
     },
     err => {
-        this.http.get("http://localhost:8081/medicalStaff/getPatients")
+        this.http.get("https://eclinic05.herokuapp.com/medicalStaff/getPatients")
         .subscribe((res) => {
           // @ts-ignore
           this.dataSource.data = res;
@@ -93,14 +93,14 @@ export class ViewPatientsNurseComponent implements OnInit {
     params = params.append('parameter', this.model.parameter );
     params = params.append('value',this.model.value);
     params = params.append('admin_id' , sessionStorage.getItem('user_id').toString());
-    this.http.get("http://localhost:8081/medicalStaff/searchPatients", {params:params})
+    this.http.get("https://eclinic05.herokuapp.com/medicalStaff/searchPatients", {params:params})
       .subscribe((res) => {
         // @ts-ignore
         this.dataSource.data = res;
         document.getElementById("errorMsg").style.display = "none";
     },
     err => {
-        this.http.get("http://localhost:8081/medicalStaff/getPatients")
+        this.http.get("https://eclinic05.herokuapp.com/medicalStaff/getPatients")
         .subscribe((res) => {
           // @ts-ignore
           this.dataSource.data = res;

@@ -72,8 +72,8 @@ public class AppointmentTypeService {
 	public int deleteAppointmentType(int id) {
 		int success = 0;
 		try {
-			//Connection connection = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			Connection connection = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 	        
 	        String query = "DELETE FROM appointment_types WHERE appointment_type_id = ?";
 	        PreparedStatement ps = connection.prepareStatement(query);
@@ -94,8 +94,8 @@ public class AppointmentTypeService {
 	public ArrayList<AppointmentTypeDTO> getClinicAppointmentTypes(int id){
 		Connection conn;
 		try {
-			//conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 	        
 			PreparedStatement st;
 			
@@ -134,7 +134,8 @@ public class AppointmentTypeService {
 			PreparedStatement st = null;
 			Connection conn = null;
 			try {
-				conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+				conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+				//conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 				st = conn.prepareStatement("SELECT * FROM appointment_types WHERE clinic = ? and name like ?");
 				st.setInt(1, clinic_id);
 				st.setString(2, "%"+searchInput+"%");

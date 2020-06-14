@@ -37,8 +37,8 @@ export class EditMedicalRecordComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let url = "http://localhost:8081/patients/getDisease";
-    let url1 = "http://localhost:8081/appointment/getFinishedAppointmentsMed";
+    let url = "https://eclinic05.herokuapp.com/patients/getDisease";
+    let url1 = "https://eclinic05.herokuapp.com/appointment/getFinishedAppointmentsMed";
 
     this.http.get(url, {params:{email: this.router.snapshot.queryParamMap.get('email')}}).subscribe(
       res => {
@@ -72,7 +72,7 @@ export class EditMedicalRecordComponent implements OnInit {
 
   save() {
 
-    let url = "http://localhost:8081/appointment/saveDescription";
+    let url = "https://eclinic05.herokuapp.com/appointment/saveDescription";
     // @ts-ignore
     this.http.get(url, {params:{appId: this.dataSource.data[this.selectedRowId].id, desc: this.selected}}).subscribe(
       res => {

@@ -30,7 +30,8 @@ import com.project.tim05.service.LeaveRequestService;
 import com.project.tim05.service.NurseService;
 import com.project.tim05.service.UserService;
 
-@CrossOrigin(origins = "https://localhost:4200")
+//@CrossOrigin(origins = "https://localhost:4200")
+@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
 @RequestMapping("/leaveRequest")
 @RestController
 public class LeaveRequestController<T> {

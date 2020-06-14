@@ -61,7 +61,7 @@ export class AddHallFormComponent implements OnInit{
 
     refreshData(date){
 
-      this.http.get("http://localhost:8081/halls/getAvailabileHalls",{params:{'clinic_admin_id' : sessionStorage.getItem('user_id'),
+      this.http.get("https://eclinic05.herokuapp.com/halls/getAvailabileHalls",{params:{'clinic_admin_id' : sessionStorage.getItem('user_id'),
           // @ts-ignore
       'param_name': this.search_param, 'param_value' : this.search_value  == "" ? "-1" : this.search_value,
       'date' : date.toString()}}).subscribe(
@@ -74,7 +74,7 @@ export class AddHallFormComponent implements OnInit{
     }
 
     AddHall(): void{
-        let url = "http://localhost:8081/halls/addHall"
+        let url = "https://eclinic05.herokuapp.com/halls/addHall"
         this.http.post(url, this.model).subscribe(
             res => {
 
@@ -106,7 +106,7 @@ export class AddHallFormComponent implements OnInit{
 
     deleteHall(element): void{
         let params = new HttpParams().set("hall_id", element.id.toString());
-        this.http.delete("http://localhost:8081/halls/deleteHall",{params:params}).subscribe(
+        this.http.delete("https://eclinic05.herokuapp.com/halls/deleteHall",{params:params}).subscribe(
           res =>{
 
             let index = this.dataSource.data.indexOf(element);
@@ -154,7 +154,7 @@ export class AddHallFormComponent implements OnInit{
       params = params.append('number', this.currentlySelected.number.toString());
       params = params.append('id' , this.currentlySelected.id.toString());
       console.log(params.get('name'));
-      this.http.get("http://localhost:8081/halls/editHall", {params:params}).subscribe(
+      this.http.get("https://eclinic05.herokuapp.com/halls/editHall", {params:params}).subscribe(
         res =>{
 
           console.log(this.clinic_id)
@@ -239,7 +239,7 @@ export class FirstDialog {
   }
 
   refreshData(): void {
-    this.http.get("http://localhost:8081/appointment/getAppointmentRequests",{params:{'clinic_admin_id' : sessionStorage.getItem('user_id'),
+    this.http.get("https://eclinic05.herokuapp.com/appointment/getAppointmentRequests",{params:{'clinic_admin_id' : sessionStorage.getItem('user_id'),
     'date' : this.data.date.toString()}}).subscribe(
       res => {
       //@ts-ignore
@@ -248,7 +248,7 @@ export class FirstDialog {
   }
 
   onClick(element) {
-    this.http.get("http://localhost:8081/halls/reserveHall",{params:{
+    this.http.get("https://eclinic05.herokuapp.com/halls/reserveHall",{params:{
       hall_id : this.data.hall_id.toString(),
       appointment_id : element.id.toString(),
       date : this.data.date.toString(),
@@ -363,7 +363,7 @@ export class SecondDialog {
     this.operation = (this.data.type.toString() === "1");
     console.log("Free: " + this.free + "operation" + this.operation);
     //ako je u pitanju pregled koji je free ovo ti ne treba
-    this.http.get("http://localhost:8081/halls/getFirstTime",{params:{'clinic_admin_id' : sessionStorage.getItem('user_id'),
+    this.http.get("https://eclinic05.herokuapp.com/halls/getFirstTime",{params:{'clinic_admin_id' : sessionStorage.getItem('user_id'),
     'appointment_id' : this.data.appointment_id.toString(),
     'hall_id' : this.data.hall_id.toString()}}).subscribe(
       res => {
@@ -408,7 +408,7 @@ export class SecondDialog {
        this.reserveOperation.doctor_id = this.choosen_doc.toString();
        this.reserveOperation.hall_id = this.data.hall_id.toString();
        this.reserveOperation.ids = ids;
-       this.http.post("http://localhost:8081/halls/reserveOperationHall", this.reserveOperation).subscribe(
+       this.http.post("https://eclinic05.herokuapp.com/halls/reserveOperationHall", this.reserveOperation).subscribe(
         res => {
         //@ts-ignore
       });
@@ -416,7 +416,7 @@ export class SecondDialog {
     else{
 
 
-      this.http.get("http://localhost:8081/halls/reserveNewHall",{params:{'hall_id' : this.data.hall_id.toString(),
+      this.http.get("https://eclinic05.herokuapp.com/halls/reserveNewHall",{params:{'hall_id' : this.data.hall_id.toString(),
       'appointment_id' : this.data.appointment_id.toString(),
       'date' : this.dialog_data.date.toString(),
       'doctor_id' : this.choosen_doc.toString()}}).subscribe(

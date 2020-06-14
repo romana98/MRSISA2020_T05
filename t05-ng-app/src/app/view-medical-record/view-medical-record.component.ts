@@ -90,7 +90,7 @@ export class ViewMedicalRecordComponent implements OnInit {
     this.model.rate = this.rate;
 
     console.log(this.model);
-    this.http.post("http://localhost:8081/patients/rate", this.model).subscribe(
+    this.http.post("https://eclinic05.herokuapp.com/patients/rate", this.model).subscribe(
       res => {
         this._snackBar.open("Successfully rated!", "Close", {
           duration: 2000,
@@ -118,8 +118,8 @@ export class ViewMedicalRecordComponent implements OnInit {
   }
 
   refreshData(){
-    let url = "http://localhost:8081/patients/getDiseasePatient";
-    let url1 = "http://localhost:8081/appointment/getFinishedAppointments";
+    let url = "https://eclinic05.herokuapp.com/patients/getDiseasePatient";
+    let url1 = "https://eclinic05.herokuapp.com/getFinishedAppointments";
     this.selected = "";
     this.http.get(url).subscribe(
       res => {

@@ -67,7 +67,7 @@ export class DoctorsComponent implements OnInit {
     params = params.append('date', this.router.snapshot.queryParamMap.get('date'))
     params = params.append('clinic_id', this.router.snapshot.queryParamMap.get('clinic_id'));
     params = params.append('appointmentType_id', this.router.snapshot.queryParamMap.get('appointment_type_id'));
-    this.http.get("http://localhost:8081/doctors/getAvailableDoctors",{params:params})
+    this.http.get("https://eclinic05.herokuapp.com/doctors/getAvailableDoctors",{params:params})
     .subscribe((res) => {
       // @ts-ignore
       this.dataSource.data = res;
@@ -86,7 +86,7 @@ export class DoctorsComponent implements OnInit {
     params = params.append('date', this.router.snapshot.queryParamMap.get('date'))
     params = params.append('clinic_id', this.router.snapshot.queryParamMap.get('clinic_id'));
     params = params.append('appointmentType_id', this.router.snapshot.queryParamMap.get('appointment_type_id'));
-    this.http.get("http://localhost:8081/patients/searchDoctors",{params:params})
+    this.http.get("https://eclinic05.herokuapp.com/patients/searchDoctors",{params:params})
       .subscribe((res) => {
         // @ts-ignore
         this.dataSource.data = res;
@@ -119,7 +119,7 @@ export class DoctorsComponent implements OnInit {
 
         }
 
-        let url = "http://localhost:8081/appointment/sendRequest"
+        let url = "https://eclinic05.herokuapp.com/appointment/sendRequest"
         this.http.post(url, this.reqModel).subscribe(
           res => {
             /*let index = this.dataSource.data.indexOf(req);

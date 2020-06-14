@@ -25,7 +25,7 @@ export class AddClinicFromComponent implements OnInit{
     }
 
     AddClinic(): void{
-        let url = "http://localhost:8081/clinic/addClinic"
+        let url = "https://eclinic05.herokuapp.com/clinic/addClinic"
         this.http.post(url, this.model).subscribe(
             res => {
               this._snackBar.open("Clinic added successfully!", "Close", {

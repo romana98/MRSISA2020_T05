@@ -41,9 +41,9 @@ export class ViewWorkCalendarComponent implements OnInit {
   async ngOnInit(){
 
     // @ts-ignore
-    this.works = await this.http.get("http://localhost:8081/workCalendar/getWorkCalendar").toPromise();
+    this.works = await this.http.get("https://eclinic05.herokuapp.com/workCalendar/getWorkCalendar").toPromise();
     // @ts-ignore
-    this.apps = await this.http.get("http://localhost:8081/appointment/getDoctorAppointments").toPromise();
+    this.apps = await this.http.get("https://eclinic05.herokuapp.com/appointment/getDoctorAppointments").toPromise();
 
     this.addEvents();
   }
@@ -124,7 +124,7 @@ export class ViewWorkCalendarComponent implements OnInit {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    let url = "http://localhost:8081/patients/canStartApp";
+    let url = "https://eclinic05.herokuapp.com/patients/canStartApp";
 
     console.log(event)
     this.http.get(url, {params:{p_id: event.meta.p_id, a_id:event.meta.id}}).subscribe(

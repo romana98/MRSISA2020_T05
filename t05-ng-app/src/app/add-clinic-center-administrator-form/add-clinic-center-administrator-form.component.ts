@@ -27,7 +27,7 @@ export class AddClinicCenterAdminFromComponent implements OnInit{
     }
 
     AddClinicCenterAdmin(): void{
-        let url = "http://localhost:8081/clinicCenterAdministrator/addClinicCenterAdministrator"
+        let url = "https://eclinic05.herokuapp.com/clinicCenterAdministrator/addClinicCenterAdministrator"
         this.http.post(url, this.model).subscribe(
             res => {
               this._snackBar.open("Clinic center administrator added successfully!", "Close", {

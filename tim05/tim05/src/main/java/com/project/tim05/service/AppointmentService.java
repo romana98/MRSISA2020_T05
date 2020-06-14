@@ -96,11 +96,11 @@ public class AppointmentService {
 	public ArrayList<AppointmentDTO> getAppointmentRequests(Date date, int clinic){
 		Connection conn;
 		try {
-			// conn =
-			// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
-			// "xslquaksjvvetl",
-			// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			 conn =
+			 DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+			 "xslquaksjvvetl",
+			 "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 
 			PreparedStatement st;
 
@@ -155,8 +155,8 @@ public class AppointmentService {
 	public List<AppointmentDTO> getDoctorAppointments(String email) {
 		List<AppointmentDTO> as = new ArrayList<AppointmentDTO>();
 		try {
-			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 	        Doctor d = dr.findByEmail(email);
 			PreparedStatement st = conn.prepareStatement("SELECT * from public.appointments where request = false and doctor = ?");
 			st.setInt(1, d.getId());
@@ -209,8 +209,8 @@ public class AppointmentService {
 			}
 			
 			
-			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 			PreparedStatement ps = conn.prepareStatement("DELETE from public.appointments where appointment_id = ?");
 			ps.setInt(1, appointment_id);
 			flag = ps.executeUpdate();
@@ -267,8 +267,8 @@ public class AppointmentService {
 	public List<AppointmentDTO> getClinicPredefinedAppointments(int clinic_id) {
 		List<AppointmentDTO> as = new ArrayList<AppointmentDTO>();
 		try {
-			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 	        
 			PreparedStatement st = conn.prepareStatement("SELECT * from public.appointments where predefined = true and patient is null and clinic = ?");
 			st.setInt(1, clinic_id);
@@ -313,8 +313,8 @@ public class AppointmentService {
 		
 		
 		try {
-			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 			
 			PreparedStatement ps = conn.prepareStatement("SELECT * from patients_clinics where patient_user_id = ? and clinics_clinic_id = ?");
 			ps.setInt(1, patientId);
@@ -346,8 +346,8 @@ public class AppointmentService {
 	public int setAppointment(AppointmentDTO ap) {
 		int flag = 0;
 		try {
-			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 			PreparedStatement ps = conn.prepareStatement("UPDATE appointments set description = ?, diagnosis = ?, finished = true where appointment_id = ?");
 			ps.setString(1, ap.getDescription());
 			ps.setInt(2, Integer.parseInt(ap.getTime()));
@@ -366,8 +366,8 @@ public class AppointmentService {
 		
 		List<AppointmentDTO> as = new ArrayList<AppointmentDTO>();
 		try {
-			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 	        
 			PreparedStatement st = conn.prepareStatement("SELECT * from public.appointments where finished = true and patient = ?");
 			st.setInt(1, id);
@@ -413,8 +413,8 @@ public class AppointmentService {
 		
 		int flag = 0;
 		try {
-			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 			PreparedStatement ps = conn.prepareStatement("UPDATE appointments set description = ? where appointment_id = ? and doctor = ?");
 			ps.setString(1, desc);
 			ps.setInt(2, appId);
@@ -437,8 +437,8 @@ public class AppointmentService {
 				return as;
 			
 			ca.setClinic(initializeAndUnproxy.initAndUnproxy(ca.getClinic()));
-			//Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 
 			PreparedStatement st = conn.prepareStatement("SELECT * from public.appointments where finished = true and clinic = ?");
 			st.setInt(1, ca.getClinic().getId());

@@ -25,7 +25,7 @@ export class NurseFinishedAppointmentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get("http://localhost:8081/nurse/getFinishedAppointments")
+    this.http.get("https://eclinic05.herokuapp.com/nurse/getFinishedAppointments")
       .subscribe((res) => {
         console.log(res);
         // @ts-ignore

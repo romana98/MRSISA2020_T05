@@ -41,7 +41,7 @@ export class AddDoctorFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get("http://localhost:8081/appointmentType/getAllApointmentTypes").subscribe(
+    this.http.get("https://eclinic05.herokuapp.com/appointmentType/getAllApointmentTypes").subscribe(
       res => {
         // @ts-ignore
         this.appointmentTypes= res;
@@ -49,12 +49,12 @@ export class AddDoctorFormComponent implements OnInit {
       });
 
     let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id'))
-    this.http.get("http://localhost:8081/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
+    this.http.get("https://eclinic05.herokuapp.com/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
       res => {
         this.model.clinic_id = res;
         console.log(this.model.clinic_id)
         let params2 = new HttpParams().set('clinic_id',res.toString());
-        this.http.get("http://localhost:8081/doctors/getClinicsDoctors",{params:params2}).subscribe(
+        this.http.get("https://eclinic05.herokuapp.com/doctors/getClinicsDoctors",{params:params2}).subscribe(
           res => {
             // @ts-ignore
             this.dataSource.data = res;
@@ -65,13 +65,13 @@ export class AddDoctorFormComponent implements OnInit {
 
   addDoctor(): void{
     console.log(this.model.name + this.model.surname);
-    let url =  "http://localhost:8081/doctors/addDoctor"
+    let url =  "https://eclinic05.herokuapp.com/doctors/addDoctor"
     console.log(this.model);
     this.http.post(url,this.model).subscribe(
         res => {
           console.log(this.model.clinic_id)
           let params2 = new HttpParams().set('clinic_id',this.model.clinic_id.toString());
-              this.http.get("http://localhost:8081/doctors/getClinicsDoctors",{params:params2}).subscribe(
+              this.http.get("https://eclinic05.herokuapp.com/doctors/getClinicsDoctors",{params:params2}).subscribe(
                   res => {
                     // @ts-ignore
                     this.dataSource.data = res;
@@ -94,12 +94,12 @@ export class AddDoctorFormComponent implements OnInit {
   }
 
   deleteDoctor(element): void{
-    let url =  "http://localhost:8081/doctors/deleteDoctor"
+    let url =  "https://eclinic05.herokuapp.com/doctors/deleteDoctor"
     let params = new HttpParams().set('doctor_id', element.id)
     this.http.delete(url,{params:params}).subscribe(
         res => {
           let params2 = new HttpParams().set('clinic_id',this.model.clinic_id.toString());
-              this.http.get("http://localhost:8081/doctors/getClinicsDoctors",{params:params2}).subscribe(
+              this.http.get("https://eclinic05.herokuapp.com/doctors/getClinicsDoctors",{params:params2}).subscribe(
                   res => {
                     // @ts-ignore
                     this.dataSource.data = res;
@@ -125,7 +125,7 @@ export class AddDoctorFormComponent implements OnInit {
     params = params.append('parameter', this.searchModel.parameter );
     params = params.append('value',this.searchModel.value);
     params = params.append('clinic_id' , this.model.clinic_id);
-    this.http.get("http://localhost:8081/clinicAdministrator/searchDoctors", {params:params})
+    this.http.get("https://eclinic05.herokuapp.com/clinicAdministrator/searchDoctors", {params:params})
       .subscribe((res) => {
         // @ts-ignore
         this.dataSource.data = res;

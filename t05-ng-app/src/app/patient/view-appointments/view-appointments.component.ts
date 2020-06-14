@@ -23,7 +23,7 @@ export class ViewAppointmentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get("http://localhost:8081/patients/getIncomingAppointments")
+    this.http.get("https://eclinic05.herokuapp.com/patients/getIncomingAppointments")
       .subscribe((res) => {
         console.log(res);
         // @ts-ignore

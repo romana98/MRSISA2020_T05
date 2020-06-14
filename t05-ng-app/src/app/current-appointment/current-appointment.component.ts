@@ -42,7 +42,7 @@ export class CurrentAppointmentComponent implements OnInit {
     this.patient =  this.router.snapshot.queryParamMap.get('patient');
     this.modelApp.id =  this.router.snapshot.queryParamMap.get('appId');
 
-    let url = "http://localhost:8081/patients/getDisease";
+    let url = "https://eclinic05.herokuapp.com/patients/getDisease";
 
     this.http.get(url, {params:{email: this.router.snapshot.queryParamMap.get('email')}}).subscribe(
       res => {
@@ -52,7 +52,7 @@ export class CurrentAppointmentComponent implements OnInit {
       }
     )
 
-    let url1 = "http://localhost:8081/diagnosis/getDiagnosises";
+    let url1 = "https://eclinic05.herokuapp.com/diagnosis/getDiagnosises";
 
     this.http.get(url1,).subscribe(
       res => {
@@ -62,7 +62,7 @@ export class CurrentAppointmentComponent implements OnInit {
       }
     )
 
-    let url2 = "http://localhost:8081/medicine/getMedicines";
+    let url2 = "https://eclinic05.herokuapp.com/medicine/getMedicines";
 
     this.http.get(url2,).subscribe(
       res => {
@@ -85,9 +85,9 @@ export class CurrentAppointmentComponent implements OnInit {
 
   async finishAppointment() {
 
-    let url = "http://localhost:8081/patients/setDisease";
-    let url1 = "http://localhost:8081/patients/setAppointment";
-    let url2 = "http://localhost:8081/patients/setMedicine";
+    let url = "https://eclinic05.herokuapp.com/patients/setDisease";
+    let url1 = "https://eclinic05.herokuapp.com/patients/setAppointment";
+    let url2 = "https://eclinic05.herokuapp.com/patients/setMedicine";
 
     //sacuvaj bolesti
     this.http.post(url, this.modelDis).subscribe(

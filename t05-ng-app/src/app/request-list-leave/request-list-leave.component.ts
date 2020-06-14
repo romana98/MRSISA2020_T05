@@ -29,7 +29,7 @@ export class RequestListLeaveComponent implements OnInit {
   ngOnInit(): void {
 
 
-    this.http.get("http://localhost:8081/leaveRequest/getRequests")
+    this.http.get("https://eclinic05.herokuapp.com/leaveRequest/getRequests")
       .subscribe((res) => {
         // @ts-ignore
         this.dataSource.data = res;
@@ -42,7 +42,7 @@ export class RequestListLeaveComponent implements OnInit {
 
   Accept(req): void {
 
-    let url = "http://localhost:8081/medicalStaff/addLeave"
+    let url = "https://eclinic05.herokuapp.com/medicalStaff/addLeave"
     this.http.post(url, req).subscribe(
       res => {
         let index = this.dataSource.data.indexOf(req);
@@ -80,7 +80,7 @@ export class RequestListLeaveComponent implements OnInit {
 
       if(result.sent === true && req.text != null)
       {
-        let url = "http://localhost:8081/leaveRequest/declineRequest"
+        let url = "https://eclinic05.herokuapp.com/leaveRequest/declineRequest"
         this.http.post(url, req).subscribe(
           res => {
             let index = this.dataSource.data.indexOf(req);

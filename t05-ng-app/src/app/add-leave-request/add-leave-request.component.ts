@@ -34,7 +34,7 @@ export class AddLeaveRequestComponent implements OnInit{
   }
 
   MakeRequest(): void{
-    let url = "http://localhost:8081/leaveRequest/makeLeaveRequest"
+    let url = "https://eclinic05.herokuapp.com/leaveRequest/makeLeaveRequest"
     this.model.startDate = this.model.start_date.getDate() + "/" + (this.model.start_date.getMonth()+1) + "/" + this.model.start_date.getFullYear();
     this.model.endDate = this.model.end_date.getDate() + "/" + (this.model.end_date.getMonth()+1) + "/" + this.model.end_date.getFullYear();
     console.log(this.model.startDate)

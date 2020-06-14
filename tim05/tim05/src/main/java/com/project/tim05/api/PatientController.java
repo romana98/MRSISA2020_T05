@@ -52,8 +52,8 @@ import com.project.tim05.service.RegistrationRequestService;
 import com.project.tim05.service.UserService;
 import com.project.tim05.service.initializeAndUnproxy;
 
-@CrossOrigin(origins = "https://localhost:4200")
-
+//@CrossOrigin(origins = "https://localhost:4200")
+@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
 @RequestMapping("/patients")
 @RestController
 public class PatientController<T> {

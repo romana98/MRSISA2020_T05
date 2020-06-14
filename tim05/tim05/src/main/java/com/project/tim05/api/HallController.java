@@ -43,7 +43,8 @@ import com.project.tim05.service.HallService;
 import com.project.tim05.service.WorkCalendarService;
 import com.project.tim05.service.initializeAndUnproxy;
 
-@CrossOrigin(origins = "https://localhost:4200")
+//@CrossOrigin(origins = "https://localhost:4200")
+@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
 @RequestMapping("/halls")
 @RestController
 public class HallController<T> {

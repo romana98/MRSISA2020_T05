@@ -32,8 +32,8 @@ import com.project.tim05.service.NurseService;
 import com.project.tim05.service.PatientService;
 import com.project.tim05.service.RegistrationRequestService;
 
-//@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
-@CrossOrigin(origins = "https://localhost:4200")
+@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
+//@CrossOrigin(origins = "https://localhost:4200")
 @RequestMapping("/nurse")
 @RestController
 public class NurseController<T> {

@@ -42,11 +42,11 @@ export class AddPricelistComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get("http://localhost:8081/pricelist/getAptTypes").subscribe(
+    this.http.get("https://eclinic05.herokuapp.com/pricelist/getAptTypes").subscribe(
       res => {
         this.apt_types = res;
       });
-    this.http.get("http://localhost:8081/pricelist/getPriceList").subscribe(
+    this.http.get("https://eclinic05.herokuapp.com/pricelist/getPriceList").subscribe(
       res =>{
         this.dataSource.paginator = this.paginator;
         // @ts-ignore
@@ -61,7 +61,7 @@ export class AddPricelistComponent implements OnInit {
     this.currentlySelected.apt_type = '';
     this.currentlySelected.price = null;
     let params = new HttpParams().set("apt_type", element.apt_type.toString());
-    this.http.delete("http://localhost:8081/pricelist/deletePrice",{params:params}).subscribe(
+    this.http.delete("https://eclinic05.herokuapp.com/pricelist/deletePrice",{params:params}).subscribe(
       res =>{
         let index = this.dataSource.data.indexOf(element);
         this.dataSource.data.splice(index,1);
@@ -85,7 +85,7 @@ export class AddPricelistComponent implements OnInit {
   }
 
   addPrice() {
-    let url = "http://localhost:8081/pricelist/addPrice";
+    let url = "https://eclinic05.herokuapp.com/pricelist/addPrice";
     this.http.post(url,this.model).subscribe(
       res => {
         this._snackBar.open("Price successfully added to pricelist.", "Close", {
@@ -99,11 +99,11 @@ export class AddPricelistComponent implements OnInit {
     this.model.id = null;
     this.model.price = 0;
     this.model.apt_type = " ";
-    this.http.get("http://localhost:8081/pricelist/getAptTypes").subscribe(
+    this.http.get("https://eclinic05.herokuapp.com/pricelist/getAptTypes").subscribe(
       res => {
         this.apt_types = res;
       });
-    this.http.get("http://localhost:8081/pricelist/getPriceList").subscribe(
+    this.http.get("https://eclinic05.herokuapp.com/pricelist/getPriceList").subscribe(
       res =>{
         this.dataSource.paginator = this.paginator;
         // @ts-ignore
@@ -113,12 +113,12 @@ export class AddPricelistComponent implements OnInit {
   }
 
   editPricelist() {
-    this.http.post("http://localhost:8081/pricelist/editPricelist", this.currentlySelected).subscribe(
+    this.http.post("https://eclinic05.herokuapp.com/pricelist/editPricelist", this.currentlySelected).subscribe(
       res =>{
         this._snackBar.open("Pricelist changed successfully.", "Close", {
           duration: 2000,
         });
-        this.http.get("http://localhost:8081/pricelist/getPriceList").subscribe(
+        this.http.get("https://eclinic05.herokuapp.com/pricelist/getPriceList").subscribe(
           res =>{
             this.dataSource.paginator = this.paginator;
             // @ts-ignore

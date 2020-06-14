@@ -39,7 +39,7 @@ export class AddAnotherAppointmentComponent implements OnInit {
   }
 
   addAppointment(){
-    let url = "http://localhost:8081/appointment/addAnotherAppointment";
+    let url = "https://eclinic05.herokuapp.com/appointment/addAnotherAppointment";
     this.passModel.duration = this.durControl.value;
     this.passModel.date = this.passModel.date_field.getDate() + "/" + (this.passModel.date_field.getMonth()+1) + "/" + this.passModel.date_field.getFullYear();
     this.http.post(url,this.passModel).subscribe(

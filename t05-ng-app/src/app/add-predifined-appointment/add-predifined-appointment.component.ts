@@ -42,12 +42,12 @@ export class AddPredifinedAppointmentComponent implements OnInit {
   ngOnInit(): void {
     this.today = new Date();
     let params1 = new HttpParams().set('admin_id',sessionStorage.getItem('user_id'))
-    this.http.get("http://localhost:8081/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
+    this.http.get("https://eclinic05.herokuapp.com/clinicAdministrator/getAdminsClinic",{params:params1}).subscribe(
       res => {
             this.model.clinic_id = res;
             console.log(this.model.clinic_id);
             let params = new HttpParams().set('clinic_id', this.model.clinic_id.toString() );
-            let url = "http://localhost:8081/halls/getClinicHall";
+            let url = "https://eclinic05.herokuapp.com/halls/getClinicHall";
             this.http.get(url,{params:params}).subscribe(
               res => {
                     this.halls = res;
@@ -56,18 +56,18 @@ export class AddPredifinedAppointmentComponent implements OnInit {
 
       });
     console.log(sessionStorage.getItem('token'));
-        this.http.get("http://localhost:8081/appointmentType/getAllApointmentTypes").subscribe(
+        this.http.get("https://eclinic05.herokuapp.com/appointmentType/getAllApointmentTypes").subscribe(
           res => {
         // @ts-ignore
               this.appointmentTypes = res;
-              
+
         });
 
 
   }
 
   addAppointment() : void {
-    let url = "http://localhost:8081/appointment/addAppointment";
+    let url = "https://eclinic05.herokuapp.com/appointment/addAppointment";
     this.model.date = this.model.date_field.getDate() + "/" + (this.model.date_field.getMonth()+1) + "/" + this.model.date_field.getFullYear();
     this.model.duration = this.durControl.value;
     this.http.post(url, this.model).subscribe(
@@ -86,13 +86,13 @@ export class AddPredifinedAppointmentComponent implements OnInit {
     let params = new HttpParams();
     params = params.append('clinic_id', this.model.clinic_id.toString());
     params = params.append('appointment_type_id',this.model.appointmentType_id.toString());
-    let url = "http://localhost:8081/doctors/getDoctorsAppointment";
+    let url = "https://eclinic05.herokuapp.com/doctors/getDoctorsAppointment";
     this.http.get(url,{params:params}).subscribe(
       res => {
             this.doctors = res;
             console.log(res);
       });
-    let url2 = "http://localhost:8081/pricelist/getAptypePrice";
+    let url2 = "https://eclinic05.herokuapp.com/pricelist/getAptypePrice";
     let params2 = new HttpParams();
     params2 = params2.append('clinic_id', this.model.clinic_id.toString());
     params2 = params2.append('appointment_type_id',this.model.appointmentType_id.toString());
@@ -102,7 +102,7 @@ export class AddPredifinedAppointmentComponent implements OnInit {
           this.model.price = res;
           console.log(res);
         });
-  
+
 
 
 }

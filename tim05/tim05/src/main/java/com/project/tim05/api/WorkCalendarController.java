@@ -20,8 +20,8 @@ import com.project.tim05.service.DoctorService;
 import com.project.tim05.service.NurseService;
 import com.project.tim05.service.WorkCalendarService;
 
-@CrossOrigin(origins = "https://localhost:4200")
-
+//@CrossOrigin(origins = "https://localhost:4200")
+@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
 @RestController
 @RequestMapping(value = "/workCalendar")
 public class WorkCalendarController {

@@ -27,9 +27,9 @@ import com.project.tim05.service.UserService;
 //Kontroler zaduzen za autentifikaciju korisnika
 @RestController
 
-//@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
+@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
 
-@CrossOrigin(origins = "https://localhost:4200")
+//@CrossOrigin(origins = "https://localhost:4200")
 
 @RequestMapping(value = "/auth")
 public class AuthenticationController {

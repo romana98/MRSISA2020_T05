@@ -35,14 +35,14 @@ export class ReportBasicComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.http.get("http://localhost:8081/clinicAdministrator/getClinicAvgRate").subscribe(
+    this.http.get("https://eclinic05.herokuapp.com/clinicAdministrator/getClinicAvgRate").subscribe(
       res =>{
 
         // @ts-ignore
         this.reportRes = res;
       }
     )
-    this.http.get("http://localhost:8081/clinicAdministrator/getDoctorInfo").subscribe(
+    this.http.get("https://eclinic05.herokuapp.com/clinicAdministrator/getDoctorInfo").subscribe(
       res=>{
         console.log(res);
         // @ts-ignore
@@ -54,7 +54,7 @@ export class ReportBasicComponent implements OnInit {
   }
 
   report() {
-    this.http.post("http://localhost:8081/clinicAdministrator/getIncome", this.sendModel).subscribe(
+    this.http.post("https://eclinic05.herokuapp.com/clinicAdministrator/getIncome", this.sendModel).subscribe(
       res => {
         console.log(res);
         // @ts-ignore

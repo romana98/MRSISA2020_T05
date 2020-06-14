@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 
-@CrossOrigin(origins = "https://localhost:4200")
-
+//@CrossOrigin(origins = "https://localhost:4200")
+@CrossOrigin(origins = "https://eclinic05.herokuapp.com")
 @RequestMapping("/medicalRecord")
 @RestController
 public class MedicalRecordContoller {

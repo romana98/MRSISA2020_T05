@@ -58,7 +58,7 @@ export class ViewAllClinicsComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.selectedRowIndex  = -1;
 
-    this.http.get("http://localhost:8081/clinic/getClinics").subscribe(
+    this.http.get("https://eclinic05.herokuapp.com/clinic/getClinics").subscribe(
       (res) =>{
         this.clinics = res;
         // @ts-ignore
@@ -74,7 +74,7 @@ export class ViewAllClinicsComponent implements OnInit {
     this.model.address = row.address;
     this.model.avg_rating = row.avg_rating;
 
-    this.http.get("http://localhost:8081/appointmentType/getAllApointmentTypes").subscribe(
+    this.http.get("https://eclinic05.herokuapp.com/appointmentType/getAllApointmentTypes").subscribe(
       (res) =>{
         this.apt_types = res;
       }
@@ -82,7 +82,7 @@ export class ViewAllClinicsComponent implements OnInit {
 
     let params = new HttpParams();
     params = params.append('clinic_id', this.model.id.toString())
-    this.http.get("http://localhost:8081/doctors/getClinicsDoctors",{params:params}).subscribe(
+    this.http.get("https://eclinic05.herokuapp.com/doctors/getClinicsDoctors",{params:params}).subscribe(
       (res)=>{
         this.dataSource2.sort = this.sort;
         this.dataSource2.paginator = this.paginator;
@@ -99,7 +99,7 @@ export class ViewAllClinicsComponent implements OnInit {
     let params = new HttpParams();
     params = params.append('date', this.searchModel.date.toString())
     params = params.append('appointmentType_id', this.searchModel.appointmentType.id.toString());
-    this.http.get("http://localhost:8081/patients/getClinics",{params:params})
+    this.http.get("https://eclinic05.herokuapp.com/patients/getClinics",{params:params})
       .subscribe((res) => {
           this.searchRes = res;
           if(this.searchRes.length === 0){

@@ -76,11 +76,11 @@ public class HallService {
 	public ArrayList<Hall> getClinicHalls(int id) {
 		Connection conn;
 		try {
-			// conn =
-			// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
-			// "xslquaksjvvetl",
-			// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			 conn =
+			 DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+			 "xslquaksjvvetl",
+			 "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 
 			PreparedStatement st;
 
@@ -113,12 +113,12 @@ public class HallService {
 	public int deleteHall(int id) {
 		int success = 0;
 		try {
-			// Connection connection =
-			// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
-			// "xslquaksjvvetl",
-			// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres",
-					"");
+			 Connection connection =
+			 DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+			 "xslquaksjvvetl",
+			 "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres",
+					//"");
 
 			String query = "DELETE FROM halls WHERE hall_id = ?";
 			PreparedStatement ps = connection.prepareStatement(query);
@@ -165,11 +165,11 @@ public class HallService {
 		// uzimanje svih sala za dati parametar
 		Connection conn;
 		try {
-			// conn =
-			// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
-			// "xslquaksjvvetl",
-			// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			 conn =
+			 DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+			 "xslquaksjvvetl",
+			 "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 
 			PreparedStatement st;
 
@@ -268,8 +268,10 @@ public class HallService {
 		ArrayList<Appointment> appointments = new ArrayList<Appointment>();
 		while (first_time.equalsIgnoreCase("")) {
 			try {
-				Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres",
-						"");
+				Connection conn = DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja", "xslquaksjvvetl", "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+				
+				//conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres",
+				//		"");
 				PreparedStatement st;
 				st = conn.prepareStatement(
 						"SELECT * FROM public.appointments where date_time between ? and ? and clinic = ? and request = false ORDER BY date_time ASC");
@@ -388,11 +390,11 @@ public class HallService {
 	public int tryReserve(Hall h, Appointment a, Date date, int clinic_id) {
 		Connection conn;
 		try {
-			// conn =
-			// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
-			// "xslquaksjvvetl",
-			// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			 conn =
+			 DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+			 "xslquaksjvvetl",
+			 "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 
 			PreparedStatement st;
 
@@ -466,11 +468,11 @@ public class HallService {
 	public int reserveHall(Hall h, Appointment a, Date date, int clinic_id) {
 		Connection conn;
 		try {
-			// conn =
-			// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
-			// "xslquaksjvvetl",
-			// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			conn =
+			DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+			"xslquaksjvvetl",
+			"791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 
 			PreparedStatement st;
 
@@ -579,11 +581,11 @@ public class HallService {
 	public int reserveOperation(Hall h, Appointment a, Date date, int clinic_id) {
 		Connection conn;
 		try {
-			// conn =
-			// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
-			// "xslquaksjvvetl",
-			// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			conn =
+			DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+			"xslquaksjvvetl",
+			"791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 
 			PreparedStatement st;
 
@@ -844,11 +846,11 @@ public class HallService {
 	public boolean predefinedHallAvailable(Hall h, Appointment a, Date date, int clinic_id) {
 		Connection conn;
 		try {
-			// conn =
-			// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
-			// "xslquaksjvvetl",
-			// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
-			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+			conn =
+			DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+			"xslquaksjvvetl",
+			"791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			//conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 
 			PreparedStatement st;
 

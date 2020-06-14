@@ -21,7 +21,7 @@ export class CancelationLinkComponent implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       this.id = params['appointment_id'];
 
-      let url = "http://localhost:8081/appointment/cancel"
+      let url = "https://eclinic05.herokuapp.com/appointment/cancel"
       this.http.post(url,this.id).subscribe(
         res => {
           this._snackBar.open("Your appointment is successfully canceled!", "Close", {

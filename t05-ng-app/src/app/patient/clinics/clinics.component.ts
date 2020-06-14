@@ -72,7 +72,7 @@ export class ClinicsComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.selectedRowIndex  = 1;
 
-    this.http.get("http://localhost:8081/appointmentType/getAllApointmentTypes").subscribe(
+    this.http.get("https://eclinic05.herokuapp.com/appointmentType/getAllApointmentTypes").subscribe(
       (res) =>{
         this.appointmentTypes = res;
       }
@@ -88,7 +88,7 @@ export class ClinicsComponent implements OnInit {
     params = params.append("address_param", this.searchModel.address.toString());
     params = params.append("low_rate", this.searchModel.avg_rate_lowest.toString());
     params = params.append("high_rate", this.searchModel.avg_rate_highest.toString());
-    this.http.get("http://localhost:8081/patients/getClinics",{params:params})
+    this.http.get("https://eclinic05.herokuapp.com/patients/getClinics",{params:params})
     .subscribe((res) => {
       // @ts-ignore
       this.dataSource.data = res;

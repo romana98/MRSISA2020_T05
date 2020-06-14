@@ -25,7 +25,7 @@ export class AddDiagnosisFormComponent implements OnInit{
   }
 
   AddDiagnosis(): void{
-    let url = "http://localhost:8081/diagnosis/addDiagnosis"
+    let url = "https://eclinic05.herokuapp.com/diagnosis/addDiagnosis"
     this.http.post(url, this.model).subscribe(
       res => {
 

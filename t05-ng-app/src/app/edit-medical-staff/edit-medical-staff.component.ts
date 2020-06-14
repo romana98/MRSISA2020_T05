@@ -30,7 +30,7 @@ export class EditMedicalStaff implements OnInit{
 
     ngOnInit(): void{
       this.hide = true;
-      let url = "http://localhost:8081/medicalStaff/getData";
+      let url = "https://eclinic05.herokuapp.com/medicalStaff/getData";
       this.http.get(url).subscribe(
         res => {
           this.model = <medicalStaffModel>res;
@@ -40,7 +40,7 @@ export class EditMedicalStaff implements OnInit{
     }
 
     editMedicalStaff(): void{
-        let url = "http://localhost:8081/medicalStaff/editMedicalStaff"
+        let url = "https://eclinic05.herokuapp.com/medicalStaff/editMedicalStaff"
         this.http.post(url,this.model).subscribe(
             res => {
               this._snackBar.open("Your profile has been updated successfully!", "Close", {

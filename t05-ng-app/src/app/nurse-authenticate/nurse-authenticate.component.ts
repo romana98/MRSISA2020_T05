@@ -27,7 +27,7 @@ export class NurseAuthenticateComponent implements OnInit {
   ngOnInit(): void {
     let params = new HttpParams();
     params = params.append('apt_id', this.router.snapshot.queryParamMap.get('apt_id').toString())
-    this.http.get("http://localhost:8081/nurse/getUnauthenticatedMedicines",{params:params})
+    this.http.get("https://eclinic05.herokuapp.com/nurse/getUnauthenticatedMedicines",{params:params})
       .subscribe((res) => {
           console.log(res);
           // @ts-ignore
@@ -44,7 +44,7 @@ export class NurseAuthenticateComponent implements OnInit {
 
   authenticate(element: any) {
 
-    let url = "http://localhost:8081/nurse/authenticateReceipt";
+    let url = "https://eclinic05.herokuapp.com/nurse/authenticateReceipt";
     //let params = new HttpParams().set("apt_medic_id", element.id);
     let apt_medic_id = element.id;
     this.http.post(url, apt_medic_id)
@@ -64,7 +64,7 @@ export class NurseAuthenticateComponent implements OnInit {
   refreshData(){
     let params = new HttpParams();
     params = params.append('apt_id', this.router.snapshot.queryParamMap.get('apt_id').toString())
-    this.http.get("http://localhost:8081/nurse/getUnauthenticatedMedicines",{params:params})
+    this.http.get("https://eclinic05.herokuapp.com/nurse/getUnauthenticatedMedicines",{params:params})
       .subscribe((res) => {
           console.log(res);
           // @ts-ignore
