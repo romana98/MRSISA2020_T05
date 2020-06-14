@@ -14,3 +14,8 @@ mat-form-field {
 .gray {
   background-color: gray;
 }
+
+md-dialog .md-actions .md-button.md-icon-button {
+  margin-top: 0;
+  margin-bottom: 0;
+}

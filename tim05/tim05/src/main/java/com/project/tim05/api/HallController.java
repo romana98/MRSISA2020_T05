@@ -3,6 +3,7 @@ package com.project.tim05.api;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -55,7 +56,8 @@ public class HallController<T> {
 	private final EmailService es;
 
 	@Autowired
-	public HallController(WorkCalendarService wcs, EmailService es, DoctorService ds, AppointmentService as, HallService hs, ClinicAdministratorService cas) {
+	public HallController(WorkCalendarService wcs, EmailService es, DoctorService ds, AppointmentService as,
+			HallService hs, ClinicAdministratorService cas) {
 		this.hs = hs;
 		this.cas = cas;
 		this.as = as;
@@ -85,22 +87,99 @@ public class HallController<T> {
 			return ResponseEntity.status(HttpStatus.OK).body(null);
 	}
 
+	@PostMapping("/reserveOperationHall")
+	@PreAuthorize("hasRole('CLINIC_ADMIN')")
+	public ResponseEntity<Object> reserveNewHall(@RequestBody NewAppointmentDTO ndto) {
+
+		System.out.println(ndto);
+		// formiranje datuma kakav mi odgovara
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date new_date = null;
+		java.util.Date wc_date = null;
+		try {
+			new_date = formatter.parse(ndto.getDate());
+			wc_date = formatter2.parse(ndto.getDate());
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		Hall h = hs.getHallbyId(Integer.parseInt(ndto.getHall_id()));
+		Appointment a = as.getAppointmentById(Integer.parseInt(ndto.getAppointment_id()));
+		//a.getDateTime().setTime(new_date.getTime());
+
+		int success = hs.reserveOperation(h, a, new_date, a.getClinic().getId());
+
+		if (success == 0) {
+			Set<Doctor> doctors = new HashSet<Doctor>();
+			for (String s : ndto.getIds()) {
+				Doctor d = ds.getDoctorbyID(Integer.parseInt(s));
+				if (d.getId() == a.getDoctor().getId()) {
+					continue;
+				}
+				WorkCalendar wc = new WorkCalendar();
+				wc.setDate(wc_date);
+				wc.setDoctor(d);
+				int start = hs.getTimeMinutes(new_date);
+				int end = start + a.getDuration();
+				wc.setStart_time(hs.getMinutesToTime(start));
+				wc.setEnd_time(hs.getMinutesToTime(end));
+				wc.setLeave(false);
+				wc.setRequest(false);
+				wcs.addCalendar(wc);
+				doctors.add(d);
+
+			}
+
+			a.setDoctors(doctors);
+
+			String textStart = "Appointment approved: date and start time:" + a.getDateTime().toString()
+					+ " appointment_type: " + a.getAppointmentType().getName() + ".";
+			String text = "?appointment_id=" + a.getId();
+
+			try {
+				es.sendAppointmentApprovalMail(a.getDoctor().getEmail(), textStart, text);
+				es.sendAppointmentApprovalMail(a.getPatient().getEmail(), textStart, text);
+			} catch (Exception e) {
+				ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+			}
+			if (a.isOperation()) {
+				return ResponseEntity.status(HttpStatus.OK).body(1);
+			} else {
+				return ResponseEntity.status(HttpStatus.OK).body(0);
+			}
+
+		} else if (success == 2) {
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+		}
+
+		if (a.isOperation()) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(1);
+		}
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(0);
+
+	}
+
 	@GetMapping("/getClinicHall")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
 	public ResponseEntity<List<HallDTO>> getHalls(@RequestParam String clinic_id) {
 		List<HallDTO> hss = new ArrayList<HallDTO>();
-		ArrayList<Hall>h = hs.getClinicHalls(Integer.parseInt(clinic_id));
+		ArrayList<Hall> h = hs.getClinicHalls(Integer.parseInt(clinic_id));
 		for (Hall hall : h) {
 			hss.add(new HallDTO(hall.getId(), hall.getName(), hall.getNumber()));
 		}
 		return ResponseEntity.ok(hss);
 	}
-	
-	/*@GetMapping("/getClinicHall")
-	@PreAuthorize("hasRole('CLINIC_ADMIN')")
-	public ResponseEntity<List<Hall>> getHalls(@RequestParam String clinic_id) {
-		return ResponseEntity.ok(hs.getClinicHalls(Integer.parseInt(clinic_id)));
-	}*/
+
+	/*
+	 * @GetMapping("/getClinicHall")
+	 * 
+	 * @PreAuthorize("hasRole('CLINIC_ADMIN')") public ResponseEntity<List<Hall>>
+	 * getHalls(@RequestParam String clinic_id) { return
+	 * ResponseEntity.ok(hs.getClinicHalls(Integer.parseInt(clinic_id))); }
+	 */
 
 	@DeleteMapping("/deleteHall")
 	@PreAuthorize("hasRole('CLINIC_ADMIN')")
@@ -134,9 +213,21 @@ public class HallController<T> {
 		Appointment ap = as.getAppointmentById(Integer.parseInt(appointment_id));
 
 		Hall h = hs.getHallbyId(Integer.parseInt(hall_id));
-
-		String a = hs.getFirstTime(ap, h, clinic_id);
-
+		
+		
+		
+		int res = hs.tryReserve(h, ap, ap.getDateTime(), ap.getClinic().getId());
+		String a;
+		if (!ap.isOperation()) {
+			a = hs.getFirstTime(ap, h, clinic_id);
+		} else {
+			if(res == 0) {
+				a = ap.getDateTime().toString();
+				System.out.println(a);
+			}else {
+				a = hs.getFirstTime(ap, h, clinic_id);
+			}
+		}
 		Doctor dr = initializeAndUnproxy.initAndUnproxy(ap.getDoctor());
 		Set<WorkCalendar> wcs = initializeAndUnproxy.initAndUnproxy(dr.getWorkCalendar());
 
@@ -155,15 +246,17 @@ public class HallController<T> {
 		}
 
 		for (WorkCalendar wc : wcs) {
-			if (a.substring(0, 10).equalsIgnoreCase(wc.getDate().toString().substring(0, 10))) {
-				int wc_start = Integer.parseInt(wc.getStart_time().split(":")[0]) * 60
-						+ Integer.parseInt(wc.getStart_time().split(":")[1]);
-				int wc_end = Integer.parseInt(wc.getEnd_time().split(":")[0]) * 60
-						+ Integer.parseInt(wc.getEnd_time().split(":")[1]);
-				if ((app_start > wc_start && app_start < wc_end) || (app_end > wc_start && app_end < wc_end)
-						|| (app_start == wc_start && app_end == wc_end)) {
-					busy = true;
-				}
+			
+				if (a.substring(0, 10).equalsIgnoreCase(wc.getDate().toString().substring(0, 10))) {
+					int wc_start = Integer.parseInt(wc.getStart_time().split(":")[0]) * 60
+							+ Integer.parseInt(wc.getStart_time().split(":")[1]);
+					int wc_end = Integer.parseInt(wc.getEnd_time().split(":")[0]) * 60
+							+ Integer.parseInt(wc.getEnd_time().split(":")[1]);
+					if ((app_start > wc_start && app_start < wc_end) || (app_end > wc_start && app_end < wc_end)
+							|| (app_start == wc_start && app_end == wc_end)) {
+						busy = true;
+					}
+				
 			}
 		}
 		System.out.println(busy);
@@ -171,14 +264,25 @@ public class HallController<T> {
 		ArrayList<DoctorDTO> free_doctors = new ArrayList<DoctorDTO>();
 
 		NewAppointmentDTO nadto = new NewAppointmentDTO();
+		nadto.setBusy(res==1);
 
-		if (busy) {
+		if (busy || ap.isOperation()) {
 			AppointmentType at = initializeAndUnproxy.initAndUnproxy(ap.getAppointmentType());
 			ArrayList<Doctor> doctors = initializeAndUnproxy
 					.initAndUnproxy(ds.getClinicDoctorsbyAppointmentType(at.getId(), clinic_id));
 			for (Doctor d : doctors) {
 				boolean available = true;
 				Set<WorkCalendar> work_times = initializeAndUnproxy.initAndUnproxy(d.getWorkCalendar());
+
+				dr_start = Integer.parseInt(d.getWorkStart().split(":")[0]) * 60
+						+ Integer.parseInt(d.getWorkStart().split(":")[1]);
+				dr_end = Integer.parseInt(d.getWorkEnd().split(":")[0]) * 60
+						+ Integer.parseInt(d.getWorkEnd().split(":")[1]);
+
+				if ((app_start < dr_start || app_start > dr_end) || (app_end < dr_start || app_end > dr_end)) {
+					available = false;
+				}
+
 				for (WorkCalendar wc : work_times) {
 					if (a.substring(0, 10).equalsIgnoreCase(wc.getDate().toString().substring(0, 10))) {
 						int wc_start = Integer.parseInt(wc.getStart_time().split(":")[0]) * 60
@@ -201,6 +305,7 @@ public class HallController<T> {
 			}
 
 		}
+		nadto.setDoctor_id(dr.getId().toString());
 		nadto.setDate(a);
 		nadto.setDoctors(free_doctors);
 
@@ -253,39 +358,40 @@ public class HallController<T> {
 		Hall h = hs.getHallbyId(Integer.parseInt(hall_id));
 		Appointment a = as.getAppointmentById(Integer.parseInt(appointment_id));
 
-		int success = hs.reserveHall(h, a, new_date, clinic_id);
+		int success = hs.tryReserve(h, a, new_date, clinic_id);
 
 		if (success == 0) {
-			String textStart = "Appointment approved: date and start time:" + a.getDateTime().toString() + 
-					" appointment_type: " + a.getAppointmentType().getName() + ".";
-			String text = "?appointment_id=" + a.getId();
+			if(!a.isOperation()) {
+				hs.reserveHall(h, a, new_date, clinic_id);
 			
+			String textStart = "Appointment approved: date and start time:" + a.getDateTime().toString()
+					+ " appointment_type: " + a.getAppointmentType().getName() + ".";
+			String text = "?appointment_id=" + a.getId();
+
 			try {
-			es.sendAppointmentApprovalMail(a.getDoctor().getEmail(), textStart, text);
-			es.sendAppointmentApprovalMail(a.getPatient().getEmail(), textStart, text);
-			}catch (Exception e) {
+				es.sendAppointmentApprovalMail(a.getDoctor().getEmail(), textStart, text);
+				es.sendAppointmentApprovalMail(a.getPatient().getEmail(), textStart, text);
+			} catch (Exception e) {
 				ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-			}
-			if(a.isOperation()) {
+			}}
+			if (a.isOperation()) {
 				return ResponseEntity.status(HttpStatus.OK).body(1);
-			}
-			else {
+			} else {
 				return ResponseEntity.status(HttpStatus.OK).body(0);
 			}
-			
 
 		} else if (success == 2) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
 		}
-		
-		if(a.isOperation()) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(1);
+
+		if (a.isOperation()) {
+			return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body(1);
 		}
-		
+
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(0);
 
 	}
-	
+
 	@GetMapping("/reserveNewHall")
 	// @PreAuthorize("hasRole('CLINIC_ADMIN')")
 	public ResponseEntity<Object> reserveNewHall(@RequestParam String hall_id, String appointment_id, String date,
@@ -293,9 +399,13 @@ public class HallController<T> {
 
 		// formiranje datuma kakav mi odgovara
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		SimpleDateFormat formatter2 = new SimpleDateFormat("yyyy-MM-dd");
+
 		java.util.Date new_date = null;
+		java.util.Date wc_date = null;
 		try {
 			new_date = formatter.parse(date);
+			wc_date = formatter2.parse(date);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -303,53 +413,54 @@ public class HallController<T> {
 
 		Hall h = hs.getHallbyId(Integer.parseInt(hall_id));
 		Appointment a = as.getAppointmentById(Integer.parseInt(appointment_id));
-		
+
 		int app_start = hs.getTimeMinutes(a.getDateTime());
 		int app_end = app_start + a.getDuration();
-		
+
 		Doctor d = initializeAndUnproxy.initAndUnproxy(a.getDoctor());
 		Set<WorkCalendar> times = initializeAndUnproxy.initAndUnproxy(d.getWorkCalendar());
 		WorkCalendar target_wc = null;
-		for(WorkCalendar wc: times) {
-			int wc_start = Integer.parseInt(wc.getStart_time().split(":")[0])*60 + Integer.parseInt(wc.getStart_time().split(":")[1]);
-			int wc_end = Integer.parseInt(wc.getEnd_time().split(":")[0])*60 + Integer.parseInt(wc.getEnd_time().split(":")[1]);
+		for (WorkCalendar wc : times) {
+			int wc_start = Integer.parseInt(wc.getStart_time().split(":")[0]) * 60
+					+ Integer.parseInt(wc.getStart_time().split(":")[1]);
+			int wc_end = Integer.parseInt(wc.getEnd_time().split(":")[0]) * 60
+					+ Integer.parseInt(wc.getEnd_time().split(":")[1]);
 			if (wc_start == app_start && wc_end == app_end) {
 				target_wc = wc;
 				break;
 			}
 		}
-		
-		if (Integer.parseInt(doctor_id)!=-1) {
-			target_wc.setDate(new_date);
+
+		if (Integer.parseInt(doctor_id) != -1) {
+			target_wc.setDate(wc_date);
 			target_wc.setDoctor(ds.getDoctorbyID(Integer.parseInt(doctor_id)));
-			target_wc.setRequest(false);
 			a.setDoctor(ds.getDoctorbyID(Integer.parseInt(doctor_id)));
 		}
-		
+		target_wc.setRequest(false);
+		a.setDateTime(new_date);
 		a.setHall(h);
 		a.setRequest(false);
 		Set<Appointment> apps = h.getAppointments();
 		apps.add(a);
 		h.setAppointments(apps);
-		
+
 		as.updateAppointment(a);
 		hs.updateHall(h);
 		wcs.updateCalendar(target_wc);
-		
-		String textStart = "Appointment approved: date and start time:" + a.getDateTime().toString() + 
-				" appointment_type: " + a.getAppointmentType().getName() + ".";
+
+		String textStart = "Appointment approved: date and start time:" + a.getDateTime().toString()
+				+ " appointment_type: " + a.getAppointmentType().getName() + ".";
 		String text = "?appointment_id=" + a.getId();
-		
+
 		try {
-		es.sendAppointmentApprovalMail(a.getDoctor().getEmail(), textStart, text);
-		es.sendAppointmentApprovalMail(a.getPatient().getEmail(), textStart, text);
-		
-		}catch (Exception e) {
+			es.sendAppointmentApprovalMail(a.getDoctor().getEmail(), textStart, text);
+			es.sendAppointmentApprovalMail(a.getPatient().getEmail(), textStart, text);
+
+		} catch (Exception e) {
 			ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}
-		
-		//prvo nadji doktora kod kog treba da obrises iz wc taj termin pregleda
-		
+
+		// prvo nadji doktora kod kog treba da obrises iz wc taj termin pregleda
 
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 

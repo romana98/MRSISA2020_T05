@@ -384,7 +384,85 @@ public class HallService {
 		}
 		return free_times;
 	}
+	
+	public int tryReserve(Hall h, Appointment a, Date date, int clinic_id) {
+		Connection conn;
+		try {
+			// conn =
+			// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+			// "xslquaksjvvetl",
+			// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
 
+			PreparedStatement st;
+
+			st = conn.prepareStatement(
+					"SELECT * FROM public.appointments where date_time between ? and ? and clinic = ? and request = false ORDER BY date_time ASC");
+			java.sql.Date sd = new java.sql.Date(date.getTime());
+			st.setDate(1, sd);
+
+			Calendar c = Calendar.getInstance();
+			c.setTime(date);
+			c.add(Calendar.DATE, 1);
+			java.sql.Date sd1 = new java.sql.Date(c.getTimeInMillis());
+			st.setDate(2, sd1);
+
+			st.setInt(3, clinic_id);
+
+			ResultSet rs = st.executeQuery();
+			ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+			while (rs.next()) {
+				Appointment ap;
+				ap = as.getAppointmentById(rs.getInt("appointment_id"));
+				appointments.add(ap);
+			}
+
+			ArrayList<String> free_times = getFreeTimes(h, appointments);
+
+			int pocetak = getTimeMinutes(a.getDateTime());
+			int kraj = pocetak + a.getDuration();
+			
+		
+
+			for (String time : free_times) {
+				int from = Integer.parseInt(time.split(" -> ")[0].split(":")[0]) * 60
+						+ Integer.parseInt(time.split(" -> ")[0].split(":")[1]);
+				int to = Integer.parseInt(time.split(" -> ")[1].split(":")[0]) * 60
+						+ Integer.parseInt(time.split(" -> ")[1].split(":")[1]);
+				if (pocetak >= from && kraj <= to) {
+					return 0;
+
+				}
+			}
+
+			st = conn.prepareStatement("SELECT * FROM public.halls where clinic = ?");
+
+			st.setInt(1, clinic_id);
+
+			rs = st.executeQuery();
+			while (rs.next()) {
+				Hall hall;
+				hall = hr.findById(rs.getInt("hall_id")).orElse(null);
+				ArrayList<String> all_times = getFreeTimes(hall, appointments);
+				for (String time : all_times) {
+					int from = Integer.parseInt(time.split(" -> ")[0].split(":")[0]) * 60
+							+ Integer.parseInt(time.split(" -> ")[0].split(":")[1]);
+					int to = Integer.parseInt(time.split(" -> ")[1].split(":")[0]) * 60
+							+ Integer.parseInt(time.split(" -> ")[1].split(":")[1]);
+					if (pocetak >= from && kraj <= to) {
+						return 2;
+
+					}
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return 1;
+	}
+	//DATE SLUZI SAMO DA BI UZEO WORK CALENDARE ZA DATUM ZAKAZIVANJA
 	public int reserveHall(Hall h, Appointment a, Date date, int clinic_id) {
 		Connection conn;
 		try {
@@ -421,6 +499,8 @@ public class HallService {
 
 			int pocetak = getTimeMinutes(a.getDateTime());
 			int kraj = pocetak + a.getDuration();
+			
+		
 
 			for (String time : free_times) {
 				int from = Integer.parseInt(time.split(" -> ")[0].split(":")[0]) * 60
@@ -436,15 +516,16 @@ public class HallService {
 					hr.save(h);
 					ar.save(a);
 					for (WorkCalendar wece : wc) {
-						if (wece.getDate().toString().split(" ")[0]
-								.equalsIgnoreCase(a.getDateTime().toString().split(" ")[0])) {
+						if (wece.getDate().getDay() == a.getDateTime().getDay()) {
+							System.out.println(a.getDateTime().toString());
 							if (wece.getStart_time()
 									.equalsIgnoreCase(a.getDateTime().toString().split(" ")[1].substring(0, 5))) {
 								wece.setRequest(false);
+								wece.setStart_time(getMinutesToTime(pocetak));
 								wcr.save(wece);
 								return 0;
 							}
-						}
+						} 
 					}
 
 				}
@@ -453,7 +534,7 @@ public class HallService {
 			st = conn.prepareStatement("SELECT * FROM public.halls where clinic = ?");
 
 			st.setInt(1, clinic_id);
-
+  
 			rs = st.executeQuery();
 			while (rs.next()) {
 				Hall hall;
@@ -492,6 +573,83 @@ public class HallService {
 			e.printStackTrace();
 		}
 
+		return 1;
+	}
+	
+	public int reserveOperation(Hall h, Appointment a, Date date, int clinic_id) {
+		Connection conn;
+		try {
+			// conn =
+			// DriverManager.getConnection("jdbc:postgresql://ec2-54-247-89-181.eu-west-1.compute.amazonaws.com:5432/d1d2a9u0egu6ja",
+			// "xslquaksjvvetl",
+			// "791a6dd69c36471adccf1118066dae6841cf2b7145d82831471fdd6640e5d99a");
+			conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "");
+
+			PreparedStatement st;
+
+			st = conn.prepareStatement(
+					"SELECT * FROM public.appointments where date_time between ? and ? and clinic = ? and request = false ORDER BY date_time ASC");
+			java.sql.Date sd = new java.sql.Date(date.getTime());
+			st.setDate(1, sd);
+
+			Calendar c = Calendar.getInstance();
+			c.setTime(date);
+			c.add(Calendar.DATE, 1);
+			java.sql.Date sd1 = new java.sql.Date(c.getTimeInMillis());
+			st.setDate(2, sd1);
+
+			st.setInt(3, clinic_id);
+
+			ResultSet rs = st.executeQuery();
+			ArrayList<Appointment> appointments = new ArrayList<Appointment>();
+			while (rs.next()) {
+				Appointment ap;
+				ap = as.getAppointmentById(rs.getInt("appointment_id"));
+				appointments.add(ap);
+			}
+
+			ArrayList<String> free_times = getFreeTimes(h, appointments);
+
+			int pocetak = getTimeMinutes(date);
+			int kraj = pocetak + a.getDuration();
+			
+		
+
+			for (String time : free_times) {
+				int from = Integer.parseInt(time.split(" -> ")[0].split(":")[0]) * 60
+						+ Integer.parseInt(time.split(" -> ")[0].split(":")[1]);
+				int to = Integer.parseInt(time.split(" -> ")[1].split(":")[0]) * 60
+						+ Integer.parseInt(time.split(" -> ")[1].split(":")[1]);
+				if (pocetak >= from && kraj <= to) {
+					a.setHall(h);
+					a.setRequest(false);
+					h.getAppointments().add(a);
+					Doctor d = initializeAndUnproxy.initAndUnproxy(a.getDoctor());
+					Set<WorkCalendar> wc = initializeAndUnproxy.initAndUnproxy(d.getWorkCalendar());
+					hr.save(h);
+					ar.save(a);
+					for (WorkCalendar wece : wc) {
+						if (wece.getDate().getDay() == a.getDateTime().getDay()) {
+							System.out.println(a.getDateTime().toString());
+							if (wece.getStart_time()
+									.equalsIgnoreCase(a.getDateTime().toString().split(" ")[1].substring(0, 5))) {
+								wece.setRequest(false);
+								wece.setStart_time(getMinutesToTime(pocetak));
+								wece.setEnd_time(getMinutesToTime(kraj));
+								wece.getDate().setDate(date.getDate());
+								a.setDateTime(date);
+								wcr.save(wece);
+								return 0;
+							}
+						} 
+					}
+
+				}
+			}
+		}
+		catch(Exception e) {
+			
+		}
 		return 1;
 	}
 

@@ -251,12 +251,13 @@ export class FirstDialog {
       else{
         //@ts-ignore
         const dialogRef = this.dialog.open(SecondDialog, {
-          width: '50%',height: '50%', data : {
+          width: '50%',height: '65%', data : {
               appointment_id : element.id.toString(),
               hall_id : this.data.hall_id.toString(),
               clinic_admin_id : sessionStorage.getItem('user_id'),
               //u pitanju je operacija
-              type : 1
+              type : 1,
+              free : true
           }});
 
         dialogRef.afterClosed().subscribe(result => {
@@ -270,13 +271,28 @@ export class FirstDialog {
           this._snackBar.open("This hall can't be reserved for that time, you can choose other hall.", "Close", {
             duration: 2000,})
         }
-        else{
+        else if (err.status === 418){;
           const dialogRef = this.dialog.open(SecondDialog, {
-            width: '50%',height: '50%', data : {
+            width: '50%',height: '65%', data : {
                 appointment_id : element.id.toString(),
                 hall_id : this.data.hall_id.toString(),
                 clinic_admin_id : sessionStorage.getItem('user_id'),
-                type : err
+                type : 1,
+                free : false
+            }});
+
+          dialogRef.afterClosed().subscribe(result => {
+              this.refreshData();
+            });
+        }
+        else{
+          const dialogRef = this.dialog.open(SecondDialog, {
+            width: '50%',height: '65%', data : {
+                appointment_id : element.id.toString(),
+                hall_id : this.data.hall_id.toString(),
+                clinic_admin_id : sessionStorage.getItem('user_id'),
+                type : 0,
+                free : false
             }});
 
           dialogRef.afterClosed().subscribe(result => {
@@ -308,6 +324,22 @@ export class SecondDialog {
 
   operation : boolean;
 
+  free : boolean;
+
+  reserveOperation : reserveHall = {
+    hall_id : '',
+    appointment_id : '',
+    date :'',
+    doctor_id : '',
+    ids : null
+  }
+
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
+  displayedColumns: string[] = ['name', 'description', 'check'];
+
+  dataSource = new MatTableDataSource();
+
   constructor(
     public dialogRef: MatDialogRef<FirstDialog>,
     @Inject(MAT_DIALOG_DATA) public data: SecondDialogData,
@@ -315,30 +347,74 @@ export class SecondDialog {
       private _snackBar: MatSnackBar) {}
 
   ngOnInit(): void{
-    this.operation = (this.data.type === 1);
+    this.operation = (this.data.type.toString() === "1");
+    console.log("Free: " + this.free + "operation" + this.operation);
+    //ako je u pitanju pregled koji je free ovo ti ne treba
     this.http.get("http://localhost:8081/halls/getFirstTime",{params:{'clinic_admin_id' : sessionStorage.getItem('user_id'),
     'appointment_id' : this.data.appointment_id.toString(),
     'hall_id' : this.data.hall_id.toString()}}).subscribe(
       res => {
       //@ts-ignore
       this.dialog_data = res;
+      //@ts-ignore
+      this.dataSource.data = this.dialog_data.doctors;
+      this.free = !this.dialog_data.busy;
       this.show_doctors = this.dialog_data.doctors.length > 0;
+      this.dataSource.data.map((obj) => {
+        obj['selected'] = false;
+        return obj;
+      })
+      
     });
+      this.dataSource.paginator = this.paginator;
   }
 
   reserve(){
-    this.http.get("http://localhost:8081/halls/reserveNewHall",{params:{'hall_id' : this.data.hall_id.toString(),
-    'appointment_id' : this.data.appointment_id.toString(),
-    'date' : this.dialog_data.date.toString(),
-    'doctor_id' : this.choosen_doc.toString()}}).subscribe(
-      res => {
-      //@ts-ignore
-    });
+    let ids : Array<any> = [];
+    if(this.operation){
+      console.log("its operation")
+      console.log(this.dataSource.data)
+      for (let i = 0; i < this.dataSource.data.length; i++) {
+         // @ts-ignore
+         if(this.dataSource.data[i].selected === false)
+         {
+           this.dataSource.data.splice(i,1)
+         }
+         else
+         {
+           // @ts-ignore
+           ids.push(this.dataSource.data[i].id)
+         }
+
+       }
+      /* if(ids.length===0){
+         return;
+       }*/
+       this.reserveOperation.appointment_id =this.data.appointment_id.toString();
+       this.reserveOperation.date = this.dialog_data.date.toString();
+       this.reserveOperation.doctor_id = this.choosen_doc.toString(); 
+       this.reserveOperation.hall_id = this.data.hall_id.toString();
+       this.reserveOperation.ids = ids;
+       this.http.post("http://localhost:8081/halls/reserveOperationHall", this.reserveOperation).subscribe(
+        res => {
+        //@ts-ignore
+      });
+    }
+    else{
+
+      
+      this.http.get("http://localhost:8081/halls/reserveNewHall",{params:{'hall_id' : this.data.hall_id.toString(),
+      'appointment_id' : this.data.appointment_id.toString(),
+      'date' : this.dialog_data.date.toString(),
+      'doctor_id' : this.choosen_doc.toString()}}).subscribe(
+        res => {
+        //@ts-ignore
+      });
+    } 
     this.dialogRef.close();
+    
   }
 
-  reject(){
-  }
 }
 
 export interface DialogData{
@@ -351,6 +427,7 @@ export interface SecondDialogData{
   hall_id : String;
   clinic_admin_id : String;
   type : number;
+  free : boolean;
 }
 
 export interface hallModel
@@ -374,4 +451,12 @@ export interface reserveModel {
   appointment_id : string;
   date : string;
   clinic_admin_id : string;
+}
+
+export interface reserveHall{
+  hall_id : string;
+  appointment_id : string;
+  date : string;
+  doctor_id : string;
+  ids : Array<any>;
 }
