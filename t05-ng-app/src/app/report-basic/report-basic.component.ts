@@ -41,12 +41,9 @@ export class ReportBasicComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  report() {
     this.http.post("http://localhost:8081/clinicAdministrator/getClinicReport", this.model).subscribe(
       res => {
-        /*
+        
         // @ts-ignore
         this.dataSource.data = res.doctors;
         // @ts-ignore
@@ -61,25 +58,15 @@ export class ReportBasicComponent implements OnInit {
         this.model.to = res.to;
         // @ts-ignore
         this.model.income = res.income;
-        */
+
         console.log(res)
 
-        // @ts-ignore
-        this.dataSource.data = res.doctors;
-        // @ts-ignore
-        this.model.clinic = {name:"Clinic"};
-        // @ts-ignore
-        this.model.doctors = res.doctors;
-        // @ts-ignore
-        this.model.clinicAverageRate = "avg";
-        // @ts-ignore
-        this.model.from = res.from;
-        // @ts-ignore
-        this.model.to = res.to;
-        // @ts-ignore
-        this.model.income = "0";
       }
     )
+  }
+
+  report() {
+
   }
 
 }
